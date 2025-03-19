@@ -1,0 +1,57 @@
+@use 'base/variables' as *;
+
+.list-tabs {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  background: $color-theme-light;
+  overflow-x: auto;
+  border-bottom: 1px solid #C8C7CB;
+
+  a {
+    color: $color-text-medium;
+    padding: 16px 12px 14px;
+    border-bottom: 2px solid transparent;
+    &.active {
+      border-color: $color-theme;
+      color: #000;
+      font-weight: 700;
+    }
+  }
+}
+
+.list-cats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 8px;
+  margin: 16px 0;
+  .item-cat {
+    border: 1px solid $color-theme;
+    border-radius: 4px;
+    text-align: center;
+    row-gap: 8px;
+    padding: 8px;
+    font-size: 12px;
+    color: #000;
+    .name {
+      margin-top: 8px;
+    }
+    &:hover {
+      background: $color-theme;
+      .ico {
+        filter: brightness(0) invert(1);
+      }
+      .name {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.date-update {
+  font-size: 14px;
+  color: #6F6F70;
+  time {
+    font-weight: 700;
+  }
+}
