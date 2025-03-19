@@ -1,0 +1,75 @@
+@use 'base/reset';
+@use 'base/fonts';
+@use 'base/variables' as *;
+
+
+body {
+  font: 400 16px 'Montserrat', sans-serif;
+  line-height: 1.4;
+  color: #000;
+}
+button,path,circle,input[submit] {
+  transition: .2s;
+}
+input {
+  font: 500 16px 'Montserrat', sans-serif;
+}
+button {
+  font: 500 14px 'Montserrat', sans-serif;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+button,input[type="submit"],a {
+  transition: .4s;
+}
+path,rect {
+  transition: .4s;
+}
+input[type="submit"] {
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+input,textarea {
+  border-radius: 0;
+}
+// =======
+
+header.header {
+  background: $color-theme;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .logo {
+    display: block;
+    line-height: 0;
+  }
+  .btn-menu {
+    width: 18px;
+    display: flex;
+    row-gap: 5px;
+    flex-direction: column;
+    padding: 0;
+    span {
+      height: 2px;
+      background: #fff;
+    }
+  }
+}
+
+.container {
+  padding: 0 15px;
+}
+.title-page {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 24px 0 16px;
+  text-transform: uppercase;
+  span {
+    color: $color-theme;
+  }
+}
+.text {
+  margin: 8px 0;
+}
