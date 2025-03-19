@@ -70,6 +70,15 @@ header.header {
     color: $color-theme;
   }
 }
+.title-section {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+}
 .text {
+  margin: 8px 0;
+}
+.text-sm {
+  font-size: 14px;
   margin: 8px 0;
 }

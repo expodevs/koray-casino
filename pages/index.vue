@@ -9,6 +9,15 @@
       </p>
       <SectionCategoryList />
       <div class="text">Explore a variety of slot games with exciting themes and features:</div>
+      <div class="date-update">
+        Last update <time datetime="2025-02-07">07.02.2025</time>
+      </div>
+      <SectionCardsList />
+
+      <h2 class="title-section">Slot Games with Advanced Filters</h2>
+      <div class="text-sm">Filter slot games based on their unique attributes and features.</div>
+
+      <SectionFilterGame />
       <SectionCardsList />
     </main>
   </div>

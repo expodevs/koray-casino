@@ -1,4 +1,5 @@
 @use 'base/variables' as *;
+@use 'base/ui' as *;
 
 .list-tabs {
   display: flex;
@@ -51,7 +52,111 @@
 .date-update {
   font-size: 14px;
   color: #6F6F70;
+  margin-top: 16px;
   time {
     font-weight: 700;
+    color: #000;
+  }
+}
+
+.cards-list {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%,
+          rgba(62, 99, 221, 0.2) 30%,
+          rgba(62, 99, 221, 0.2) 60%,
+          rgba(255, 255, 255, 0.2) 100%);
+  margin-left: -15px;
+  width: calc(100% + 30px);
+  padding: 15px;
+  border-bottom: 10px solid #EDEDEF;
+  .image-slider {
+    margin-left: -17px;
+    width: calc(100% + 34px);
+  }
+
+  .slider-image {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .swiper-button-prev, .swiper-button-next {
+    width: 24px;
+    height: 24px;
+    top: calc(50% - 12px);
+    margin: 0;
+    &:after {
+      content: none;
+    }
+  }
+  .swiper-button-prev {
+    background: url("/images/icons/arrow-left.svg") center center no-repeat;
+    background-size: contain;
+  }
+  .swiper-button-next {
+    background: url("/images/icons/arrow-right.svg") center center no-repeat;
+    background-size: contain;
+  }
+  .item-card {
+    padding: 0 15px 15px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 16px;
+    &:hover {
+      border-color: $color-theme;
+    }
+  }
+  .thumb-wrap {
+    height: 150px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .name {
+    color: $color-theme;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    margin: 16px 0;
+  }
+  .excerpt {
+    color: $color-text-medium;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .btn {
+    &.primary, &.light {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+
+.filter-label {
+  color: $color-text-medium;
+  font-size: 12px;
+  margin: 16px 0 8px;
+}
+.filters-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  .filter-item {
+    border-radius: 4px;
+    background: #EEEDEF;
+    padding: 8px 12px;
+    font-size: 14px;
+    &.active {
+      background: $color-theme-light;
+      color :$color-theme;
+    }
   }
 }

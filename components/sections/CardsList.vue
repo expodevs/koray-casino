@@ -1,9 +1,17 @@
 <template>
   <section class="cards-list">
-    <div class="date-update">
-      Last update <time datetime="2025-02-07">07.02.2025</time>
-    </div>
     <SectionCardGame />
+    <SectionCardGame />
+    <SectionCardGame />
+
+    <button class="btn light">
+      Show more (3)
+      <span class="ico">
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.00011 4.97668L10.1251 0.851685L11.3034 2.03002L6.00011 7.33335L0.696777 2.03002L1.87511 0.851685L6.00011 4.97668Z" fill="black"/>
+        </svg>
+      </span>
+    </button>
   </section>
 </template>
 <script setup lang="ts">
