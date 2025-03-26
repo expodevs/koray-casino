@@ -103,9 +103,53 @@
     background: #fff;
     overflow: hidden;
     margin-bottom: 16px;
+    position: relative;
     &:hover {
       border-color: $color-theme;
     }
+    .faq-tab-group {
+      border-radius: 4px;
+      background: #E6EDFE;
+      padding: 25px;
+      margin: 15px 0;
+    }
+    .faq-item {
+      padding: 8px 0;
+      &[open] {
+        .icon {
+          transform: rotate(0deg);
+        }
+      }
+    }
+    .faq-summary {
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 30px;
+      .icon {
+        width: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-90deg);
+      }
+
+    }
+    .faq-content {
+      padding: 0.5rem 0 1rem;
+    }
+  }
+  .badge {
+    position: absolute;
+    top: 165px;
+    left: 15px;
+    border-radius: 4px;
+    padding: 4px 9px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    background: $color-theme;
   }
   .thumb-wrap {
     height: 150px;
@@ -132,10 +176,64 @@
     margin-bottom: 16px;
   }
   .btn {
-    &.primary, &.light {
+    &.primary, &.light-sm, &.light {
       display: block;
       width: 100%;
     }
+  }
+}
+
+.list-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 32px 0;
+  .item-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .label-option {
+    color: $color-text-medium;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    line-height: 0;
+  }
+  .label-value {
+    font-weight: 700;
+    img {
+      height: 40px;
+    }
+  }
+}
+.list-actions {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  margin: 16px 0;
+}
+.tile-section {
+  margin-left: -15px;
+  width: calc(100% + 30px);
+  padding: 15px;
+  border-bottom: 10px solid #EDEDEF;
+}
+.input-style {
+  padding: 18px;
+  border: 1px solid #C8C7CB;
+  border-radius: 4px;
+}
+.search-row {
+  margin: 15px 0;
+  .input-style {
+    display: block;
+    padding-left: 50px;
+    font-weight: 400;
+    width: 100%;
+    background: url("/images/icons/search-line.svg") 15px center no-repeat;
   }
 }
 

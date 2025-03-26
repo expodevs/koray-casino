@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: "2025-03-19",
   devtools: { enabled: true },
   css: [
     "@/assets/scss/head-foot.scss",

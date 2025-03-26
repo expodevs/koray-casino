@@ -1,7 +1,8 @@
 @use "variables" as *;
 
 .btn {
-  &.primary {
+  display: block;
+  &.primary,&.primary-sm {
     background: $color-theme;
     color: #fff;
     border-radius: 4px;
@@ -9,15 +10,20 @@
     padding: 12px;
     display: inline-block;
     font-weight: 700;
+    font-size: 16px;
   }
-  &.light {
+  &.light,&.light-sm {
     border: 1px solid $color-theme;
-    padding: 8px;
+    padding: 12px;
     color: #000;
     border-radius: 4px;
     font-weight: 700;
-    font-size: 14px;
     text-align: center;
+    font-size: 16px;
+  }
+  &.light-sm,&.primary-sm {
+    padding: 8px;
+    font-size: 14px;
   }
   .ico {
     margin-left: 8px;

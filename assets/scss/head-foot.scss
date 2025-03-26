@@ -82,3 +82,9 @@ header.header {
   font-size: 14px;
   margin: 8px 0;
 }
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
