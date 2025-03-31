@@ -35,10 +35,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-input,textarea {
+input,textarea,select {
 	box-sizing: border-box;
 	border: none;
 	outline: none;
+	font: inherit;
 }
 img {
 	max-width: 100%;
