@@ -9,29 +9,34 @@ import CardsList from '@/components/section/CardsList';
 
 import '@/styles/home.scss';
 
-const cardsExcerpt = [
+const cardsCasino = [
   {
+    type: 'casino',
     name: 'Pyramid Riches',
-    images: ['/images/slot-1.png','/images/slot-1.png'],
+    images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Top 1',
     excerpt: 'Explore ancient Egypt with wild multipliers and free spins.',
   },
   {
+    type: 'casino',
     name: 'Pyramid Riches',
-    images: ['/images/slot-1.png','/images/slot-1.png'],
+    images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Top',
     excerpt: 'Classic slot action with a lucky twist.',
   },
   {
+    type: 'casino',
     name: 'Pyramid Riches',
-    images: ['/images/slot-1.png','/images/slot-1.png'],
+    images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Hot',
     excerpt: 'Uncover treasures in ancient Aztec temples.',
   }
+
 ];
 
 const cardsWithOptions = [
   {
+    type: 'slot',
     name: 'Pyramid Riches',
     images: ['/images/slot-1.png','/images/slot-1.png'],
     badge: 'Top',
@@ -46,6 +51,7 @@ const cardsWithOptions = [
     ]
   },
   {
+    type: 'slot',
     name: 'Starburst',
     images: ['/images/slot-1.png','/images/slot-1.png'],
     badge: 'Top',
@@ -64,6 +70,7 @@ const cardsWithOptions = [
     ]
   },
   {
+    type: 'slot',
     name: 'Mega Moolah',
     images: ['/images/slot-1.png','/images/slot-1.png'],
     badge: 'Top',
@@ -106,7 +113,7 @@ export default function HomePage() {
             Last update <time dateTime="2025-02-07">07.02.2025</time>
           </section>
 
-          <CardsList cards={cardsExcerpt} />
+          <CardsList cards={cardsCasino} />
 
           <h2 className="title-section">Slot Games with Advanced Filters</h2>
           <section className="text-sm">
@@ -114,7 +121,7 @@ export default function HomePage() {
           </section>
 
           <FilterGame />
-          <CardsList cards={cardsExcerpt} />
+          <CardsList cards={cardsCasino} />
 
           <h2 className="title-section">Free Online Slot Games</h2>
           <section className="text-sm">
@@ -130,7 +137,7 @@ export default function HomePage() {
           </section>
 
           <FilterGame />
-          <CardsList cards={cardsExcerpt} />
+          <CardsList cards={cardsCasino} />
 
           <h2 className="title-section">Best Card Games with Real Money</h2>
           <section className="text-sm">
@@ -157,7 +164,7 @@ export default function HomePage() {
           </section>
 
           <FilterGame />
-          <CardsList cards={cardsExcerpt} />
+          <CardsList cards={cardsCasino} />
 
           <section className="tile-section">
             <h2 className="title-section">Best Online Casino Game Providers</h2>
@@ -312,7 +319,7 @@ export default function HomePage() {
             <option value="">Sort By: Most played</option>
           </select>
 
-          <CardsList cards={cardsExcerpt} />
+          <CardsList cards={cardsCasino} />
 
           <section className="tile-section">
             <h2 className="title-section-sm">How to Learn Online Casino Games</h2>
