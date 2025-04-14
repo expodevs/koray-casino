@@ -19,7 +19,7 @@ const defaultOptions = [
     { label: 'Casino', value: 'Spin Casino' },
 ];
 
-export default function CardGame({
+export default function CardSlot({
         name = '',
         images = [],
         badge = '',
@@ -73,10 +73,10 @@ export default function CardGame({
             )}
 
             <section className="list-actions">
-                <a href="" className="btn primary">Play with Real Money</a>
+                <a href="components/section" className="btn primary">Play with Real Money</a>
                 {!excerpt && (
                     <div>
-                        <a href="" className="btn light">Play for Free</a>
+                        <a href="components/section" className="btn light">Play for Free</a>
                     </div>
                 )}
             </section>
