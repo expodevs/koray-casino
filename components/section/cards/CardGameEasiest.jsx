@@ -6,10 +6,6 @@ import 'swiper/css/navigation';
 
 import TabGroup from '@/components/section/TabGroup';
 
-function isImage(val) {
-    return typeof val === 'string' && val.startsWith('/images/');
-}
-
 const defaultOptions = [
     { label: 'Win rate', value: '97.50%' },
     { label: 'Payout', value: '1-2 days' },
@@ -22,62 +18,38 @@ const defaultOptions = [
 export default function CardSlot({
              type = '',
              name = '',
-             images = [],
-             badge = '',
+             image = '',
              excerpt = '',
-             faq = [],
              options = [],
          }) {
     const finalOptions = options && options.length > 0 ? options : defaultOptions;
 
     return (
         <article className="item-card game">
-            <Swiper
-                modules={[Navigation]}
-                slidesPerView={1}
-                spaceBetween={10}
-                navigation
-                className="image-slider"
-            >
-                {images.map((image, idx) => (
-                    <SwiperSlide key={idx}>
-                        <figure className="thumb-wrap">
-                            <img src={image} alt="Game Image" />
-                        </figure>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-
-            {badge && <div className="badge">{badge}</div>}
+            <figure className="thumb-wrap">
+                <img src={image} alt="Game Image" />
+            </figure>
 
             <div className="name">{name}</div>
 
             <div className="excerpt">{excerpt}</div>
             <div className="list-options">
                 {finalOptions.map((option, index) => (
-                    <div className={`item-option ${option.label.includes('RTP') ? 'row' : ''}`} key={index}>
+                    <div className={`item-option ${option.label.includes('Easiness') ? 'row' : ''}`} key={index}>
                         <div className="label-option">
                             <div className="name-option">{option.label}</div>
                         </div>
                         <div className="label-value">
-                            {isImage(option.value) ? (
-                                <img src={option.value} alt="" />
-                            ) : (
-                                <span>{option.value}</span>
-                            )}
+                            <span>{option.value}</span>
                         </div>
                     </div>
                 ))}
             </div>
 
             <section className="list-actions">
-                <a href="components/section" className="btn primary">Play with Real Money</a>
-                <a href="components/section" className="btn light">Play for Free</a>
+                <a href="components/section" className="btn primary">Play now</a>
             </section>
 
-            {faq && faq.length > 0 && (
-                <TabGroup items={faq} />
-            )}
         </article>
     );
 }
