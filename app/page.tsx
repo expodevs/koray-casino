@@ -11,21 +11,21 @@ import '@/styles/home.scss';
 
 const cardsCasino = [
   {
-    type: 'casino',
+    type: 'slot',
     name: 'Pyramid Riches',
     images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Top 1',
     excerpt: 'Explore ancient Egypt with wild multipliers and free spins.',
   },
   {
-    type: 'casino',
+    type: 'slot',
     name: 'Pyramid Riches',
     images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Top',
     excerpt: 'Classic slot action with a lucky twist.',
   },
   {
-    type: 'casino',
+    type: 'slot',
     name: 'Pyramid Riches',
     images: ['/images/slot-1.png', '/images/slot-1.png'],
     badge: 'Hot',

@@ -2,6 +2,7 @@ import React from 'react';
 import CardSlot from '@/components/section/cards/CardSlot';
 import CardSlotCompare from '@/components/section/cards/CardSlotCompare';
 import CardCasino from "@/components/section/cards/CardCasino";
+import CardGame from "@/components/section/cards/CardGame";
 
 export default function CardsList({ cards = [] }) {
     const renderCard = (card, index) => {
@@ -34,7 +35,15 @@ export default function CardsList({ cards = [] }) {
             case 'game':
             default:
                 return (
-                    <CardGame />
+                    <CardGame
+                        key={index}
+                        name={card.name}
+                        images={card.images}
+                        badge={card.badge}
+                        options={card.options}
+                        excerpt={card.excerpt}
+                        faq={card.faq}
+                    />
                 );
         }
     };

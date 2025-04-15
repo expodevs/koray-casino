@@ -5,11 +5,6 @@ import CardsList from '@/components/section/CardsList';
 
 import '@/styles/slot-games.scss';
 import TabGroup from "@/components/section/TabGroup";
-import {Pagination} from "swiper/modules";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import CardSlot from "@/components/section/cards/CardSlot";
 import NavTabs from "@/components/section/NavTabs";
 
 const cardsCasino = [
