@@ -1,5 +1,6 @@
 import React from 'react';
 import CardSlot from '@/components/section/cards/CardSlot';
+import CardSlotCompare from '@/components/section/cards/CardSlotCompare';
 import CardCasino from "@/components/section/cards/CardCasino";
 
 export default function CardsList({ cards = [] }) {
@@ -19,6 +20,15 @@ export default function CardsList({ cards = [] }) {
                         options={card.options}
                         excerpt={card.excerpt}
                         faq={card.faq}
+                    />
+                );
+            case 'slot-compare':
+                return (
+                    <CardSlotCompare
+                        key={index}
+                        name={card.name}
+                        images={card.images}
+                        excerpt={card.excerpt}
                     />
                 );
             case 'game':

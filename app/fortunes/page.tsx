@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import CardSlot from "@/components/section/cards/CardSlot";
+import NavTabs from "@/components/section/NavTabs";
 
 const cardsCasino = [
     {
@@ -111,95 +112,98 @@ const cardsWithoutOptions = [
 
 export default function FortunesPage() {
     return (
-        <main className="container">
-            <h1 className="title-page">
-                Play 88 Fortunes Slot Games: <span>Review (Free and Real Money)</span>
-            </h1>
-            <p className="text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
-            </p>
+        <div>
+            <NavTabs />
+            <main className="container">
+                <h1 className="title-page">
+                    Play 88 Fortunes Slot Games: <span>Review (Free and Real Money)</span>
+                </h1>
+                <p className="text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
+                </p>
 
-            <CardsList cards={cardsWithOptions} />
+                <CardsList cards={cardsWithOptions} />
 
-            <h2 className="title-section">Where Are the Best Casinos to Play 88 Fortunes for Real Money?</h2>
-            <section className="text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
-            </section>
-
-            <CardsList cards={cardsCasino} />
-
-            <section className="tile-section">
-                <h2 className="title-section-sm">What are the Downloable Content of 88 Fortunes Slot Games?</h2>
-                <section className="text-sm">Downloadable content (DLC) refers to digital files or software provided by our casino, including games, apps, or bonus tools, that can be downloaded to your device for a more personalized and seamless gaming experience.</section>
-                <section className="faq-default">
-                    <TabGroup items={faq} />
-                </section>
-                <section className="text-content">
-                    <h3>How to Use the Downloadable File on Different OS or Phone Versions</h3>
-                    <ul>
-                        <li><strong>Windows/macOS:</strong> Follow the installation wizard for your operating system. Ensure your OS version meets the minimum requirements listed on the download page.</li>
-                        <li><strong>iOS Devices</strong>: Download from the App Store or use the official installation file. Check for compatibility with your iOS version.</li>
-                        <li><strong>Android Devices:</strong> Download directly from our website or the Google Play Store, ensuring your device allows installations from trusted sources.</li>
-                        <li><strong>Other Platforms:</strong> Refer to the detailed installation guide provided with the file for compatibility and usage instructions.</li>
-                    </ul>
-                </section>
-            </section>
-
-            <section className="tile-section">
-                <h2 className="title-section-sm">What are the Unlockables for the 88 Fortunes Slot Games?</h2>
-                <section className="text-sm">Unlockables in 88 Fortunes refer to features, bonuses, or game elements that players can activate or earn during gameplay to enhance their experience and increase winning opportunities. These are typically triggered by specific actions, symbols, or combinations.</section>
-                <section className="faq-default">
-                    <TabGroup items={faq} />
-                </section>
-            </section>
-
-            <section className="tile-section">
-                <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
-                <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                <section className="list-actions">
-                    <a href="" className="btn primary-sm">Playing Strategy</a>
-                    <a href="" className="btn light-sm">Game Features</a>
-                    <a href="" className="btn light-sm">Winning Odds</a>
-                    <a href="" className="btn light-sm">External Factors</a>
-                    <a href="" className="btn light-sm">Luck & Behavior</a>
+                <h2 className="title-section">Where Are the Best Casinos to Play 88 Fortunes for Real Money?</h2>
+                <section className="text-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                 </section>
 
-                <section className="text-content">
-                    <h3>Playing Strategy</h3>
-                    <ul>
-                        <li><strong>Bankroll Management</strong>: Set a budget and stick to it.</li>
-                        <li><strong>Betting Approach</strong>: Start with small bets; bet maximum for jackpots.</li>
-                        <li><strong>Payline Selection</strong>: Focus on fixed paylines for simplicity.</li>
-                    </ul>
+                <CardsList cards={cardsCasino} />
+
+                <section className="tile-section">
+                    <h2 className="title-section-sm">What are the Downloable Content of 88 Fortunes Slot Games?</h2>
+                    <section className="text-sm">Downloadable content (DLC) refers to digital files or software provided by our casino, including games, apps, or bonus tools, that can be downloaded to your device for a more personalized and seamless gaming experience.</section>
+                    <section className="faq-default">
+                        <TabGroup items={faq} />
+                    </section>
+                    <section className="text-content">
+                        <h3>How to Use the Downloadable File on Different OS or Phone Versions</h3>
+                        <ul>
+                            <li><strong>Windows/macOS:</strong> Follow the installation wizard for your operating system. Ensure your OS version meets the minimum requirements listed on the download page.</li>
+                            <li><strong>iOS Devices</strong>: Download from the App Store or use the official installation file. Check for compatibility with your iOS version.</li>
+                            <li><strong>Android Devices:</strong> Download directly from our website or the Google Play Store, ensuring your device allows installations from trusted sources.</li>
+                            <li><strong>Other Platforms:</strong> Refer to the detailed installation guide provided with the file for compatibility and usage instructions.</li>
+                        </ul>
+                    </section>
                 </section>
 
-                <section className="faq-default">
-                    <TabGroup items={faq} />
+                <section className="tile-section">
+                    <h2 className="title-section-sm">What are the Unlockables for the 88 Fortunes Slot Games?</h2>
+                    <section className="text-sm">Unlockables in 88 Fortunes refer to features, bonuses, or game elements that players can activate or earn during gameplay to enhance their experience and increase winning opportunities. These are typically triggered by specific actions, symbols, or combinations.</section>
+                    <section className="faq-default">
+                        <TabGroup items={faq} />
+                    </section>
                 </section>
-            </section>
 
-            <section className="tile-section">
-                <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
-                <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                <div className="slider-wrapper">
-                    <div className="cards-list">
-                        <Swiper
-                            modules={[Pagination]}
-                            slidesPerView={'auto'}
-                            spaceBetween={16}
-                            pagination={{ clickable: true }}
-                            style={{ paddingRight: '80px' }}
-                        >
-                            {cardsWithoutOptions.map((card, index) => (
-                                <SwiperSlide key={index} className="slide-slot">
-                                    <CardSlot {...card} />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                <section className="tile-section">
+                    <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
+                    <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
+                    <section className="list-actions">
+                        <a href="" className="btn primary-sm">Playing Strategy</a>
+                        <a href="" className="btn light-sm">Game Features</a>
+                        <a href="" className="btn light-sm">Winning Odds</a>
+                        <a href="" className="btn light-sm">External Factors</a>
+                        <a href="" className="btn light-sm">Luck & Behavior</a>
+                    </section>
+
+                    <section className="text-content">
+                        <h3>Playing Strategy</h3>
+                        <ul>
+                            <li><strong>Bankroll Management</strong>: Set a budget and stick to it.</li>
+                            <li><strong>Betting Approach</strong>: Start with small bets; bet maximum for jackpots.</li>
+                            <li><strong>Payline Selection</strong>: Focus on fixed paylines for simplicity.</li>
+                        </ul>
+                    </section>
+
+                    <section className="faq-default">
+                        <TabGroup items={faq} />
+                    </section>
+                </section>
+
+                <section className="tile-section">
+                    <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
+                    <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
+                    <div className="slider-wrapper">
+                        <div className="cards-list">
+                            <Swiper
+                                modules={[Pagination]}
+                                slidesPerView={'auto'}
+                                spaceBetween={16}
+                                pagination={{ clickable: true }}
+                                style={{ paddingRight: '80px' }}
+                            >
+                                {cardsWithoutOptions.map((card, index) => (
+                                    <SwiperSlide key={index} className="slide-slot">
+                                        <CardSlot {...card} />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
                     </div>
-                </div>
 
-            </section>
-        </main>
+                </section>
+            </main>
+        </div>
     );
 }

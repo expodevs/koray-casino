@@ -20,6 +20,7 @@ const defaultOptions = [
 ];
 
 export default function CardSlot({
+        type = '',
         name = '',
         images = [],
         badge = '',
