@@ -1,0 +1,262 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, textarea, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, main {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, textarea, select {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+svg {
+  max-width: 100%;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(/fonts/Montserrat/Montserrat-Regular.ttf);
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url(/fonts/Montserrat/Montserrat-Medium.ttf);
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url(/fonts/Montserrat/Montserrat-SemiBold.ttf);
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url(/fonts/Montserrat/Montserrat-Bold.ttf);
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url(/fonts/Montserrat/Montserrat-ExtraBold.ttf);
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+}
+body {
+  font: 400 16px "Montserrat", sans-serif;
+  line-height: 1.4;
+  color: #000;
+}
+
+button, path, circle, input[submit] {
+  transition: 0.2s;
+}
+
+input {
+  font: 500 16px "Montserrat", sans-serif;
+}
+
+button {
+  font: 500 14px "Montserrat", sans-serif;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+button, input[type=submit], a {
+  transition: 0.4s;
+}
+
+path, rect {
+  transition: 0.4s;
+}
+
+input[type=submit] {
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input, textarea {
+  border-radius: 0;
+}
+
+header.header {
+  background: #3E63DD;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header.header .logo {
+  display: block;
+  line-height: 0;
+}
+header.header .btn-menu {
+  width: 18px;
+  display: flex;
+  row-gap: 5px;
+  flex-direction: column;
+  padding: 0;
+}
+header.header .btn-menu span {
+  height: 2px;
+  background: #fff;
+}
+
+.container {
+  padding: 0 15px;
+}
+
+.title-page {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 24px 0 16px;
+  text-transform: uppercase;
+}
+.title-page span {
+  color: #3E63DD;
+}
+
+.title-section {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+
+.title-section-sm {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+
+.text {
+  margin: 8px 0;
+}
+
+.text-sm {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+footer.footer {
+  background: #3E63DD;
+  padding: 30px 15px;
+  color: #fff;
+}
+footer.footer a {
+  color: #fff;
+}
+footer.footer .menu-footer ul {
+  list-style: none;
+  margin-bottom: 30px;
+}
+footer.footer .menu-footer ul ul {
+  padding-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+footer.footer .menu-footer li {
+  padding: 5px 0;
+}
+footer.footer .label-menu {
+  font-size: 12px;
+  font-weight: 700;
+  color: #B0BFF1;
+  margin-bottom: 15px;
+}
+footer.footer .footer-text {
+  margin-bottom: 30px;
+}
+footer.footer .list-logos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+footer.footer .copy {
+  font-size: 12px;
+  margin-top: 30px;
+}
+
+/*# sourceMappingURL=head-foot-mobile.css.map */
