@@ -6,13 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:styles": "sass styles/desktop/head-foot.scss public/styles/head-foot-desktop.css && sass styles/mobile/head-foot.scss public/styles/head-foot-mobile.css",
+    "watch:styles": "npm run build:styles -- --watch",
+    "dev:next": "next dev"
   },
   "dependencies": {
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sass": "^1.86.0",
+    "react-responsive": "^10.0.1",
     "swiper": "^11.2.6"
   },
   "devDependencies": {
@@ -22,6 +25,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
-    "typescript": "^5"
+    "sass": "^1.87.0",
+    "typescript": "^5",
+    "webpack": "^5.99.5",
+    "webpack-cli": "^6.0.1"
   }
 }
