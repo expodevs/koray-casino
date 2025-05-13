@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+First, run the migrate db:
+
+```bash
+npx prisma generate
+```
+```bash
+npx prisma migrate dev --name init
+```
+```bash
+npx prisma db seed
+```
+
 First, run the development server:
 
 ```bash

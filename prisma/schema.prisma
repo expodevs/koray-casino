@@ -1,0 +1,242 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "app/generated/prisma/client"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Attachment {
+  id        Int    @id @default(autoincrement())
+  entity    String
+  entity_id Int
+  group     String @default("default")
+  src       String
+  position  Int?
+
+  @@index([entity, entity_id])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  role          UserRole  @default(user)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Menu {
+  id        Int      @id @default(autoincrement())
+  type      MenuType
+  published Boolean
+  label     String
+  link      String
+  parent_id Int?
+  position  Int      @default(1)
+  parent    Menu?    @relation("SubMenu", fields: [parent_id], references: [id])
+  children  Menu[]   @relation("SubMenu")
+
+  @@index([parent_id], map: "Menu_parent_id_fkey")
+}
+
+model Setting {
+  id         Int       @id @default(autoincrement())
+  code       String    @unique
+  input_type InputType @default(text)
+  value      String    @db.Text
+  label      String
+}
+
+model Robot {
+  id         Int     @id @default(autoincrement())
+  user_agent String
+  allow      String?
+  disallow   String?
+}
+
+model CategoryCard {
+  id        Int     @id @default(autoincrement())
+  published Boolean @default(false)
+  label     String
+  cards     Card[]  @relation("CategoryCardRelation")
+}
+
+model Card {
+  id                   Int             @id @default(autoincrement())
+  published            Boolean
+  type                 CardType
+  category_card_id     Int?
+  label                String
+  sub_label            String?
+  referal_key          String          @unique
+  referal_link         String?
+  play_with_real_money String?
+  play_for_free        String?
+  terms_and_condition  String?         @db.Text
+  category_card        CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
+  icon_card_images     CardIconImage[]
+  images               CardImage[]
+  options              CardOption[]
+  faqs                 FaqCard[]
+
+  @@index([category_card_id], map: "Card_category_card_id_fkey")
+  @@index([type], map: "Card_type_idx")
+}
+
+model Faq {
+  id        Int       @id @default(autoincrement())
+  published Boolean   @default(false)
+  question  String
+  answer    String
+  position  Int?
+  cards     FaqCard[]
+}
+
+model FaqCard {
+  id       Int  @id @default(autoincrement())
+  faq_id   Int
+  card_id  Int
+  position Int?
+  card     Card @relation(fields: [card_id], references: [id])
+  faq      Faq  @relation(fields: [faq_id], references: [id])
+
+  @@index([card_id], map: "FaqCard_card_id_fkey")
+  @@index([faq_id], map: "FaqCard_faq_id_fkey")
+}
+
+model Option {
+  id             Int          @id @default(autoincrement())
+  published      Boolean
+  use_for_filter Boolean
+  input_type     InputType
+  label          String
+  tooltip        String?
+  hash_tag       String?
+  value          String       @db.Text
+  position       Int?
+  card_options   CardOption[]
+}
+
+model CardOption {
+  id        Int    @id @default(autoincrement())
+  option_id Int
+  card_id   Int
+  value     String
+  card      Card   @relation(fields: [card_id], references: [id])
+  entity    Option @relation(fields: [option_id], references: [id])
+
+  @@index([card_id], map: "CardOption_card_id_fkey")
+  @@index([option_id], map: "CardOption_option_id_fkey")
+}
+
+model IconCard {
+  id        Int             @id @default(autoincrement())
+  published Boolean         @default(false)
+  label     String
+  images    IconCardImage[]
+}
+
+model IconCardImage {
+  id           Int             @id @default(autoincrement())
+  icon_card_id Int
+  alt          String
+  image        String
+  position     Int?
+  icon_card    IconCard        @relation(fields: [icon_card_id], references: [id])
+  cards        CardIconImage[]
+
+  @@index([icon_card_id])
+}
+
+model CardIconImage {
+  id                 Int           @id @default(autoincrement())
+  card_id            Int
+  icon_card_image_id Int
+  card               Card          @relation(fields: [card_id], references: [id])
+  icon_card_image    IconCardImage @relation(fields: [icon_card_image_id], references: [id])
+
+  @@index([card_id])
+  @@index([icon_card_image_id])
+}
+
+model CardImage {
+  id      Int    @id @default(autoincrement())
+  card_id Int
+  src     String
+  card    Card   @relation(fields: [card_id], references: [id])
+
+  @@index([card_id], map: "CardImage_card_id_fkey")
+}
+
+model Page {
+  id                    Int         @id @default(autoincrement())
+  published             Boolean     @default(false)
+  label                 String
+  slug                  String      @unique
+  meta_title            String
+  meta_description      String
+  meta_keywords         String
+  meta_noindex_nofollow Boolean     @default(false)
+  builds                BuildPage[]
+}
+
+model Builder {
+  id         Int         @id @default(autoincrement())
+  build_type BuildType   @default(text)
+  label      String
+  fields     String      @db.LongText
+  pages      BuildPage[]
+}
+
+model BuildPage {
+  id           Int     @id @default(autoincrement())
+  build_id     Int
+  page_id      Int
+  position     Int
+  field_values String  @db.LongText
+  card_type    String?
+  build        Builder @relation(fields: [build_id], references: [id])
+  page         Page    @relation(fields: [page_id], references: [id])
+
+  @@index([build_id], map: "BuildPage_build_id_fkey")
+  @@index([page_id], map: "BuildPage_page_id_fkey")
+}
+
+enum UserRole {
+  admin
+  user
+}
+
+enum MenuType {
+  top
+  footer_popular_category
+  footer_information
+}
+
+enum CardType {
+  slot_game
+  card_game
+  casono_card
+  cart
+}
+
+enum InputType {
+  text
+  password
+  select
+  textarea
+  image
+}
+
+enum BuildType {
+  text
+  category
+  faq
+}

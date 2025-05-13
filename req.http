@@ -1,0 +1,23 @@
+### POST REGISTER ADMIN
+POST http://localhost:3000/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "adm@adm.com",
+  "password": "q1w2e3r4t5y6"
+}
+
+###
+
+### POST LOIGIN ADMIN
+POST http://localhost:3000/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "adm@adm.com",
+  "password": "q1w2e3r4t5y6"
+}
+
+###
