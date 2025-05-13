@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import SettingForm from '@app/admin/settings/components/SettingForm';
+import {routeAdminApiSettings, routeAdminPageSettings} from "@lib/adminRoute";
 
 export default function CreateEntity() {
 
@@ -9,7 +10,7 @@ export default function CreateEntity() {
 
     const handleSubmit = async (data: object) => {
         try {
-            const response = await fetch('/api/admin/settings', {
+            const response = await fetch(routeAdminApiSettings.all, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -20,7 +21,7 @@ export default function CreateEntity() {
                 throw new Error(errorData.error || 'Failed to create setting item');
             }
 
-            router.push('/admin/settings');
+            router.push(routeAdminPageSettings.all);
         } catch (error: any) {
             toast.error(error.message);
         }

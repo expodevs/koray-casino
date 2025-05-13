@@ -1,52 +1,43 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ApiResponse, IconCardImage } from '@/@types/response';
+import React, {  useState } from 'react';
+import {ApiResponse, IconCardImage,} from '@/@types/response';
 import { toast } from 'react-toastify';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import Pagination from "@components/Pagination";
 import Image from "next/image";
+import {useRequestData} from "@lib/request";
+import {routeAdminApiIconCardImages, routeAdminPageIconCardImages} from "@lib/adminRoute";
+import Link from "next/link";
 
 export default function EntityList() {
-    const [data, setData] = useState<ApiResponse<IconCardImage> | null>(null);
+
+
     const [page, setPage] = useState(1);
     const limit = 25;
-    const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
-
-    const fetchData = async () => {
-        setLoading(true);
-
-        try {
-            const res = await fetch(`/api/admin/iconCardImages?page=${page}&limit=${limit}`);
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
-            const json: ApiResponse<IconCardImage> = await res.json();
-            setData(json);
-        } catch (err: unknown) {
-            toast.error(err?.message || 'Unknown error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [page]);
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        refetch
+    } = useRequestData<ApiResponse<IconCardImage>>({
+        url: `${routeAdminApiIconCardImages.all}?page=${page}&limit=${limit}`,
+        queryKey: ['settings', page, limit]
+    });
 
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure?')) return;
 
         try {
-            const res = await fetch(`/api/admin/iconCardImages/${id}`, {
+            const res = await fetch(routeAdminApiIconCardImages.one(id.toString()), {
                 method: 'DELETE',
             });
 
             if (!res.ok) throw new Error();
 
             toast.success('Option deleted');
-            fetchData();
+            await refetch();
         } catch {
             toast.error('Delete failed');
         }
@@ -54,14 +45,17 @@ export default function EntityList() {
 
     return (
         <div className="p-6">
-            <button
-                onClick={() => router.push(`/admin/iconCardImages/create`)}
+            <div className="mb-4 flex justify-end items-center">
+            <Link
+                href={routeAdminPageIconCardImages.create}
                 className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
             >
                 Create Icon Card
-            </button>
+            </Link>
+            </div>
 
             {loading && <p>Loading...</p>}
+            {isError && <p className="text-red-500">Failed to load data</p>}
 
             {!loading && data && (
                 <>
@@ -95,12 +89,12 @@ export default function EntityList() {
                                 </td>
                                 <td className="p-3">{iconCardImage.position}</td>
                                 <td className="p-3 flex gap-2">
-                                    <button
-                                        onClick={() => router.push(`/admin/iconCardImages/${iconCardImage.id}/edit`)}
+                                    <Link
+                                        href={routeAdminPageIconCardImages.edit(iconCardImage.id.toString())}
                                         className="text-blue-500"
                                     >
                                         <FaEdit />
-                                    </button>
+                                    </Link>
                                     <button
                                         onClick={() => handleDelete(iconCardImage.id)}
                                         className="text-red-500"

@@ -1,53 +1,40 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ApiResponse, Setting } from '@/@types/response';
+import { useState } from 'react';
+import {ApiResponse, Setting} from '@/@types/response';
 import { toast } from 'react-toastify';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import Pagination from "@components/Pagination";
+import {useRequestData} from "@lib/request";
+import {routeAdminApiSettings, routeAdminPageSettings} from "@lib/adminRoute";
+import Link from "next/link";
 
 export default function SettingList() {
-    const [data, setData] = useState<ApiResponse<Setting> | null>(null);
     const [page, setPage] = useState(1);
     const limit = 25;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter();
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        refetch
+    } = useRequestData<ApiResponse<Setting>>({
+        url: `${routeAdminApiSettings.all}?page=${page}&limit=${limit}`,
+        queryKey: ['settings', page, limit]
+    });
 
-    const fetchData = async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const res = await fetch(`/api/admin/settings?page=${page}&limit=${limit}`);
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
-            const json: ApiResponse<Setting> = await res.json();
-            setData(json);
-        } catch (err: any) {
-            setError(err.message || 'Unknown error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [page]);
-
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: string) => {
         if (!confirm('Are you sure?')) return;
 
         try {
-            const res = await fetch(`/api/admin/settings/${id}`, {
+            const res = await fetch(routeAdminApiSettings.one(id), {
                 method: 'DELETE',
             });
 
             if (!res.ok) throw new Error();
 
             toast.success('Setting deleted');
-            fetchData();
+            await refetch();
         } catch {
             toast.error('Delete failed');
         }
@@ -55,15 +42,17 @@ export default function SettingList() {
 
     return (
         <div className="p-6">
-            <button
-                onClick={() => router.push('/admin/settings/create')}
-                className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
-            >
-                Create Setting
-            </button>
+            <div className="mb-4 flex justify-end items-center">
+                <Link
+                    href={routeAdminPageSettings.create}
+                    className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
+                >
+                    Create Setting
+                </Link>
+            </div>
 
             {loading && <p>Loading...</p>}
-            {error && <p className="text-red-500">Error: {error}</p>}
+            {isError && <p className="text-red-500">Failed to load data</p>}
 
             {!loading && data && (
                 <>
@@ -77,20 +66,20 @@ export default function SettingList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {data.data.map((Setting) => (
-                            <tr key={Setting.id} className="border-b hover:bg-gray-50">
-                                <td className="p-3">{Setting.id}</td>
-                                <td className="p-3">{Setting.label}</td>
-                                <td className="p-3">{Setting.code}</td>
+                        {data.data.map((setting) => (
+                            <tr key={setting.id} className="border-b hover:bg-gray-50">
+                                <td className="p-3">{setting.id}</td>
+                                <td className="p-3">{setting.label}</td>
+                                <td className="p-3">{setting.code}</td>
                                 <td className="p-3 flex gap-2">
-                                    <button
-                                        onClick={() => router.push(`/admin/settings/${Setting.id}/edit`)}
+                                    <Link
+                                        href={routeAdminPageSettings.edit(setting.id.toString())}
                                         className="text-blue-500"
                                     >
                                         <FaEdit />
-                                    </button>
+                                    </Link>
                                     <button
-                                        onClick={() => handleDelete(Setting.id)}
+                                        onClick={() => handleDelete(setting.id.toString())}
                                         className="text-red-500"
                                     >
                                         <FaTrash />

@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import PageForm from '@app/admin/pages/components/PageForm';
+import {routeAdminApiPages, routeAdminPagePages} from "@lib/adminRoute";
 
 export default function CreateEntity() {
 
@@ -9,7 +10,7 @@ export default function CreateEntity() {
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch('/api/admin/pages', {
+            const response = await fetch(routeAdminApiPages.all, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -20,7 +21,7 @@ export default function CreateEntity() {
                 throw new Error(errorData.error || 'Failed to create page item');
             }
 
-            router.push('/admin/pages');
+            router.push(routeAdminPagePages.all);
         } catch (error: any) {
             toast.error(error.message);
         }

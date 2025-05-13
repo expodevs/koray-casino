@@ -1,40 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import PageForm from "@app/admin/pages/components/PageForm";
 import { Page } from "@/@types/response";
+import {routeAdminApiPages, routeAdminPagePages} from "@lib/adminRoute";
+import { useRequestData } from '@lib/request';
 
 export default function EditPagePage() {
     const { id } = useParams<{ id: string }>();
-    const [page, setPage] = useState<Page | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
-
-    useEffect(() => {
-        const fetchPage = async () => {
-            try {
-                const response = await fetch(`/api/admin/pages/${id}`);
-                if (!response.ok) throw new Error('Page item not found');
-                const data = await response.json();
-                setPage(data);
-            } catch (error) {
-                toast.error('Failed to load page item');
-                router.push('/admin/pages');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchPage();
-        }
-    }, [id, router]);
-
+    const {data:page, isLoading} = useRequestData<Page>({url: routeAdminApiPages.one(id)});
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch(`/api/admin/pages/${id}`, {
+            const response = await fetch(routeAdminApiPages.one(id), {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -45,13 +25,13 @@ export default function EditPagePage() {
                 throw new Error(errorData.error || 'Failed to update page item');
             }
 
-            router.push('/admin/pages');
+            router.push(routeAdminPagePages.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>
