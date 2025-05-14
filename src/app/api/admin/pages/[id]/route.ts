@@ -3,6 +3,7 @@ import prisma from '@lib/prisma-client';
 import {withAdminAuthorized} from "@lib/authorized";
 import {pageUpdateSchema} from "@app/admin/pages/validation";
 import {strToSlug} from "@lib/str";
+import {BuildPage} from "@/@types/response";
 
 type requestParams = { params: { id: string } };
 
@@ -13,16 +14,9 @@ export async function GET(req: Request, {params}: requestParams) {
 
             const entity = await prisma.page.findUnique({
                 where: {id},
-                select: {
-                    id: true,
-                    label: true,
-                    slug: true,
-                    published: true,
-                    meta_title: true,
-                    meta_description: true,
-                    meta_keywords: true,
-                    meta_noindex_nofollow: true,
-                },
+                include: {
+                    builds: true,
+                }
             });
 
             if (!entity) {
@@ -73,6 +67,17 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             const entity = await prisma.page.update({
                 where: {id},
                 data,
+            });
+
+            await prisma.buildPage.deleteMany({where: {page_id: entity.id}});
+            await prisma.buildPage.createMany({
+                data: body.buildsPage.map((buildPage: BuildPage) => ({
+                    page_id: entity.id,
+                    build_id: buildPage.build_id,
+                    position: buildPage.position,
+                    field_values: buildPage.field_values,
+                    card_type: buildPage.card_type,
+                }))
             });
 
             return NextResponse.json(entity);

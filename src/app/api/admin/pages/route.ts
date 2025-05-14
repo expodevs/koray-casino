@@ -3,6 +3,7 @@ import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 import {pageCreateSchema} from "@app/admin/pages/validation";
 import {strToSlug} from "@lib/str";
+import {BuildPage} from "@/@types/response";
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -75,6 +76,18 @@ export async function POST(req: NextRequest) {
             }
 
             const entity = await prisma.page.create({data});
+
+            await prisma.buildPage.deleteMany({where: {page_id: entity.id}});
+            await prisma.buildPage.createMany({
+                data: body.buildsPage.map((buildPage: BuildPage) => ({
+                    page_id: entity.id,
+                    build_id: buildPage.build_id,
+                    position: buildPage.position,
+                    field_values: buildPage.field_values,
+                    card_type: buildPage.card_type,
+                }))
+            });
+
             return NextResponse.json(entity, {status: 201});
         } catch (error) {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});

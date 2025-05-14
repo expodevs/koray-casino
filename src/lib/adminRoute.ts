@@ -1,5 +1,6 @@
 
 const apiRoutes = {
+    builders: '/api/admin/builders',
     users: '/api/admin/users',
     settings: '/api/admin/settings',
     pages: '/api/admin/pages',
@@ -21,6 +22,10 @@ const pagesRoutes = {
     categoryCards: '/admin/categoryCards',
     iconCards: '/admin/iconCards',
     iconCardImages: '/admin/iconCardImages',
+};
+
+const routeAdminApiBuilders = {
+    all: apiRoutes.builders
 };
 
 const routeAdminApiUsers = {
@@ -81,6 +86,7 @@ const routeAdminPageMenus = {
 
 const routeAdminApiFaqs = {
     all: apiRoutes.faqs,
+    pageBuilder: `${apiRoutes.faqs}/pageBuilder`,
     one: (id: string): string => `${apiRoutes.faqs}/${id}`,
 };
 
@@ -92,6 +98,7 @@ const routeAdminPageFaqs = {
 
 const routeAdminApiCategoryCards = {
     all: apiRoutes.categoryCards,
+    pageBuilder: `${apiRoutes.categoryCards}/pageBuilder`,
     one: (id: string): string => `${apiRoutes.categoryCards}/${id}`,
 };
 
@@ -125,6 +132,7 @@ const routeAdminPageIconCardImages = {
 };
 
 export {
+    routeAdminApiBuilders,
     routeAdminApiIconCardImages, routeAdminPageIconCardImages,
     routeAdminApiIconCards, routeAdminPageIconCards,
     routeAdminApiCategoryCards, routeAdminPageCategoryCards,

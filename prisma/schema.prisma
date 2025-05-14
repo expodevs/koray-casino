@@ -191,7 +191,6 @@ model Builder {
   id         Int         @id @default(autoincrement())
   build_type BuildType   @default(text)
   label      String
-  fields     String      @db.LongText
   pages      BuildPage[]
 }
 
@@ -237,6 +236,8 @@ enum InputType {
 
 enum BuildType {
   text
-  category
+  textarea
+  htmlEditor
+  categoryCard
   faq
 }
