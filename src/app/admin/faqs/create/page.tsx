@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from '@app/admin/faqs/components/EntityForm';
+import {routeAdminApiFaqs, routeAdminPageFaqs} from "@lib/adminRoute";
 
 export default function CreateFaqPage() {
 
@@ -9,7 +10,7 @@ export default function CreateFaqPage() {
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch('/api/admin/faqs', {
+            const response = await fetch(routeAdminApiFaqs.all, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -20,7 +21,7 @@ export default function CreateFaqPage() {
                 throw new Error(errorData.error || 'Failed to create entity');
             }
 
-            router.push('/admin/faqs');
+            router.push(routeAdminPageFaqs.all);
         } catch (error: any) {
             toast.error(error.message);
         }

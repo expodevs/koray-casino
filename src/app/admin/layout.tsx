@@ -20,8 +20,9 @@ const queryClient = new QueryClient();
 
 export default function AdminLayout({children}: { children: ReactNode }) {
     return (
-        <SessionProvider>
+
         <QueryClientProvider client={queryClient}>
+            <SessionProvider>
             <div className="flex h-screen bg-gray-100">
                 <Aside/>
 
@@ -32,8 +33,9 @@ export default function AdminLayout({children}: { children: ReactNode }) {
                 </main>
             </div>
             <ToastContainer/>
+            </SessionProvider>
         </QueryClientProvider>
-        </SessionProvider>
+
     )
 }
 

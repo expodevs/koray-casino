@@ -74,10 +74,7 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
 
 
   const renderValueField = useMemo(() => {
-    if (InputType.image !== selectedInputType) {
-      setValue('value', '')
-      setImage(null)
-    }
+
     switch (selectedInputType) {
       case InputType.textarea:
         return <textarea {...register('value')} className="w-full p-2 border rounded"/>;

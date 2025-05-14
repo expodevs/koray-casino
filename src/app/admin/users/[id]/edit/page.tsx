@@ -1,8 +1,11 @@
 "use client";
-import {useEffect, useState} from "react";
+
 import {useParams, useRouter} from "next/navigation";
 import {toast} from "react-toastify";
 import UserForm from "../../components/UserForm";
+import { useRequestData } from "@lib/request";
+import {routeAdminPageUsers, routeAdminApiUsers} from "@lib/adminRoute";
+
 
 interface User {
     id: string;
@@ -13,28 +16,13 @@ interface User {
 
 export default function EditUserPage() {
     const {id} = useParams<{ id: string }>();
-    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(`/api/admin/users/${id}`);
-                if (!response.ok) throw new Error("User not found");
-                const data = await response.json();
-                setUser(data);
-            } catch (error) {
-                toast.error("Failed to load user");
-                router.push("/admin/users");
-            }
-        };
-
-        fetchUser();
-    }, [id, router]);
+    const {data:user, isLoading} = useRequestData<User>({url: routeAdminApiUsers.one(id)});
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch(`/api/admin/users`, {
+            const response = await fetch(routeAdminApiUsers.all, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(data),
@@ -46,13 +34,13 @@ export default function EditUserPage() {
             }
 
             toast.success("User updated successfully");
-            router.push("/admin/users");
+            router.push(routeAdminPageUsers.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
 
-    if (!user) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>

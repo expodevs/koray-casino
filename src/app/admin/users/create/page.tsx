@@ -2,13 +2,14 @@
 import {useRouter} from "next/navigation";
 import {toast} from "react-toastify";
 import UserForm from "@app/admin/users/components/UserForm";
+import {routeAdminApiUsers, routeAdminPageUsers} from "@lib/adminRoute";
 
 export default function CreateUserPage() {
     const router = useRouter();
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch("/api/admin/users", {
+            const response = await fetch(routeAdminApiUsers.all, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(data),
@@ -20,7 +21,7 @@ export default function CreateUserPage() {
             }
 
             toast.success("User created successfully");
-            router.push("/admin/users");
+            router.push(routeAdminPageUsers.all);
         } catch (error: any) {
             toast.error(error.message);
         }

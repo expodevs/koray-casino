@@ -24,6 +24,7 @@ interface MenuFormProps {
 type FormData = z.infer<typeof menuCreateSchema>;
 
 export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps) {
+  console.log('MenuForm menuParents', menuParents)
   const {
     register,
     handleSubmit,

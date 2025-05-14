@@ -1,40 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from "@app/admin/options/components/EntityForm";
-import { Option } from "@/@types/response";
+import {Option} from "@/@types/response";
+import {useRequestData} from "@lib/request";
+import {routeAdminApiOptions, routeAdminPageOptions} from "@lib/adminRoute";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
-    const [entity, setEntity] = useState<Option | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchOption = async () => {
-            try {
-                const response = await fetch(`/api/admin/options/${id}`);
-                if (!response.ok) throw new Error('Option item not found');
-                const data = await response.json();
-                setEntity(data);
-            } catch (error) {
-                toast.error('Failed to load entity item');
-                router.push('/admin/options');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchOption();
-        }
-    }, [id, router]);
+    const {data:entity, isLoading} = useRequestData<Option>({url: routeAdminApiOptions.one(id)});
 
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch(`/api/admin/options/${id}`, {
+            const response = await fetch(routeAdminApiOptions.one(id), {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -45,13 +27,13 @@ export default function EditEntity() {
                 throw new Error(errorData.error || 'Failed to update entity item');
             }
 
-            router.push('/admin/options');
+            router.push(routeAdminPageOptions.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>

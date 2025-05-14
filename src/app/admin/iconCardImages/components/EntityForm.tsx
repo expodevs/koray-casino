@@ -41,7 +41,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
 
     const currentImage = watch('image');
     const renderImageField = useMemo(() => {
-        if (!currentImage.length) {
+        if (!currentImage || !currentImage.length) {
             return null;
         }
         return (
@@ -132,7 +132,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             />
             <ImagePreview images={image ? [image] : []}/>
 
-            <CustomInput field={'position'} alt={'Position'} register={register} errors={errors} type="number"/>
+            <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number"/>
 
 
             <button

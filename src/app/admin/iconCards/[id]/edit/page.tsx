@@ -1,40 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from "@app/admin/iconCards/components/EntityForm";
-import { iconCard } from "@/@types/response";
+import { IconCard } from "@/@types/response";
+import { useRequestData } from '@lib/request';
+import {routeAdminApiIconCards, routeAdminPageIconCards} from "@lib/adminRoute";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
-    const [entity, setEntity] = useState<iconCard | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchOption = async () => {
-            try {
-                const response = await fetch(`/api/admin/iconCards/${id}`);
-                if (!response.ok) throw new Error('Category Card not found');
-                const data = await response.json();
-                setEntity(data);
-            } catch (error) {
-                toast.error('Failed to load entity item');
-                router.push('/admin/iconCards');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchOption();
-        }
-    }, [id, router]);
+    const {data:entity, isLoading} = useRequestData<IconCard>({url: routeAdminApiIconCards.one(id)});
 
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch(`/api/admin/iconCards/${id}`, {
+            const response = await fetch(routeAdminApiIconCards.one(id), {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -45,13 +27,13 @@ export default function EditEntity() {
                 throw new Error(errorData.error || 'Failed to update entity');
             }
 
-            router.push('/admin/iconCards');
+            router.push(routeAdminPageIconCards.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>

@@ -1,40 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ApiResponse, Faq } from '@/@types/response';
+import {  useState } from 'react';
+import {ApiResponse, Faq,} from '@/@types/response';
 import { toast } from 'react-toastify';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import Pagination from "@components/Pagination";
+import Link from "next/link";
+import {routeAdminApiFaqs, routeAdminPageFaqs} from "@lib/adminRoute";
+import {useRequestData} from "@lib/request";
 
 export default function EntityList() {
-    const [data, setData] = useState<ApiResponse<Faq> | null>(null);
+
     const [page, setPage] = useState(1);
     const limit = 25;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter();
-
-    const fetchData = async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const res = await fetch(`/api/admin/faqs?page=${page}&limit=${limit}`);
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
-            const json: ApiResponse<Faq> = await res.json();
-            setData(json);
-        } catch (err: unknown) {
-            setError(err?.message || 'Unknown error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [page]);
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        refetch
+    } = useRequestData<ApiResponse<Faq>>({
+        url: `${routeAdminApiFaqs.all}?page=${page}&limit=${limit}`,
+        queryKey: ['faqs', page, limit]
+    });
 
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure?')) return;
@@ -47,7 +35,7 @@ export default function EntityList() {
             if (!res.ok) throw new Error();
 
             toast.success('entity deleted');
-            fetchData();
+            await refetch();
         } catch {
             toast.error('Delete failed');
         }
@@ -55,15 +43,17 @@ export default function EntityList() {
 
     return (
         <div className="p-6">
-            <button
-                onClick={() => router.push('/admin/faqs/create')}
+            <div className="mb-4 flex justify-end items-center">
+            <Link
+                href={routeAdminPageFaqs.create}
                 className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
             >
-                Create Option
-            </button>
+                Create Faq
+            </Link>
+            </div>
 
             {loading && <p>Loading...</p>}
-            {error && <p className="text-red-500">Error: {error}</p>}
+            {isError && <p className="text-red-500">Failed to load data</p>}
 
             {!loading && data && (
                 <>
@@ -85,12 +75,12 @@ export default function EntityList() {
                                 <td className="p-3">{faq.answer}</td>
                                 <td className="p-3">{faq.published ? '✅' : '❌'}</td>
                                 <td className="p-3 flex gap-2">
-                                    <button
-                                        onClick={() => router.push(`/admin/faqs/${faq.id}/edit`)}
+                                    <Link
+                                        href={routeAdminPageFaqs.edit(faq.id.toString())}
                                         className="text-blue-500"
                                     >
                                         <FaEdit />
-                                    </button>
+                                    </Link>
                                     <button
                                         onClick={() => handleDelete(faq.id)}
                                         className="text-red-500"
@@ -103,7 +93,7 @@ export default function EntityList() {
                         </tbody>
                     </table>
 
-                    <Pagination page={page} total={data?.meta.totalOptions || 1} setPageCallback={setPage} />
+                    <Pagination page={page} total={data?.meta.totalPages || 1} setPageCallback={setPage} />
                 </>
             )}
         </div>

@@ -1,53 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ApiResponse, Option } from '@/@types/response';
+import { useState } from 'react';
+
+import {ApiResponse, Option} from '@/@types/response';
 import { toast } from 'react-toastify';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import Pagination from "@components/Pagination";
+import {routeAdminApiOptions, routeAdminPageOptions} from "@lib/adminRoute";
+import {useRequestData} from "@lib/request";
+import Link from "next/link";
 
 export default function EntityList() {
-    const [data, setData] = useState<ApiResponse<Option> | null>(null);
     const [page, setPage] = useState(1);
-    const limit = 25;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const limit = 1;
 
-    const router = useRouter();
-
-    const fetchData = async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const res = await fetch(`/api/admin/options?page=${page}&limit=${limit}`);
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
-            const json: ApiResponse<Option> = await res.json();
-            setData(json);
-        } catch (err: unknown) {
-            setError(err?.message || 'Unknown error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [page]);
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        refetch,
+    } = useRequestData<ApiResponse<Option>>({
+        url: `${routeAdminApiOptions.all}?page=${page}&limit=${limit}`,
+        queryKey: ['pages', page, limit]
+    });
 
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure?')) return;
 
         try {
-            const res = await fetch(`/api/admin/options/${id}`, {
+            const res = await fetch(routeAdminApiOptions.one(id.toString()), {
                 method: 'DELETE',
             });
 
             if (!res.ok) throw new Error();
 
             toast.success('Option deleted');
-            fetchData();
+            await refetch();
         } catch {
             toast.error('Delete failed');
         }
@@ -55,15 +43,17 @@ export default function EntityList() {
 
     return (
         <div className="p-6">
-            <button
-                onClick={() => router.push('/admin/options/create')}
+            <div className="mb-4 flex justify-end items-center">
+            <Link
+                href={routeAdminPageOptions.create}
                 className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
             >
                 Create Option
-            </button>
+            </Link>
+            </div>
 
             {loading && <p>Loading...</p>}
-            {error && <p className="text-red-500">Error: {error}</p>}
+            {isError && <p className="text-red-500">Failed to load data</p>}
 
             {!loading && data && (
                 <>
@@ -85,12 +75,12 @@ export default function EntityList() {
                                 <td className="p-3">{option.published ? '✅' : '❌'}</td>
                                 <td className="p-3">{option.use_for_filter ? '✅' : '❌'}</td>
                                 <td className="p-3 flex gap-2">
-                                    <button
-                                        onClick={() => router.push(`/admin/options/${option.id}/edit`)}
+                                    <Link
+                                        href={routeAdminPageOptions.edit(option.id.toString())}
                                         className="text-blue-500"
                                     >
                                         <FaEdit />
-                                    </button>
+                                    </Link>
                                     <button
                                         onClick={() => handleDelete(option.id)}
                                         className="text-red-500"
@@ -103,7 +93,7 @@ export default function EntityList() {
                         </tbody>
                     </table>
 
-                    <Pagination page={page} total={data?.meta.totalOptions || 1} setPageCallback={setPage} />
+                    <Pagination page={page} total={data?.meta.totalPages || 1} setPageCallback={setPage} />
                 </>
             )}
         </div>

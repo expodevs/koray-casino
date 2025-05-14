@@ -2,31 +2,18 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import MenuForm from '../components/MenuForm';
-import {useEffect, useState} from "react";
+
 import {Menu} from "@/@types/response";
+import {routeAdminApiMenus, routeAdminPageMenus} from "@lib/adminRoute";
+import {useRequestData} from "@lib/request";
 
 export default function CreateEntity() {
-
-    const [menuParents, setMenuParents] = useState<Menu[] | null>(null);
-
-    useEffect(() => {
-        const fetchMenuParents = async () => {
-            try {
-                const res = await fetch(`/api/admin/menus/parent`);
-                const data = await res.json();
-                setMenuParents(data.data);
-            } catch (error) {
-                toast.error('Failed to load menu parents');
-            }
-        };
-        fetchMenuParents();
-    }, []);
-
     const router = useRouter();
+    const {data:menuParents, isLoading} = useRequestData<Menu[]>({url: routeAdminApiMenus.parents});
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch('/api/admin/menus', {
+            const response = await fetch(routeAdminApiMenus.all, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -37,11 +24,13 @@ export default function CreateEntity() {
                 throw new Error(errorData.error || 'Failed to create menu item');
             }
 
-            router.push('/admin/menus');
+            router.push(routeAdminPageMenus.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
+
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>

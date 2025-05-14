@@ -1,40 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from "@app/admin/faqs/components/EntityForm";
-import { Faq } from "@/@types/response";
+import {Faq} from "@/@types/response";
+import {routeAdminApiFaqs, routeAdminPageFaqs} from "@lib/adminRoute";
+import {useRequestData} from "@lib/request";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
-    const [entity, setEntity] = useState<Faq | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
-
-    useEffect(() => {
-        const fetchOption = async () => {
-            try {
-                const response = await fetch(`/api/admin/faqs/${id}`);
-                if (!response.ok) throw new Error('Option item not found');
-                const data = await response.json();
-                setEntity(data);
-            } catch (error) {
-                toast.error('Failed to load entity');
-                router.push('/admin/faqs');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchOption();
-        }
-    }, [id, router]);
-
+    const {data:entity, isLoading} = useRequestData<Faq>({url: routeAdminApiFaqs.one(id)});
 
     const handleSubmit = async (data: any) => {
         try {
-            const response = await fetch(`/api/admin/faqs/${id}`, {
+            const response = await fetch(routeAdminApiFaqs.one(id), {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -45,13 +25,13 @@ export default function EditEntity() {
                 throw new Error(errorData.error || 'Failed to update entity');
             }
 
-            router.push('/admin/faqs');
+            router.push(routeAdminPageFaqs.all);
         } catch (error: any) {
             toast.error(error.message);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <div>
