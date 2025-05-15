@@ -31,3 +31,6 @@ export function optionPath(id:number) {
     return `uploads/option/${id}`;
 }
 
+export function casinoPath(id:number) {
+    return `uploads/casino/${id}`;
+}

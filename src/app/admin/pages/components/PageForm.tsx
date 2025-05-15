@@ -13,6 +13,7 @@ import {useRequestData} from "@lib/request";
 import {Builder, BuildType, CategoryCard} from "@prismaClient";
 import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
+import { TabContainer, Tab, TabContent } from "@components/Tabs";
 
 
 
@@ -68,7 +69,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
   }, [page, setValue]);
 
 
-    const [activeTab, setActiveTab] = useState<'general' | 'seo' | 'content'>('general');
+    // Tab state is now managed by TabContainer
     const {data:builders, isLoading} = useRequestData<Builder[]>({url: routeAdminApiBuilders.all, queryKey: 'builders'});
     const {data:categoryCards, isLoading:isLoadingCategoryCards} = useRequestData<CategoryCard[]>({url: routeAdminApiCategoryCards.pageBuilder, queryKey: 'categoryCards'});
     const {data:faqs, isLoading:isLoadingFaqs} = useRequestData<Faq[]>({url: routeAdminApiFaqs.pageBuilder, queryKey: 'faqs'});
@@ -409,128 +410,94 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     if (isLoading||isLoadingCategoryCards||isLoadingFaqs) return <div>Loading...</div>;
 
     return (
-
       <div className="max-w-6xl mx-auto p-4">
-        {/* Tab Headers */}
-        <div className="flex space-x-4 border-b border-gray-200">
-          <button
-              onClick={() => setActiveTab('general')}
-              className={`pb-3 px-1 transition-colors duration-200 ${
-                  activeTab === 'general'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
-              }`}
-          >
-            General
-          </button>
-            <button
-                onClick={() => setActiveTab('content')}
-                className={`pb-3 px-1 transition-colors duration-200 ${
-                    activeTab === 'content'
-                        ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-gray-500 hover:text-gray-700'
-                }`}
-            >
-                Content
-            </button>
-          <button
-              onClick={() => setActiveTab('seo')}
-              className={`pb-3 px-1 transition-colors duration-200 ${
-                  activeTab === 'seo'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
-              }`}
-          >
-            SEO
-          </button>
-        </div>
+        <TabContainer defaultTab="general" className="w-full">
+          {/* Tab Headers */}
+          <div className="flex space-x-4 border-b border-gray-200">
+            <Tab id="general" label="General" />
+            <Tab id="content" label="Content" />
+            <Tab id="seo" label="SEO" />
+          </div>
 
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="p-4">
-          {/* Tab Content */}
-          <div className="pt-4">
-            {activeTab === 'general' && (
+          <form onSubmit={handleSubmit(handleFormSubmit)} className="p-4">
+            {/* Tab Content */}
+            <div className="pt-4">
+              <TabContent id="general">
                 <div className="space-y-4">
-
                   <CustomInput field={'label'} label={'Label'} register={register} errors={errors} />
-
                   <CustomInput field={'slug'} label={'Slug'} register={register} errors={errors} />
-
                   <CustomInput field={'published'} label={'Published'} register={register} errors={errors} type="checkbox" />
-
-
                 </div>
-            )}
+              </TabContent>
 
-              {activeTab === 'content' && (<>
+              <TabContent id="content">
+                <>
                   {buildsPage.map((buildPage, idx) => (
-                      <div key={`build-container-${idx}`} className="mb-4 flex items-center gap-4">
-                          <div className={'w-full p-2 border rounded'}>
-                              {memoizedRenderBuildPageField(idx, buildPage)}
-                          </div>
-                          <div  >
-                              <a
-                                  onClick={() => moveItemUp(idx)}
-                                  className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
-                              >↑</a>
-                              <a
-                                  onClick={() => moveItemDown(idx)}
-                                  className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
-                              >↓</a>
-                              <a
-                                  onClick={() => removeItem(idx)}
-                                  className={' p-2 text-red-600 rounded flex items-center gap-2 hover:bg-red-100'}
-                              >X</a>
-                          </div>
+                    <div key={`build-container-${idx}`} className="mb-4 flex items-center gap-4">
+                      <div className={'w-full p-2 border rounded'}>
+                        {memoizedRenderBuildPageField(idx, buildPage)}
                       </div>
+                      <div>
+                        <a
+                          onClick={() => moveItemUp(idx)}
+                          className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
+                        >↑</a>
+                        <a
+                          onClick={() => moveItemDown(idx)}
+                          className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
+                        >↓</a>
+                        <a
+                          onClick={() => removeItem(idx)}
+                          className={' p-2 text-red-600 rounded flex items-center gap-2 hover:bg-red-100'}
+                        >X</a>
+                      </div>
+                    </div>
                   ))}
 
                   <hr className={'my-4 py-4'}/>
                   <div className="space-y-4">
-                      <div className="mb-4">
-                          <label className="block mb-1">Add Builder Field</label>
-                          <select
-                              value={selectedBuilderId?.toString()}
-                              onChange={e=>setSelectedBuilderId(Number(e.target.value))}
-                              className="w-full p-2 border rounded"
-                          >
-                              <option >Select Builder Field</option>
-                              {(builders||[]).map(builder=><option key={builder.id} value={builder.id}>{builder.label}</option>)}
-                          </select>
-                      </div>
-                      <div className="mb-4">
-                          <button
-                            onClick={handleAddBuilderField}
-                            className={'bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600'}
-                          >
-                            Add Field
-                          </button>
-                      </div>
+                    <div className="mb-4">
+                      <label className="block mb-1">Add Builder Field</label>
+                      <select
+                        value={selectedBuilderId?.toString()}
+                        onChange={e=>setSelectedBuilderId(Number(e.target.value))}
+                        className="w-full p-2 border rounded"
+                      >
+                        <option>Select Builder Field</option>
+                        {(builders||[]).map(builder=><option key={builder.id} value={builder.id}>{builder.label}</option>)}
+                      </select>
+                    </div>
+                    <div className="mb-4">
+                      <button
+                        onClick={handleAddBuilderField}
+                        className={'bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600'}
+                      >
+                        Add Field
+                      </button>
+                    </div>
                   </div>
-              </>)}
+                </>
+              </TabContent>
 
-            {activeTab === 'seo' && (
+              <TabContent id="seo">
                 <div className="space-y-4">
-
                   <CustomInput field={'meta_title'} label={'Meta title'} register={register} errors={errors} />
-
                   <CustomInput field={'meta_description'} label={'Meta description'} register={register} errors={errors} type="textarea" />
-
                   <CustomInput field={'meta_keywords'} label={'Meta keywords'} register={register} errors={errors} />
-
                   <CustomInput field={'meta_noindex_nofollow'} label={'noindex/nofollow'} register={register} errors={errors} type="checkbox" />
-
                 </div>
-            )}
+              </TabContent>
 
-            <hr/>
-            <button
+              <hr/>
+              <button
                 type="submit"
                 className="bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600 mt-10"
-            >
-              <FaSave/> Save
-            </button>
-          </div>
-        </form>
+              >
+                <FaSave/> Save
+              </button>
+            </div>
+          </form>
+        </TabContainer>
       </div>
   );
 }

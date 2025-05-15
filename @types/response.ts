@@ -1,4 +1,4 @@
-import {InputType, MenuType} from "@prismaClient";
+import {InputType, MenuType, OptionType} from "@prismaClient";
 
 export interface UserRow {
     id: string;
@@ -95,11 +95,24 @@ export interface Option {
     published: boolean,
     use_for_filter: boolean,
     label: string,
+    type: OptionType,
     input_type: InputType,
     tooltip: string | null,
     hash_tag: string | null,
     value: string | null,
     position: number | null,
+}
+
+export interface Casino {
+    id: number,
+    published: boolean,
+    name: string,
+    tooltip: string | null,
+    image: string,
+    referral_key: string,
+    referral_link: string | null,
+    full_review_label: string | null,
+    full_review_link: string | null,
 }
 
 export interface ApiResponse<T> {
