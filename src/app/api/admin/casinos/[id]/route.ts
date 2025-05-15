@@ -24,6 +24,13 @@ export async function GET(req: Request, {params}: requestParams) {
 
             const entity = await prisma.casino.findUnique({
                 where: {id},
+                include: {
+                    options: {
+                        include: {
+                            entity: true
+                        }
+                    }
+                }
             });
 
             if (!entity) {
@@ -72,10 +79,34 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             const newImage = data.newImage;
             delete data.newImage;
 
+            // Extract options data
+            const options = data.options || [];
+            delete data.options;
+
+            // Update casino
             const entity = await prisma.casino.update({
                 where: {id},
                 data,
             });
+
+            // Handle options
+            if (options.length > 0) {
+                // Delete existing options
+                await prisma.casinoOption.deleteMany({
+                    where: { casino_id: id }
+                });
+
+                // Create new options
+                await Promise.all(options.map(option => {
+                    return prisma.casinoOption.create({
+                        data: {
+                            casino_id: id,
+                            option_id: option.option_id,
+                            value: option.value
+                        }
+                    });
+                }));
+            }
 
             if (newImage && newImage.length) {
                 const src = await saveBase64File(newImage, casinoPath(entity.id));
@@ -102,6 +133,12 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
 
             await removeOldImage(id);
 
+            // Delete related casino options first
+            await prisma.casinoOption.deleteMany({
+                where: { casino_id: id }
+            });
+
+            // Then delete the casino
             await prisma.casino.delete({
                 where: {id},
             });

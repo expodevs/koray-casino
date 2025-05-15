@@ -20,8 +20,18 @@ export default function CreateEntity() {
                 throw new Error(errorData.error || 'Failed to create entity item');
             }
 
+            const casinoData = await response.json();
             toast.success('Casino created successfully');
-            router.push(routeAdminPageCasinos.all);
+
+            // Check if options were added
+            const hasOptions = data && typeof data === 'object' && 'options' in data && Array.isArray(data.options) && data.options.length > 0;
+
+            // Redirect to the casino options page if options were added, otherwise to the casino list page
+            if (hasOptions && casinoData && casinoData.id) {
+                router.push(routeAdminPageCasinos.edit(casinoData.id.toString()));
+            } else {
+                router.push(routeAdminPageCasinos.all);
+            }
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message);

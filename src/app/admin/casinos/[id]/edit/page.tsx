@@ -27,7 +27,17 @@ export default function EditEntity() {
             }
 
             toast.success('Casino updated successfully');
-            router.push(routeAdminPageCasinos.all);
+
+            // Check if options were added
+            const hasOptions = data && typeof data === 'object' && 'options' in data && Array.isArray(data.options) && data.options.length > 0;
+
+            // Stay on the edit page if options were added, otherwise go to the casino list page
+            if (hasOptions) {
+                // Refresh the current page to show the updated data
+                router.refresh();
+            } else {
+                router.push(routeAdminPageCasinos.all);
+            }
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message);

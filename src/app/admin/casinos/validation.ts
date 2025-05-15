@@ -9,6 +9,15 @@ const commonFields = {
     full_review_label: z.string().nullable().optional(),
     full_review_link: z.string().nullable().optional(),
     newImage: z.string().optional(),
+    options: z.array(
+        z.object({
+            id: z.number().optional(),
+            option_id: z.number(),
+            casino_id: z.number().optional(),
+            value: z.string(),
+            entity: z.any().optional()
+        })
+    ).optional(),
 }
 
 export const casinoCreateSchema = z.object({
