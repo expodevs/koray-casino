@@ -138,11 +138,13 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
 
   const handleFormSubmit = async (data: FormData) => {
     try {
-        data.buildsPage = (buildsPage||[]).filter(buildPage=>buildPage.field_values);
+        data.buildsPage = (buildsPage||[]);
       await onSubmit(data);
-    } catch (error: any) {
-      if (error.response?.data) {
-        Object.values(error.response.data).forEach((err: any) => {
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'response' in error && 
+          error.response && typeof error.response === 'object' && 'data' in error.response) {
+        const responseData = error.response.data as Record<string, { message: string }>;
+        Object.values(responseData).forEach((err) => {
           toast.error(err.message);
         });
       } else {
@@ -175,22 +177,64 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
 
         if (builder.build_type === BuildType.faq) {
             const selectedValues = buildPage.field_values ? buildPage.field_values.split(',') : [];
+            // Display values to render - if no values, show one empty select
+            const displayValues = selectedValues.length > 0 ? selectedValues : [''];
+
+            const addNewSelect = () => {
+                // Add an empty value to the list
+                const newValues = [...displayValues, ''];
+                handleFieldValueChange(idx, newValues.join(','));
+            };
+
+            const updateSelectValue = (selectIndex: number, value: string) => {
+                const newValues = [...displayValues];
+                newValues[selectIndex] = value;
+                handleFieldValueChange(idx, newValues.join(','));
+            };
+
+            const removeSelect = (selectIndex: number) => {
+                // Don't remove if it's the last one
+                if (displayValues.length <= 1) {
+                    handleFieldValueChange(idx, '');
+                    return;
+                }
+
+                const newValues = [...displayValues];
+                newValues.splice(selectIndex, 1);
+                handleFieldValueChange(idx, newValues.join(','));
+            };
 
             return (
                 <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
                     <label className="block mb-1">{builder.label}</label>
-                    <select
-                        className="w-full p-2 border rounded"
-                        value={selectedValues}
-                        onChange={(e) => {
-                            const values = Array.from(e.target.selectedOptions, option => option.value);
-                            handleFieldValueChange(idx, values.join(','));
-                        }}
-                        multiple={true}
-                    >
-                        <option value="">Select Faq</option>
-                        {(faqs || []).map(faq => <option key={faq.id} value={faq.id}>{faq.question}</option>)}
-                    </select>
+                    <div className="space-y-2">
+                        {displayValues.map((value, selectIdx) => (
+                            <div key={`faq-select-${selectIdx}`} className="flex items-center gap-2">
+                                <select
+                                    className="w-full p-2 border rounded"
+                                    value={value}
+                                    onChange={(e) => updateSelectValue(selectIdx, e.target.value)}
+                                >
+                                    <option value="">Select Faq</option>
+                                    {(faqs || []).map(faq => <option key={faq.id} value={faq.id}>{faq.question}</option>)}
+                                </select>
+                                <button 
+                                    type="button"
+                                    onClick={() => removeSelect(selectIdx)}
+                                    className="p-2 text-red-600 rounded hover:bg-red-100"
+                                >
+                                    X
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={addNewSelect}
+                            className="mt-2 bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600"
+                        >
+                            + Add FAQ
+                        </button>
+                    </div>
                 </div>
             )
         }

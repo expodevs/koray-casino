@@ -436,12 +436,11 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "mysql://root:root@mariadb:3306/koray_prod"
       }
     }
   },
