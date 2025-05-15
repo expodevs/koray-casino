@@ -176,48 +176,124 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         if (builder.build_type === BuildType.faq) {
-            const selectedValues = buildPage.field_values ? buildPage.field_values.split(',') : [];
-            // Display values to render - if no values, show one empty select
-            const displayValues = selectedValues.length > 0 ? selectedValues : [''];
+
+            interface FaqItem {
+                id: string;
+                position: number;
+            }
+
+
+            const parseFaqItems = (): FaqItem[] => {
+                if (!buildPage.field_values) {
+                    return [];
+                }
+
+                let result: FaqItem[] = [];
+                try {
+                    result = JSON.parse(buildPage.field_values);
+                } catch {
+                    const oldValues = buildPage.field_values.split(',').filter(Boolean);
+                    result = oldValues.map((id, index) => ({
+                        id,
+                        position: index + 1
+                    }));
+                }
+                return result;
+            };
+
+
+            const faqItems = parseFaqItems();
+            const displayItems = faqItems.length > 0 ? faqItems.sort((a, b) => a.position - b.position) : [{ id: '', position: 1 }];
+
+
+            const saveFaqItems = (items: FaqItem[]) => {
+                handleFieldValueChange(idx, JSON.stringify(items));
+            };
 
             const addNewSelect = () => {
-                // Add an empty value to the list
-                const newValues = [...displayValues, ''];
-                handleFieldValueChange(idx, newValues.join(','));
+                const newItems = [
+                    ...displayItems,
+                    { id: '', position: displayItems.length + 1 }
+                ];
+                saveFaqItems(newItems);
             };
 
             const updateSelectValue = (selectIndex: number, value: string) => {
-                const newValues = [...displayValues];
-                newValues[selectIndex] = value;
-                handleFieldValueChange(idx, newValues.join(','));
+                const newItems = [...displayItems];
+                newItems[selectIndex] = { ...newItems[selectIndex], id: value };
+                saveFaqItems(newItems);
             };
 
             const removeSelect = (selectIndex: number) => {
-                // Don't remove if it's the last one
-                if (displayValues.length <= 1) {
-                    handleFieldValueChange(idx, '');
+                if (displayItems.length <= 1) {
+                    saveFaqItems([{ id: '', position: 1 }]);
                     return;
                 }
 
-                const newValues = [...displayValues];
-                newValues.splice(selectIndex, 1);
-                handleFieldValueChange(idx, newValues.join(','));
+                const newItems = [...displayItems];
+                newItems.splice(selectIndex, 1);
+
+                newItems.forEach((item, index) => {
+                    item.position = index + 1;
+                });
+
+                saveFaqItems(newItems);
+            };
+
+            const moveItemUp = (selectIndex: number) => {
+                if (selectIndex === 0) return;
+
+                const newItems = [...displayItems];
+                const temp = newItems[selectIndex].position;
+                newItems[selectIndex].position = newItems[selectIndex - 1].position;
+                newItems[selectIndex - 1].position = temp;
+
+                saveFaqItems(newItems.sort((a, b) => a.position - b.position));
+            };
+
+            const moveItemDown = (selectIndex: number) => {
+                if (selectIndex === displayItems.length - 1) return; // Already at the bottom
+
+                const newItems = [...displayItems];
+                const temp = newItems[selectIndex].position;
+                newItems[selectIndex].position = newItems[selectIndex + 1].position;
+                newItems[selectIndex + 1].position = temp;
+
+                saveFaqItems(newItems.sort((a, b) => a.position - b.position));
             };
 
             return (
                 <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
                     <label className="block mb-1">{builder.label}</label>
                     <div className="space-y-2">
-                        {displayValues.map((value, selectIdx) => (
+                        {displayItems.map((item, selectIdx) => (
                             <div key={`faq-select-${selectIdx}`} className="flex items-center gap-2">
                                 <select
                                     className="w-full p-2 border rounded"
-                                    value={value}
+                                    value={item.id}
                                     onChange={(e) => updateSelectValue(selectIdx, e.target.value)}
                                 >
                                     <option value="">Select Faq</option>
                                     {(faqs || []).map(faq => <option key={faq.id} value={faq.id}>{faq.question}</option>)}
                                 </select>
+                                <div className="flex flex-col">
+                                    <button 
+                                        type="button"
+                                        onClick={() => moveItemUp(selectIdx)}
+                                        className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                        disabled={selectIdx === 0}
+                                    >
+                                        ↑
+                                    </button>
+                                    <button 
+                                        type="button"
+                                        onClick={() => moveItemDown(selectIdx)}
+                                        className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                        disabled={selectIdx === displayItems.length - 1}
+                                    >
+                                        ↓
+                                    </button>
+                                </div>
                                 <button 
                                     type="button"
                                     onClick={() => removeSelect(selectIdx)}
@@ -394,15 +470,15 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                           <div  >
                               <a
                                   onClick={() => moveItemUp(idx)}
-                                  className={' p-2 rounded flex items-center gap-2 hover:cursor-pointer'}
+                                  className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
                               >↑</a>
                               <a
                                   onClick={() => moveItemDown(idx)}
-                                  className={' p-2 rounded flex items-center gap-2 hover:cursor-pointer'}
+                                  className={' p-2 rounded flex items-center gap-2 hover:bg-blue-100'}
                               >↓</a>
                               <a
                                   onClick={() => removeItem(idx)}
-                                  className={' p-2 text-red-600 rounded flex items-center gap-2 hover:cursor-pointer'}
+                                  className={' p-2 text-red-600 rounded flex items-center gap-2 hover:bg-red-100'}
                               >X</a>
                           </div>
                       </div>
@@ -426,7 +502,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                             onClick={handleAddBuilderField}
                             className={'bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600'}
                           >
-                            Add
+                            Add Field
                           </button>
                       </div>
                   </div>
