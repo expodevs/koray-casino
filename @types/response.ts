@@ -40,6 +40,14 @@ export interface Page {
     meta_description: string,
     meta_keywords: string,
     meta_noindex_nofollow: boolean,
+    builds: BuildPage[],
+}
+
+export interface BuildPage {
+    build_id: number,
+    position: number,
+    field_values: string,
+    card_type: string|null,
 }
 
 export interface CategoryCard {

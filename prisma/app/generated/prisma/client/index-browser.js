@@ -257,8 +257,7 @@ exports.Prisma.PageScalarFieldEnum = {
 exports.Prisma.BuilderScalarFieldEnum = {
   id: 'id',
   build_type: 'build_type',
-  label: 'label',
-  fields: 'fields'
+  label: 'label'
 };
 
 exports.Prisma.BuildPageScalarFieldEnum = {
@@ -363,8 +362,7 @@ exports.Prisma.PageOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.BuilderOrderByRelevanceFieldEnum = {
-  label: 'label',
-  fields: 'fields'
+  label: 'label'
 };
 
 exports.Prisma.BuildPageOrderByRelevanceFieldEnum = {
@@ -399,7 +397,9 @@ exports.CardType = exports.$Enums.CardType = {
 
 exports.BuildType = exports.$Enums.BuildType = {
   text: 'text',
-  category: 'category',
+  textarea: 'textarea',
+  htmlEditor: 'htmlEditor',
+  categoryCard: 'categoryCard',
   faq: 'faq'
 };
 

@@ -148,7 +148,9 @@ export type InputType = (typeof InputType)[keyof typeof InputType]
 
 export const BuildType: {
   text: 'text',
-  category: 'category',
+  textarea: 'textarea',
+  htmlEditor: 'htmlEditor',
+  categoryCard: 'categoryCard',
   faq: 'faq'
 };
 
@@ -18384,21 +18386,18 @@ export namespace Prisma {
     id: number | null
     build_type: $Enums.BuildType | null
     label: string | null
-    fields: string | null
   }
 
   export type BuilderMaxAggregateOutputType = {
     id: number | null
     build_type: $Enums.BuildType | null
     label: string | null
-    fields: string | null
   }
 
   export type BuilderCountAggregateOutputType = {
     id: number
     build_type: number
     label: number
-    fields: number
     _all: number
   }
 
@@ -18415,21 +18414,18 @@ export namespace Prisma {
     id?: true
     build_type?: true
     label?: true
-    fields?: true
   }
 
   export type BuilderMaxAggregateInputType = {
     id?: true
     build_type?: true
     label?: true
-    fields?: true
   }
 
   export type BuilderCountAggregateInputType = {
     id?: true
     build_type?: true
     label?: true
-    fields?: true
     _all?: true
   }
 
@@ -18523,7 +18519,6 @@ export namespace Prisma {
     id: number
     build_type: $Enums.BuildType
     label: string
-    fields: string
     _count: BuilderCountAggregateOutputType | null
     _avg: BuilderAvgAggregateOutputType | null
     _sum: BuilderSumAggregateOutputType | null
@@ -18549,7 +18544,6 @@ export namespace Prisma {
     id?: boolean
     build_type?: boolean
     label?: boolean
-    fields?: boolean
     pages?: boolean | Builder$pagesArgs<ExtArgs>
     _count?: boolean | BuilderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["builder"]>
@@ -18560,10 +18554,9 @@ export namespace Prisma {
     id?: boolean
     build_type?: boolean
     label?: boolean
-    fields?: boolean
   }
 
-  export type BuilderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "build_type" | "label" | "fields", ExtArgs["result"]["builder"]>
+  export type BuilderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "build_type" | "label", ExtArgs["result"]["builder"]>
   export type BuilderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     pages?: boolean | Builder$pagesArgs<ExtArgs>
     _count?: boolean | BuilderCountOutputTypeDefaultArgs<ExtArgs>
@@ -18578,7 +18571,6 @@ export namespace Prisma {
       id: number
       build_type: $Enums.BuildType
       label: string
-      fields: string
     }, ExtArgs["result"]["builder"]>
     composites: {}
   }
@@ -18952,7 +18944,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Builder", 'Int'>
     readonly build_type: FieldRef<"Builder", 'BuildType'>
     readonly label: FieldRef<"Builder", 'String'>
-    readonly fields: FieldRef<"Builder", 'String'>
   }
     
 
@@ -20530,8 +20521,7 @@ export namespace Prisma {
   export const BuilderScalarFieldEnum: {
     id: 'id',
     build_type: 'build_type',
-    label: 'label',
-    fields: 'fields'
+    label: 'label'
   };
 
   export type BuilderScalarFieldEnum = (typeof BuilderScalarFieldEnum)[keyof typeof BuilderScalarFieldEnum]
@@ -20690,8 +20680,7 @@ export namespace Prisma {
 
 
   export const BuilderOrderByRelevanceFieldEnum: {
-    label: 'label',
-    fields: 'fields'
+    label: 'label'
   };
 
   export type BuilderOrderByRelevanceFieldEnum = (typeof BuilderOrderByRelevanceFieldEnum)[keyof typeof BuilderOrderByRelevanceFieldEnum]
@@ -21774,7 +21763,6 @@ export namespace Prisma {
     id?: IntFilter<"Builder"> | number
     build_type?: EnumBuildTypeFilter<"Builder"> | $Enums.BuildType
     label?: StringFilter<"Builder"> | string
-    fields?: StringFilter<"Builder"> | string
     pages?: BuildPageListRelationFilter
   }
 
@@ -21782,7 +21770,6 @@ export namespace Prisma {
     id?: SortOrder
     build_type?: SortOrder
     label?: SortOrder
-    fields?: SortOrder
     pages?: BuildPageOrderByRelationAggregateInput
     _relevance?: BuilderOrderByRelevanceInput
   }
@@ -21794,7 +21781,6 @@ export namespace Prisma {
     NOT?: BuilderWhereInput | BuilderWhereInput[]
     build_type?: EnumBuildTypeFilter<"Builder"> | $Enums.BuildType
     label?: StringFilter<"Builder"> | string
-    fields?: StringFilter<"Builder"> | string
     pages?: BuildPageListRelationFilter
   }, "id">
 
@@ -21802,7 +21788,6 @@ export namespace Prisma {
     id?: SortOrder
     build_type?: SortOrder
     label?: SortOrder
-    fields?: SortOrder
     _count?: BuilderCountOrderByAggregateInput
     _avg?: BuilderAvgOrderByAggregateInput
     _max?: BuilderMaxOrderByAggregateInput
@@ -21817,7 +21802,6 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Builder"> | number
     build_type?: EnumBuildTypeWithAggregatesFilter<"Builder"> | $Enums.BuildType
     label?: StringWithAggregatesFilter<"Builder"> | string
-    fields?: StringWithAggregatesFilter<"Builder"> | string
   }
 
   export type BuildPageWhereInput = {
@@ -22838,7 +22822,6 @@ export namespace Prisma {
   export type BuilderCreateInput = {
     build_type?: $Enums.BuildType
     label: string
-    fields: string
     pages?: BuildPageCreateNestedManyWithoutBuildInput
   }
 
@@ -22846,14 +22829,12 @@ export namespace Prisma {
     id?: number
     build_type?: $Enums.BuildType
     label: string
-    fields: string
     pages?: BuildPageUncheckedCreateNestedManyWithoutBuildInput
   }
 
   export type BuilderUpdateInput = {
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
     pages?: BuildPageUpdateManyWithoutBuildNestedInput
   }
 
@@ -22861,7 +22842,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
     pages?: BuildPageUncheckedUpdateManyWithoutBuildNestedInput
   }
 
@@ -22869,20 +22849,17 @@ export namespace Prisma {
     id?: number
     build_type?: $Enums.BuildType
     label: string
-    fields: string
   }
 
   export type BuilderUpdateManyMutationInput = {
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
   }
 
   export type BuilderUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
   }
 
   export type BuildPageCreateInput = {
@@ -23980,7 +23957,6 @@ export namespace Prisma {
     id?: SortOrder
     build_type?: SortOrder
     label?: SortOrder
-    fields?: SortOrder
   }
 
   export type BuilderAvgOrderByAggregateInput = {
@@ -23991,14 +23967,12 @@ export namespace Prisma {
     id?: SortOrder
     build_type?: SortOrder
     label?: SortOrder
-    fields?: SortOrder
   }
 
   export type BuilderMinOrderByAggregateInput = {
     id?: SortOrder
     build_type?: SortOrder
     label?: SortOrder
-    fields?: SortOrder
   }
 
   export type BuilderSumOrderByAggregateInput = {
@@ -26280,14 +26254,12 @@ export namespace Prisma {
   export type BuilderCreateWithoutPagesInput = {
     build_type?: $Enums.BuildType
     label: string
-    fields: string
   }
 
   export type BuilderUncheckedCreateWithoutPagesInput = {
     id?: number
     build_type?: $Enums.BuildType
     label: string
-    fields: string
   }
 
   export type BuilderCreateOrConnectWithoutPagesInput = {
@@ -26335,14 +26307,12 @@ export namespace Prisma {
   export type BuilderUpdateWithoutPagesInput = {
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
   }
 
   export type BuilderUncheckedUpdateWithoutPagesInput = {
     id?: IntFieldUpdateOperationsInput | number
     build_type?: EnumBuildTypeFieldUpdateOperationsInput | $Enums.BuildType
     label?: StringFieldUpdateOperationsInput | string
-    fields?: StringFieldUpdateOperationsInput | string
   }
 
   export type PageUpsertWithoutBuildsInput = {
