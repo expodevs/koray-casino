@@ -13,6 +13,7 @@ import ImagePreview from "@components/file/ImagePreview";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiCasinoOptions} from "@lib/adminRoute";
+import {InputType} from "@prismaClient";
 
 interface EntityFormProps {
     entity?: Casino;
@@ -278,12 +279,46 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                                                 <label className="block mb-1">
                                                     {option.entity?.label || `Option ${idx + 1}`}
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    value={option.value}
-                                                    onChange={(e) => handleOptionValueChange(idx, e.target.value)}
-                                                    className="w-full p-2 border rounded"
-                                                />
+                                                {option.entity?.input_type === InputType.select ? (
+                                                    <div>
+                                                        <select
+                                                            value={option.value}
+                                                            onChange={(e) => handleOptionValueChange(idx, e.target.value)}
+                                                            className="w-full p-2 border rounded"
+                                                        >
+                                                            <option value="">Select Option</option>
+                                                            {option.entity.value.split('|').map((item, optIdx) => (
+                                                                <option key={`select-option-${optIdx}`} value={item.trim()}>
+                                                                    {item.trim()}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                ) : option.entity?.input_type === InputType.image ? (
+                                                    <div>
+                                                        {option.entity?.value ? (
+                                                            <div className="relative aspect-video w-full h-40 mb-2">
+                                                                <Image 
+                                                                    src={option.entity?.value} 
+                                                                    alt={option.entity?.label || ''} 
+                                                                    fill 
+                                                                    className="object-contain"
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="p-4 bg-yellow-100 text-yellow-800 rounded mb-2">
+                                                                You need to set the image in the options
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <input
+                                                        type="text"
+                                                        value={option.value}
+                                                        onChange={(e) => handleOptionValueChange(idx, e.target.value)}
+                                                        className="w-full p-2 border rounded"
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                         <button
