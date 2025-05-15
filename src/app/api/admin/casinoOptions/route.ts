@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 
             const [entities, total] = await prisma.$transaction([
                 prisma.option.findMany({
-                    where: {type: OptionType.card},
+                    where: {type: OptionType.casino},
                     skip,
                     take: limit,
                 }),
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
             }
 
 
-            const entity = await prisma.option.create({data: {...data, type: OptionType.card}});
+            const entity = await prisma.option.create({data: {...data, type: OptionType.casino}});
 
             if (body.newImage && body.newImage.length) {
                 const src = await saveBase64File(body.newImage, optionPath(entity.id));

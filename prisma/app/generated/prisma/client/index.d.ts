@@ -103,6 +103,16 @@ export type Builder = $Result.DefaultSelection<Prisma.$BuilderPayload>
  * 
  */
 export type BuildPage = $Result.DefaultSelection<Prisma.$BuildPagePayload>
+/**
+ * Model Casino
+ * 
+ */
+export type Casino = $Result.DefaultSelection<Prisma.$CasinoPayload>
+/**
+ * Model CasinoOption
+ * 
+ */
+export type CasinoOption = $Result.DefaultSelection<Prisma.$CasinoOptionPayload>
 
 /**
  * Enums
@@ -156,6 +166,14 @@ export const BuildType: {
 
 export type BuildType = (typeof BuildType)[keyof typeof BuildType]
 
+
+export const OptionType: {
+  card: 'card',
+  casino: 'casino'
+};
+
+export type OptionType = (typeof OptionType)[keyof typeof OptionType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -177,6 +195,10 @@ export const InputType: typeof $Enums.InputType
 export type BuildType = $Enums.BuildType
 
 export const BuildType: typeof $Enums.BuildType
+
+export type OptionType = $Enums.OptionType
+
+export const OptionType: typeof $Enums.OptionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -482,6 +504,26 @@ export class PrismaClient<
     * ```
     */
   get buildPage(): Prisma.BuildPageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.casino`: Exposes CRUD operations for the **Casino** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Casinos
+    * const casinos = await prisma.casino.findMany()
+    * ```
+    */
+  get casino(): Prisma.CasinoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.casinoOption`: Exposes CRUD operations for the **CasinoOption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CasinoOptions
+    * const casinoOptions = await prisma.casinoOption.findMany()
+    * ```
+    */
+  get casinoOption(): Prisma.CasinoOptionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -939,7 +981,9 @@ export namespace Prisma {
     CardImage: 'CardImage',
     Page: 'Page',
     Builder: 'Builder',
-    BuildPage: 'BuildPage'
+    BuildPage: 'BuildPage',
+    Casino: 'Casino',
+    CasinoOption: 'CasinoOption'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -958,7 +1002,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "attachment" | "user" | "menu" | "setting" | "robot" | "categoryCard" | "card" | "faq" | "faqCard" | "option" | "cardOption" | "iconCard" | "iconCardImage" | "cardIconImage" | "cardImage" | "page" | "builder" | "buildPage"
+      modelProps: "attachment" | "user" | "menu" | "setting" | "robot" | "categoryCard" | "card" | "faq" | "faqCard" | "option" | "cardOption" | "iconCard" | "iconCardImage" | "cardIconImage" | "cardImage" | "page" | "builder" | "buildPage" | "casino" | "casinoOption"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2150,6 +2194,138 @@ export namespace Prisma {
           }
         }
       }
+      Casino: {
+        payload: Prisma.$CasinoPayload<ExtArgs>
+        fields: Prisma.CasinoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CasinoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CasinoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          findFirst: {
+            args: Prisma.CasinoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CasinoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          findMany: {
+            args: Prisma.CasinoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>[]
+          }
+          create: {
+            args: Prisma.CasinoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          createMany: {
+            args: Prisma.CasinoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CasinoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          update: {
+            args: Prisma.CasinoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          deleteMany: {
+            args: Prisma.CasinoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CasinoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CasinoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoPayload>
+          }
+          aggregate: {
+            args: Prisma.CasinoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCasino>
+          }
+          groupBy: {
+            args: Prisma.CasinoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CasinoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CasinoCountArgs<ExtArgs>
+            result: $Utils.Optional<CasinoCountAggregateOutputType> | number
+          }
+        }
+      }
+      CasinoOption: {
+        payload: Prisma.$CasinoOptionPayload<ExtArgs>
+        fields: Prisma.CasinoOptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CasinoOptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CasinoOptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          findFirst: {
+            args: Prisma.CasinoOptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CasinoOptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          findMany: {
+            args: Prisma.CasinoOptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>[]
+          }
+          create: {
+            args: Prisma.CasinoOptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          createMany: {
+            args: Prisma.CasinoOptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CasinoOptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          update: {
+            args: Prisma.CasinoOptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CasinoOptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CasinoOptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CasinoOptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasinoOptionPayload>
+          }
+          aggregate: {
+            args: Prisma.CasinoOptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCasinoOption>
+          }
+          groupBy: {
+            args: Prisma.CasinoOptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CasinoOptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CasinoOptionCountArgs<ExtArgs>
+            result: $Utils.Optional<CasinoOptionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2256,6 +2432,8 @@ export namespace Prisma {
     page?: PageOmit
     builder?: BuilderOmit
     buildPage?: BuildPageOmit
+    casino?: CasinoOmit
+    casinoOption?: CasinoOptionOmit
   }
 
   /* Types for Logging */
@@ -2502,10 +2680,12 @@ export namespace Prisma {
 
   export type OptionCountOutputType = {
     card_options: number
+    casino_options: number
   }
 
   export type OptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     card_options?: boolean | OptionCountOutputTypeCountCard_optionsArgs
+    casino_options?: boolean | OptionCountOutputTypeCountCasino_optionsArgs
   }
 
   // Custom InputTypes
@@ -2524,6 +2704,13 @@ export namespace Prisma {
    */
   export type OptionCountOutputTypeCountCard_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CardOptionWhereInput
+  }
+
+  /**
+   * OptionCountOutputType without action
+   */
+  export type OptionCountOutputTypeCountCasino_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasinoOptionWhereInput
   }
 
 
@@ -2648,6 +2835,37 @@ export namespace Prisma {
    */
   export type BuilderCountOutputTypeCountPagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BuildPageWhereInput
+  }
+
+
+  /**
+   * Count Type CasinoCountOutputType
+   */
+
+  export type CasinoCountOutputType = {
+    options: number
+  }
+
+  export type CasinoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    options?: boolean | CasinoCountOutputTypeCountOptionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CasinoCountOutputType without action
+   */
+  export type CasinoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoCountOutputType
+     */
+    select?: CasinoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CasinoCountOutputType without action
+   */
+  export type CasinoCountOutputTypeCountOptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasinoOptionWhereInput
   }
 
 
@@ -11500,6 +11718,7 @@ export namespace Prisma {
     published: boolean | null
     use_for_filter: boolean | null
     input_type: $Enums.InputType | null
+    type: $Enums.OptionType | null
     label: string | null
     tooltip: string | null
     hash_tag: string | null
@@ -11512,6 +11731,7 @@ export namespace Prisma {
     published: boolean | null
     use_for_filter: boolean | null
     input_type: $Enums.InputType | null
+    type: $Enums.OptionType | null
     label: string | null
     tooltip: string | null
     hash_tag: string | null
@@ -11524,6 +11744,7 @@ export namespace Prisma {
     published: number
     use_for_filter: number
     input_type: number
+    type: number
     label: number
     tooltip: number
     hash_tag: number
@@ -11548,6 +11769,7 @@ export namespace Prisma {
     published?: true
     use_for_filter?: true
     input_type?: true
+    type?: true
     label?: true
     tooltip?: true
     hash_tag?: true
@@ -11560,6 +11782,7 @@ export namespace Prisma {
     published?: true
     use_for_filter?: true
     input_type?: true
+    type?: true
     label?: true
     tooltip?: true
     hash_tag?: true
@@ -11572,6 +11795,7 @@ export namespace Prisma {
     published?: true
     use_for_filter?: true
     input_type?: true
+    type?: true
     label?: true
     tooltip?: true
     hash_tag?: true
@@ -11671,6 +11895,7 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type: $Enums.OptionType
     label: string
     tooltip: string | null
     hash_tag: string | null
@@ -11702,12 +11927,14 @@ export namespace Prisma {
     published?: boolean
     use_for_filter?: boolean
     input_type?: boolean
+    type?: boolean
     label?: boolean
     tooltip?: boolean
     hash_tag?: boolean
     value?: boolean
     position?: boolean
     card_options?: boolean | Option$card_optionsArgs<ExtArgs>
+    casino_options?: boolean | Option$casino_optionsArgs<ExtArgs>
     _count?: boolean | OptionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["option"]>
 
@@ -11718,6 +11945,7 @@ export namespace Prisma {
     published?: boolean
     use_for_filter?: boolean
     input_type?: boolean
+    type?: boolean
     label?: boolean
     tooltip?: boolean
     hash_tag?: boolean
@@ -11725,9 +11953,10 @@ export namespace Prisma {
     position?: boolean
   }
 
-  export type OptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "published" | "use_for_filter" | "input_type" | "label" | "tooltip" | "hash_tag" | "value" | "position", ExtArgs["result"]["option"]>
+  export type OptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "published" | "use_for_filter" | "input_type" | "type" | "label" | "tooltip" | "hash_tag" | "value" | "position", ExtArgs["result"]["option"]>
   export type OptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     card_options?: boolean | Option$card_optionsArgs<ExtArgs>
+    casino_options?: boolean | Option$casino_optionsArgs<ExtArgs>
     _count?: boolean | OptionCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -11735,12 +11964,14 @@ export namespace Prisma {
     name: "Option"
     objects: {
       card_options: Prisma.$CardOptionPayload<ExtArgs>[]
+      casino_options: Prisma.$CasinoOptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       published: boolean
       use_for_filter: boolean
       input_type: $Enums.InputType
+      type: $Enums.OptionType
       label: string
       tooltip: string | null
       hash_tag: string | null
@@ -12087,6 +12318,7 @@ export namespace Prisma {
   export interface Prisma__OptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     card_options<T extends Option$card_optionsArgs<ExtArgs> = {}>(args?: Subset<T, Option$card_optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CardOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    casino_options<T extends Option$casino_optionsArgs<ExtArgs> = {}>(args?: Subset<T, Option$casino_optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12120,6 +12352,7 @@ export namespace Prisma {
     readonly published: FieldRef<"Option", 'Boolean'>
     readonly use_for_filter: FieldRef<"Option", 'Boolean'>
     readonly input_type: FieldRef<"Option", 'InputType'>
+    readonly type: FieldRef<"Option", 'OptionType'>
     readonly label: FieldRef<"Option", 'String'>
     readonly tooltip: FieldRef<"Option", 'String'>
     readonly hash_tag: FieldRef<"Option", 'String'>
@@ -12489,6 +12722,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CardOptionScalarFieldEnum | CardOptionScalarFieldEnum[]
+  }
+
+  /**
+   * Option.casino_options
+   */
+  export type Option$casino_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    where?: CasinoOptionWhereInput
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    cursor?: CasinoOptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CasinoOptionScalarFieldEnum | CasinoOptionScalarFieldEnum[]
   }
 
   /**
@@ -20320,6 +20577,2003 @@ export namespace Prisma {
 
 
   /**
+   * Model Casino
+   */
+
+  export type AggregateCasino = {
+    _count: CasinoCountAggregateOutputType | null
+    _avg: CasinoAvgAggregateOutputType | null
+    _sum: CasinoSumAggregateOutputType | null
+    _min: CasinoMinAggregateOutputType | null
+    _max: CasinoMaxAggregateOutputType | null
+  }
+
+  export type CasinoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CasinoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CasinoMinAggregateOutputType = {
+    id: number | null
+    published: boolean | null
+    name: string | null
+    tooltip: string | null
+    image: string | null
+    referral_key: string | null
+    referral_link: string | null
+    full_review_label: string | null
+    full_review_link: string | null
+  }
+
+  export type CasinoMaxAggregateOutputType = {
+    id: number | null
+    published: boolean | null
+    name: string | null
+    tooltip: string | null
+    image: string | null
+    referral_key: string | null
+    referral_link: string | null
+    full_review_label: string | null
+    full_review_link: string | null
+  }
+
+  export type CasinoCountAggregateOutputType = {
+    id: number
+    published: number
+    name: number
+    tooltip: number
+    image: number
+    referral_key: number
+    referral_link: number
+    full_review_label: number
+    full_review_link: number
+    _all: number
+  }
+
+
+  export type CasinoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type CasinoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type CasinoMinAggregateInputType = {
+    id?: true
+    published?: true
+    name?: true
+    tooltip?: true
+    image?: true
+    referral_key?: true
+    referral_link?: true
+    full_review_label?: true
+    full_review_link?: true
+  }
+
+  export type CasinoMaxAggregateInputType = {
+    id?: true
+    published?: true
+    name?: true
+    tooltip?: true
+    image?: true
+    referral_key?: true
+    referral_link?: true
+    full_review_label?: true
+    full_review_link?: true
+  }
+
+  export type CasinoCountAggregateInputType = {
+    id?: true
+    published?: true
+    name?: true
+    tooltip?: true
+    image?: true
+    referral_key?: true
+    referral_link?: true
+    full_review_label?: true
+    full_review_link?: true
+    _all?: true
+  }
+
+  export type CasinoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Casino to aggregate.
+     */
+    where?: CasinoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Casinos to fetch.
+     */
+    orderBy?: CasinoOrderByWithRelationInput | CasinoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CasinoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Casinos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Casinos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Casinos
+    **/
+    _count?: true | CasinoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CasinoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CasinoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CasinoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CasinoMaxAggregateInputType
+  }
+
+  export type GetCasinoAggregateType<T extends CasinoAggregateArgs> = {
+        [P in keyof T & keyof AggregateCasino]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCasino[P]>
+      : GetScalarType<T[P], AggregateCasino[P]>
+  }
+
+
+
+
+  export type CasinoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasinoWhereInput
+    orderBy?: CasinoOrderByWithAggregationInput | CasinoOrderByWithAggregationInput[]
+    by: CasinoScalarFieldEnum[] | CasinoScalarFieldEnum
+    having?: CasinoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CasinoCountAggregateInputType | true
+    _avg?: CasinoAvgAggregateInputType
+    _sum?: CasinoSumAggregateInputType
+    _min?: CasinoMinAggregateInputType
+    _max?: CasinoMaxAggregateInputType
+  }
+
+  export type CasinoGroupByOutputType = {
+    id: number
+    published: boolean
+    name: string
+    tooltip: string | null
+    image: string
+    referral_key: string
+    referral_link: string | null
+    full_review_label: string | null
+    full_review_link: string | null
+    _count: CasinoCountAggregateOutputType | null
+    _avg: CasinoAvgAggregateOutputType | null
+    _sum: CasinoSumAggregateOutputType | null
+    _min: CasinoMinAggregateOutputType | null
+    _max: CasinoMaxAggregateOutputType | null
+  }
+
+  type GetCasinoGroupByPayload<T extends CasinoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CasinoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CasinoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CasinoGroupByOutputType[P]>
+            : GetScalarType<T[P], CasinoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CasinoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    published?: boolean
+    name?: boolean
+    tooltip?: boolean
+    image?: boolean
+    referral_key?: boolean
+    referral_link?: boolean
+    full_review_label?: boolean
+    full_review_link?: boolean
+    options?: boolean | Casino$optionsArgs<ExtArgs>
+    _count?: boolean | CasinoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casino"]>
+
+
+
+  export type CasinoSelectScalar = {
+    id?: boolean
+    published?: boolean
+    name?: boolean
+    tooltip?: boolean
+    image?: boolean
+    referral_key?: boolean
+    referral_link?: boolean
+    full_review_label?: boolean
+    full_review_link?: boolean
+  }
+
+  export type CasinoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "published" | "name" | "tooltip" | "image" | "referral_key" | "referral_link" | "full_review_label" | "full_review_link", ExtArgs["result"]["casino"]>
+  export type CasinoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    options?: boolean | Casino$optionsArgs<ExtArgs>
+    _count?: boolean | CasinoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $CasinoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Casino"
+    objects: {
+      options: Prisma.$CasinoOptionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      published: boolean
+      name: string
+      tooltip: string | null
+      image: string
+      referral_key: string
+      referral_link: string | null
+      full_review_label: string | null
+      full_review_link: string | null
+    }, ExtArgs["result"]["casino"]>
+    composites: {}
+  }
+
+  type CasinoGetPayload<S extends boolean | null | undefined | CasinoDefaultArgs> = $Result.GetResult<Prisma.$CasinoPayload, S>
+
+  type CasinoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CasinoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CasinoCountAggregateInputType | true
+    }
+
+  export interface CasinoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Casino'], meta: { name: 'Casino' } }
+    /**
+     * Find zero or one Casino that matches the filter.
+     * @param {CasinoFindUniqueArgs} args - Arguments to find a Casino
+     * @example
+     * // Get one Casino
+     * const casino = await prisma.casino.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CasinoFindUniqueArgs>(args: SelectSubset<T, CasinoFindUniqueArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Casino that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CasinoFindUniqueOrThrowArgs} args - Arguments to find a Casino
+     * @example
+     * // Get one Casino
+     * const casino = await prisma.casino.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CasinoFindUniqueOrThrowArgs>(args: SelectSubset<T, CasinoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Casino that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoFindFirstArgs} args - Arguments to find a Casino
+     * @example
+     * // Get one Casino
+     * const casino = await prisma.casino.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CasinoFindFirstArgs>(args?: SelectSubset<T, CasinoFindFirstArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Casino that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoFindFirstOrThrowArgs} args - Arguments to find a Casino
+     * @example
+     * // Get one Casino
+     * const casino = await prisma.casino.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CasinoFindFirstOrThrowArgs>(args?: SelectSubset<T, CasinoFindFirstOrThrowArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Casinos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Casinos
+     * const casinos = await prisma.casino.findMany()
+     * 
+     * // Get first 10 Casinos
+     * const casinos = await prisma.casino.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const casinoWithIdOnly = await prisma.casino.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CasinoFindManyArgs>(args?: SelectSubset<T, CasinoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Casino.
+     * @param {CasinoCreateArgs} args - Arguments to create a Casino.
+     * @example
+     * // Create one Casino
+     * const Casino = await prisma.casino.create({
+     *   data: {
+     *     // ... data to create a Casino
+     *   }
+     * })
+     * 
+     */
+    create<T extends CasinoCreateArgs>(args: SelectSubset<T, CasinoCreateArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Casinos.
+     * @param {CasinoCreateManyArgs} args - Arguments to create many Casinos.
+     * @example
+     * // Create many Casinos
+     * const casino = await prisma.casino.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CasinoCreateManyArgs>(args?: SelectSubset<T, CasinoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Casino.
+     * @param {CasinoDeleteArgs} args - Arguments to delete one Casino.
+     * @example
+     * // Delete one Casino
+     * const Casino = await prisma.casino.delete({
+     *   where: {
+     *     // ... filter to delete one Casino
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CasinoDeleteArgs>(args: SelectSubset<T, CasinoDeleteArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Casino.
+     * @param {CasinoUpdateArgs} args - Arguments to update one Casino.
+     * @example
+     * // Update one Casino
+     * const casino = await prisma.casino.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CasinoUpdateArgs>(args: SelectSubset<T, CasinoUpdateArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Casinos.
+     * @param {CasinoDeleteManyArgs} args - Arguments to filter Casinos to delete.
+     * @example
+     * // Delete a few Casinos
+     * const { count } = await prisma.casino.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CasinoDeleteManyArgs>(args?: SelectSubset<T, CasinoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Casinos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Casinos
+     * const casino = await prisma.casino.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CasinoUpdateManyArgs>(args: SelectSubset<T, CasinoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Casino.
+     * @param {CasinoUpsertArgs} args - Arguments to update or create a Casino.
+     * @example
+     * // Update or create a Casino
+     * const casino = await prisma.casino.upsert({
+     *   create: {
+     *     // ... data to create a Casino
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Casino we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CasinoUpsertArgs>(args: SelectSubset<T, CasinoUpsertArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Casinos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoCountArgs} args - Arguments to filter Casinos to count.
+     * @example
+     * // Count the number of Casinos
+     * const count = await prisma.casino.count({
+     *   where: {
+     *     // ... the filter for the Casinos we want to count
+     *   }
+     * })
+    **/
+    count<T extends CasinoCountArgs>(
+      args?: Subset<T, CasinoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CasinoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Casino.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CasinoAggregateArgs>(args: Subset<T, CasinoAggregateArgs>): Prisma.PrismaPromise<GetCasinoAggregateType<T>>
+
+    /**
+     * Group by Casino.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CasinoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CasinoGroupByArgs['orderBy'] }
+        : { orderBy?: CasinoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CasinoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCasinoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Casino model
+   */
+  readonly fields: CasinoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Casino.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CasinoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    options<T extends Casino$optionsArgs<ExtArgs> = {}>(args?: Subset<T, Casino$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Casino model
+   */
+  interface CasinoFieldRefs {
+    readonly id: FieldRef<"Casino", 'Int'>
+    readonly published: FieldRef<"Casino", 'Boolean'>
+    readonly name: FieldRef<"Casino", 'String'>
+    readonly tooltip: FieldRef<"Casino", 'String'>
+    readonly image: FieldRef<"Casino", 'String'>
+    readonly referral_key: FieldRef<"Casino", 'String'>
+    readonly referral_link: FieldRef<"Casino", 'String'>
+    readonly full_review_label: FieldRef<"Casino", 'String'>
+    readonly full_review_link: FieldRef<"Casino", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Casino findUnique
+   */
+  export type CasinoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter, which Casino to fetch.
+     */
+    where: CasinoWhereUniqueInput
+  }
+
+  /**
+   * Casino findUniqueOrThrow
+   */
+  export type CasinoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter, which Casino to fetch.
+     */
+    where: CasinoWhereUniqueInput
+  }
+
+  /**
+   * Casino findFirst
+   */
+  export type CasinoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter, which Casino to fetch.
+     */
+    where?: CasinoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Casinos to fetch.
+     */
+    orderBy?: CasinoOrderByWithRelationInput | CasinoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Casinos.
+     */
+    cursor?: CasinoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Casinos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Casinos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Casinos.
+     */
+    distinct?: CasinoScalarFieldEnum | CasinoScalarFieldEnum[]
+  }
+
+  /**
+   * Casino findFirstOrThrow
+   */
+  export type CasinoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter, which Casino to fetch.
+     */
+    where?: CasinoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Casinos to fetch.
+     */
+    orderBy?: CasinoOrderByWithRelationInput | CasinoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Casinos.
+     */
+    cursor?: CasinoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Casinos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Casinos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Casinos.
+     */
+    distinct?: CasinoScalarFieldEnum | CasinoScalarFieldEnum[]
+  }
+
+  /**
+   * Casino findMany
+   */
+  export type CasinoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter, which Casinos to fetch.
+     */
+    where?: CasinoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Casinos to fetch.
+     */
+    orderBy?: CasinoOrderByWithRelationInput | CasinoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Casinos.
+     */
+    cursor?: CasinoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Casinos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Casinos.
+     */
+    skip?: number
+    distinct?: CasinoScalarFieldEnum | CasinoScalarFieldEnum[]
+  }
+
+  /**
+   * Casino create
+   */
+  export type CasinoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Casino.
+     */
+    data: XOR<CasinoCreateInput, CasinoUncheckedCreateInput>
+  }
+
+  /**
+   * Casino createMany
+   */
+  export type CasinoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Casinos.
+     */
+    data: CasinoCreateManyInput | CasinoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Casino update
+   */
+  export type CasinoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Casino.
+     */
+    data: XOR<CasinoUpdateInput, CasinoUncheckedUpdateInput>
+    /**
+     * Choose, which Casino to update.
+     */
+    where: CasinoWhereUniqueInput
+  }
+
+  /**
+   * Casino updateMany
+   */
+  export type CasinoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Casinos.
+     */
+    data: XOR<CasinoUpdateManyMutationInput, CasinoUncheckedUpdateManyInput>
+    /**
+     * Filter which Casinos to update
+     */
+    where?: CasinoWhereInput
+    /**
+     * Limit how many Casinos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Casino upsert
+   */
+  export type CasinoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Casino to update in case it exists.
+     */
+    where: CasinoWhereUniqueInput
+    /**
+     * In case the Casino found by the `where` argument doesn't exist, create a new Casino with this data.
+     */
+    create: XOR<CasinoCreateInput, CasinoUncheckedCreateInput>
+    /**
+     * In case the Casino was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CasinoUpdateInput, CasinoUncheckedUpdateInput>
+  }
+
+  /**
+   * Casino delete
+   */
+  export type CasinoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+    /**
+     * Filter which Casino to delete.
+     */
+    where: CasinoWhereUniqueInput
+  }
+
+  /**
+   * Casino deleteMany
+   */
+  export type CasinoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Casinos to delete
+     */
+    where?: CasinoWhereInput
+    /**
+     * Limit how many Casinos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Casino.options
+   */
+  export type Casino$optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    where?: CasinoOptionWhereInput
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    cursor?: CasinoOptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CasinoOptionScalarFieldEnum | CasinoOptionScalarFieldEnum[]
+  }
+
+  /**
+   * Casino without action
+   */
+  export type CasinoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Casino
+     */
+    select?: CasinoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Casino
+     */
+    omit?: CasinoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CasinoOption
+   */
+
+  export type AggregateCasinoOption = {
+    _count: CasinoOptionCountAggregateOutputType | null
+    _avg: CasinoOptionAvgAggregateOutputType | null
+    _sum: CasinoOptionSumAggregateOutputType | null
+    _min: CasinoOptionMinAggregateOutputType | null
+    _max: CasinoOptionMaxAggregateOutputType | null
+  }
+
+  export type CasinoOptionAvgAggregateOutputType = {
+    id: number | null
+    option_id: number | null
+    casino_id: number | null
+  }
+
+  export type CasinoOptionSumAggregateOutputType = {
+    id: number | null
+    option_id: number | null
+    casino_id: number | null
+  }
+
+  export type CasinoOptionMinAggregateOutputType = {
+    id: number | null
+    option_id: number | null
+    casino_id: number | null
+    value: string | null
+  }
+
+  export type CasinoOptionMaxAggregateOutputType = {
+    id: number | null
+    option_id: number | null
+    casino_id: number | null
+    value: string | null
+  }
+
+  export type CasinoOptionCountAggregateOutputType = {
+    id: number
+    option_id: number
+    casino_id: number
+    value: number
+    _all: number
+  }
+
+
+  export type CasinoOptionAvgAggregateInputType = {
+    id?: true
+    option_id?: true
+    casino_id?: true
+  }
+
+  export type CasinoOptionSumAggregateInputType = {
+    id?: true
+    option_id?: true
+    casino_id?: true
+  }
+
+  export type CasinoOptionMinAggregateInputType = {
+    id?: true
+    option_id?: true
+    casino_id?: true
+    value?: true
+  }
+
+  export type CasinoOptionMaxAggregateInputType = {
+    id?: true
+    option_id?: true
+    casino_id?: true
+    value?: true
+  }
+
+  export type CasinoOptionCountAggregateInputType = {
+    id?: true
+    option_id?: true
+    casino_id?: true
+    value?: true
+    _all?: true
+  }
+
+  export type CasinoOptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasinoOption to aggregate.
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasinoOptions to fetch.
+     */
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CasinoOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasinoOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasinoOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CasinoOptions
+    **/
+    _count?: true | CasinoOptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CasinoOptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CasinoOptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CasinoOptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CasinoOptionMaxAggregateInputType
+  }
+
+  export type GetCasinoOptionAggregateType<T extends CasinoOptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCasinoOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCasinoOption[P]>
+      : GetScalarType<T[P], AggregateCasinoOption[P]>
+  }
+
+
+
+
+  export type CasinoOptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasinoOptionWhereInput
+    orderBy?: CasinoOptionOrderByWithAggregationInput | CasinoOptionOrderByWithAggregationInput[]
+    by: CasinoOptionScalarFieldEnum[] | CasinoOptionScalarFieldEnum
+    having?: CasinoOptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CasinoOptionCountAggregateInputType | true
+    _avg?: CasinoOptionAvgAggregateInputType
+    _sum?: CasinoOptionSumAggregateInputType
+    _min?: CasinoOptionMinAggregateInputType
+    _max?: CasinoOptionMaxAggregateInputType
+  }
+
+  export type CasinoOptionGroupByOutputType = {
+    id: number
+    option_id: number
+    casino_id: number
+    value: string
+    _count: CasinoOptionCountAggregateOutputType | null
+    _avg: CasinoOptionAvgAggregateOutputType | null
+    _sum: CasinoOptionSumAggregateOutputType | null
+    _min: CasinoOptionMinAggregateOutputType | null
+    _max: CasinoOptionMaxAggregateOutputType | null
+  }
+
+  type GetCasinoOptionGroupByPayload<T extends CasinoOptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CasinoOptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CasinoOptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CasinoOptionGroupByOutputType[P]>
+            : GetScalarType<T[P], CasinoOptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CasinoOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    option_id?: boolean
+    casino_id?: boolean
+    value?: boolean
+    casino?: boolean | CasinoDefaultArgs<ExtArgs>
+    entity?: boolean | OptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casinoOption"]>
+
+
+
+  export type CasinoOptionSelectScalar = {
+    id?: boolean
+    option_id?: boolean
+    casino_id?: boolean
+    value?: boolean
+  }
+
+  export type CasinoOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "option_id" | "casino_id" | "value", ExtArgs["result"]["casinoOption"]>
+  export type CasinoOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    casino?: boolean | CasinoDefaultArgs<ExtArgs>
+    entity?: boolean | OptionDefaultArgs<ExtArgs>
+  }
+
+  export type $CasinoOptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CasinoOption"
+    objects: {
+      casino: Prisma.$CasinoPayload<ExtArgs>
+      entity: Prisma.$OptionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      option_id: number
+      casino_id: number
+      value: string
+    }, ExtArgs["result"]["casinoOption"]>
+    composites: {}
+  }
+
+  type CasinoOptionGetPayload<S extends boolean | null | undefined | CasinoOptionDefaultArgs> = $Result.GetResult<Prisma.$CasinoOptionPayload, S>
+
+  type CasinoOptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CasinoOptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CasinoOptionCountAggregateInputType | true
+    }
+
+  export interface CasinoOptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CasinoOption'], meta: { name: 'CasinoOption' } }
+    /**
+     * Find zero or one CasinoOption that matches the filter.
+     * @param {CasinoOptionFindUniqueArgs} args - Arguments to find a CasinoOption
+     * @example
+     * // Get one CasinoOption
+     * const casinoOption = await prisma.casinoOption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CasinoOptionFindUniqueArgs>(args: SelectSubset<T, CasinoOptionFindUniqueArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CasinoOption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CasinoOptionFindUniqueOrThrowArgs} args - Arguments to find a CasinoOption
+     * @example
+     * // Get one CasinoOption
+     * const casinoOption = await prisma.casinoOption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CasinoOptionFindUniqueOrThrowArgs>(args: SelectSubset<T, CasinoOptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasinoOption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionFindFirstArgs} args - Arguments to find a CasinoOption
+     * @example
+     * // Get one CasinoOption
+     * const casinoOption = await prisma.casinoOption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CasinoOptionFindFirstArgs>(args?: SelectSubset<T, CasinoOptionFindFirstArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasinoOption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionFindFirstOrThrowArgs} args - Arguments to find a CasinoOption
+     * @example
+     * // Get one CasinoOption
+     * const casinoOption = await prisma.casinoOption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CasinoOptionFindFirstOrThrowArgs>(args?: SelectSubset<T, CasinoOptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CasinoOptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CasinoOptions
+     * const casinoOptions = await prisma.casinoOption.findMany()
+     * 
+     * // Get first 10 CasinoOptions
+     * const casinoOptions = await prisma.casinoOption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const casinoOptionWithIdOnly = await prisma.casinoOption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CasinoOptionFindManyArgs>(args?: SelectSubset<T, CasinoOptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CasinoOption.
+     * @param {CasinoOptionCreateArgs} args - Arguments to create a CasinoOption.
+     * @example
+     * // Create one CasinoOption
+     * const CasinoOption = await prisma.casinoOption.create({
+     *   data: {
+     *     // ... data to create a CasinoOption
+     *   }
+     * })
+     * 
+     */
+    create<T extends CasinoOptionCreateArgs>(args: SelectSubset<T, CasinoOptionCreateArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CasinoOptions.
+     * @param {CasinoOptionCreateManyArgs} args - Arguments to create many CasinoOptions.
+     * @example
+     * // Create many CasinoOptions
+     * const casinoOption = await prisma.casinoOption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CasinoOptionCreateManyArgs>(args?: SelectSubset<T, CasinoOptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CasinoOption.
+     * @param {CasinoOptionDeleteArgs} args - Arguments to delete one CasinoOption.
+     * @example
+     * // Delete one CasinoOption
+     * const CasinoOption = await prisma.casinoOption.delete({
+     *   where: {
+     *     // ... filter to delete one CasinoOption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CasinoOptionDeleteArgs>(args: SelectSubset<T, CasinoOptionDeleteArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CasinoOption.
+     * @param {CasinoOptionUpdateArgs} args - Arguments to update one CasinoOption.
+     * @example
+     * // Update one CasinoOption
+     * const casinoOption = await prisma.casinoOption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CasinoOptionUpdateArgs>(args: SelectSubset<T, CasinoOptionUpdateArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CasinoOptions.
+     * @param {CasinoOptionDeleteManyArgs} args - Arguments to filter CasinoOptions to delete.
+     * @example
+     * // Delete a few CasinoOptions
+     * const { count } = await prisma.casinoOption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CasinoOptionDeleteManyArgs>(args?: SelectSubset<T, CasinoOptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CasinoOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CasinoOptions
+     * const casinoOption = await prisma.casinoOption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CasinoOptionUpdateManyArgs>(args: SelectSubset<T, CasinoOptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CasinoOption.
+     * @param {CasinoOptionUpsertArgs} args - Arguments to update or create a CasinoOption.
+     * @example
+     * // Update or create a CasinoOption
+     * const casinoOption = await prisma.casinoOption.upsert({
+     *   create: {
+     *     // ... data to create a CasinoOption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CasinoOption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CasinoOptionUpsertArgs>(args: SelectSubset<T, CasinoOptionUpsertArgs<ExtArgs>>): Prisma__CasinoOptionClient<$Result.GetResult<Prisma.$CasinoOptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CasinoOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionCountArgs} args - Arguments to filter CasinoOptions to count.
+     * @example
+     * // Count the number of CasinoOptions
+     * const count = await prisma.casinoOption.count({
+     *   where: {
+     *     // ... the filter for the CasinoOptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CasinoOptionCountArgs>(
+      args?: Subset<T, CasinoOptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CasinoOptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CasinoOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CasinoOptionAggregateArgs>(args: Subset<T, CasinoOptionAggregateArgs>): Prisma.PrismaPromise<GetCasinoOptionAggregateType<T>>
+
+    /**
+     * Group by CasinoOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasinoOptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CasinoOptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CasinoOptionGroupByArgs['orderBy'] }
+        : { orderBy?: CasinoOptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CasinoOptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCasinoOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CasinoOption model
+   */
+  readonly fields: CasinoOptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CasinoOption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CasinoOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    casino<T extends CasinoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CasinoDefaultArgs<ExtArgs>>): Prisma__CasinoClient<$Result.GetResult<Prisma.$CasinoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    entity<T extends OptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OptionDefaultArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CasinoOption model
+   */
+  interface CasinoOptionFieldRefs {
+    readonly id: FieldRef<"CasinoOption", 'Int'>
+    readonly option_id: FieldRef<"CasinoOption", 'Int'>
+    readonly casino_id: FieldRef<"CasinoOption", 'Int'>
+    readonly value: FieldRef<"CasinoOption", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CasinoOption findUnique
+   */
+  export type CasinoOptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which CasinoOption to fetch.
+     */
+    where: CasinoOptionWhereUniqueInput
+  }
+
+  /**
+   * CasinoOption findUniqueOrThrow
+   */
+  export type CasinoOptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which CasinoOption to fetch.
+     */
+    where: CasinoOptionWhereUniqueInput
+  }
+
+  /**
+   * CasinoOption findFirst
+   */
+  export type CasinoOptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which CasinoOption to fetch.
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasinoOptions to fetch.
+     */
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasinoOptions.
+     */
+    cursor?: CasinoOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasinoOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasinoOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasinoOptions.
+     */
+    distinct?: CasinoOptionScalarFieldEnum | CasinoOptionScalarFieldEnum[]
+  }
+
+  /**
+   * CasinoOption findFirstOrThrow
+   */
+  export type CasinoOptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which CasinoOption to fetch.
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasinoOptions to fetch.
+     */
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasinoOptions.
+     */
+    cursor?: CasinoOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasinoOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasinoOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasinoOptions.
+     */
+    distinct?: CasinoOptionScalarFieldEnum | CasinoOptionScalarFieldEnum[]
+  }
+
+  /**
+   * CasinoOption findMany
+   */
+  export type CasinoOptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which CasinoOptions to fetch.
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasinoOptions to fetch.
+     */
+    orderBy?: CasinoOptionOrderByWithRelationInput | CasinoOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CasinoOptions.
+     */
+    cursor?: CasinoOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasinoOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasinoOptions.
+     */
+    skip?: number
+    distinct?: CasinoOptionScalarFieldEnum | CasinoOptionScalarFieldEnum[]
+  }
+
+  /**
+   * CasinoOption create
+   */
+  export type CasinoOptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CasinoOption.
+     */
+    data: XOR<CasinoOptionCreateInput, CasinoOptionUncheckedCreateInput>
+  }
+
+  /**
+   * CasinoOption createMany
+   */
+  export type CasinoOptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CasinoOptions.
+     */
+    data: CasinoOptionCreateManyInput | CasinoOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CasinoOption update
+   */
+  export type CasinoOptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CasinoOption.
+     */
+    data: XOR<CasinoOptionUpdateInput, CasinoOptionUncheckedUpdateInput>
+    /**
+     * Choose, which CasinoOption to update.
+     */
+    where: CasinoOptionWhereUniqueInput
+  }
+
+  /**
+   * CasinoOption updateMany
+   */
+  export type CasinoOptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CasinoOptions.
+     */
+    data: XOR<CasinoOptionUpdateManyMutationInput, CasinoOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which CasinoOptions to update
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * Limit how many CasinoOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasinoOption upsert
+   */
+  export type CasinoOptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CasinoOption to update in case it exists.
+     */
+    where: CasinoOptionWhereUniqueInput
+    /**
+     * In case the CasinoOption found by the `where` argument doesn't exist, create a new CasinoOption with this data.
+     */
+    create: XOR<CasinoOptionCreateInput, CasinoOptionUncheckedCreateInput>
+    /**
+     * In case the CasinoOption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CasinoOptionUpdateInput, CasinoOptionUncheckedUpdateInput>
+  }
+
+  /**
+   * CasinoOption delete
+   */
+  export type CasinoOptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+    /**
+     * Filter which CasinoOption to delete.
+     */
+    where: CasinoOptionWhereUniqueInput
+  }
+
+  /**
+   * CasinoOption deleteMany
+   */
+  export type CasinoOptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasinoOptions to delete
+     */
+    where?: CasinoOptionWhereInput
+    /**
+     * Limit how many CasinoOptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasinoOption without action
+   */
+  export type CasinoOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasinoOption
+     */
+    select?: CasinoOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasinoOption
+     */
+    omit?: CasinoOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasinoOptionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -20446,6 +22700,7 @@ export namespace Prisma {
     published: 'published',
     use_for_filter: 'use_for_filter',
     input_type: 'input_type',
+    type: 'type',
     label: 'label',
     tooltip: 'tooltip',
     hash_tag: 'hash_tag',
@@ -20537,6 +22792,31 @@ export namespace Prisma {
   };
 
   export type BuildPageScalarFieldEnum = (typeof BuildPageScalarFieldEnum)[keyof typeof BuildPageScalarFieldEnum]
+
+
+  export const CasinoScalarFieldEnum: {
+    id: 'id',
+    published: 'published',
+    name: 'name',
+    tooltip: 'tooltip',
+    image: 'image',
+    referral_key: 'referral_key',
+    referral_link: 'referral_link',
+    full_review_label: 'full_review_label',
+    full_review_link: 'full_review_link'
+  };
+
+  export type CasinoScalarFieldEnum = (typeof CasinoScalarFieldEnum)[keyof typeof CasinoScalarFieldEnum]
+
+
+  export const CasinoOptionScalarFieldEnum: {
+    id: 'id',
+    option_id: 'option_id',
+    casino_id: 'casino_id',
+    value: 'value'
+  };
+
+  export type CasinoOptionScalarFieldEnum = (typeof CasinoOptionScalarFieldEnum)[keyof typeof CasinoOptionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20694,6 +22974,26 @@ export namespace Prisma {
   export type BuildPageOrderByRelevanceFieldEnum = (typeof BuildPageOrderByRelevanceFieldEnum)[keyof typeof BuildPageOrderByRelevanceFieldEnum]
 
 
+  export const CasinoOrderByRelevanceFieldEnum: {
+    name: 'name',
+    tooltip: 'tooltip',
+    image: 'image',
+    referral_key: 'referral_key',
+    referral_link: 'referral_link',
+    full_review_label: 'full_review_label',
+    full_review_link: 'full_review_link'
+  };
+
+  export type CasinoOrderByRelevanceFieldEnum = (typeof CasinoOrderByRelevanceFieldEnum)[keyof typeof CasinoOrderByRelevanceFieldEnum]
+
+
+  export const CasinoOptionOrderByRelevanceFieldEnum: {
+    value: 'value'
+  };
+
+  export type CasinoOptionOrderByRelevanceFieldEnum = (typeof CasinoOptionOrderByRelevanceFieldEnum)[keyof typeof CasinoOptionOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -20752,6 +23052,13 @@ export namespace Prisma {
    * Reference to a field of type 'CardType'
    */
   export type EnumCardTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardType'>
+    
+
+
+  /**
+   * Reference to a field of type 'OptionType'
+   */
+  export type EnumOptionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OptionType'>
     
 
 
@@ -21350,12 +23657,14 @@ export namespace Prisma {
     published?: BoolFilter<"Option"> | boolean
     use_for_filter?: BoolFilter<"Option"> | boolean
     input_type?: EnumInputTypeFilter<"Option"> | $Enums.InputType
+    type?: EnumOptionTypeFilter<"Option"> | $Enums.OptionType
     label?: StringFilter<"Option"> | string
     tooltip?: StringNullableFilter<"Option"> | string | null
     hash_tag?: StringNullableFilter<"Option"> | string | null
     value?: StringFilter<"Option"> | string
     position?: IntNullableFilter<"Option"> | number | null
     card_options?: CardOptionListRelationFilter
+    casino_options?: CasinoOptionListRelationFilter
   }
 
   export type OptionOrderByWithRelationInput = {
@@ -21363,12 +23672,14 @@ export namespace Prisma {
     published?: SortOrder
     use_for_filter?: SortOrder
     input_type?: SortOrder
+    type?: SortOrder
     label?: SortOrder
     tooltip?: SortOrderInput | SortOrder
     hash_tag?: SortOrderInput | SortOrder
     value?: SortOrder
     position?: SortOrderInput | SortOrder
     card_options?: CardOptionOrderByRelationAggregateInput
+    casino_options?: CasinoOptionOrderByRelationAggregateInput
     _relevance?: OptionOrderByRelevanceInput
   }
 
@@ -21380,12 +23691,14 @@ export namespace Prisma {
     published?: BoolFilter<"Option"> | boolean
     use_for_filter?: BoolFilter<"Option"> | boolean
     input_type?: EnumInputTypeFilter<"Option"> | $Enums.InputType
+    type?: EnumOptionTypeFilter<"Option"> | $Enums.OptionType
     label?: StringFilter<"Option"> | string
     tooltip?: StringNullableFilter<"Option"> | string | null
     hash_tag?: StringNullableFilter<"Option"> | string | null
     value?: StringFilter<"Option"> | string
     position?: IntNullableFilter<"Option"> | number | null
     card_options?: CardOptionListRelationFilter
+    casino_options?: CasinoOptionListRelationFilter
   }, "id">
 
   export type OptionOrderByWithAggregationInput = {
@@ -21393,6 +23706,7 @@ export namespace Prisma {
     published?: SortOrder
     use_for_filter?: SortOrder
     input_type?: SortOrder
+    type?: SortOrder
     label?: SortOrder
     tooltip?: SortOrderInput | SortOrder
     hash_tag?: SortOrderInput | SortOrder
@@ -21413,6 +23727,7 @@ export namespace Prisma {
     published?: BoolWithAggregatesFilter<"Option"> | boolean
     use_for_filter?: BoolWithAggregatesFilter<"Option"> | boolean
     input_type?: EnumInputTypeWithAggregatesFilter<"Option"> | $Enums.InputType
+    type?: EnumOptionTypeWithAggregatesFilter<"Option"> | $Enums.OptionType
     label?: StringWithAggregatesFilter<"Option"> | string
     tooltip?: StringNullableWithAggregatesFilter<"Option"> | string | null
     hash_tag?: StringNullableWithAggregatesFilter<"Option"> | string | null
@@ -21868,6 +24183,140 @@ export namespace Prisma {
     position?: IntWithAggregatesFilter<"BuildPage"> | number
     field_values?: StringWithAggregatesFilter<"BuildPage"> | string
     card_type?: StringNullableWithAggregatesFilter<"BuildPage"> | string | null
+  }
+
+  export type CasinoWhereInput = {
+    AND?: CasinoWhereInput | CasinoWhereInput[]
+    OR?: CasinoWhereInput[]
+    NOT?: CasinoWhereInput | CasinoWhereInput[]
+    id?: IntFilter<"Casino"> | number
+    published?: BoolFilter<"Casino"> | boolean
+    name?: StringFilter<"Casino"> | string
+    tooltip?: StringNullableFilter<"Casino"> | string | null
+    image?: StringFilter<"Casino"> | string
+    referral_key?: StringFilter<"Casino"> | string
+    referral_link?: StringNullableFilter<"Casino"> | string | null
+    full_review_label?: StringNullableFilter<"Casino"> | string | null
+    full_review_link?: StringNullableFilter<"Casino"> | string | null
+    options?: CasinoOptionListRelationFilter
+  }
+
+  export type CasinoOrderByWithRelationInput = {
+    id?: SortOrder
+    published?: SortOrder
+    name?: SortOrder
+    tooltip?: SortOrderInput | SortOrder
+    image?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrderInput | SortOrder
+    full_review_label?: SortOrderInput | SortOrder
+    full_review_link?: SortOrderInput | SortOrder
+    options?: CasinoOptionOrderByRelationAggregateInput
+    _relevance?: CasinoOrderByRelevanceInput
+  }
+
+  export type CasinoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    referral_key?: string
+    AND?: CasinoWhereInput | CasinoWhereInput[]
+    OR?: CasinoWhereInput[]
+    NOT?: CasinoWhereInput | CasinoWhereInput[]
+    published?: BoolFilter<"Casino"> | boolean
+    name?: StringFilter<"Casino"> | string
+    tooltip?: StringNullableFilter<"Casino"> | string | null
+    image?: StringFilter<"Casino"> | string
+    referral_link?: StringNullableFilter<"Casino"> | string | null
+    full_review_label?: StringNullableFilter<"Casino"> | string | null
+    full_review_link?: StringNullableFilter<"Casino"> | string | null
+    options?: CasinoOptionListRelationFilter
+  }, "id" | "referral_key">
+
+  export type CasinoOrderByWithAggregationInput = {
+    id?: SortOrder
+    published?: SortOrder
+    name?: SortOrder
+    tooltip?: SortOrderInput | SortOrder
+    image?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrderInput | SortOrder
+    full_review_label?: SortOrderInput | SortOrder
+    full_review_link?: SortOrderInput | SortOrder
+    _count?: CasinoCountOrderByAggregateInput
+    _avg?: CasinoAvgOrderByAggregateInput
+    _max?: CasinoMaxOrderByAggregateInput
+    _min?: CasinoMinOrderByAggregateInput
+    _sum?: CasinoSumOrderByAggregateInput
+  }
+
+  export type CasinoScalarWhereWithAggregatesInput = {
+    AND?: CasinoScalarWhereWithAggregatesInput | CasinoScalarWhereWithAggregatesInput[]
+    OR?: CasinoScalarWhereWithAggregatesInput[]
+    NOT?: CasinoScalarWhereWithAggregatesInput | CasinoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Casino"> | number
+    published?: BoolWithAggregatesFilter<"Casino"> | boolean
+    name?: StringWithAggregatesFilter<"Casino"> | string
+    tooltip?: StringNullableWithAggregatesFilter<"Casino"> | string | null
+    image?: StringWithAggregatesFilter<"Casino"> | string
+    referral_key?: StringWithAggregatesFilter<"Casino"> | string
+    referral_link?: StringNullableWithAggregatesFilter<"Casino"> | string | null
+    full_review_label?: StringNullableWithAggregatesFilter<"Casino"> | string | null
+    full_review_link?: StringNullableWithAggregatesFilter<"Casino"> | string | null
+  }
+
+  export type CasinoOptionWhereInput = {
+    AND?: CasinoOptionWhereInput | CasinoOptionWhereInput[]
+    OR?: CasinoOptionWhereInput[]
+    NOT?: CasinoOptionWhereInput | CasinoOptionWhereInput[]
+    id?: IntFilter<"CasinoOption"> | number
+    option_id?: IntFilter<"CasinoOption"> | number
+    casino_id?: IntFilter<"CasinoOption"> | number
+    value?: StringFilter<"CasinoOption"> | string
+    casino?: XOR<CasinoScalarRelationFilter, CasinoWhereInput>
+    entity?: XOR<OptionScalarRelationFilter, OptionWhereInput>
+  }
+
+  export type CasinoOptionOrderByWithRelationInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+    value?: SortOrder
+    casino?: CasinoOrderByWithRelationInput
+    entity?: OptionOrderByWithRelationInput
+    _relevance?: CasinoOptionOrderByRelevanceInput
+  }
+
+  export type CasinoOptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: CasinoOptionWhereInput | CasinoOptionWhereInput[]
+    OR?: CasinoOptionWhereInput[]
+    NOT?: CasinoOptionWhereInput | CasinoOptionWhereInput[]
+    option_id?: IntFilter<"CasinoOption"> | number
+    casino_id?: IntFilter<"CasinoOption"> | number
+    value?: StringFilter<"CasinoOption"> | string
+    casino?: XOR<CasinoScalarRelationFilter, CasinoWhereInput>
+    entity?: XOR<OptionScalarRelationFilter, OptionWhereInput>
+  }, "id">
+
+  export type CasinoOptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+    value?: SortOrder
+    _count?: CasinoOptionCountOrderByAggregateInput
+    _avg?: CasinoOptionAvgOrderByAggregateInput
+    _max?: CasinoOptionMaxOrderByAggregateInput
+    _min?: CasinoOptionMinOrderByAggregateInput
+    _sum?: CasinoOptionSumOrderByAggregateInput
+  }
+
+  export type CasinoOptionScalarWhereWithAggregatesInput = {
+    AND?: CasinoOptionScalarWhereWithAggregatesInput | CasinoOptionScalarWhereWithAggregatesInput[]
+    OR?: CasinoOptionScalarWhereWithAggregatesInput[]
+    NOT?: CasinoOptionScalarWhereWithAggregatesInput | CasinoOptionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CasinoOption"> | number
+    option_id?: IntWithAggregatesFilter<"CasinoOption"> | number
+    casino_id?: IntWithAggregatesFilter<"CasinoOption"> | number
+    value?: StringWithAggregatesFilter<"CasinoOption"> | string
   }
 
   export type AttachmentCreateInput = {
@@ -22441,12 +24890,14 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type?: $Enums.OptionType
     label: string
     tooltip?: string | null
     hash_tag?: string | null
     value: string
     position?: number | null
     card_options?: CardOptionCreateNestedManyWithoutEntityInput
+    casino_options?: CasinoOptionCreateNestedManyWithoutEntityInput
   }
 
   export type OptionUncheckedCreateInput = {
@@ -22454,24 +24905,28 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type?: $Enums.OptionType
     label: string
     tooltip?: string | null
     hash_tag?: string | null
     value: string
     position?: number | null
     card_options?: CardOptionUncheckedCreateNestedManyWithoutEntityInput
+    casino_options?: CasinoOptionUncheckedCreateNestedManyWithoutEntityInput
   }
 
   export type OptionUpdateInput = {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
     value?: StringFieldUpdateOperationsInput | string
     position?: NullableIntFieldUpdateOperationsInput | number | null
     card_options?: CardOptionUpdateManyWithoutEntityNestedInput
+    casino_options?: CasinoOptionUpdateManyWithoutEntityNestedInput
   }
 
   export type OptionUncheckedUpdateInput = {
@@ -22479,12 +24934,14 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
     value?: StringFieldUpdateOperationsInput | string
     position?: NullableIntFieldUpdateOperationsInput | number | null
     card_options?: CardOptionUncheckedUpdateManyWithoutEntityNestedInput
+    casino_options?: CasinoOptionUncheckedUpdateManyWithoutEntityNestedInput
   }
 
   export type OptionCreateManyInput = {
@@ -22492,6 +24949,7 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type?: $Enums.OptionType
     label: string
     tooltip?: string | null
     hash_tag?: string | null
@@ -22503,6 +24961,7 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22515,6 +24974,7 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22918,6 +25378,135 @@ export namespace Prisma {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
     card_type?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CasinoCreateInput = {
+    published?: boolean
+    name: string
+    tooltip?: string | null
+    image: string
+    referral_key: string
+    referral_link?: string | null
+    full_review_label?: string | null
+    full_review_link?: string | null
+    options?: CasinoOptionCreateNestedManyWithoutCasinoInput
+  }
+
+  export type CasinoUncheckedCreateInput = {
+    id?: number
+    published?: boolean
+    name: string
+    tooltip?: string | null
+    image: string
+    referral_key: string
+    referral_link?: string | null
+    full_review_label?: string | null
+    full_review_link?: string | null
+    options?: CasinoOptionUncheckedCreateNestedManyWithoutCasinoInput
+  }
+
+  export type CasinoUpdateInput = {
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: CasinoOptionUpdateManyWithoutCasinoNestedInput
+  }
+
+  export type CasinoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: CasinoOptionUncheckedUpdateManyWithoutCasinoNestedInput
+  }
+
+  export type CasinoCreateManyInput = {
+    id?: number
+    published?: boolean
+    name: string
+    tooltip?: string | null
+    image: string
+    referral_key: string
+    referral_link?: string | null
+    full_review_label?: string | null
+    full_review_link?: string | null
+  }
+
+  export type CasinoUpdateManyMutationInput = {
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CasinoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CasinoOptionCreateInput = {
+    value: string
+    casino: CasinoCreateNestedOneWithoutOptionsInput
+    entity: OptionCreateNestedOneWithoutCasino_optionsInput
+  }
+
+  export type CasinoOptionUncheckedCreateInput = {
+    id?: number
+    option_id: number
+    casino_id: number
+    value: string
+  }
+
+  export type CasinoOptionUpdateInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    casino?: CasinoUpdateOneRequiredWithoutOptionsNestedInput
+    entity?: OptionUpdateOneRequiredWithoutCasino_optionsNestedInput
+  }
+
+  export type CasinoOptionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    option_id?: IntFieldUpdateOperationsInput | number
+    casino_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CasinoOptionCreateManyInput = {
+    id?: number
+    option_id: number
+    casino_id: number
+    value: string
+  }
+
+  export type CasinoOptionUpdateManyMutationInput = {
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CasinoOptionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    option_id?: IntFieldUpdateOperationsInput | number
+    casino_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -23629,6 +26218,23 @@ export namespace Prisma {
     position?: SortOrder
   }
 
+  export type EnumOptionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OptionType | EnumOptionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OptionType[]
+    notIn?: $Enums.OptionType[]
+    not?: NestedEnumOptionTypeFilter<$PrismaModel> | $Enums.OptionType
+  }
+
+  export type CasinoOptionListRelationFilter = {
+    every?: CasinoOptionWhereInput
+    some?: CasinoOptionWhereInput
+    none?: CasinoOptionWhereInput
+  }
+
+  export type CasinoOptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type OptionOrderByRelevanceInput = {
     fields: OptionOrderByRelevanceFieldEnum | OptionOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -23640,6 +26246,7 @@ export namespace Prisma {
     published?: SortOrder
     use_for_filter?: SortOrder
     input_type?: SortOrder
+    type?: SortOrder
     label?: SortOrder
     tooltip?: SortOrder
     hash_tag?: SortOrder
@@ -23657,6 +26264,7 @@ export namespace Prisma {
     published?: SortOrder
     use_for_filter?: SortOrder
     input_type?: SortOrder
+    type?: SortOrder
     label?: SortOrder
     tooltip?: SortOrder
     hash_tag?: SortOrder
@@ -23669,6 +26277,7 @@ export namespace Prisma {
     published?: SortOrder
     use_for_filter?: SortOrder
     input_type?: SortOrder
+    type?: SortOrder
     label?: SortOrder
     tooltip?: SortOrder
     hash_tag?: SortOrder
@@ -23679,6 +26288,16 @@ export namespace Prisma {
   export type OptionSumOrderByAggregateInput = {
     id?: SortOrder
     position?: SortOrder
+  }
+
+  export type EnumOptionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OptionType | EnumOptionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OptionType[]
+    notIn?: $Enums.OptionType[]
+    not?: NestedEnumOptionTypeWithAggregatesFilter<$PrismaModel> | $Enums.OptionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOptionTypeFilter<$PrismaModel>
+    _max?: NestedEnumOptionTypeFilter<$PrismaModel>
   }
 
   export type OptionScalarRelationFilter = {
@@ -24044,6 +26663,100 @@ export namespace Prisma {
     build_id?: SortOrder
     page_id?: SortOrder
     position?: SortOrder
+  }
+
+  export type CasinoOrderByRelevanceInput = {
+    fields: CasinoOrderByRelevanceFieldEnum | CasinoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CasinoCountOrderByAggregateInput = {
+    id?: SortOrder
+    published?: SortOrder
+    name?: SortOrder
+    tooltip?: SortOrder
+    image?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
+    full_review_label?: SortOrder
+    full_review_link?: SortOrder
+  }
+
+  export type CasinoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type CasinoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    published?: SortOrder
+    name?: SortOrder
+    tooltip?: SortOrder
+    image?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
+    full_review_label?: SortOrder
+    full_review_link?: SortOrder
+  }
+
+  export type CasinoMinOrderByAggregateInput = {
+    id?: SortOrder
+    published?: SortOrder
+    name?: SortOrder
+    tooltip?: SortOrder
+    image?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
+    full_review_label?: SortOrder
+    full_review_link?: SortOrder
+  }
+
+  export type CasinoSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type CasinoScalarRelationFilter = {
+    is?: CasinoWhereInput
+    isNot?: CasinoWhereInput
+  }
+
+  export type CasinoOptionOrderByRelevanceInput = {
+    fields: CasinoOptionOrderByRelevanceFieldEnum | CasinoOptionOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CasinoOptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+    value?: SortOrder
+  }
+
+  export type CasinoOptionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+  }
+
+  export type CasinoOptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+    value?: SortOrder
+  }
+
+  export type CasinoOptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
+    value?: SortOrder
+  }
+
+  export type CasinoOptionSumOrderByAggregateInput = {
+    id?: SortOrder
+    option_id?: SortOrder
+    casino_id?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -24459,11 +27172,29 @@ export namespace Prisma {
     connect?: CardOptionWhereUniqueInput | CardOptionWhereUniqueInput[]
   }
 
+  export type CasinoOptionCreateNestedManyWithoutEntityInput = {
+    create?: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput> | CasinoOptionCreateWithoutEntityInput[] | CasinoOptionUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutEntityInput | CasinoOptionCreateOrConnectWithoutEntityInput[]
+    createMany?: CasinoOptionCreateManyEntityInputEnvelope
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+  }
+
   export type CardOptionUncheckedCreateNestedManyWithoutEntityInput = {
     create?: XOR<CardOptionCreateWithoutEntityInput, CardOptionUncheckedCreateWithoutEntityInput> | CardOptionCreateWithoutEntityInput[] | CardOptionUncheckedCreateWithoutEntityInput[]
     connectOrCreate?: CardOptionCreateOrConnectWithoutEntityInput | CardOptionCreateOrConnectWithoutEntityInput[]
     createMany?: CardOptionCreateManyEntityInputEnvelope
     connect?: CardOptionWhereUniqueInput | CardOptionWhereUniqueInput[]
+  }
+
+  export type CasinoOptionUncheckedCreateNestedManyWithoutEntityInput = {
+    create?: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput> | CasinoOptionCreateWithoutEntityInput[] | CasinoOptionUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutEntityInput | CasinoOptionCreateOrConnectWithoutEntityInput[]
+    createMany?: CasinoOptionCreateManyEntityInputEnvelope
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+  }
+
+  export type EnumOptionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.OptionType
   }
 
   export type CardOptionUpdateManyWithoutEntityNestedInput = {
@@ -24480,6 +27211,20 @@ export namespace Prisma {
     deleteMany?: CardOptionScalarWhereInput | CardOptionScalarWhereInput[]
   }
 
+  export type CasinoOptionUpdateManyWithoutEntityNestedInput = {
+    create?: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput> | CasinoOptionCreateWithoutEntityInput[] | CasinoOptionUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutEntityInput | CasinoOptionCreateOrConnectWithoutEntityInput[]
+    upsert?: CasinoOptionUpsertWithWhereUniqueWithoutEntityInput | CasinoOptionUpsertWithWhereUniqueWithoutEntityInput[]
+    createMany?: CasinoOptionCreateManyEntityInputEnvelope
+    set?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    disconnect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    delete?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    update?: CasinoOptionUpdateWithWhereUniqueWithoutEntityInput | CasinoOptionUpdateWithWhereUniqueWithoutEntityInput[]
+    updateMany?: CasinoOptionUpdateManyWithWhereWithoutEntityInput | CasinoOptionUpdateManyWithWhereWithoutEntityInput[]
+    deleteMany?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
+  }
+
   export type CardOptionUncheckedUpdateManyWithoutEntityNestedInput = {
     create?: XOR<CardOptionCreateWithoutEntityInput, CardOptionUncheckedCreateWithoutEntityInput> | CardOptionCreateWithoutEntityInput[] | CardOptionUncheckedCreateWithoutEntityInput[]
     connectOrCreate?: CardOptionCreateOrConnectWithoutEntityInput | CardOptionCreateOrConnectWithoutEntityInput[]
@@ -24492,6 +27237,20 @@ export namespace Prisma {
     update?: CardOptionUpdateWithWhereUniqueWithoutEntityInput | CardOptionUpdateWithWhereUniqueWithoutEntityInput[]
     updateMany?: CardOptionUpdateManyWithWhereWithoutEntityInput | CardOptionUpdateManyWithWhereWithoutEntityInput[]
     deleteMany?: CardOptionScalarWhereInput | CardOptionScalarWhereInput[]
+  }
+
+  export type CasinoOptionUncheckedUpdateManyWithoutEntityNestedInput = {
+    create?: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput> | CasinoOptionCreateWithoutEntityInput[] | CasinoOptionUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutEntityInput | CasinoOptionCreateOrConnectWithoutEntityInput[]
+    upsert?: CasinoOptionUpsertWithWhereUniqueWithoutEntityInput | CasinoOptionUpsertWithWhereUniqueWithoutEntityInput[]
+    createMany?: CasinoOptionCreateManyEntityInputEnvelope
+    set?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    disconnect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    delete?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    update?: CasinoOptionUpdateWithWhereUniqueWithoutEntityInput | CasinoOptionUpdateWithWhereUniqueWithoutEntityInput[]
+    updateMany?: CasinoOptionUpdateManyWithWhereWithoutEntityInput | CasinoOptionUpdateManyWithWhereWithoutEntityInput[]
+    deleteMany?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
   }
 
   export type CardCreateNestedOneWithoutOptionsInput = {
@@ -24778,6 +27537,76 @@ export namespace Prisma {
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutBuildsInput, PageUpdateWithoutBuildsInput>, PageUncheckedUpdateWithoutBuildsInput>
   }
 
+  export type CasinoOptionCreateNestedManyWithoutCasinoInput = {
+    create?: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput> | CasinoOptionCreateWithoutCasinoInput[] | CasinoOptionUncheckedCreateWithoutCasinoInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutCasinoInput | CasinoOptionCreateOrConnectWithoutCasinoInput[]
+    createMany?: CasinoOptionCreateManyCasinoInputEnvelope
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+  }
+
+  export type CasinoOptionUncheckedCreateNestedManyWithoutCasinoInput = {
+    create?: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput> | CasinoOptionCreateWithoutCasinoInput[] | CasinoOptionUncheckedCreateWithoutCasinoInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutCasinoInput | CasinoOptionCreateOrConnectWithoutCasinoInput[]
+    createMany?: CasinoOptionCreateManyCasinoInputEnvelope
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+  }
+
+  export type CasinoOptionUpdateManyWithoutCasinoNestedInput = {
+    create?: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput> | CasinoOptionCreateWithoutCasinoInput[] | CasinoOptionUncheckedCreateWithoutCasinoInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutCasinoInput | CasinoOptionCreateOrConnectWithoutCasinoInput[]
+    upsert?: CasinoOptionUpsertWithWhereUniqueWithoutCasinoInput | CasinoOptionUpsertWithWhereUniqueWithoutCasinoInput[]
+    createMany?: CasinoOptionCreateManyCasinoInputEnvelope
+    set?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    disconnect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    delete?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    update?: CasinoOptionUpdateWithWhereUniqueWithoutCasinoInput | CasinoOptionUpdateWithWhereUniqueWithoutCasinoInput[]
+    updateMany?: CasinoOptionUpdateManyWithWhereWithoutCasinoInput | CasinoOptionUpdateManyWithWhereWithoutCasinoInput[]
+    deleteMany?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
+  }
+
+  export type CasinoOptionUncheckedUpdateManyWithoutCasinoNestedInput = {
+    create?: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput> | CasinoOptionCreateWithoutCasinoInput[] | CasinoOptionUncheckedCreateWithoutCasinoInput[]
+    connectOrCreate?: CasinoOptionCreateOrConnectWithoutCasinoInput | CasinoOptionCreateOrConnectWithoutCasinoInput[]
+    upsert?: CasinoOptionUpsertWithWhereUniqueWithoutCasinoInput | CasinoOptionUpsertWithWhereUniqueWithoutCasinoInput[]
+    createMany?: CasinoOptionCreateManyCasinoInputEnvelope
+    set?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    disconnect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    delete?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    connect?: CasinoOptionWhereUniqueInput | CasinoOptionWhereUniqueInput[]
+    update?: CasinoOptionUpdateWithWhereUniqueWithoutCasinoInput | CasinoOptionUpdateWithWhereUniqueWithoutCasinoInput[]
+    updateMany?: CasinoOptionUpdateManyWithWhereWithoutCasinoInput | CasinoOptionUpdateManyWithWhereWithoutCasinoInput[]
+    deleteMany?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
+  }
+
+  export type CasinoCreateNestedOneWithoutOptionsInput = {
+    create?: XOR<CasinoCreateWithoutOptionsInput, CasinoUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: CasinoCreateOrConnectWithoutOptionsInput
+    connect?: CasinoWhereUniqueInput
+  }
+
+  export type OptionCreateNestedOneWithoutCasino_optionsInput = {
+    create?: XOR<OptionCreateWithoutCasino_optionsInput, OptionUncheckedCreateWithoutCasino_optionsInput>
+    connectOrCreate?: OptionCreateOrConnectWithoutCasino_optionsInput
+    connect?: OptionWhereUniqueInput
+  }
+
+  export type CasinoUpdateOneRequiredWithoutOptionsNestedInput = {
+    create?: XOR<CasinoCreateWithoutOptionsInput, CasinoUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: CasinoCreateOrConnectWithoutOptionsInput
+    upsert?: CasinoUpsertWithoutOptionsInput
+    connect?: CasinoWhereUniqueInput
+    update?: XOR<XOR<CasinoUpdateToOneWithWhereWithoutOptionsInput, CasinoUpdateWithoutOptionsInput>, CasinoUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type OptionUpdateOneRequiredWithoutCasino_optionsNestedInput = {
+    create?: XOR<OptionCreateWithoutCasino_optionsInput, OptionUncheckedCreateWithoutCasino_optionsInput>
+    connectOrCreate?: OptionCreateOrConnectWithoutCasino_optionsInput
+    upsert?: OptionUpsertWithoutCasino_optionsInput
+    connect?: OptionWhereUniqueInput
+    update?: XOR<XOR<OptionUpdateToOneWithWhereWithoutCasino_optionsInput, OptionUpdateWithoutCasino_optionsInput>, OptionUncheckedUpdateWithoutCasino_optionsInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -25049,6 +27878,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCardTypeFilter<$PrismaModel>
     _max?: NestedEnumCardTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOptionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OptionType | EnumOptionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OptionType[]
+    notIn?: $Enums.OptionType[]
+    not?: NestedEnumOptionTypeFilter<$PrismaModel> | $Enums.OptionType
+  }
+
+  export type NestedEnumOptionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OptionType | EnumOptionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OptionType[]
+    notIn?: $Enums.OptionType[]
+    not?: NestedEnumOptionTypeWithAggregatesFilter<$PrismaModel> | $Enums.OptionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOptionTypeFilter<$PrismaModel>
+    _max?: NestedEnumOptionTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumBuildTypeFilter<$PrismaModel = never> = {
@@ -25662,6 +28508,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CasinoOptionCreateWithoutEntityInput = {
+    value: string
+    casino: CasinoCreateNestedOneWithoutOptionsInput
+  }
+
+  export type CasinoOptionUncheckedCreateWithoutEntityInput = {
+    id?: number
+    casino_id: number
+    value: string
+  }
+
+  export type CasinoOptionCreateOrConnectWithoutEntityInput = {
+    where: CasinoOptionWhereUniqueInput
+    create: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput>
+  }
+
+  export type CasinoOptionCreateManyEntityInputEnvelope = {
+    data: CasinoOptionCreateManyEntityInput | CasinoOptionCreateManyEntityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CardOptionUpsertWithWhereUniqueWithoutEntityInput = {
     where: CardOptionWhereUniqueInput
     update: XOR<CardOptionUpdateWithoutEntityInput, CardOptionUncheckedUpdateWithoutEntityInput>
@@ -25676,6 +28543,32 @@ export namespace Prisma {
   export type CardOptionUpdateManyWithWhereWithoutEntityInput = {
     where: CardOptionScalarWhereInput
     data: XOR<CardOptionUpdateManyMutationInput, CardOptionUncheckedUpdateManyWithoutEntityInput>
+  }
+
+  export type CasinoOptionUpsertWithWhereUniqueWithoutEntityInput = {
+    where: CasinoOptionWhereUniqueInput
+    update: XOR<CasinoOptionUpdateWithoutEntityInput, CasinoOptionUncheckedUpdateWithoutEntityInput>
+    create: XOR<CasinoOptionCreateWithoutEntityInput, CasinoOptionUncheckedCreateWithoutEntityInput>
+  }
+
+  export type CasinoOptionUpdateWithWhereUniqueWithoutEntityInput = {
+    where: CasinoOptionWhereUniqueInput
+    data: XOR<CasinoOptionUpdateWithoutEntityInput, CasinoOptionUncheckedUpdateWithoutEntityInput>
+  }
+
+  export type CasinoOptionUpdateManyWithWhereWithoutEntityInput = {
+    where: CasinoOptionScalarWhereInput
+    data: XOR<CasinoOptionUpdateManyMutationInput, CasinoOptionUncheckedUpdateManyWithoutEntityInput>
+  }
+
+  export type CasinoOptionScalarWhereInput = {
+    AND?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
+    OR?: CasinoOptionScalarWhereInput[]
+    NOT?: CasinoOptionScalarWhereInput | CasinoOptionScalarWhereInput[]
+    id?: IntFilter<"CasinoOption"> | number
+    option_id?: IntFilter<"CasinoOption"> | number
+    casino_id?: IntFilter<"CasinoOption"> | number
+    value?: StringFilter<"CasinoOption"> | string
   }
 
   export type CardCreateWithoutOptionsInput = {
@@ -25720,11 +28613,13 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type?: $Enums.OptionType
     label: string
     tooltip?: string | null
     hash_tag?: string | null
     value: string
     position?: number | null
+    casino_options?: CasinoOptionCreateNestedManyWithoutEntityInput
   }
 
   export type OptionUncheckedCreateWithoutCard_optionsInput = {
@@ -25732,11 +28627,13 @@ export namespace Prisma {
     published: boolean
     use_for_filter: boolean
     input_type: $Enums.InputType
+    type?: $Enums.OptionType
     label: string
     tooltip?: string | null
     hash_tag?: string | null
     value: string
     position?: number | null
+    casino_options?: CasinoOptionUncheckedCreateNestedManyWithoutEntityInput
   }
 
   export type OptionCreateOrConnectWithoutCard_optionsInput = {
@@ -25803,11 +28700,13 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
     value?: StringFieldUpdateOperationsInput | string
     position?: NullableIntFieldUpdateOperationsInput | number | null
+    casino_options?: CasinoOptionUpdateManyWithoutEntityNestedInput
   }
 
   export type OptionUncheckedUpdateWithoutCard_optionsInput = {
@@ -25815,11 +28714,13 @@ export namespace Prisma {
     published?: BoolFieldUpdateOperationsInput | boolean
     use_for_filter?: BoolFieldUpdateOperationsInput | boolean
     input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
     label?: StringFieldUpdateOperationsInput | string
     tooltip?: NullableStringFieldUpdateOperationsInput | string | null
     hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
     value?: StringFieldUpdateOperationsInput | string
     position?: NullableIntFieldUpdateOperationsInput | number | null
+    casino_options?: CasinoOptionUncheckedUpdateManyWithoutEntityNestedInput
   }
 
   export type IconCardImageCreateWithoutIcon_cardInput = {
@@ -26347,6 +29248,175 @@ export namespace Prisma {
     meta_noindex_nofollow?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type CasinoOptionCreateWithoutCasinoInput = {
+    value: string
+    entity: OptionCreateNestedOneWithoutCasino_optionsInput
+  }
+
+  export type CasinoOptionUncheckedCreateWithoutCasinoInput = {
+    id?: number
+    option_id: number
+    value: string
+  }
+
+  export type CasinoOptionCreateOrConnectWithoutCasinoInput = {
+    where: CasinoOptionWhereUniqueInput
+    create: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput>
+  }
+
+  export type CasinoOptionCreateManyCasinoInputEnvelope = {
+    data: CasinoOptionCreateManyCasinoInput | CasinoOptionCreateManyCasinoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CasinoOptionUpsertWithWhereUniqueWithoutCasinoInput = {
+    where: CasinoOptionWhereUniqueInput
+    update: XOR<CasinoOptionUpdateWithoutCasinoInput, CasinoOptionUncheckedUpdateWithoutCasinoInput>
+    create: XOR<CasinoOptionCreateWithoutCasinoInput, CasinoOptionUncheckedCreateWithoutCasinoInput>
+  }
+
+  export type CasinoOptionUpdateWithWhereUniqueWithoutCasinoInput = {
+    where: CasinoOptionWhereUniqueInput
+    data: XOR<CasinoOptionUpdateWithoutCasinoInput, CasinoOptionUncheckedUpdateWithoutCasinoInput>
+  }
+
+  export type CasinoOptionUpdateManyWithWhereWithoutCasinoInput = {
+    where: CasinoOptionScalarWhereInput
+    data: XOR<CasinoOptionUpdateManyMutationInput, CasinoOptionUncheckedUpdateManyWithoutCasinoInput>
+  }
+
+  export type CasinoCreateWithoutOptionsInput = {
+    published?: boolean
+    name: string
+    tooltip?: string | null
+    image: string
+    referral_key: string
+    referral_link?: string | null
+    full_review_label?: string | null
+    full_review_link?: string | null
+  }
+
+  export type CasinoUncheckedCreateWithoutOptionsInput = {
+    id?: number
+    published?: boolean
+    name: string
+    tooltip?: string | null
+    image: string
+    referral_key: string
+    referral_link?: string | null
+    full_review_label?: string | null
+    full_review_link?: string | null
+  }
+
+  export type CasinoCreateOrConnectWithoutOptionsInput = {
+    where: CasinoWhereUniqueInput
+    create: XOR<CasinoCreateWithoutOptionsInput, CasinoUncheckedCreateWithoutOptionsInput>
+  }
+
+  export type OptionCreateWithoutCasino_optionsInput = {
+    published: boolean
+    use_for_filter: boolean
+    input_type: $Enums.InputType
+    type?: $Enums.OptionType
+    label: string
+    tooltip?: string | null
+    hash_tag?: string | null
+    value: string
+    position?: number | null
+    card_options?: CardOptionCreateNestedManyWithoutEntityInput
+  }
+
+  export type OptionUncheckedCreateWithoutCasino_optionsInput = {
+    id?: number
+    published: boolean
+    use_for_filter: boolean
+    input_type: $Enums.InputType
+    type?: $Enums.OptionType
+    label: string
+    tooltip?: string | null
+    hash_tag?: string | null
+    value: string
+    position?: number | null
+    card_options?: CardOptionUncheckedCreateNestedManyWithoutEntityInput
+  }
+
+  export type OptionCreateOrConnectWithoutCasino_optionsInput = {
+    where: OptionWhereUniqueInput
+    create: XOR<OptionCreateWithoutCasino_optionsInput, OptionUncheckedCreateWithoutCasino_optionsInput>
+  }
+
+  export type CasinoUpsertWithoutOptionsInput = {
+    update: XOR<CasinoUpdateWithoutOptionsInput, CasinoUncheckedUpdateWithoutOptionsInput>
+    create: XOR<CasinoCreateWithoutOptionsInput, CasinoUncheckedCreateWithoutOptionsInput>
+    where?: CasinoWhereInput
+  }
+
+  export type CasinoUpdateToOneWithWhereWithoutOptionsInput = {
+    where?: CasinoWhereInput
+    data: XOR<CasinoUpdateWithoutOptionsInput, CasinoUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type CasinoUpdateWithoutOptionsInput = {
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CasinoUncheckedUpdateWithoutOptionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_label?: NullableStringFieldUpdateOperationsInput | string | null
+    full_review_link?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OptionUpsertWithoutCasino_optionsInput = {
+    update: XOR<OptionUpdateWithoutCasino_optionsInput, OptionUncheckedUpdateWithoutCasino_optionsInput>
+    create: XOR<OptionCreateWithoutCasino_optionsInput, OptionUncheckedCreateWithoutCasino_optionsInput>
+    where?: OptionWhereInput
+  }
+
+  export type OptionUpdateToOneWithWhereWithoutCasino_optionsInput = {
+    where?: OptionWhereInput
+    data: XOR<OptionUpdateWithoutCasino_optionsInput, OptionUncheckedUpdateWithoutCasino_optionsInput>
+  }
+
+  export type OptionUpdateWithoutCasino_optionsInput = {
+    published?: BoolFieldUpdateOperationsInput | boolean
+    use_for_filter?: BoolFieldUpdateOperationsInput | boolean
+    input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
+    label?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: StringFieldUpdateOperationsInput | string
+    position?: NullableIntFieldUpdateOperationsInput | number | null
+    card_options?: CardOptionUpdateManyWithoutEntityNestedInput
+  }
+
+  export type OptionUncheckedUpdateWithoutCasino_optionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    published?: BoolFieldUpdateOperationsInput | boolean
+    use_for_filter?: BoolFieldUpdateOperationsInput | boolean
+    input_type?: EnumInputTypeFieldUpdateOperationsInput | $Enums.InputType
+    type?: EnumOptionTypeFieldUpdateOperationsInput | $Enums.OptionType
+    label?: StringFieldUpdateOperationsInput | string
+    tooltip?: NullableStringFieldUpdateOperationsInput | string | null
+    hash_tag?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: StringFieldUpdateOperationsInput | string
+    position?: NullableIntFieldUpdateOperationsInput | number | null
+    card_options?: CardOptionUncheckedUpdateManyWithoutEntityNestedInput
+  }
+
   export type MenuCreateManyParentInput = {
     id?: number
     type: $Enums.MenuType
@@ -26556,6 +29626,12 @@ export namespace Prisma {
     value: string
   }
 
+  export type CasinoOptionCreateManyEntityInput = {
+    id?: number
+    casino_id: number
+    value: string
+  }
+
   export type CardOptionUpdateWithoutEntityInput = {
     value?: StringFieldUpdateOperationsInput | string
     card?: CardUpdateOneRequiredWithoutOptionsNestedInput
@@ -26570,6 +29646,23 @@ export namespace Prisma {
   export type CardOptionUncheckedUpdateManyWithoutEntityInput = {
     id?: IntFieldUpdateOperationsInput | number
     card_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CasinoOptionUpdateWithoutEntityInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    casino?: CasinoUpdateOneRequiredWithoutOptionsNestedInput
+  }
+
+  export type CasinoOptionUncheckedUpdateWithoutEntityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casino_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CasinoOptionUncheckedUpdateManyWithoutEntityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casino_id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
   }
 
@@ -26681,6 +29774,29 @@ export namespace Prisma {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
     card_type?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CasinoOptionCreateManyCasinoInput = {
+    id?: number
+    option_id: number
+    value: string
+  }
+
+  export type CasinoOptionUpdateWithoutCasinoInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    entity?: OptionUpdateOneRequiredWithoutCasino_optionsNestedInput
+  }
+
+  export type CasinoOptionUncheckedUpdateWithoutCasinoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    option_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CasinoOptionUncheckedUpdateManyWithoutCasinoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    option_id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
   }
 
 

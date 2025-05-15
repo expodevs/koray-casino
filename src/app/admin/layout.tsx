@@ -93,6 +93,14 @@ function Aside() {
                     </li>
                     <li>
                         <Link
+                            href="/admin/casinos"
+                            className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <FaThLarge className="mr-2" /> Casinos
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             href="/admin/categoryCards"
                             className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
@@ -104,7 +112,15 @@ function Aside() {
                             href="/admin/options"
                             className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
-                            <FaTags className="mr-2" /> Options
+                            <FaTags className="mr-2" /> Card Options
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/admin/casinoOptions"
+                            className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <FaTags className="mr-2" /> Casino Options
                         </Link>
                     </li>
                     <li>

@@ -112,16 +112,20 @@ model FaqCard {
 }
 
 model Option {
-  id             Int          @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   published      Boolean
   use_for_filter Boolean
   input_type     InputType
+  type           OptionType     @default(card)
   label          String
   tooltip        String?
   hash_tag       String?
-  value          String       @db.Text
+  value          String         @db.Text
   position       Int?
   card_options   CardOption[]
+  casino_options CasinoOption[]
+
+  @@index([type], map: "Option_type_idx")
 }
 
 model CardOption {
@@ -240,4 +244,34 @@ enum BuildType {
   htmlEditor
   categoryCard
   faq
+}
+
+enum OptionType {
+  card
+  casino
+}
+
+model Casino {
+  id                Int            @id @default(autoincrement())
+  published         Boolean        @default(false)
+  name              String
+  tooltip           String?
+  image             String
+  referral_key      String         @unique
+  referral_link     String?
+  full_review_label String?
+  full_review_link  String?
+  options           CasinoOption[]
+}
+
+model CasinoOption {
+  id        Int    @id @default(autoincrement())
+  option_id Int
+  casino_id Int
+  value     String
+  casino    Casino @relation(fields: [casino_id], references: [id])
+  entity    Option @relation(fields: [option_id], references: [id])
+
+  @@index([casino_id], map: "CasinoOption_casino_id_fkey")
+  @@index([option_id], map: "CasinoOption_option_id_fkey")
 }

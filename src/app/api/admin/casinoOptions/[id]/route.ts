@@ -24,7 +24,7 @@ export async function GET(req: Request, {params}: requestParams) {
         try {
 
             const entity = await prisma.option.findUnique({
-                where: {id, type: OptionType.card},
+                where: {id, type: OptionType.casino},
             });
 
             if (!entity) {
@@ -61,7 +61,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             }
 
             const entity = await prisma.option.update({
-                where: {id, type: OptionType.card},
+                where: {id, type: OptionType.casino},
                 data,
             });
 
@@ -92,7 +92,7 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             await removeOldImage(id)
 
             await prisma.option.delete({
-                where: {id, type: OptionType.card},
+                where: {id, type: OptionType.casino},
             });
 
             return new NextResponse(null, {status: 204});

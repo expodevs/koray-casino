@@ -5,6 +5,8 @@ const apiRoutes = {
     settings: '/api/admin/settings',
     pages: '/api/admin/pages',
     options: '/api/admin/options',
+    casinos: '/api/admin/casinos',
+    casinoOptions: '/api/admin/casinoOptions',
     menus: '/api/admin/menus',
     faqs: '/api/admin/faqs',
     categoryCards: '/api/admin/categoryCards',
@@ -17,6 +19,8 @@ const pagesRoutes = {
     settings: '/admin/settings',
     pages: '/admin/pages',
     options: '/admin/options',
+    casinos: '/admin/casinos',
+    casinoOptions: '/admin/casinoOptions',
     menus: '/admin/menus',
     faqs: '/admin/faqs',
     categoryCards: '/admin/categoryCards',
@@ -70,6 +74,28 @@ const routeAdminPageOptions = {
     all: pagesRoutes.options,
     create: `${pagesRoutes.options}/create`,
     edit: (id: string): string => `${pagesRoutes.options}/${id}/edit`,
+};
+
+const routeAdminApiCasinos = {
+    all: apiRoutes.casinos,
+    one: (id: string): string => `${apiRoutes.casinos}/${id}`,
+};
+
+const routeAdminPageCasinos = {
+    all: pagesRoutes.casinos,
+    create: `${pagesRoutes.casinos}/create`,
+    edit: (id: string): string => `${pagesRoutes.casinos}/${id}/edit`,
+};
+
+const routeAdminApiCasinoOptions = {
+    all: apiRoutes.casinoOptions,
+    one: (id: string): string => `${apiRoutes.casinoOptions}/${id}`,
+};
+
+const routeAdminPageCasinoOptions = {
+    all: pagesRoutes.casinoOptions,
+    create: `${pagesRoutes.casinoOptions}/create`,
+    edit: (id: string): string => `${pagesRoutes.casinoOptions}/${id}/edit`,
 };
 
 const routeAdminApiMenus = {
@@ -139,6 +165,8 @@ export {
     routeAdminApiFaqs, routeAdminPageFaqs,
     routeAdminApiMenus, routeAdminPageMenus,
     routeAdminApiOptions, routeAdminPageOptions,
+    routeAdminApiCasinos, routeAdminPageCasinos,
+    routeAdminApiCasinoOptions, routeAdminPageCasinoOptions,
     routeAdminApiPages, routeAdminPagePages,
     routeAdminApiSettings, routeAdminPageSettings,
     routeAdminPageUsers, routeAdminApiUsers,

@@ -203,6 +203,7 @@ exports.Prisma.OptionScalarFieldEnum = {
   published: 'published',
   use_for_filter: 'use_for_filter',
   input_type: 'input_type',
+  type: 'type',
   label: 'label',
   tooltip: 'tooltip',
   hash_tag: 'hash_tag',
@@ -267,6 +268,25 @@ exports.Prisma.BuildPageScalarFieldEnum = {
   position: 'position',
   field_values: 'field_values',
   card_type: 'card_type'
+};
+
+exports.Prisma.CasinoScalarFieldEnum = {
+  id: 'id',
+  published: 'published',
+  name: 'name',
+  tooltip: 'tooltip',
+  image: 'image',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
+  full_review_label: 'full_review_label',
+  full_review_link: 'full_review_link'
+};
+
+exports.Prisma.CasinoOptionScalarFieldEnum = {
+  id: 'id',
+  option_id: 'option_id',
+  casino_id: 'casino_id',
+  value: 'value'
 };
 
 exports.Prisma.SortOrder = {
@@ -369,6 +389,20 @@ exports.Prisma.BuildPageOrderByRelevanceFieldEnum = {
   field_values: 'field_values',
   card_type: 'card_type'
 };
+
+exports.Prisma.CasinoOrderByRelevanceFieldEnum = {
+  name: 'name',
+  tooltip: 'tooltip',
+  image: 'image',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
+  full_review_label: 'full_review_label',
+  full_review_link: 'full_review_link'
+};
+
+exports.Prisma.CasinoOptionOrderByRelevanceFieldEnum = {
+  value: 'value'
+};
 exports.UserRole = exports.$Enums.UserRole = {
   admin: 'admin',
   user: 'user'
@@ -393,6 +427,11 @@ exports.CardType = exports.$Enums.CardType = {
   card_game: 'card_game',
   casono_card: 'casono_card',
   cart: 'cart'
+};
+
+exports.OptionType = exports.$Enums.OptionType = {
+  card: 'card',
+  casino: 'casino'
 };
 
 exports.BuildType = exports.$Enums.BuildType = {
@@ -421,7 +460,9 @@ exports.Prisma.ModelName = {
   CardImage: 'CardImage',
   Page: 'Page',
   Builder: 'Builder',
-  BuildPage: 'BuildPage'
+  BuildPage: 'BuildPage',
+  Casino: 'Casino',
+  CasinoOption: 'CasinoOption'
 };
 
 /**

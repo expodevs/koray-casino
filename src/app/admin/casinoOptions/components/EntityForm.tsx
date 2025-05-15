@@ -4,7 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {toast} from "react-toastify";
 import {FaCopy, FaSave, FaTrash} from "react-icons/fa";
-import {optionCreateSchema, optionUpdateSchema} from "@app/admin/options/validation";
+import {optionCreateSchema, optionUpdateSchema} from "@app/admin/casinoOptions/validation";
 import {InputType} from "@prismaClient";
 import React, {useEffect, useMemo, useState} from "react";
 import {Option} from "@/@types/response";
@@ -206,15 +206,6 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                 {errors.position && <p className="text-red-500">{errors.position.message}</p>}
             </div>
 
-            <div className="mb-4">
-                <label className="block mb-1">Hash Tag</label>
-                <input
-                    type="text"
-                    {...register('hash_tag')}
-                    className="w-full p-2 border rounded"
-                />
-                {errors.hash_tag && <p className="text-red-500">{errors.hash_tag.message}</p>}
-            </div>
 
             <div className="mb-4">
                 <label className="block mb-1">Published</label>
@@ -226,15 +217,6 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                 {errors.published && <p className="text-red-500">{errors.published.message}</p>}
             </div>
 
-            <div className="mb-4">
-                <label className="block mb-1">Use for filter</label>
-                <input
-                    type="checkbox"
-                    {...register('use_for_filter')}
-                    className="w-full p-2 border rounded"
-                />
-                {errors.use_for_filter && <p className="text-red-500">{errors.use_for_filter.message}</p>}
-            </div>
 
             <button
                 type="submit"

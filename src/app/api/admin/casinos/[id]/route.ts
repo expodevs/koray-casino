@@ -1,21 +1,20 @@
 import {NextRequest, NextResponse} from 'next/server';
 import prisma from '@lib/prisma-client';
 import {withAdminAuthorized} from "@lib/authorized";
-import {optionUpdateSchema} from "@app/admin/options/validation";
-import {strToSlug} from "@lib/str";
+import {casinoUpdateSchema} from "@app/admin/casinos/validation";
 import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
-import {optionPath} from "@lib/uploadPaths";
-import {OptionType} from "@prismaClient";
+import {casinoPath} from "@lib/uploadPaths";
+import {strToSlug} from "@lib/str";
 
 type requestParams = { params: { id: string } };
 
 async function removeOldImage(id: number) {
-    const entity = await prisma.option.findUnique({where:{id}});
-    if (!entity || !entity.value.length) {
+    const entity = await prisma.casino.findUnique({where:{id}});
+    if (!entity || !entity.image.length) {
         return;
     }
 
-    removeFile(fullPublicPath(entity.value));
+    removeFile(fullPublicPath(entity.image));
 }
 
 export async function GET(req: Request, {params}: requestParams) {
@@ -23,16 +22,17 @@ export async function GET(req: Request, {params}: requestParams) {
     return await withAdminAuthorized(async (id: number) => {
         try {
 
-            const entity = await prisma.option.findUnique({
-                where: {id, type: OptionType.card},
+            const entity = await prisma.casino.findUnique({
+                where: {id},
             });
 
             if (!entity) {
-                return NextResponse.json({error: 'Option not found'}, {status: 404});
+                return NextResponse.json({error: 'Casino not found'}, {status: 404});
             }
 
             return NextResponse.json(entity);
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -44,7 +44,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
     return await withAdminAuthorized(async (req: NextRequest, id: number) => {
         try {
             const body = await req.json();
-            const validationResult = optionUpdateSchema.safeParse(body);
+            const validationResult = casinoUpdateSchema.safeParse(body);
 
             if (!validationResult.success) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
@@ -52,29 +52,40 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
 
             const data = validationResult.data;
 
-            if (!data.value || !data.value.length || body.newImage && body.newImage.length) {
+            data.referral_key = strToSlug(data.referral_key);
+
+            if (await prisma.casino.findFirst({
+                where: {
+                    referral_key: data.referral_key,
+                    NOT: {
+                        id: id,
+                    },
+                }
+            })) {
+                return NextResponse.json({error: 'Referral key must be unique'}, {status: 400});
+            }
+
+            if (!data.image || !data.image.length || body.newImage && body.newImage.length) {
                 await removeOldImage(id);
             }
 
-            if (data.hash_tag && data.hash_tag.length) {
-                data.hash_tag = strToSlug(data.hash_tag);
-            }
+            const newImage = data.newImage;
+            delete data.newImage;
 
-            const entity = await prisma.option.update({
-                where: {id, type: OptionType.card},
+            const entity = await prisma.casino.update({
+                where: {id},
                 data,
             });
 
-            if (body.newImage && body.newImage.length) {
-                const src = await saveBase64File(body.newImage, optionPath(entity.id));
-                await prisma.option.update({where: {id: entity.id}, data: {value: src}});
-                entity.value = src;
+            if (newImage && newImage.length) {
+                const src = await saveBase64File(newImage, casinoPath(entity.id));
+                await prisma.casino.update({where: {id: entity.id}, data: {image: src}});
+                entity.image = src;
             }
 
-
             return NextResponse.json(entity);
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -89,18 +100,16 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json({error: 'Bad request'}, {status: 400});
             }
 
-            await removeOldImage(id)
+            await removeOldImage(id);
 
-            await prisma.option.delete({
-                where: {id, type: OptionType.card},
+            await prisma.casino.delete({
+                where: {id},
             });
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
-
-
-
