@@ -311,6 +311,20 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                                                             </div>
                                                         )}
                                                     </div>
+                                                ) : option.entity?.input_type === InputType.text ? (
+                                                    <input
+                                                        type="text"
+                                                        value={option.value || option.entity?.value || ''}
+                                                        onChange={(e) => handleOptionValueChange(idx, e.target.value)}
+                                                        className="w-full p-2 border rounded"
+                                                    />
+                                                ) : option.entity?.input_type === InputType.textarea ? (
+                                                    <textarea
+                                                        value={option.value || option.entity?.value || ''}
+                                                        onChange={(e) => handleOptionValueChange(idx, e.target.value)}
+                                                        className="w-full p-2 border rounded"
+                                                        rows={4}
+                                                    />
                                                 ) : (
                                                     <input
                                                         type="text"
