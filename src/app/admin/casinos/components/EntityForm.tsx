@@ -341,11 +341,13 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                                         className="w-full p-2 border rounded"
                                     >
                                         <option value="">Select Option</option>
-                                        {(casinoOptions || []).map(option => (
-                                            <option key={option.id} value={option.id}>
-                                                {option.label}
-                                            </option>
-                                        ))}
+                                        {(casinoOptions || [])
+                                            .filter(option => !casinoOptionItems.some(item => item.option_id === option.id))
+                                            .map(option => (
+                                                <option key={option.id} value={option.id}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
                                     </select>
                                 </div>
                                 <div className="mb-4">
