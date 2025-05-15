@@ -9,6 +9,7 @@ import Pagination from "@components/Pagination";
 import {routeAdminApiCasinos, routeAdminPageCasinos} from "@lib/adminRoute";
 import {useRequestData} from "@lib/request";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function EntityList() {
     const [page, setPage] = useState(1);
@@ -62,6 +63,7 @@ export default function EntityList() {
                         <tr className="bg-gray-100">
                             <th className="p-3">ID</th>
                             <th className="p-3">Name</th>
+                            <th className="p-3">Image</th>
                             <th className="p-3">Published</th>
                             <th className="p-3">Referral Key</th>
                             <th className="p-3">Actions</th>
@@ -72,6 +74,18 @@ export default function EntityList() {
                             <tr key={casino.id} className="border-b hover:bg-gray-50">
                                 <td className="p-3">{casino.id}</td>
                                 <td className="p-3">{casino.name}</td>
+                                <td className="p-3">
+                                    <div className="relative h-12 w-24">
+                                        {casino.image && (
+                                            <Image 
+                                                src={casino.image} 
+                                                alt={casino.name} 
+                                                fill 
+                                                className="object-contain"
+                                            />
+                                        )}
+                                    </div>
+                                </td>
                                 <td className="p-3">{casino.published ? '✅' : '❌'}</td>
                                 <td className="p-3">{casino.referral_key}</td>
                                 <td className="p-3 flex gap-2">
