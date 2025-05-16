@@ -75,8 +75,8 @@ model Card {
   category_card_id     Int?
   label                String
   sub_label            String?
-  referal_key          String          @unique
-  referal_link         String?
+  referral_key         String          @unique
+  referral_link        String?
   play_with_real_money String?
   play_for_free        String?
   terms_and_condition  String?         @db.Text
