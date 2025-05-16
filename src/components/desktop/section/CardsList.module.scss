@@ -1,0 +1,10 @@
+@use 'styles/desktop/base/variables' as *;
+
+.cards-list {
+  background: transparent;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: none;
+}

@@ -1,0 +1,90 @@
+@use 'styles/mobile/base/variables' as *;
+
+  .item-card {
+    width: calc(33.3333% - 6px);
+    padding: 0 15px 15px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: relative;
+    &:hover {
+      border-color: $color-theme;
+    }
+    .faq-tab-group {
+      border-radius: 4px;
+      background: #E6EDFE;
+      padding: 25px;
+      margin: 15px 0;
+    }
+    .faq-item {
+      padding: 8px 0;
+      &[open] {
+        .icon {
+          transform: rotate(0deg);
+        }
+      }
+    }
+    .faq-summary {
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 30px;
+      .icon {
+        width: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-90deg);
+      }
+
+    }
+    .faq-content {
+      padding: 0.5rem 0 1rem;
+    }
+
+    &.game {
+      .thumb-wrap {
+        margin-left: -15px;
+        margin-bottom: -30px;
+        width: calc(100% + 30px);
+      }
+      .name {
+        margin-left: -20px;
+        width: calc(100% + 40px);
+        box-shadow: 0 -15px 11px #F0F4FF;
+        position: relative;
+        background: #F0F4FF;
+      }
+      .excerpt {
+        font-size: 12px;
+        margin: 0 auto;
+        font-weight: 600;
+      }
+      .badge {
+        top: 135px;
+      }
+      .list-options {
+        grid-template-columns: 1fr;
+        margin: 15px;
+        .label-value {
+          font-size: 14px;
+          font-weight: 600;
+        }
+        .item-option {
+          &.row {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+            .label-value {
+              color: #46A758;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+  }

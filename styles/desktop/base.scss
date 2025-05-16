@@ -1,0 +1,84 @@
+@use 'base/reset';
+@use 'base/fonts';
+@use 'base/ui';
+@use 'base/variables' as *;
+
+
+body {
+  font: 400 16px 'Montserrat', sans-serif;
+  line-height: 1.4;
+  color: #000;
+  background: radial-gradient(106.49% 106.49% at 50% -6.49%, #ECF1FF 19.55%, #FCFDFF 27.72%, #E5EBFF 49.38%, #FCFDFF 62.99%, #EDF1FF 79%, #FCFDFF 90%), #FFFFFF;
+}
+button,path,circle,input[submit] {
+  transition: .2s;
+}
+input {
+  font: 500 16px 'Montserrat', sans-serif;
+}
+button {
+  font: 500 14px 'Montserrat', sans-serif;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+button,input[type="submit"],a {
+  transition: .4s;
+}
+path,rect {
+  transition: .4s;
+}
+input[type="submit"] {
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+input,textarea {
+  border-radius: 0;
+}
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+.container {
+  padding: 0 15px;
+  width: 100%;
+  max-width: 975px;
+  margin: 0 auto;
+}
+.title-page {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 24px 0 16px;
+  text-align: center;
+  span {
+    color: $color-theme;
+  }
+}
+.title-section {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.title-section-sm {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.text {
+  margin: 8px 0;
+  &.bolder {
+    font-weight: 600;
+  }
+}
+.text-sm {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+
+.text-center {
+  text-align: center;
+}
+

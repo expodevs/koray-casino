@@ -1,0 +1,20 @@
+@use 'styles/desktop/base/variables' as *;
+
+.list-actions {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  margin: 16px 0;
+}
+.list-actions-row {
+  .list-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  &.justify-content-center {
+    .list-actions {
+      justify-content: center;
+    }
+  }
+}
