@@ -72,7 +72,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json({error: 'Referral key must be unique'}, {status: 400});
             }
 
-            if (!data.image || !data.image.length || body.newImage && body.newImage.length) {
+            if (!data.image || !data.image.length || data.newImage && data.newImage.length) {
                 await removeOldImage(id);
             }
 
