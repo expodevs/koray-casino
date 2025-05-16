@@ -39,6 +39,7 @@ export async function GET(req: Request, {params}: requestParams) {
 
             return NextResponse.json(entity);
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -56,13 +57,15 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
             }
 
-            if (!validationResult.data.value || !validationResult.data.value.length || body.newImage && body.newImage.length) {
+            const data = validationResult.data;
+
+            if (!data.value || !data.value.length || data.newImage && data.newImage.length) {
                 await removeOldImage(id);
             }
 
             if (await prisma.setting.findUnique({
                 where: {
-                    code: validationResult.data.code,
+                    code: data.code,
                     NOT: {
                         id: id,
                     },
@@ -71,14 +74,16 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json({error: 'Code must be unique'}, {status: 400});
             }
 
+            const newImage = data.newImage;
+            delete data.newImage;
 
             const entity = await prisma.setting.update({
                 where: {id},
-                data: validationResult.data,
+                data,
             });
 
-            if (body.newImage && body.newImage.length) {
-                const src = await saveBase64File(body.newImage, settingPath(entity.id));
+            if (newImage && newImage.length) {
+                const src = await saveBase64File(newImage, settingPath(entity.id));
                 await prisma.setting.update({where: {id: entity.id}, data: {value: src}});
                 entity.value = src;
             }
@@ -87,7 +92,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             return NextResponse.json(entity);
 
         } catch (error) {
-            console.log(error)
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -110,10 +115,8 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
 
             return new NextResponse(null, {status: 204});
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
-
-
-

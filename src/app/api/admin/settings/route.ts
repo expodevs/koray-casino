@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
                 }
             })
         } catch (error) {
-            console.log(error)
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -56,11 +56,15 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
             }
 
-            const entity = await prisma.setting.create({data: validationResult.data});
+            const data = validationResult.data;
+            const newImage = data.newImage;
+            delete data.newImage;
 
-            if (validationResult.data.input_type === InputType.image && body.newImage.length) {
-                validationResult.data.value = '';
-                const src = await saveBase64File(body.newImage, settingPath(entity.id));
+            const entity = await prisma.setting.create({data});
+
+            if (data.input_type === InputType.image && newImage && newImage.length) {
+                data.value = '';
+                const src = await saveBase64File(newImage, settingPath(entity.id));
                 await prisma.setting.update({where: {id: entity.id}, data: {value: src}});
                 entity.value = src;
             }
@@ -68,7 +72,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(entity, {status: 201});
 
         } catch (error) {
-            console.log(error)
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

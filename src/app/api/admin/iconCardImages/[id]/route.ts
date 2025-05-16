@@ -33,6 +33,7 @@ export async function GET(req: Request, {params}: requestParams) {
 
             return NextResponse.json(entity);
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -50,17 +51,22 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
             }
 
-            if (!validationResult.data.image.length || body.newImage && body.newImage.length) {
+            const data = validationResult.data;
+
+            if (!data.image.length || data.newImage && data.newImage.length) {
                 await removeOldImage(id);
             }
 
+            const newImage = data.newImage;
+            delete data.newImage;
+
             const entity = await prisma.iconCardImage.update({
                 where: {id},
-                data: validationResult.data,
+                data,
             });
 
-            if (body.newImage && body.newImage.length) {
-                const src = await saveBase64File(body.newImage, iconCardImagePath(entity.id));
+            if (newImage && newImage.length) {
+                const src = await saveBase64File(newImage, iconCardImagePath(entity.id));
                 await prisma.iconCardImage.update({where: {id: entity.id}, data: {image: src}});
                 entity.image = src;
             }
@@ -68,7 +74,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
 
             return NextResponse.json(entity);
         } catch (error) {
-            console.log(error)
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -91,10 +97,8 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
 
             return new NextResponse(null, {status: 204});
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
-
-
-

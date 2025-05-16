@@ -4,6 +4,7 @@ const fieldSchema = {
     icon_card_id: z.number(),
     alt: z.string().min(1, 'Min length must be at least 1 characters'),
     image: z.string(),
+    newImage: z.string().optional(),
     position: z
         .union([z.string(), z.number(), z.null()])
         .transform((val) => {
@@ -20,4 +21,3 @@ export const iconCardImageUpdateSchema = z.object({...fieldSchema});
 
 export type IconCardImageCreateInput = z.infer<typeof iconCardImageCreateSchema>;
 export type IconCardImageUpdateInput = z.infer<typeof iconCardImageUpdateSchema>;
-

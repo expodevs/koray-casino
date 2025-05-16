@@ -13,6 +13,7 @@ const fieldSchema = {
         return strToSlug(val);
     }).optional(),
     value: z.string().optional(),
+    newImage: z.string().optional(),
     position: z
         .union([z.string(), z.number(), z.null()])
         .transform((val) => {
@@ -29,4 +30,3 @@ export const optionUpdateSchema = z.object({...fieldSchema});
 
 export type OptionCreateInput = z.infer<typeof optionCreateSchema>;
 export type OptionUpdateInput = z.infer<typeof optionUpdateSchema>;
-
