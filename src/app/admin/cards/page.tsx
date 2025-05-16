@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
+import { routeAdminPageCards } from "@lib/adminRoute";
 
 export default async function CardsGrid() {
 
@@ -9,7 +9,7 @@ export default async function CardsGrid() {
         <div>
             <h1 className="text-2xl mb-4 px-4">Cards Management</h1>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-4">
-                <Link href="/admin/cards/card"
+                <Link href={routeAdminPageCards.card}
                       className="block rounded overflow-hidden shadow hover:shadow-lg transition">
                     <Image
                         src="/assets/images/card.webp"
@@ -19,7 +19,7 @@ export default async function CardsGrid() {
                         className="w-full h-120 object-cover"
                     />
                 </Link>
-                <Link href="/admin/cards/cart"
+                <Link href={routeAdminPageCards.cart}
                       className="block rounded overflow-hidden shadow hover:shadow-lg transition">
                     <Image
                         src="/assets/images/cart.webp"

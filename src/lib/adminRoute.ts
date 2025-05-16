@@ -12,6 +12,7 @@ const apiRoutes = {
     categoryCards: '/api/admin/categoryCards',
     iconCards: '/api/admin/iconCards',
     iconCardImages: '/api/admin/iconCardImages',
+    cards: '/api/admin/cards',
 };
 
 const pagesRoutes = {
@@ -26,6 +27,7 @@ const pagesRoutes = {
     categoryCards: '/admin/categoryCards',
     iconCards: '/admin/iconCards',
     iconCardImages: '/admin/iconCardImages',
+    cards: '/admin/cards',
 };
 
 const routeAdminApiBuilders = {
@@ -159,6 +161,21 @@ const routeAdminPageIconCardImages = {
     edit: (id: string): string => `${pagesRoutes.iconCardImages}/${id}/edit`,
 };
 
+const routeAdminApiCards = {
+    all: apiRoutes.cards,
+    oneCard: (id: string): string => `${apiRoutes.cards}/card/${id}`,
+    oneCart: (id: string): string => `${apiRoutes.cards}/cart/${id}`,
+};
+
+const routeAdminPageCards = {
+    all: pagesRoutes.cards,
+    create: `${pagesRoutes.cards}/create`,
+    editCard: (id: string): string => `${pagesRoutes.cards}/card/${id}/edit`,
+    editCart: (id: string): string => `${pagesRoutes.cards}/cart/${id}/edit`,
+    card: `${pagesRoutes.cards}/card`,
+    cart: `${pagesRoutes.cards}/cart`,
+};
+
 export {
     routeAdminApiBuilders,
     routeAdminApiIconCardImages, routeAdminPageIconCardImages,
@@ -172,4 +189,5 @@ export {
     routeAdminApiPages, routeAdminPagePages,
     routeAdminApiSettings, routeAdminPageSettings,
     routeAdminPageUsers, routeAdminApiUsers,
+    routeAdminApiCards, routeAdminPageCards,
 };
