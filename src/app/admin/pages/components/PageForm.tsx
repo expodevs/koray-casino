@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 import { FaSave } from "react-icons/fa";
 import { pageCreateSchema, pageUpdateSchema } from "@app/admin/pages/validation";
 import React, {useCallback, useEffect, useState} from "react";
-import {BuildPage as BuildPageResponse, Faq, Page} from "@/@types/response";
+import {BuildPage as BuildPageResponse, Casino, Faq, Option, Page} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 import {useRequestData} from "@lib/request";
 import {Builder, BuildType, CategoryCard} from "@prismaClient";
-import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs} from "@lib/adminRoute";
+import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 
@@ -73,6 +73,8 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:builders, isLoading} = useRequestData<Builder[]>({url: routeAdminApiBuilders.all, queryKey: 'builders'});
     const {data:categoryCards, isLoading:isLoadingCategoryCards} = useRequestData<CategoryCard[]>({url: routeAdminApiCategoryCards.pageBuilder, queryKey: 'categoryCards'});
     const {data:faqs, isLoading:isLoadingFaqs} = useRequestData<Faq[]>({url: routeAdminApiFaqs.pageBuilder, queryKey: 'faqs'});
+    const {data:casinos, isLoading:isLoadingCasinos} = useRequestData<Casino[]>({url: routeAdminApiCasinos.pageBuilder, queryKey: 'casinos'});
+    const {data:casinoOptions, isLoading:isLoadingCasinoOptions} = useRequestData<Option[]>({url: routeAdminApiCasinoOptions.list, queryKey: 'casinoOptions'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
 
@@ -391,6 +393,392 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
             )
         }
 
+        if (builder.build_type === BuildType.CasinoTop) {
+            interface CasinoItem {
+                id: string;
+                position: number;
+            }
+
+            interface OptionItem {
+                id: string;
+                position: number;
+                static_field?: string;
+            }
+
+            interface CasinoTopData {
+                table_show_options: OptionItem[];
+                table_show_casinos: CasinoItem[];
+            }
+
+            const parseCasinoTopData = (): CasinoTopData => {
+                if (!buildPage.field_values) {
+                    return {
+                        table_show_options: [],
+                        table_show_casinos: []
+                    };
+                }
+
+                const result: CasinoTopData = {
+                    table_show_options: [],
+                    table_show_casinos: []
+                };
+
+                try {
+                    const parsedData = JSON.parse(buildPage.field_values);
+
+                    // Handle backward compatibility for table_show_options
+                    if (Array.isArray(parsedData.table_show_options)) {
+                        if (parsedData.table_show_options.length > 0) {
+                            // Check if the first item is a string (old format) or an object (new format)
+                            if (typeof parsedData.table_show_options[0] === 'string') {
+                                // Convert from old format (string[]) to new format (OptionItem[])
+                                result.table_show_options = parsedData.table_show_options.map((id, index) => ({
+                                    id,
+                                    position: index + 1
+                                }));
+                            } else {
+                                // Already in new format
+                                result.table_show_options = parsedData.table_show_options;
+                            }
+                        }
+                    }
+
+                    // Copy table_show_casinos
+                    if (Array.isArray(parsedData.table_show_casinos)) {
+                        result.table_show_casinos = parsedData.table_show_casinos;
+                    }
+                } catch {
+                    // If parsing fails, return empty arrays
+                    return {
+                        table_show_options: [],
+                        table_show_casinos: []
+                    };
+                }
+                return result;
+            };
+
+            const casinoTopData = parseCasinoTopData();
+            const displayCasinos = casinoTopData.table_show_casinos.length > 0 
+                ? casinoTopData.table_show_casinos.sort((a, b) => a.position - b.position) 
+                : [{ id: '', position: 1 }];
+            const displayOptions = casinoTopData.table_show_options.length > 0
+                ? casinoTopData.table_show_options.sort((a, b) => a.position - b.position)
+                : [{ id: '', position: 1, static_field: '' }];
+
+            const saveCasinoTopData = (data: CasinoTopData) => {
+                handleFieldValueChange(idx, JSON.stringify(data));
+            };
+
+            const addNewOption = () => {
+                const newOptions = [
+                    ...displayOptions,
+                    { id: '', position: displayOptions.length + 1 }
+                ];
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions
+                });
+            };
+
+            const addNewStaticOption = () => {
+                const newOptions = [
+                    ...displayOptions,
+                    { position: displayOptions.length + 1, static_field: 'name' }
+                ];
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions
+                });
+            };
+
+            const updateOptionValue = (optionIndex: number, value: string, field: 'id' | 'static_field' = 'id') => {
+                const newOptions = [...displayOptions];
+                newOptions[optionIndex] = { ...newOptions[optionIndex], [field]: value };
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions
+                });
+            };
+
+            const removeOption = (optionIndex: number) => {
+                if (displayOptions.length <= 1) {
+                    saveCasinoTopData({
+                        ...casinoTopData,
+                        table_show_options: [{ id: '', position: 1, static_field: '' }]
+                    });
+                    return;
+                }
+
+                const newOptions = [...displayOptions];
+                newOptions.splice(optionIndex, 1);
+
+                newOptions.forEach((item, index) => {
+                    item.position = index + 1;
+                });
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions
+                });
+            };
+
+            const moveOptionUp = (optionIndex: number) => {
+                if (optionIndex === 0) return;
+
+                const newOptions = [...displayOptions];
+                const temp = newOptions[optionIndex].position;
+                newOptions[optionIndex].position = newOptions[optionIndex - 1].position;
+                newOptions[optionIndex - 1].position = temp;
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions.sort((a, b) => a.position - b.position)
+                });
+            };
+
+            const moveOptionDown = (optionIndex: number) => {
+                if (optionIndex === displayOptions.length - 1) return; // Already at the bottom
+
+                const newOptions = [...displayOptions];
+                const temp = newOptions[optionIndex].position;
+                newOptions[optionIndex].position = newOptions[optionIndex + 1].position;
+                newOptions[optionIndex + 1].position = temp;
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_options: newOptions.sort((a, b) => a.position - b.position)
+                });
+            };
+
+            const addNewCasino = () => {
+                const newCasinos = [
+                    ...displayCasinos,
+                    { id: '', position: displayCasinos.length + 1 }
+                ];
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_casinos: newCasinos
+                });
+            };
+
+            const updateCasinoValue = (casinoIndex: number, value: string) => {
+                const newCasinos = [...displayCasinos];
+                newCasinos[casinoIndex] = { ...newCasinos[casinoIndex], id: value };
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_casinos: newCasinos
+                });
+            };
+
+            const removeCasino = (casinoIndex: number) => {
+                if (displayCasinos.length <= 1) {
+                    saveCasinoTopData({
+                        ...casinoTopData,
+                        table_show_casinos: [{ id: '', position: 1 }]
+                    });
+                    return;
+                }
+
+                const newCasinos = [...displayCasinos];
+                newCasinos.splice(casinoIndex, 1);
+
+                newCasinos.forEach((item, index) => {
+                    item.position = index + 1;
+                });
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_casinos: newCasinos
+                });
+            };
+
+            const moveCasinoUp = (casinoIndex: number) => {
+                if (casinoIndex === 0) return;
+
+                const newCasinos = [...displayCasinos];
+                const temp = newCasinos[casinoIndex].position;
+                newCasinos[casinoIndex].position = newCasinos[casinoIndex - 1].position;
+                newCasinos[casinoIndex - 1].position = temp;
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_casinos: newCasinos.sort((a, b) => a.position - b.position)
+                });
+            };
+
+            const moveCasinoDown = (casinoIndex: number) => {
+                if (casinoIndex === displayCasinos.length - 1) return; // Already at the bottom
+
+                const newCasinos = [...displayCasinos];
+                const temp = newCasinos[casinoIndex].position;
+                newCasinos[casinoIndex].position = newCasinos[casinoIndex + 1].position;
+                newCasinos[casinoIndex + 1].position = temp;
+
+                saveCasinoTopData({
+                    ...casinoTopData,
+                    table_show_casinos: newCasinos.sort((a, b) => a.position - b.position)
+                });
+            };
+
+            return (
+                <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
+                    <label className="block mb-1">{builder.label}</label>
+                    <div className="space-y-4">
+                        <div className="border p-4 rounded">
+                            <h3 className="font-semibold mb-2">Table Columns</h3>
+                            <div className="space-y-2">
+                                {displayOptions.map((item, optionIdx) => (
+                                    <div key={`option-select-${optionIdx}`} className="flex items-center gap-2">
+                                        <div className="flex-grow">
+                                            {!item.static_field && (
+                                                <select
+                                                    className="w-full p-2 border rounded"
+                                                    value={item.id || ''}
+                                                    onChange={(e) => updateOptionValue(optionIdx, e.target.value, 'id')}
+                                                >
+                                                    <option value="">Select Option</option>
+                                                    {(casinoOptions || [])
+                                                        .filter(option => 
+                                                            // Show if it's the current option or not selected yet
+                                                            option.id.toString() === item.id || 
+                                                            !displayOptions.some(o => o.id === option.id.toString() && o !== item)
+                                                        )
+                                                        .map(option => (
+                                                            <option key={option.id} value={option.id.toString()}>
+                                                                {option.label}
+                                                            </option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            )}
+                                            {item.static_field && (
+                                                <select
+                                                    className="w-full p-2 border rounded"
+                                                    value={item.static_field}
+                                                    onChange={(e) => updateOptionValue(optionIdx, e.target.value, 'static_field')}
+                                                >
+                                                    <option value="">Select Static Field</option>
+                                                    <option value="rank">Rank</option>
+                                                    <option value="name">Name</option>
+                                                    <option value="name_tooltip">Name with Tooltip</option>
+                                                    <option value="image">Image</option>
+                                                    <option value="full_review">Full Review</option>
+                                                    <option value="btn_play">Button Play</option>
+                                                    <option value="btn_play_now">Button Play Now</option>
+                                                </select>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button"
+                                                onClick={() => moveOptionUp(optionIdx)}
+                                                className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                                disabled={optionIdx === 0}
+                                            >
+                                                ↑
+                                            </button>
+                                            <button 
+                                                type="button"
+                                                onClick={() => moveOptionDown(optionIdx)}
+                                                className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                                disabled={optionIdx === displayOptions.length - 1}
+                                            >
+                                                ↓
+                                            </button>
+                                        </div>
+                                        <button 
+                                            type="button"
+                                            onClick={() => removeOption(optionIdx)}
+                                            className="p-2 text-red-600 rounded hover:bg-red-100"
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                ))}
+                                <div className="flex gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={addNewOption}
+                                        className="mt-2 bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600"
+                                    >
+                                        + Add Option
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={addNewStaticOption}
+                                        className="mt-2 bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600"
+                                    >
+                                        + Add Option (Static Field)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="border p-4 rounded">
+                            <h3 className="font-semibold mb-2">Casinos</h3>
+                            <div className="space-y-2">
+                                {displayCasinos.map((item, casinoIdx) => (
+                                    <div key={`casino-select-${casinoIdx}`} className="flex items-center gap-2">
+                                        <select
+                                            className="w-full p-2 border rounded"
+                                            value={item.id}
+                                            onChange={(e) => updateCasinoValue(casinoIdx, e.target.value)}
+                                        >
+                                            <option value="">Select Casino</option>
+                                            {(casinos || [])
+                                                .filter(casino => 
+                                                    // Show if it's the current casino or not selected yet
+                                                    casino.id.toString() === item.id || 
+                                                    !displayCasinos.some(c => c.id === casino.id.toString() && c !== item)
+                                                )
+                                                .map(casino => (
+                                                    <option key={casino.id} value={casino.id.toString()}>
+                                                        {casino.name}
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button"
+                                                onClick={() => moveCasinoUp(casinoIdx)}
+                                                className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                                disabled={casinoIdx === 0}
+                                            >
+                                                ↑
+                                            </button>
+                                            <button 
+                                                type="button"
+                                                onClick={() => moveCasinoDown(casinoIdx)}
+                                                className="p-1 text-blue-600 rounded hover:bg-blue-100"
+                                                disabled={casinoIdx === displayCasinos.length - 1}
+                                            >
+                                                ↓
+                                            </button>
+                                        </div>
+                                        <button 
+                                            type="button"
+                                            onClick={() => removeCasino(casinoIdx)}
+                                            className="p-2 text-red-600 rounded hover:bg-red-100"
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={addNewCasino}
+                                    className="mt-2 bg-blue-500 text-white p-2 rounded flex items-center gap-2 hover:bg-blue-600"
+                                >
+                                    + Add Casino
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         if (builder.build_type === BuildType.text) {
             return (
                 <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
@@ -405,9 +793,9 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         return null;
-    }, [builders, categoryCards, faqs, handleFieldValueChange]);
+    }, [builders, categoryCards, faqs, casinos, casinoOptions, handleFieldValueChange]);
 
-    if (isLoading||isLoadingCategoryCards||isLoadingFaqs) return <div>Loading...</div>;
+    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions) return <div>Loading...</div>;
 
     return (
       <div className="max-w-6xl mx-auto p-4">

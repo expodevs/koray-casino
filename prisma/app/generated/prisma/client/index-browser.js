@@ -439,7 +439,8 @@ exports.BuildType = exports.$Enums.BuildType = {
   textarea: 'textarea',
   htmlEditor: 'htmlEditor',
   categoryCard: 'categoryCard',
-  faq: 'faq'
+  faq: 'faq',
+  CasinoTop: 'CasinoTop'
 };
 
 exports.Prisma.ModelName = {

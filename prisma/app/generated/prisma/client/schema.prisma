@@ -244,6 +244,7 @@ enum BuildType {
   htmlEditor
   categoryCard
   faq
+  CasinoTop
 }
 
 enum OptionType {
