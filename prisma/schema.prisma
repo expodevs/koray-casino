@@ -171,10 +171,12 @@ model CardIconImage {
 }
 
 model CardImage {
-  id      Int    @id @default(autoincrement())
-  card_id Int
-  src     String
-  card    Card   @relation(fields: [card_id], references: [id])
+  id       Int     @id @default(autoincrement())
+  card_id  Int
+  src      String
+  alt      String?
+  position Int
+  card     Card    @relation(fields: [card_id], references: [id])
 
   @@index([card_id], map: "CardImage_card_id_fkey")
 }

@@ -16670,29 +16670,37 @@ export namespace Prisma {
   export type CardImageAvgAggregateOutputType = {
     id: number | null
     card_id: number | null
+    position: number | null
   }
 
   export type CardImageSumAggregateOutputType = {
     id: number | null
     card_id: number | null
+    position: number | null
   }
 
   export type CardImageMinAggregateOutputType = {
     id: number | null
     card_id: number | null
     src: string | null
+    alt: string | null
+    position: number | null
   }
 
   export type CardImageMaxAggregateOutputType = {
     id: number | null
     card_id: number | null
     src: string | null
+    alt: string | null
+    position: number | null
   }
 
   export type CardImageCountAggregateOutputType = {
     id: number
     card_id: number
     src: number
+    alt: number
+    position: number
     _all: number
   }
 
@@ -16700,29 +16708,37 @@ export namespace Prisma {
   export type CardImageAvgAggregateInputType = {
     id?: true
     card_id?: true
+    position?: true
   }
 
   export type CardImageSumAggregateInputType = {
     id?: true
     card_id?: true
+    position?: true
   }
 
   export type CardImageMinAggregateInputType = {
     id?: true
     card_id?: true
     src?: true
+    alt?: true
+    position?: true
   }
 
   export type CardImageMaxAggregateInputType = {
     id?: true
     card_id?: true
     src?: true
+    alt?: true
+    position?: true
   }
 
   export type CardImageCountAggregateInputType = {
     id?: true
     card_id?: true
     src?: true
+    alt?: true
+    position?: true
     _all?: true
   }
 
@@ -16816,6 +16832,8 @@ export namespace Prisma {
     id: number
     card_id: number
     src: string
+    alt: string | null
+    position: number
     _count: CardImageCountAggregateOutputType | null
     _avg: CardImageAvgAggregateOutputType | null
     _sum: CardImageSumAggregateOutputType | null
@@ -16841,6 +16859,8 @@ export namespace Prisma {
     id?: boolean
     card_id?: boolean
     src?: boolean
+    alt?: boolean
+    position?: boolean
     card?: boolean | CardDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cardImage"]>
 
@@ -16850,9 +16870,11 @@ export namespace Prisma {
     id?: boolean
     card_id?: boolean
     src?: boolean
+    alt?: boolean
+    position?: boolean
   }
 
-  export type CardImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "card_id" | "src", ExtArgs["result"]["cardImage"]>
+  export type CardImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "card_id" | "src" | "alt" | "position", ExtArgs["result"]["cardImage"]>
   export type CardImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     card?: boolean | CardDefaultArgs<ExtArgs>
   }
@@ -16866,6 +16888,8 @@ export namespace Prisma {
       id: number
       card_id: number
       src: string
+      alt: string | null
+      position: number
     }, ExtArgs["result"]["cardImage"]>
     composites: {}
   }
@@ -17239,6 +17263,8 @@ export namespace Prisma {
     readonly id: FieldRef<"CardImage", 'Int'>
     readonly card_id: FieldRef<"CardImage", 'Int'>
     readonly src: FieldRef<"CardImage", 'String'>
+    readonly alt: FieldRef<"CardImage", 'String'>
+    readonly position: FieldRef<"CardImage", 'Int'>
   }
     
 
@@ -22756,7 +22782,9 @@ export namespace Prisma {
   export const CardImageScalarFieldEnum: {
     id: 'id',
     card_id: 'card_id',
-    src: 'src'
+    src: 'src',
+    alt: 'alt',
+    position: 'position'
   };
 
   export type CardImageScalarFieldEnum = (typeof CardImageScalarFieldEnum)[keyof typeof CardImageScalarFieldEnum]
@@ -22944,7 +22972,8 @@ export namespace Prisma {
 
 
   export const CardImageOrderByRelevanceFieldEnum: {
-    src: 'src'
+    src: 'src',
+    alt: 'alt'
   };
 
   export type CardImageOrderByRelevanceFieldEnum = (typeof CardImageOrderByRelevanceFieldEnum)[keyof typeof CardImageOrderByRelevanceFieldEnum]
@@ -23959,6 +23988,8 @@ export namespace Prisma {
     id?: IntFilter<"CardImage"> | number
     card_id?: IntFilter<"CardImage"> | number
     src?: StringFilter<"CardImage"> | string
+    alt?: StringNullableFilter<"CardImage"> | string | null
+    position?: IntFilter<"CardImage"> | number
     card?: XOR<CardScalarRelationFilter, CardWhereInput>
   }
 
@@ -23966,6 +23997,8 @@ export namespace Prisma {
     id?: SortOrder
     card_id?: SortOrder
     src?: SortOrder
+    alt?: SortOrderInput | SortOrder
+    position?: SortOrder
     card?: CardOrderByWithRelationInput
     _relevance?: CardImageOrderByRelevanceInput
   }
@@ -23977,6 +24010,8 @@ export namespace Prisma {
     NOT?: CardImageWhereInput | CardImageWhereInput[]
     card_id?: IntFilter<"CardImage"> | number
     src?: StringFilter<"CardImage"> | string
+    alt?: StringNullableFilter<"CardImage"> | string | null
+    position?: IntFilter<"CardImage"> | number
     card?: XOR<CardScalarRelationFilter, CardWhereInput>
   }, "id">
 
@@ -23984,6 +24019,8 @@ export namespace Prisma {
     id?: SortOrder
     card_id?: SortOrder
     src?: SortOrder
+    alt?: SortOrderInput | SortOrder
+    position?: SortOrder
     _count?: CardImageCountOrderByAggregateInput
     _avg?: CardImageAvgOrderByAggregateInput
     _max?: CardImageMaxOrderByAggregateInput
@@ -23998,6 +24035,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"CardImage"> | number
     card_id?: IntWithAggregatesFilter<"CardImage"> | number
     src?: StringWithAggregatesFilter<"CardImage"> | string
+    alt?: StringNullableWithAggregatesFilter<"CardImage"> | string | null
+    position?: IntWithAggregatesFilter<"CardImage"> | number
   }
 
   export type PageWhereInput = {
@@ -25167,6 +25206,8 @@ export namespace Prisma {
 
   export type CardImageCreateInput = {
     src: string
+    alt?: string | null
+    position: number
     card: CardCreateNestedOneWithoutImagesInput
   }
 
@@ -25174,10 +25215,14 @@ export namespace Prisma {
     id?: number
     card_id: number
     src: string
+    alt?: string | null
+    position: number
   }
 
   export type CardImageUpdateInput = {
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
     card?: CardUpdateOneRequiredWithoutImagesNestedInput
   }
 
@@ -25185,22 +25230,30 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     card_id?: IntFieldUpdateOperationsInput | number
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type CardImageCreateManyInput = {
     id?: number
     card_id: number
     src: string
+    alt?: string | null
+    position: number
   }
 
   export type CardImageUpdateManyMutationInput = {
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type CardImageUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     card_id?: IntFieldUpdateOperationsInput | number
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type PageCreateInput = {
@@ -26482,28 +26535,36 @@ export namespace Prisma {
     id?: SortOrder
     card_id?: SortOrder
     src?: SortOrder
+    alt?: SortOrder
+    position?: SortOrder
   }
 
   export type CardImageAvgOrderByAggregateInput = {
     id?: SortOrder
     card_id?: SortOrder
+    position?: SortOrder
   }
 
   export type CardImageMaxOrderByAggregateInput = {
     id?: SortOrder
     card_id?: SortOrder
     src?: SortOrder
+    alt?: SortOrder
+    position?: SortOrder
   }
 
   export type CardImageMinOrderByAggregateInput = {
     id?: SortOrder
     card_id?: SortOrder
     src?: SortOrder
+    alt?: SortOrder
+    position?: SortOrder
   }
 
   export type CardImageSumOrderByAggregateInput = {
     id?: SortOrder
     card_id?: SortOrder
+    position?: SortOrder
   }
 
   export type BuildPageListRelationFilter = {
@@ -28143,11 +28204,15 @@ export namespace Prisma {
 
   export type CardImageCreateWithoutCardInput = {
     src: string
+    alt?: string | null
+    position: number
   }
 
   export type CardImageUncheckedCreateWithoutCardInput = {
     id?: number
     src: string
+    alt?: string | null
+    position: number
   }
 
   export type CardImageCreateOrConnectWithoutCardInput = {
@@ -28272,6 +28337,8 @@ export namespace Prisma {
     id?: IntFilter<"CardImage"> | number
     card_id?: IntFilter<"CardImage"> | number
     src?: StringFilter<"CardImage"> | string
+    alt?: StringNullableFilter<"CardImage"> | string | null
+    position?: IntFilter<"CardImage"> | number
   }
 
   export type CardOptionUpsertWithWhereUniqueWithoutCardInput = {
@@ -29525,6 +29592,8 @@ export namespace Prisma {
   export type CardImageCreateManyCardInput = {
     id?: number
     src: string
+    alt?: string | null
+    position: number
   }
 
   export type CardOptionCreateManyCardInput = {
@@ -29555,16 +29624,22 @@ export namespace Prisma {
 
   export type CardImageUpdateWithoutCardInput = {
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type CardImageUncheckedUpdateWithoutCardInput = {
     id?: IntFieldUpdateOperationsInput | number
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type CardImageUncheckedUpdateManyWithoutCardInput = {
     id?: IntFieldUpdateOperationsInput | number
     src?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type CardOptionUpdateWithoutCardInput = {

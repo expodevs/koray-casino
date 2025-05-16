@@ -241,7 +241,9 @@ exports.Prisma.CardIconImageScalarFieldEnum = {
 exports.Prisma.CardImageScalarFieldEnum = {
   id: 'id',
   card_id: 'card_id',
-  src: 'src'
+  src: 'src',
+  alt: 'alt',
+  position: 'position'
 };
 
 exports.Prisma.PageScalarFieldEnum = {
@@ -369,7 +371,8 @@ exports.Prisma.IconCardImageOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.CardImageOrderByRelevanceFieldEnum = {
-  src: 'src'
+  src: 'src',
+  alt: 'alt'
 };
 
 exports.Prisma.PageOrderByRelevanceFieldEnum = {
