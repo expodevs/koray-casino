@@ -24,6 +24,10 @@ const builders = [
         build_type: BuildType.categoryCard,
         label: 'Category Card',
     },
+    {
+        build_type: BuildType.CasinoTop,
+        label: 'Casino Top',
+    },
 ]
 
 async function main() {
