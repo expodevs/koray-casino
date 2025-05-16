@@ -78,6 +78,7 @@ const routeAdminPageOptions = {
 
 const routeAdminApiCasinos = {
     all: apiRoutes.casinos,
+    pageBuilder: `${apiRoutes.casinos}/pageBuilder`,
     one: (id: string): string => `${apiRoutes.casinos}/${id}`,
 };
 
