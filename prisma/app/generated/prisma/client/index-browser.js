@@ -175,11 +175,11 @@ exports.Prisma.CardScalarFieldEnum = {
   type: 'type',
   category_card_id: 'category_card_id',
   label: 'label',
-  sub_label: 'sub_label',
+  description: 'description',
   referral_key: 'referral_key',
-  referral_link: 'referral_link',
-  play_with_real_money: 'play_with_real_money',
-  play_for_free: 'play_for_free',
+  referral_btn_1_link: 'referral_btn_1_link',
+  referral_btn_2_link: 'referral_btn_2_link',
+  position: 'position',
   terms_and_condition: 'terms_and_condition'
 };
 
@@ -336,11 +336,10 @@ exports.Prisma.CategoryCardOrderByRelevanceFieldEnum = {
 
 exports.Prisma.CardOrderByRelevanceFieldEnum = {
   label: 'label',
-  sub_label: 'sub_label',
+  description: 'description',
   referral_key: 'referral_key',
-  referral_link: 'referral_link',
-  play_with_real_money: 'play_with_real_money',
-  play_for_free: 'play_for_free',
+  referral_btn_1_link: 'referral_btn_1_link',
+  referral_btn_2_link: 'referral_btn_2_link',
   terms_and_condition: 'terms_and_condition'
 };
 
@@ -423,9 +422,7 @@ exports.InputType = exports.$Enums.InputType = {
 };
 
 exports.CardType = exports.$Enums.CardType = {
-  slot_game: 'slot_game',
-  card_game: 'card_game',
-  casono_card: 'casono_card',
+  card: 'card',
   cart: 'cart'
 };
 

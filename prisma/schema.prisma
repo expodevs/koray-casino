@@ -69,22 +69,22 @@ model CategoryCard {
 }
 
 model Card {
-  id                   Int             @id @default(autoincrement())
-  published            Boolean
-  type                 CardType
-  category_card_id     Int?
-  label                String
-  sub_label            String?
-  referral_key         String          @unique
-  referral_link        String?
-  play_with_real_money String?
-  play_for_free        String?
-  terms_and_condition  String?         @db.Text
-  category_card        CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
-  icon_card_images     CardIconImage[]
-  images               CardImage[]
-  options              CardOption[]
-  faqs                 FaqCard[]
+  id                  Int             @id @default(autoincrement())
+  published           Boolean
+  type                CardType
+  category_card_id    Int?
+  label               String
+  description         String?
+  referral_key        String          @unique
+  referral_btn_1_link String?
+  referral_btn_2_link String?
+  position            Int?
+  terms_and_condition String?         @db.Text
+  category_card       CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
+  icon_card_images    CardIconImage[]
+  images              CardImage[]
+  options             CardOption[]
+  faqs                FaqCard[]
 
   @@index([category_card_id], map: "Card_category_card_id_fkey")
   @@index([type], map: "Card_type_idx")
@@ -224,9 +224,7 @@ enum MenuType {
 }
 
 enum CardType {
-  slot_game
-  card_game
-  casono_card
+  card
   cart
 }
 
