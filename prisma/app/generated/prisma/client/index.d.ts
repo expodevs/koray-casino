@@ -8593,8 +8593,8 @@ export namespace Prisma {
     category_card_id: number | null
     label: string | null
     sub_label: string | null
-    referal_key: string | null
-    referal_link: string | null
+    referral_key: string | null
+    referral_link: string | null
     play_with_real_money: string | null
     play_for_free: string | null
     terms_and_condition: string | null
@@ -8607,8 +8607,8 @@ export namespace Prisma {
     category_card_id: number | null
     label: string | null
     sub_label: string | null
-    referal_key: string | null
-    referal_link: string | null
+    referral_key: string | null
+    referral_link: string | null
     play_with_real_money: string | null
     play_for_free: string | null
     terms_and_condition: string | null
@@ -8621,8 +8621,8 @@ export namespace Prisma {
     category_card_id: number
     label: number
     sub_label: number
-    referal_key: number
-    referal_link: number
+    referral_key: number
+    referral_link: number
     play_with_real_money: number
     play_for_free: number
     terms_and_condition: number
@@ -8647,8 +8647,8 @@ export namespace Prisma {
     category_card_id?: true
     label?: true
     sub_label?: true
-    referal_key?: true
-    referal_link?: true
+    referral_key?: true
+    referral_link?: true
     play_with_real_money?: true
     play_for_free?: true
     terms_and_condition?: true
@@ -8661,8 +8661,8 @@ export namespace Prisma {
     category_card_id?: true
     label?: true
     sub_label?: true
-    referal_key?: true
-    referal_link?: true
+    referral_key?: true
+    referral_link?: true
     play_with_real_money?: true
     play_for_free?: true
     terms_and_condition?: true
@@ -8675,8 +8675,8 @@ export namespace Prisma {
     category_card_id?: true
     label?: true
     sub_label?: true
-    referal_key?: true
-    referal_link?: true
+    referral_key?: true
+    referral_link?: true
     play_with_real_money?: true
     play_for_free?: true
     terms_and_condition?: true
@@ -8776,8 +8776,8 @@ export namespace Prisma {
     category_card_id: number | null
     label: string
     sub_label: string | null
-    referal_key: string
-    referal_link: string | null
+    referral_key: string
+    referral_link: string | null
     play_with_real_money: string | null
     play_for_free: string | null
     terms_and_condition: string | null
@@ -8809,8 +8809,8 @@ export namespace Prisma {
     category_card_id?: boolean
     label?: boolean
     sub_label?: boolean
-    referal_key?: boolean
-    referal_link?: boolean
+    referral_key?: boolean
+    referral_link?: boolean
     play_with_real_money?: boolean
     play_for_free?: boolean
     terms_and_condition?: boolean
@@ -8831,14 +8831,14 @@ export namespace Prisma {
     category_card_id?: boolean
     label?: boolean
     sub_label?: boolean
-    referal_key?: boolean
-    referal_link?: boolean
+    referral_key?: boolean
+    referral_link?: boolean
     play_with_real_money?: boolean
     play_for_free?: boolean
     terms_and_condition?: boolean
   }
 
-  export type CardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "published" | "type" | "category_card_id" | "label" | "sub_label" | "referal_key" | "referal_link" | "play_with_real_money" | "play_for_free" | "terms_and_condition", ExtArgs["result"]["card"]>
+  export type CardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "published" | "type" | "category_card_id" | "label" | "sub_label" | "referral_key" | "referral_link" | "play_with_real_money" | "play_for_free" | "terms_and_condition", ExtArgs["result"]["card"]>
   export type CardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category_card?: boolean | Card$category_cardArgs<ExtArgs>
     icon_card_images?: boolean | Card$icon_card_imagesArgs<ExtArgs>
@@ -8864,8 +8864,8 @@ export namespace Prisma {
       category_card_id: number | null
       label: string
       sub_label: string | null
-      referal_key: string
-      referal_link: string | null
+      referral_key: string
+      referral_link: string | null
       play_with_real_money: string | null
       play_for_free: string | null
       terms_and_condition: string | null
@@ -9249,8 +9249,8 @@ export namespace Prisma {
     readonly category_card_id: FieldRef<"Card", 'Int'>
     readonly label: FieldRef<"Card", 'String'>
     readonly sub_label: FieldRef<"Card", 'String'>
-    readonly referal_key: FieldRef<"Card", 'String'>
-    readonly referal_link: FieldRef<"Card", 'String'>
+    readonly referral_key: FieldRef<"Card", 'String'>
+    readonly referral_link: FieldRef<"Card", 'String'>
     readonly play_with_real_money: FieldRef<"Card", 'String'>
     readonly play_for_free: FieldRef<"Card", 'String'>
     readonly terms_and_condition: FieldRef<"Card", 'String'>
@@ -22664,8 +22664,8 @@ export namespace Prisma {
     category_card_id: 'category_card_id',
     label: 'label',
     sub_label: 'sub_label',
-    referal_key: 'referal_key',
-    referal_link: 'referal_link',
+    referral_key: 'referral_key',
+    referral_link: 'referral_link',
     play_with_real_money: 'play_with_real_money',
     play_for_free: 'play_for_free',
     terms_and_condition: 'terms_and_condition'
@@ -22891,8 +22891,8 @@ export namespace Prisma {
   export const CardOrderByRelevanceFieldEnum: {
     label: 'label',
     sub_label: 'sub_label',
-    referal_key: 'referal_key',
-    referal_link: 'referal_link',
+    referral_key: 'referral_key',
+    referral_link: 'referral_link',
     play_with_real_money: 'play_with_real_money',
     play_for_free: 'play_for_free',
     terms_and_condition: 'terms_and_condition'
@@ -23446,8 +23446,8 @@ export namespace Prisma {
     category_card_id?: IntNullableFilter<"Card"> | number | null
     label?: StringFilter<"Card"> | string
     sub_label?: StringNullableFilter<"Card"> | string | null
-    referal_key?: StringFilter<"Card"> | string
-    referal_link?: StringNullableFilter<"Card"> | string | null
+    referral_key?: StringFilter<"Card"> | string
+    referral_link?: StringNullableFilter<"Card"> | string | null
     play_with_real_money?: StringNullableFilter<"Card"> | string | null
     play_for_free?: StringNullableFilter<"Card"> | string | null
     terms_and_condition?: StringNullableFilter<"Card"> | string | null
@@ -23465,8 +23465,8 @@ export namespace Prisma {
     category_card_id?: SortOrderInput | SortOrder
     label?: SortOrder
     sub_label?: SortOrderInput | SortOrder
-    referal_key?: SortOrder
-    referal_link?: SortOrderInput | SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrderInput | SortOrder
     play_with_real_money?: SortOrderInput | SortOrder
     play_for_free?: SortOrderInput | SortOrder
     terms_and_condition?: SortOrderInput | SortOrder
@@ -23480,7 +23480,7 @@ export namespace Prisma {
 
   export type CardWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    referal_key?: string
+    referral_key?: string
     AND?: CardWhereInput | CardWhereInput[]
     OR?: CardWhereInput[]
     NOT?: CardWhereInput | CardWhereInput[]
@@ -23489,7 +23489,7 @@ export namespace Prisma {
     category_card_id?: IntNullableFilter<"Card"> | number | null
     label?: StringFilter<"Card"> | string
     sub_label?: StringNullableFilter<"Card"> | string | null
-    referal_link?: StringNullableFilter<"Card"> | string | null
+    referral_link?: StringNullableFilter<"Card"> | string | null
     play_with_real_money?: StringNullableFilter<"Card"> | string | null
     play_for_free?: StringNullableFilter<"Card"> | string | null
     terms_and_condition?: StringNullableFilter<"Card"> | string | null
@@ -23498,7 +23498,7 @@ export namespace Prisma {
     images?: CardImageListRelationFilter
     options?: CardOptionListRelationFilter
     faqs?: FaqCardListRelationFilter
-  }, "id" | "referal_key">
+  }, "id" | "referral_key">
 
   export type CardOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23507,8 +23507,8 @@ export namespace Prisma {
     category_card_id?: SortOrderInput | SortOrder
     label?: SortOrder
     sub_label?: SortOrderInput | SortOrder
-    referal_key?: SortOrder
-    referal_link?: SortOrderInput | SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrderInput | SortOrder
     play_with_real_money?: SortOrderInput | SortOrder
     play_for_free?: SortOrderInput | SortOrder
     terms_and_condition?: SortOrderInput | SortOrder
@@ -23529,8 +23529,8 @@ export namespace Prisma {
     category_card_id?: IntNullableWithAggregatesFilter<"Card"> | number | null
     label?: StringWithAggregatesFilter<"Card"> | string
     sub_label?: StringNullableWithAggregatesFilter<"Card"> | string | null
-    referal_key?: StringWithAggregatesFilter<"Card"> | string
-    referal_link?: StringNullableWithAggregatesFilter<"Card"> | string | null
+    referral_key?: StringWithAggregatesFilter<"Card"> | string
+    referral_link?: StringNullableWithAggregatesFilter<"Card"> | string | null
     play_with_real_money?: StringNullableWithAggregatesFilter<"Card"> | string | null
     play_for_free?: StringNullableWithAggregatesFilter<"Card"> | string | null
     terms_and_condition?: StringNullableWithAggregatesFilter<"Card"> | string | null
@@ -24680,8 +24680,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -24699,8 +24699,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -24715,8 +24715,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24734,8 +24734,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24752,8 +24752,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -24764,8 +24764,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24778,8 +24778,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26078,8 +26078,8 @@ export namespace Prisma {
     category_card_id?: SortOrder
     label?: SortOrder
     sub_label?: SortOrder
-    referal_key?: SortOrder
-    referal_link?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
     play_with_real_money?: SortOrder
     play_for_free?: SortOrder
     terms_and_condition?: SortOrder
@@ -26097,8 +26097,8 @@ export namespace Prisma {
     category_card_id?: SortOrder
     label?: SortOrder
     sub_label?: SortOrder
-    referal_key?: SortOrder
-    referal_link?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
     play_with_real_money?: SortOrder
     play_for_free?: SortOrder
     terms_and_condition?: SortOrder
@@ -26111,8 +26111,8 @@ export namespace Prisma {
     category_card_id?: SortOrder
     label?: SortOrder
     sub_label?: SortOrder
-    referal_key?: SortOrder
-    referal_link?: SortOrder
+    referral_key?: SortOrder
+    referral_link?: SortOrder
     play_with_real_money?: SortOrder
     play_for_free?: SortOrder
     terms_and_condition?: SortOrder
@@ -28031,8 +28031,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28048,8 +28048,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28095,8 +28095,8 @@ export namespace Prisma {
     category_card_id?: IntNullableFilter<"Card"> | number | null
     label?: StringFilter<"Card"> | string
     sub_label?: StringNullableFilter<"Card"> | string | null
-    referal_key?: StringFilter<"Card"> | string
-    referal_link?: StringNullableFilter<"Card"> | string | null
+    referral_key?: StringFilter<"Card"> | string
+    referral_link?: StringNullableFilter<"Card"> | string | null
     play_with_real_money?: StringNullableFilter<"Card"> | string | null
     play_for_free?: StringNullableFilter<"Card"> | string | null
     terms_and_condition?: StringNullableFilter<"Card"> | string | null
@@ -28364,8 +28364,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28382,8 +28382,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28433,8 +28433,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28451,8 +28451,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28576,8 +28576,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28594,8 +28594,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28657,8 +28657,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28675,8 +28675,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28853,8 +28853,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28871,8 +28871,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28922,8 +28922,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28940,8 +28940,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28981,8 +28981,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -28999,8 +28999,8 @@ export namespace Prisma {
     category_card_id?: number | null
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -29030,8 +29030,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29048,8 +29048,8 @@ export namespace Prisma {
     category_card_id?: NullableIntFieldUpdateOperationsInput | number | null
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29460,8 +29460,8 @@ export namespace Prisma {
     type: $Enums.CardType
     label: string
     sub_label?: string | null
-    referal_key: string
-    referal_link?: string | null
+    referral_key: string
+    referral_link?: string | null
     play_with_real_money?: string | null
     play_for_free?: string | null
     terms_and_condition?: string | null
@@ -29472,8 +29472,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29489,8 +29489,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29506,8 +29506,8 @@ export namespace Prisma {
     type?: EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
     label?: StringFieldUpdateOperationsInput | string
     sub_label?: NullableStringFieldUpdateOperationsInput | string | null
-    referal_key?: StringFieldUpdateOperationsInput | string
-    referal_link?: NullableStringFieldUpdateOperationsInput | string | null
+    referral_key?: StringFieldUpdateOperationsInput | string
+    referral_link?: NullableStringFieldUpdateOperationsInput | string | null
     play_with_real_money?: NullableStringFieldUpdateOperationsInput | string | null
     play_for_free?: NullableStringFieldUpdateOperationsInput | string | null
     terms_and_condition?: NullableStringFieldUpdateOperationsInput | string | null

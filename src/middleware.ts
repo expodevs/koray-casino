@@ -48,9 +48,6 @@ export default withAuth(
 
                 return !!token && token.user && token.user.role === UserRole.admin
             }
-        },
-        jwt: true
+        }
     }
 )
-
-

@@ -176,8 +176,8 @@ exports.Prisma.CardScalarFieldEnum = {
   category_card_id: 'category_card_id',
   label: 'label',
   sub_label: 'sub_label',
-  referal_key: 'referal_key',
-  referal_link: 'referal_link',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
   play_with_real_money: 'play_with_real_money',
   play_for_free: 'play_for_free',
   terms_and_condition: 'terms_and_condition'
@@ -337,8 +337,8 @@ exports.Prisma.CategoryCardOrderByRelevanceFieldEnum = {
 exports.Prisma.CardOrderByRelevanceFieldEnum = {
   label: 'label',
   sub_label: 'sub_label',
-  referal_key: 'referal_key',
-  referal_link: 'referal_link',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
   play_with_real_money: 'play_with_real_money',
   play_for_free: 'play_for_free',
   terms_and_condition: 'terms_and_condition'

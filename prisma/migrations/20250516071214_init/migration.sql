@@ -80,13 +80,13 @@ CREATE TABLE `Card` (
     `category_card_id` INTEGER NULL,
     `label` VARCHAR(191) NOT NULL,
     `sub_label` VARCHAR(191) NULL,
-    `referal_key` VARCHAR(191) NOT NULL,
-    `referal_link` VARCHAR(191) NULL,
+    `referral_key` VARCHAR(191) NOT NULL,
+    `referral_link` VARCHAR(191) NULL,
     `play_with_real_money` VARCHAR(191) NULL,
     `play_for_free` VARCHAR(191) NULL,
     `terms_and_condition` TEXT NULL,
 
-    UNIQUE INDEX `Card_referal_key_key`(`referal_key`),
+    UNIQUE INDEX `Card_referral_key_key`(`referral_key`),
     INDEX `Card_category_card_id_fkey`(`category_card_id`),
     INDEX `Card_type_idx`(`type`),
     PRIMARY KEY (`id`)
@@ -121,12 +121,14 @@ CREATE TABLE `Option` (
     `published` BOOLEAN NOT NULL,
     `use_for_filter` BOOLEAN NOT NULL,
     `input_type` ENUM('text', 'password', 'select', 'textarea', 'image') NOT NULL,
+    `type` ENUM('card', 'casino') NOT NULL DEFAULT 'card',
     `label` VARCHAR(191) NOT NULL,
     `tooltip` VARCHAR(191) NULL,
     `hash_tag` VARCHAR(191) NULL,
     `value` TEXT NOT NULL,
     `position` INTEGER NULL,
 
+    INDEX `Option_type_idx`(`type`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -202,9 +204,8 @@ CREATE TABLE `Page` (
 -- CreateTable
 CREATE TABLE `Builder` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `build_type` ENUM('text', 'category', 'faq') NOT NULL DEFAULT 'text',
+    `build_type` ENUM('text', 'textarea', 'htmlEditor', 'categoryCard', 'faq') NOT NULL DEFAULT 'text',
     `label` VARCHAR(191) NOT NULL,
-    `fields` LONGTEXT NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -220,6 +221,34 @@ CREATE TABLE `BuildPage` (
 
     INDEX `BuildPage_build_id_fkey`(`build_id`),
     INDEX `BuildPage_page_id_fkey`(`page_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Casino` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `published` BOOLEAN NOT NULL DEFAULT false,
+    `name` VARCHAR(191) NOT NULL,
+    `tooltip` VARCHAR(191) NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `referral_key` VARCHAR(191) NOT NULL,
+    `referral_link` VARCHAR(191) NULL,
+    `full_review_label` VARCHAR(191) NULL,
+    `full_review_link` VARCHAR(191) NULL,
+
+    UNIQUE INDEX `Casino_referral_key_key`(`referral_key`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `CasinoOption` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `option_id` INTEGER NOT NULL,
+    `casino_id` INTEGER NOT NULL,
+    `value` VARCHAR(191) NOT NULL,
+
+    INDEX `CasinoOption_casino_id_fkey`(`casino_id`),
+    INDEX `CasinoOption_option_id_fkey`(`option_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -258,3 +287,9 @@ ALTER TABLE `BuildPage` ADD CONSTRAINT `BuildPage_build_id_fkey` FOREIGN KEY (`b
 
 -- AddForeignKey
 ALTER TABLE `BuildPage` ADD CONSTRAINT `BuildPage_page_id_fkey` FOREIGN KEY (`page_id`) REFERENCES `Page`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `CasinoOption` ADD CONSTRAINT `CasinoOption_casino_id_fkey` FOREIGN KEY (`casino_id`) REFERENCES `Casino`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `CasinoOption` ADD CONSTRAINT `CasinoOption_option_id_fkey` FOREIGN KEY (`option_id`) REFERENCES `Option`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
