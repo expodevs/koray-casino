@@ -4,7 +4,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import TabGroup from '@/src/components/desktop/section/TabGroup';
+import FaqGroup from '@components/desktop/section/FaqGroup';
 
 function isImage(val) {
     return typeof val === 'string' && val.startsWith('/images/');
@@ -83,7 +83,7 @@ export default function CardSlot({
             </section>
 
             {faq && faq.length > 0 && (
-                <TabGroup items={faq} />
+                <FaqGroup items={faq} />
             )}
         </article>
     );

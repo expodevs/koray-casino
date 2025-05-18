@@ -4,7 +4,7 @@ import React from 'react';
 import NavTabs from '@/src/components/desktop/section/NavTabs';
 import CategoryList from '@/src/components/desktop/section/CategoryList';
 import FilterGame from '@/src/components/desktop/section/FilterGame';
-import TabGroup from '@/src/components/desktop/section/TabGroup';
+import FaqGroup from '@components/desktop/section/FaqGroup';
 import CardsList from '@/src/components/desktop/section/CardsList';
 
 import styles from './home.module.scss';
@@ -336,7 +336,7 @@ export default function HomePage() {
                     </div>
 
                     <section className="faq-default">
-                        <TabGroup items={cardsWithOptions[0].faq} />
+                        <FaqGroup items={cardsWithOptions[0].faq} />
                     </section>
                 </section>
 
@@ -411,7 +411,7 @@ export default function HomePage() {
                     </div>
 
                     <section className="faq-default">
-                        <TabGroup items={cardsWithOptions[0].faq} />
+                        <FaqGroup items={cardsWithOptions[0].faq} />
                     </section>
                 </section>
             </main>

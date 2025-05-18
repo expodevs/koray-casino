@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CardsList from '@/src/components/mobile/section/CardsList';
-import TabGroup from "@/src/components/mobile/section/TabGroup";
+import FaqGroup from "@/src/components/mobile/section/FaqGroup";
 import NavTabs from "@/src/components/mobile/section/NavTabs";
 
 import '@/styles/main.scss';
@@ -360,9 +360,7 @@ export default function FortunesPage() {
                     <section className="text-sm">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                     </section>
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
                 </section>
 
                 <section className="tile-section">

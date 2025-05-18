@@ -6,7 +6,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import TabGroup from '@/src/components/mobile/section/TabGroup';
+import FaqGroup from '@/src/components/mobile/section/FaqGroup';
 
 import styles from './CardGame.module.scss';
 
@@ -80,7 +80,7 @@ export default function CardSlot({
             </section>
 
             {faq && faq.length > 0 && (
-                <TabGroup items={faq} />
+                <FaqGroup items={faq} variant="faq-group" />
             )}
         </article>
     );

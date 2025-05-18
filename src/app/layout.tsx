@@ -1,5 +1,7 @@
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
+import { headers } from "next/headers";
+import '@/styles/base.scss';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,10 +24,13 @@ export default function RootLayout({
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const ua = headers().get("user-agent") || "";
+    const isMobile = /mobile/i.test(ua);
+    const deviceClass = isMobile ? "mobile" : "desktop";
     return (
         <html lang="en">
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} ${deviceClass} antialiased`}
         >
         {children}
         </body>

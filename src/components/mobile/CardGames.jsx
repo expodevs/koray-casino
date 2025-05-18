@@ -3,8 +3,6 @@
 import React from 'react';
 import CardsList from '@/src/components/mobile/section/CardsList';
 
-
-import TabGroup from "@/src/components/mobile/section/TabGroup";
 import {Pagination} from "swiper/modules";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -12,6 +10,10 @@ import 'swiper/css/navigation';
 import CardGameEasiest from "@/src/components/mobile/section/cards/CardGameEasiest";
 import NavTabs from "@/src/components/mobile/section/NavTabs";
 import FilterGame from "@/src/components/mobile/section/FilterGame";
+
+import FaqGroup from "@/src/components/mobile/section/FaqGroup";
+
+import styles from './CardGames.module.scss';
 
 const cardsGames = [
     {
@@ -118,7 +120,7 @@ export default function FortunesPage() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                 </p>
 
-                <section className="list-actions">
+                <section className={styles['list-actions']}>
                     <a href="" className="btn light-sm">2 Player Online Free Card Games</a>
                     <a href="" className="btn primary-sm">Multiplayer Free Online Card Games</a>
                     <a href="" className="btn light-sm">Online Card Games for Real Money</a>
@@ -132,11 +134,11 @@ export default function FortunesPage() {
                     <CardsList cards={cardsGames} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">Card Game Categories</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="list-actions">
+                    <section className={styles['list-actions']}>
                         <a href="" className="btn primary-sm">Play Online Casino Card Games</a>
                         <a href="" className="btn light-sm">Play Online Poker Card Games</a>
                         <a href="" className="btn light-sm">Play Online Three Card Poker</a>
@@ -146,39 +148,35 @@ export default function FortunesPage() {
 
                     <h2 className="title-section-sm">Play Online Casino Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                    <section className="list-online-casino">
-                        <div className="item-casino">
-                            <div className="title">Blackjack (21)</div>
-                            <div className="text">A casino classic where the goal is to reach 21 without going over.</div>
+                    <section className={styles['list-online-casino']}>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Blackjack (21)</div>
+                            <div className={styles.text}>A casino classic where the goal is to reach 21 without going over.</div>
                         </div>
-                        <div className="item-casino">
-                            <div className="title">Poker (Texas Hold’em)</div>
-                            <div className="text">A skill and strategy game where players compete for the pot.</div>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Poker (Texas Hold’em)</div>
+                            <div className={styles.text}>A skill and strategy game where players compete for the pot.</div>
                         </div>
-                        <div className="item-casino">
-                            <div className="title">Baccarat</div>
-                            <div className="text">Enjoy the thrill of comparing hands between the banker and the player.</div>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Baccarat</div>
+                            <div className={styles.text}>Enjoy the thrill of comparing hands between the banker and the player.</div>
                         </div>
                     </section>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
 
                     <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
@@ -224,7 +222,7 @@ export default function FortunesPage() {
                     </div>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What are the Best Online Card Games for Advanced Players?</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
@@ -247,13 +245,11 @@ export default function FortunesPage() {
                     </div>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What to know about Online Card Games?</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
                 </section>
             </main>
         </div>

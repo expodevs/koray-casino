@@ -1,4 +1,4 @@
-@use 'styles/desktop/base/variables' as *;
+@use 'styles/mobile/base/variables' as *;
 
 .list-actions {
   display: flex;
@@ -18,30 +18,42 @@
     }
   }
 }
-
 .tile-section {
   margin-left: -15px;
   width: calc(100% + 30px);
   padding: 15px;
-  border: none;
+  border-bottom: 10px solid #EDEDEF;
+  .text-content {
+    ul,ol {
+      padding-left: 30px;
+      li {
+        color: #707070;
+        strong {
+          color: #000;
+          font-weight: 400;
+        }
+      }
+    }
+    h3 {
+      font-weight: 600;
+      font-size: 18px;
+      margin: 15px 0;
+    }
+  }
 }
 
 .list-online-casino {
   margin: 15px 0;
+  display: flex;
+  flex-direction: column;
   row-gap: 16px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
   .item-casino {
+    border: 1px solid #C8C7CB;
     border-radius: 4px;
     padding: 15px;
-    border: 1px solid $color-theme;
     .text {
       color : #707070;
       font-size: 14px;
-    }
-    .title {
-      color: $color-theme;
     }
   }
 }

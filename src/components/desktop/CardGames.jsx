@@ -3,7 +3,7 @@
 import React from 'react';
 import CardsList from '@/src/components/desktop/section/CardsList';
 
-import TabGroup from "@/src/components/desktop/section/TabGroup";
+import FaqGroup from "@components/desktop/section/FaqGroup";
 import {Pagination} from "swiper/modules";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -136,12 +136,12 @@ export default function CardGamesPage() {
                     <CardsList cards={cardsGames} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">Card Game Categories</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="list-actions-row">
-                        <section className="list-actions">
+                    <section className={styles['list-actions-row']}>
+                        <section className={styles['list-actions']}>
                             <a href="" className="btn primary-sm">Play Online Casino Card Games</a>
                             <a href="" className="btn light-sm">Play Online Poker Card Games</a>
                             <a href="" className="btn light-sm">Play Online Three Card Poker</a>
@@ -153,36 +153,32 @@ export default function CardGamesPage() {
 
                     <h2 className="title-section-sm">Play Online Casino Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                    <section className="list-online-casino">
-                        <div className="item-casino">
-                            <div className="title">Blackjack (21)</div>
-                            <div className="text">A casino classic where the goal is to reach 21 without going over.</div>
+                    <section className={styles['list-online-casino']}>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Blackjack (21)</div>
+                            <div className={styles.text}>A casino classic where the goal is to reach 21 without going over.</div>
                         </div>
-                        <div className="item-casino">
-                            <div className="title">Poker (Texas Hold’em)</div>
-                            <div className="text">A skill and strategy game where players compete for the pot.</div>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Poker (Texas Hold’em)</div>
+                            <div className={styles.text}>A skill and strategy game where players compete for the pot.</div>
                         </div>
-                        <div className="item-casino">
-                            <div className="title">Baccarat</div>
-                            <div className="text">Enjoy the thrill of comparing hands between the banker and the player.</div>
+                        <div className={styles['item-casino']}>
+                            <div className={styles.title}>Baccarat</div>
+                            <div className={styles.text}>Enjoy the thrill of comparing hands between the banker and the player.</div>
                         </div>
                     </section>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
 
                     <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
                 </section>
 
                 <h2 className="title-section-sm">How to Play Free Online Card Games</h2>
@@ -200,13 +196,11 @@ export default function CardGamesPage() {
                 <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
                 <CardsList cards={cardsGamesEasiest} />
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What to know about Online Card Games?</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                    <section className="faq-default">
-                        <TabGroup items={faq} />
-                    </section>
+                    <FaqGroup items={faq} />
                 </section>
             </main>
         </div>

@@ -6,6 +6,8 @@ import CardSlotCompare from '@/src/components/mobile/section/cards/CardSlotCompa
 import CardCasino from "@/src/components/mobile/section/cards/CardCasino";
 import CardGame from "@/src/components/mobile/section/cards/CardGame";
 
+import styles from './CardsList.module.scss';
+
 export default function CardsList({ cards = [] }) {
     const renderCard = (card, index) => {
         switch (card.type) {
@@ -51,7 +53,7 @@ export default function CardsList({ cards = [] }) {
     };
 
     return (
-        <section>
+        <section className={styles['cards-list']}>
             {cards.map(renderCard)}
 
             <button className="btn light-sm">

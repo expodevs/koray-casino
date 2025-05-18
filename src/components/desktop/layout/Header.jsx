@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import '@/styles/desktop/base.scss';
 import styles from './Header.module.scss';
 
 export default function DesktopHeaderTemplate() {

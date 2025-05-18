@@ -1,8 +1,8 @@
-'use client'
-
 import React from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+import styles from './CardGame.module.scss';
 
 const defaultOptions = [
     { label: 'Win rate', value: '97.50%' },
@@ -14,37 +14,37 @@ const defaultOptions = [
 ];
 
 export default function CardSlot({
-             type = '',
-             name = '',
-             image = '',
-             excerpt = '',
-             options = [],
-         }) {
+                                     type = '',
+                                     name = '',
+                                     image = '',
+                                     excerpt = '',
+                                     options = [],
+                                 }) {
     const finalOptions = options && options.length > 0 ? options : defaultOptions;
 
     return (
-        <article className="item-card game">
-            <figure className="thumb-wrap">
+        <article className={`${styles['item-card']} ${styles.game}`}>
+            <figure className={styles['thumb-wrap']}>
                 <img src={image} alt="Game Image" />
             </figure>
 
-            <div className="name">{name}</div>
+            <div className={`${styles.name} ${styles.shadow}`}>{name}</div>
 
-            <div className="excerpt">{excerpt}</div>
-            <div className="list-options">
+            <div className={styles.excerpt}>{excerpt}</div>
+            <div className={styles['list-options']}>
                 {finalOptions.map((option, index) => (
-                    <div className={`item-option ${option.label.includes('Easiness') ? 'row' : ''}`} key={index}>
-                        <div className="label-option">
-                            <div className="name-option">{option.label}</div>
+                    <div className={`${styles['item-option']} ${option.label.includes('Easiness') ? styles.row : ''}`} key={index}>
+                        <div className={styles['label-option']}>
+                            <div className={styles['name-option']}>{option.label}</div>
                         </div>
-                        <div className="label-value">
+                        <div className={styles['label-value']}>
                             <span>{option.value}</span>
                         </div>
                     </div>
                 ))}
             </div>
 
-            <section className="list-actions">
+            <section className={styles['list-actions']}>
                 <a href="components/section" className="btn primary">Play now</a>
             </section>
 

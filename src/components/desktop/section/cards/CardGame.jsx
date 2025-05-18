@@ -4,9 +4,9 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import TabGroup from '@/src/components/desktop/section/TabGroup';
+import FaqGroup from '@components/desktop/section/FaqGroup';
 
-import styles from './CardGame.module.scss'';
+import styles from './CardGame.module.scss';
 function isImage(val) {
     return typeof val === 'string' && val.startsWith('/images/');
 }
@@ -42,7 +42,7 @@ export default function CardGame({
             >
                 {images.map((image, idx) => (
                     <SwiperSlide key={idx}>
-                        <figure className="thumb-wrap">
+                        <figure className={styles['thumb-wrap']}>
                             <img src={image} alt="Game Image" />
                         </figure>
                     </SwiperSlide>
@@ -57,7 +57,7 @@ export default function CardGame({
             <div className={styles['list-options']}>
                 {finalOptions.map((option, index) => (
                     <div className={`${styles['item-option']} ${option.label.includes('RTP') ? styles.row : ''}`} key={index}>
-                        <div className=${styles['label-option']}>
+                        <div className={styles['label-option']}>
                             <div className={styles['name-option']}>{option.label}</div>
                         </div>
                         <div className={styles['label-value']}>
@@ -71,13 +71,13 @@ export default function CardGame({
                 ))}
             </div>
 
-            <section className="list-actions">
+            <section className={styles['list-actions']}>
                 <a href="components/section" className="btn primary">Play with Real Money</a>
                 <a href="components/section" className="btn light">Play for Free</a>
             </section>
 
             {faq && faq.length > 0 && (
-                <TabGroup items={faq} />
+                <FaqGroup items={faq} variant="faq-group" />
             )}
         </article>
     );
