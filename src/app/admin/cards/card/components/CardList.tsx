@@ -19,7 +19,7 @@ export default function CardList() {
         isError,
         refetch,
     } = useRequestData<ApiResponse<Card>>({
-        url: `${routeAdminApiCards.all}/card?page=${page}&limit=${limit}`,
+        url: `${routeAdminApiCards.allCard}?page=${page}&limit=${limit}`,
         queryKey: ['cards-card', page, limit]
     });
 
@@ -27,7 +27,7 @@ export default function CardList() {
         if (!confirm('Are you sure?')) return;
 
         try {
-            const res = await fetch(`${routeAdminApiCards.all}/card/${id}`, {
+            const res = await fetch(routeAdminApiCards.oneCard(id.toString()), {
                 method: 'DELETE',
             });
 
@@ -44,7 +44,7 @@ export default function CardList() {
         <div className="p-6">
             <div className="mb-4 flex justify-end items-center">
                 <Link
-                    href={`${routeAdminPageCards.card}/create`}
+                    href={routeAdminPageCards.createCard}
                     className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
                 >
                     Create Card
@@ -79,7 +79,7 @@ export default function CardList() {
                                     <td className="p-3">{card.published ? '✅' : '❌'}</td>
                                     <td className="p-3 flex gap-2">
                                         <Link
-                                            href={`${routeAdminPageCards.card}/${card.id}/edit`}
+                                            href={routeAdminPageCards.editCard(card.id.toString())}
                                             className="text-blue-500"
                                         >
                                             <FaEdit />

@@ -19,7 +19,7 @@ export default function CartList() {
         isError,
         refetch,
     } = useRequestData<ApiResponse<Card>>({
-        url: `${routeAdminApiCards.all}/cart?page=${page}&limit=${limit}`,
+        url: `${routeAdminApiCards.allCart}?page=${page}&limit=${limit}`,
         queryKey: ['cards-cart', page, limit]
     });
 
@@ -27,7 +27,7 @@ export default function CartList() {
         if (!confirm('Are you sure?')) return;
 
         try {
-            const res = await fetch(`${routeAdminApiCards.all}/cart/${id}`, {
+            const res = await fetch(routeAdminApiCards.oneCart(id.toString()), {
                 method: 'DELETE',
             });
 
@@ -44,7 +44,7 @@ export default function CartList() {
         <div className="p-6">
             <div className="mb-4 flex justify-end items-center">
                 <Link
-                    href={`${routeAdminPageCards.cart}/create`}
+                    href={routeAdminPageCards.createCart}
                     className="bg-blue-500 text-white px-4 py-2 mb-4 rounded hover:bg-blue-600"
                 >
                     Create Cart Card
