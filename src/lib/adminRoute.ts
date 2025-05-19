@@ -69,7 +69,7 @@ const routeAdminPagePages = {
 
 const routeAdminApiOptions = {
     all: apiRoutes.options,
-    list: `${apiRoutes.casinoOptions}/all`,
+    list: `${apiRoutes.options}/all`,
     one: (id: string): string => `${apiRoutes.options}/${id}`,
 };
 
@@ -154,6 +154,7 @@ const routeAdminPageIconCards = {
 const routeAdminApiIconCardImages = {
     all: apiRoutes.iconCardImages,
     one: (id: string): string => `${apiRoutes.iconCardImages}/${id}`,
+    selectBy: (id: string): string => `${apiRoutes.iconCardImages}/${id}/select`,
 };
 
 const routeAdminPageIconCardImages = {

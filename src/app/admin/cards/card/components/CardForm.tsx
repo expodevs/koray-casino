@@ -18,6 +18,7 @@ import CustomFileSelector from "@components/file/CustomFileSelector";
 import ImagePreview from "@components/file/ImagePreview";
 import Image from "next/image";
 import FaqBuilder, { FaqItem } from "@components/FaqBuilder";
+import CardOptions from "@app/admin/cards/card/components/CardOptions"
 
 interface CardFormProps {
   card?: Card;
@@ -137,48 +138,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     }
   }, [card]);
 
-  // Handle adding a new option to the card
-  const handleAddOption = (optionId: string, value: string) => {
-    if (!optionId || !value) return;
-
-    // Check if option already exists
-    const exists = cardOptions.some(opt => opt.option_id === parseInt(optionId));
-    if (exists) {
-      toast.error('This option is already added');
-      return;
-    }
-
-    setCardOptions([...cardOptions, {
-      option_id: parseInt(optionId),
-      value
-    }]);
-  };
-
-  // Handle removing an option from the card
-  const handleRemoveOption = (index: number) => {
-    setCardOptions(cardOptions.filter((_, idx) => idx !== index));
-  };
-
-  // Handle adding a new icon card image to the card
-  const handleAddIconCardImage = (iconCardImageId: string) => {
-    if (!iconCardImageId) return;
-
-    // Check if icon card image already exists
-    const exists = cardIconImages.some(img => img.icon_card_image_id === parseInt(iconCardImageId));
-    if (exists) {
-      toast.error('This icon card image is already added');
-      return;
-    }
-
-    setCardIconImages([...cardIconImages, {
-      icon_card_image_id: parseInt(iconCardImageId)
-    }]);
-  };
-
-  // Handle removing an icon card image from the card
-  const handleRemoveIconCardImage = (index: number) => {
-    setCardIconImages(cardIconImages.filter((_, idx) => idx !== index));
-  };
 
   // FAQ management is now handled by the FaqBuilder component
 
@@ -317,138 +276,14 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
             </TabContent>
 
             <TabContent id="options">
-              <div className="space-y-6">
-                <div className="border p-4 rounded">
-                  <h3 className="font-semibold mb-4">Card Options</h3>
-
-                  {/* List of added options */}
-                  {cardOptions.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-2">Added Options:</h4>
-                      <div className="space-y-2">
-                        {cardOptions.map((opt, index) => (
-                          <div key={`option-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                            <div>
-                              <span className="font-medium">
-                                {options?.find(o => o.id === opt.option_id)?.label || 'Unknown Option'}
-                              </span>
-                              <span className="ml-2 text-gray-500">Value: {opt.value}</span>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveOption(index)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Add new option form */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">Option</label>
-                      <select
-                        className="w-full p-2 border rounded"
-                        id="new-option-id"
-                      >
-                        <option value="">Select Option</option>
-                        {(options || []).map(option => (
-                          <option key={option.id} value={option.id}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">Value</label>
-                      <input
-                        type="text"
-                        className="w-full p-2 border rounded"
-                        id="new-option-value"
-                      />
-                    </div>
-                    <div className="flex items-end">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const optionId = (document.getElementById('new-option-id') as HTMLSelectElement).value;
-                          const value = (document.getElementById('new-option-value') as HTMLInputElement).value;
-                          handleAddOption(optionId, value);
-                          (document.getElementById('new-option-id') as HTMLSelectElement).value = '';
-                          (document.getElementById('new-option-value') as HTMLInputElement).value = '';
-                        }}
-                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                      >
-                        Add Option
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border p-4 rounded">
-                  <h3 className="font-semibold mb-4">Icon Card Images</h3>
-
-                  {/* List of added icon card images */}
-                  {cardIconImages.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-2">Added Icon Card Images:</h4>
-                      <div className="space-y-2">
-                        {cardIconImages.map((img, index) => (
-                          <div key={`icon-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                            <div>
-                              <span className="font-medium">
-                                Icon Card Image ID: {img.icon_card_image_id}
-                              </span>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveIconCardImage(index)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Add new icon card image form */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">Icon Card Image</label>
-                      <select
-                        className="w-full p-2 border rounded"
-                        id="new-icon-card-image-id"
-                      >
-                        <option value="">Select Icon Card Image</option>
-                        {(iconCards || []).map(icon => (
-                          <option key={icon.id} value={icon.id}>
-                            {icon.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex items-end">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const iconCardImageId = (document.getElementById('new-icon-card-image-id') as HTMLSelectElement).value;
-                          handleAddIconCardImage(iconCardImageId);
-                          (document.getElementById('new-icon-card-image-id') as HTMLSelectElement).value = '';
-                        }}
-                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                      >
-                        Add Icon Card Image
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <CardOptions
+                options={options}
+                iconCards={iconCards}
+                cardOptions={cardOptions}
+                setCardOptions={setCardOptions}
+                cardIconImages={cardIconImages}
+                setCardIconImages={setCardIconImages}
+              />
             </TabContent>
 
             <TabContent id="faq">
