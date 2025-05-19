@@ -3,17 +3,13 @@
 import { useEffect, useState } from 'react';
 import CartForm from "@app/admin/cards/cart/components/CartForm";
 import { routeAdminApiCards, routeAdminPageCards } from "@lib/adminRoute";
-import { useRouter } from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import { toast } from "react-toastify";
 import { Card } from "@/@types/response";
 
-interface EditCartPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function EditCartPage({ params }: EditCartPageProps) {
+export default function EditCartPage() {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [card, setCard] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +18,7 @@ export default function EditCartPage({ params }: EditCartPageProps) {
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await fetch(routeAdminApiCards.oneCart(params.id));
+        const response = await fetch(routeAdminApiCards.oneCart(id));
         
         if (!response.ok) {
           throw new Error('Failed to fetch cart card');
@@ -44,7 +40,7 @@ export default function EditCartPage({ params }: EditCartPageProps) {
 
   const handleSubmit = async (data: unknown) => {
     try {
-      const response = await fetch(routeAdminApiCards.oneCart(params.id), {
+      const response = await fetch(routeAdminApiCards.oneCart(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

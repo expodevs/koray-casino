@@ -3,17 +3,14 @@
 import { useEffect, useState } from 'react';
 import CardForm from "@app/admin/cards/card/components/CardForm";
 import { routeAdminApiCards, routeAdminPageCards } from "@lib/adminRoute";
-import { useRouter } from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import { toast } from "react-toastify";
 import { Card } from "@/@types/response";
 
-interface EditCardPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function EditCardPage({ params }: EditCardPageProps) {
+
+export default function EditCardPage() {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [card, setCard] = useState<Card | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +19,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await fetch(`${routeAdminApiCards.all}/card/${params.id}`);
+        const response = await fetch(routeAdminApiCards.oneCard(id));
         
         if (!response.ok) {
           throw new Error('Failed to fetch card');
@@ -40,11 +37,11 @@ export default function EditCardPage({ params }: EditCardPageProps) {
     };
 
     fetchCard();
-  }, [params.id]);
+  }, [id]);
 
   const handleSubmit = async (data: unknown) => {
     try {
-      const response = await fetch(`${routeAdminApiCards.all}/card/${params.id}`, {
+      const response = await fetch(routeAdminApiCards.oneCard(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
