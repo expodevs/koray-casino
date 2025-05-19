@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { Option, IconCardSelect, IconCardImage } from "@/@types/response";
 import { routeAdminApiIconCardImages } from "@lib/adminRoute";
+import {$Enums} from "@prismaClient";
+import InputType = $Enums.InputType;
 
 interface CardOptionsProps {
   options: Option[] | undefined;

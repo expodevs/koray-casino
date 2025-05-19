@@ -165,16 +165,16 @@ const routeAdminPageIconCardImages = {
 
 const routeAdminApiCards = {
     all: apiRoutes.cards,
-    allCard: `${pagesRoutes.cards}/card`,
-    allCart: `${pagesRoutes.cards}/cart`,
+    allCard: `${apiRoutes.cards}/card`,
+    allCart: `${apiRoutes.cards}/cart`,
     oneCard: (id: string): string => `${apiRoutes.cards}/card/${id}`,
     oneCart: (id: string): string => `${apiRoutes.cards}/cart/${id}`,
 };
 
 const routeAdminPageCards = {
     all: pagesRoutes.cards,
-    createCard: `${pagesRoutes.cards}/create`,
-    createCart: `${pagesRoutes.cards}/create`,
+    createCard: `${pagesRoutes.cards}/card/create`,
+    createCart: `${pagesRoutes.cards}/cart/create`,
     editCard: (id: string): string => `${pagesRoutes.cards}/card/${id}/edit`,
     editCart: (id: string): string => `${pagesRoutes.cards}/cart/${id}/edit`,
     card: `${pagesRoutes.cards}/card`,
