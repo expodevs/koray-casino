@@ -17,6 +17,7 @@ import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import CustomFileSelector from "@components/file/CustomFileSelector";
 import ImagePreview from "@components/file/ImagePreview";
 import Image from "next/image";
+import FaqBuilder, { FaqItem } from "@components/FaqBuilder";
 
 interface CardFormProps {
   card?: Card;
@@ -88,6 +89,28 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
   const [cardIconImages, setCardIconImages] = useState<{icon_card_image_id: number}[]>([]);
   // State for managing card FAQs
   const [cardFaqs, setCardFaqs] = useState<{faq_id: number, position: number}[]>([]);
+
+  // Convert cardFaqs to FaqItem format for FaqBuilder
+  const getFaqItems = (): FaqItem[] => {
+    return cardFaqs.map(faq => ({
+      id: faq.faq_id.toString(),
+      position: faq.position
+    }));
+  };
+
+  // Handle FaqBuilder onChange event
+  const handleFaqBuilderChange = (value: string) => {
+    try {
+      const faqItems: FaqItem[] = JSON.parse(value);
+      const newCardFaqs = faqItems.map(item => ({
+        faq_id: parseInt(item.id),
+        position: item.position
+      }));
+      setCardFaqs(newCardFaqs);
+    } catch (error) {
+      console.error('Failed to parse FAQ items:', error);
+    }
+  };
   // State for managing card images
   const [cardImages, setCardImages] = useState<{src: string, newImage?: string, alt: string, position: number}[]>([]);
 
@@ -157,57 +180,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     setCardIconImages(cardIconImages.filter((_, idx) => idx !== index));
   };
 
-  // Handle adding a new FAQ to the card
-  const handleAddFaq = (faqId: string) => {
-    if (!faqId) return;
-
-    // Check if FAQ already exists
-    const exists = cardFaqs.some(faq => faq.faq_id === parseInt(faqId));
-    if (exists) {
-      toast.error('This FAQ is already added');
-      return;
-    }
-
-    setCardFaqs([...cardFaqs, {
-      faq_id: parseInt(faqId),
-      position: cardFaqs.length + 1
-    }]);
-  };
-
-  // Handle removing a FAQ from the card
-  const handleRemoveFaq = (index: number) => {
-    const newFaqs = cardFaqs.filter((_, idx) => idx !== index);
-    // Update positions after removal
-    const updatedFaqs = newFaqs.map((faq, idx) => ({
-      ...faq,
-      position: idx + 1
-    }));
-    setCardFaqs(updatedFaqs);
-  };
-
-  // Handle moving a FAQ up in the list
-  const moveFaqUp = (index: number) => {
-    if (index === 0) return; // Already at the top
-
-    const newFaqs = [...cardFaqs];
-    const temp = newFaqs[index].position;
-    newFaqs[index].position = newFaqs[index - 1].position;
-    newFaqs[index - 1].position = temp;
-
-    setCardFaqs(newFaqs.sort((a, b) => a.position - b.position));
-  };
-
-  // Handle moving a FAQ down in the list
-  const moveFaqDown = (index: number) => {
-    if (index === cardFaqs.length - 1) return; // Already at the bottom
-
-    const newFaqs = [...cardFaqs];
-    const temp = newFaqs[index].position;
-    newFaqs[index].position = newFaqs[index + 1].position;
-    newFaqs[index + 1].position = temp;
-
-    setCardFaqs(newFaqs.sort((a, b) => a.position - b.position));
-  };
+  // FAQ management is now handled by the FaqBuilder component
 
   // Handle file selection for image upload
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -483,82 +456,12 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
                 <div className="border p-4 rounded">
                   <h3 className="font-semibold mb-4">Card FAQs</h3>
 
-                  {/* List of added FAQs */}
-                  {cardFaqs.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-2">Added FAQs:</h4>
-                      <div className="space-y-2">
-                        {cardFaqs.map((faq, index) => (
-                          <div key={`faq-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                            <div>
-                              <span className="font-medium">
-                                {faqs?.find(f => f.id === faq.faq_id)?.question || 'Unknown FAQ'}
-                              </span>
-                              <span className="ml-2 text-gray-500">Position: {faq.position}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="flex flex-col">
-                                <button 
-                                  type="button"
-                                  onClick={() => moveFaqUp(index)}
-                                  className="p-1 text-blue-600 rounded hover:bg-blue-100"
-                                  disabled={index === 0}
-                                >
-                                  ↑
-                                </button>
-                                <button 
-                                  type="button"
-                                  onClick={() => moveFaqDown(index)}
-                                  className="p-1 text-blue-600 rounded hover:bg-blue-100"
-                                  disabled={index === cardFaqs.length - 1}
-                                >
-                                  ↓
-                                </button>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveFaq(index)}
-                                className="text-red-500 hover:text-red-700"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Add new FAQ form */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">FAQ</label>
-                      <select
-                        className="w-full p-2 border rounded"
-                        id="new-faq-id"
-                      >
-                        <option value="">Select FAQ</option>
-                        {(faqs || []).map(faq => (
-                          <option key={faq.id} value={faq.id}>
-                            {faq.question}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex items-end">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const faqId = (document.getElementById('new-faq-id') as HTMLSelectElement).value;
-                          handleAddFaq(faqId);
-                          (document.getElementById('new-faq-id') as HTMLSelectElement).value = '';
-                        }}
-                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                      >
-                        Add FAQ
-                      </button>
-                    </div>
-                  </div>
+                  <FaqBuilder
+                    label="Select FAQs"
+                    faqItems={getFaqItems()}
+                    faqs={faqs}
+                    onChange={handleFaqBuilderChange}
+                  />
                 </div>
               </div>
             </TabContent>

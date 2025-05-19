@@ -75,6 +75,7 @@ export default function FaqBuilder({ label, faqItems, faqs, onChange }: FaqBuild
                 {displayItems.map((item, selectIdx) => (
                     <div key={`faq-select-${selectIdx}`} className="flex items-center gap-2">
                         <select
+                            required={true}
                             className="w-full p-2 border rounded"
                             value={item.id}
                             onChange={(e) => updateSelectValue(selectIdx, e.target.value)}
