@@ -14,7 +14,8 @@ import {Builder, BuildType, CategoryCard} from "@prismaClient";
 import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
-import FaqBuilder from "@components/FaqBuilder";
+import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
+
 
 
 
@@ -180,11 +181,31 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         if (builder.build_type === BuildType.faq) {
+            const parseFaqItems = (): FaqItem[] => {
+                if (!buildPage.field_values) {
+                    return [];
+                }
+
+                let result: FaqItem[] = [];
+                try {
+                    result = JSON.parse(buildPage.field_values);
+                } catch {
+                    const oldValues = buildPage.field_values.split(',').filter(Boolean);
+                    result = oldValues.map((id, index) => ({
+                        id,
+                        position: index + 1
+                    }));
+                }
+                return result;
+            };
+
+            const faqItems = parseFaqItems();
+
             return (
                 <FaqBuilder
                     key={`builder-${buildPage.build_id}-${idx}`}
                     label={builder.label}
-                    fieldValues={buildPage.field_values}
+                    faqItems={faqItems}
                     faqs={faqs}
                     onChange={(value) => handleFieldValueChange(idx, value)}
                 />

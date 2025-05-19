@@ -1,38 +1,15 @@
 import React from "react";
 import { Faq } from "@/@types/response";
-
-interface FaqItem {
-    id: string;
-    position: number;
-}
+import { FaqItem } from "./types";
 
 interface FaqBuilderProps {
     label: string;
-    fieldValues: string;
+    faqItems: FaqItem[];
     faqs: Faq[] | undefined;
     onChange: (value: string) => void;
 }
 
-export default function FaqBuilder({ label, fieldValues, faqs, onChange }: FaqBuilderProps) {
-    const parseFaqItems = (): FaqItem[] => {
-        if (!fieldValues) {
-            return [];
-        }
-
-        let result: FaqItem[] = [];
-        try {
-            result = JSON.parse(fieldValues);
-        } catch {
-            const oldValues = fieldValues.split(',').filter(Boolean);
-            result = oldValues.map((id, index) => ({
-                id,
-                position: index + 1
-            }));
-        }
-        return result;
-    };
-
-    const faqItems = parseFaqItems();
+export default function FaqBuilder({ label, faqItems, faqs, onChange }: FaqBuilderProps) {
     const displayItems = faqItems.length > 0 ? faqItems.sort((a, b) => a.position - b.position) : [{ id: '', position: 1 }];
 
     const saveFaqItems = (items: FaqItem[]) => {
