@@ -20,7 +20,6 @@ interface EntityFormProps {
     onSubmit: (data: unknown) => void;
 }
 
-// Define a type for casino options
 interface CasinoOptionItem {
     id?: number;
     option_id: number;
@@ -52,13 +51,11 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         },
     });
 
-    // Fetch casino options
     const {data: casinoOptions, isLoading: isLoadingCasinoOptions} = useRequestData<Option[]>({
         url: routeAdminApiCasinoOptions.list,
         queryKey: 'casinoOptions'
     });
 
-    // State for managing selected options
     const [selectedOptionId, setSelectedOptionId] = useState<number>(0);
     const [casinoOptionItems, setCasinoOptionItems] = useState<CasinoOptionItem[]>([]);
 
@@ -93,14 +90,12 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             setValue('full_review_link', entity.full_review_link);
             setValue('published', entity.published);
 
-            // Set casino options if they exist
             if (entity.options && entity.options.length > 0) {
                 setCasinoOptionItems(entity.options);
             }
         }
     }, [entity?.id]);
 
-    // Functions for managing casino options
     const handleAddOption = useCallback((e) => {
         e.preventDefault();
         if (!selectedOptionId) return;
@@ -137,7 +132,6 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
 
     const handleFormSubmit = async (data: FormData) => {
         try {
-            // Add casino options to the form data
             data.options = casinoOptionItems;
             await onSubmit(data);
         } catch (error: unknown) {

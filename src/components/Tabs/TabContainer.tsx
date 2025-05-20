@@ -2,7 +2,6 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-// Create a context for tab state management
 interface TabContextType {
   activeTab: string;
   setActiveTab: (id: string) => void;
@@ -10,7 +9,6 @@ interface TabContextType {
 
 const TabContext = createContext<TabContextType | undefined>(undefined);
 
-// Hook to use the tab context
 export const useTabContext = () => {
   const context = useContext(TabContext);
   if (!context) {

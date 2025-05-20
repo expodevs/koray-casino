@@ -103,6 +103,25 @@ export interface Option {
     position: number | null,
 }
 
+export interface Card {
+    id: number,
+    published: boolean,
+    type: string,
+    category_card_id: number | null,
+    label: string,
+    description: string | null,
+    referral_key: string,
+    referral_btn_1_link: string | null,
+    referral_btn_2_link: string | null,
+    position: number | null,
+    terms_and_condition: string | null,
+    category_card?: CategoryCard,
+    icon_card_images?: Record<string, unknown>[],
+    images?: Record<string, unknown>[],
+    options?: Record<string, unknown>[],
+    faqs?: Record<string, unknown>[],
+}
+
 export interface Casino {
     id: number,
     published: boolean,

@@ -64,14 +64,11 @@ export async function POST(req: NextRequest) {
             const newImage = data.newImage;
             delete data.newImage;
 
-            // Extract options data
             const options = data.options || [];
             delete data.options;
 
-            // Create casino
             const entity = await prisma.casino.create({data});
 
-            // Create options
             if (options.length > 0) {
                 await Promise.all(options.map(option => {
                     return prisma.casinoOption.create({

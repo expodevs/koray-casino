@@ -12,6 +12,7 @@ const apiRoutes = {
     categoryCards: '/api/admin/categoryCards',
     iconCards: '/api/admin/iconCards',
     iconCardImages: '/api/admin/iconCardImages',
+    cards: '/api/admin/cards',
 };
 
 const pagesRoutes = {
@@ -26,6 +27,7 @@ const pagesRoutes = {
     categoryCards: '/admin/categoryCards',
     iconCards: '/admin/iconCards',
     iconCardImages: '/admin/iconCardImages',
+    cards: '/admin/cards',
 };
 
 const routeAdminApiBuilders = {
@@ -67,6 +69,7 @@ const routeAdminPagePages = {
 
 const routeAdminApiOptions = {
     all: apiRoutes.options,
+    list: `${apiRoutes.options}/all`,
     one: (id: string): string => `${apiRoutes.options}/${id}`,
 };
 
@@ -151,12 +154,32 @@ const routeAdminPageIconCards = {
 const routeAdminApiIconCardImages = {
     all: apiRoutes.iconCardImages,
     one: (id: string): string => `${apiRoutes.iconCardImages}/${id}`,
+    selectBy: (id: string): string => `${apiRoutes.iconCardImages}/${id}/select`,
+    selected: `${apiRoutes.iconCardImages}/selected`,
 };
 
 const routeAdminPageIconCardImages = {
     all: pagesRoutes.iconCardImages,
     create: `${pagesRoutes.iconCardImages}/create`,
     edit: (id: string): string => `${pagesRoutes.iconCardImages}/${id}/edit`,
+};
+
+const routeAdminApiCards = {
+    all: apiRoutes.cards,
+    allCard: `${apiRoutes.cards}/card`,
+    allCart: `${apiRoutes.cards}/cart`,
+    oneCard: (id: string): string => `${apiRoutes.cards}/card/${id}`,
+    oneCart: (id: string): string => `${apiRoutes.cards}/cart/${id}`,
+};
+
+const routeAdminPageCards = {
+    all: pagesRoutes.cards,
+    createCard: `${pagesRoutes.cards}/card/create`,
+    createCart: `${pagesRoutes.cards}/cart/create`,
+    editCard: (id: string): string => `${pagesRoutes.cards}/card/${id}/edit`,
+    editCart: (id: string): string => `${pagesRoutes.cards}/cart/${id}/edit`,
+    card: `${pagesRoutes.cards}/card`,
+    cart: `${pagesRoutes.cards}/cart`,
 };
 
 export {
@@ -172,4 +195,5 @@ export {
     routeAdminApiPages, routeAdminPagePages,
     routeAdminApiSettings, routeAdminPageSettings,
     routeAdminPageUsers, routeAdminApiUsers,
+    routeAdminApiCards, routeAdminPageCards,
 };

@@ -28,7 +28,6 @@ export type imageDataType = {
     size: number
 }
 
-// Image Schema
 export const imageServerSchema = z
     .object({
         name: z.string().min(1, { message: 'Image file is required' }),

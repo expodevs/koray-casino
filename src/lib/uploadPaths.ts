@@ -34,3 +34,7 @@ export function optionPath(id:number) {
 export function casinoPath(id:number) {
     return `uploads/casino/${id}`;
 }
+
+export function cardImagePath(id:number) {
+    return `uploads/card-image/${id}`;
+}
