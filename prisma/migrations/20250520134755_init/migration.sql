@@ -219,7 +219,6 @@ CREATE TABLE `BuildPage` (
     `page_id` INTEGER NOT NULL,
     `position` INTEGER NOT NULL,
     `field_values` LONGTEXT NOT NULL,
-    `card_type` VARCHAR(191) NULL,
 
     INDEX `BuildPage_build_id_fkey`(`build_id`),
     INDEX `BuildPage_page_id_fkey`(`page_id`),
