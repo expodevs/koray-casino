@@ -101,8 +101,8 @@ export default function CardOptions({
   }, [cardIconImages]);
 
   // Handle adding a new option to the card
-  const handleAddOption = (optionId: string, value: string) => {
-    if (!optionId || !value) return;
+  const handleAddOption = (optionId: string) => {
+    if (!optionId) return;
 
     // Check if option already exists
     const exists = cardOptions.some(opt => opt.option_id === parseInt(optionId));
@@ -111,9 +111,13 @@ export default function CardOptions({
       return;
     }
 
+    // Find the selected option to get its default value
+    const option = options?.find(opt => opt.id === parseInt(optionId));
+    const defaultValue = option?.value || '';
+
     setCardOptions([...cardOptions, {
       option_id: parseInt(optionId),
-      value
+      value: defaultValue
     }]);
   };
 
@@ -177,23 +181,99 @@ export default function CardOptions({
           <div className="mb-4">
             <h4 className="text-sm font-medium mb-2">Added Options:</h4>
             <div className="space-y-2">
-              {cardOptions.map((opt, index) => (
-                <div key={`option-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <div>
-                    <span className="font-medium">
-                      {options?.find(o => o.id === opt.option_id)?.label || 'Unknown Option'}
-                    </span>
-                    <span className="ml-2 text-gray-500">Value: {opt.value}</span>
+              {cardOptions.map((opt, index) => {
+                const option = options?.find(o => o.id === opt.option_id);
+                return (
+                  <div key={`option-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div className="flex-grow">
+                      <span className="font-medium">
+                        {option?.label || 'Unknown Option'}
+                      </span>
+
+                      {/* Value display/edit based on input type */}
+                      {option?.input_type === 'image' ? (
+                        <div className="mt-2">
+                          {opt.value && (
+                            <div className="mb-2" style={{ maxHeight: '100px', position: 'relative' }}>
+                              <Image 
+                                src={opt.value} 
+                                alt={option.label || 'Option image'} 
+                                width={200}
+                                height={100}
+                                className="object-contain"
+                                style={{ maxHeight: '100px' }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="mt-2">
+                          {option?.input_type === 'text' && (
+                            <input
+                              type="text"
+                              className="w-full p-2 border rounded"
+                              value={opt.value}
+                              onChange={(e) => {
+                                const newOptions = [...cardOptions];
+                                newOptions[index].value = e.target.value;
+                                setCardOptions(newOptions);
+                              }}
+                            />
+                          )}
+                          {option?.input_type === 'password' && (
+                            <input
+                              type="password"
+                              className="w-full p-2 border rounded"
+                              value={opt.value}
+                              onChange={(e) => {
+                                const newOptions = [...cardOptions];
+                                newOptions[index].value = e.target.value;
+                                setCardOptions(newOptions);
+                              }}
+                            />
+                          )}
+                          {option?.input_type === 'textarea' && (
+                            <textarea
+                              className="w-full p-2 border rounded"
+                              value={opt.value}
+                              onChange={(e) => {
+                                const newOptions = [...cardOptions];
+                                newOptions[index].value = e.target.value;
+                                setCardOptions(newOptions);
+                              }}
+                            ></textarea>
+                          )}
+                          {option?.input_type === 'select' && (
+                            <select
+                              className="w-full p-2 border rounded"
+                              value={opt.value}
+                              onChange={(e) => {
+                                const newOptions = [...cardOptions];
+                                newOptions[index].value = e.target.value;
+                                setCardOptions(newOptions);
+                              }}
+                            >
+                              <option value="">Select Value</option>
+                              {option.value?.split('|').map((val, idx) => (
+                                <option key={idx} value={val.trim()}>
+                                  {val.trim()}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveOption(index)}
+                      className="text-red-500 hover:text-red-700 ml-4"
+                    >
+                      Remove
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveOption(index)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -226,74 +306,6 @@ export default function CardOptions({
                 ))}
             </select>
           </div>
-          {selectedOption && (
-            <div>
-              <label className="block mb-1 text-sm font-medium">Value</label>
-              {selectedOption.input_type === 'text' && (
-                <input
-                  type="text"
-                  className="w-full p-2 border rounded"
-                  id="new-option-value"
-                  defaultValue={selectedOption.value || ''}
-                  required
-                />
-              )}
-              {selectedOption.input_type === 'password' && (
-                <input
-                  type="password"
-                  className="w-full p-2 border rounded"
-                  id="new-option-value"
-                  defaultValue={selectedOption.value || ''}
-                  required
-                />
-              )}
-              {selectedOption.input_type === 'textarea' && (
-                <textarea
-                  className="w-full p-2 border rounded"
-                  id="new-option-value"
-                  defaultValue={selectedOption.value || ''}
-                  required
-                ></textarea>
-              )}
-              {selectedOption.input_type === 'select' && (
-                <select
-                  className="w-full p-2 border rounded"
-                  id="new-option-value"
-                  required
-                >
-                  <option value="">Select Value</option>
-                  {selectedOption.value?.split('|').map((val, index) => (
-                    <option key={index} value={val.trim()}>
-                      {val.trim()}
-                    </option>
-                  ))}
-                </select>
-              )}
-              {selectedOption.input_type === 'image' && (
-                <div>
-                  {selectedOption.value && (
-                    <div className="mb-2" style={{ maxHeight: '100px', position: 'relative' }}>
-                      <Image 
-                        src={selectedOption.value} 
-                        alt={selectedOption.label || 'Option image'} 
-                        width={200}
-                        height={100}
-                        className="object-contain"
-                        style={{ maxHeight: '100px' }}
-                      />
-                    </div>
-                  )}
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    id="new-option-value"
-                    defaultValue={selectedOption.value || ''}
-                    placeholder="Image URL (optional)"
-                  />
-                </div>
-              )}
-            </div>
-          )}
           <div className="flex items-end">
             <button
               type="button"
@@ -304,24 +316,8 @@ export default function CardOptions({
                 }
 
                 const optionId = (document.getElementById('new-option-id') as HTMLSelectElement).value;
-                let value = '';
 
-                // Get value based on input type
-                if (selectedOption.input_type === 'textarea') {
-                  value = (document.getElementById('new-option-value') as HTMLTextAreaElement).value;
-                } else if (selectedOption.input_type === 'select') {
-                  value = (document.getElementById('new-option-value') as HTMLSelectElement).value;
-                } else {
-                  value = (document.getElementById('new-option-value') as HTMLInputElement).value;
-                }
-
-                // Validate required fields
-                if (selectedOption.input_type !== 'image' && !value) {
-                  toast.error('Please enter a value');
-                  return;
-                }
-
-                handleAddOption(optionId, value);
+                handleAddOption(optionId);
 
                 // Reset form
                 (document.getElementById('new-option-id') as HTMLSelectElement).value = '';
