@@ -15,9 +15,9 @@ import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, ro
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
-import BuilderCasinoTop, { CasinoTopData } from "@components/BuilderCasinoTop";
-import CategoryCardBuilder from './categoryCard/CategoryCardBuilder';
-import { CategoryCardValue } from './categoryCard/types';
+import BuilderCasinoTop, { CasinoTopData } from "@app/admin/pages/components/BuilderCasinoTop";
+import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/CategoryCardBuilder';
+
 
 
 
