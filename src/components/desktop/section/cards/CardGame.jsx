@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 
 import FaqGroup from '@components/desktop/section/FaqGroup';
 
-import styles from './CardGame.module.scss';
+import styles from './Card.module.scss';
 function isImage(val) {
     return typeof val === 'string' && val.startsWith('/images/');
 }

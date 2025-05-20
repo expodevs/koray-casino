@@ -185,16 +185,24 @@ export default function CardGamesPage() {
                 <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
 
-                <CardsList cards={cardsGamesEasiest} />
+                <section className="card-games">
+                    <CardsList cards={cardsGamesEasiest} />
+                </section>
+
 
                 <h2 className="title-section-sm">What are the Best Online Card Games for Beginners?</h2>
                 <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
 
-                <CardsList cards={cardsGamesEasiest} />
+                <section className="card-games">
+                    <CardsList cards={cardsGamesEasiest} />
+                </section>
 
                 <h2 className="title-section-sm">What are the Best Online Card Games for Advanced Players?</h2>
                 <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                <CardsList cards={cardsGamesEasiest} />
+
+                <section className="card-games">
+                    <CardsList cards={cardsGamesEasiest} />
+                </section>
 
                 <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What to know about Online Card Games?</h2>

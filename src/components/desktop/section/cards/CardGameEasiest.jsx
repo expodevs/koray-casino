@@ -2,7 +2,7 @@ import React from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import styles from './CardGame.module.scss';
+import styles from './Card.module.scss';
 
 const defaultOptions = [
     { label: 'Win rate', value: '97.50%' },

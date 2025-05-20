@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import '@/styles/base.scss';
 import styles from './Header.module.scss';
 
 export default function MobileHeaderTemplate() {

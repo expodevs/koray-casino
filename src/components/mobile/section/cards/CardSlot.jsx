@@ -8,6 +8,8 @@ import 'swiper/css/navigation';
 
 import FaqGroup from '@/src/components/mobile/section/FaqGroup';
 
+import styles from './Card.module.scss';
+
 function isImage(val) {
     return typeof val === 'string' && val.startsWith('/images/');
 }
@@ -33,7 +35,7 @@ export default function CardSlot({
     const finalOptions = options && options.length > 0 ? options : defaultOptions;
 
     return (
-        <article className="item-card">
+        <article className={styles['item-card']}>
             <Swiper
                 modules={[Navigation]}
                 slidesPerView={1}
@@ -43,27 +45,27 @@ export default function CardSlot({
             >
                 {images.map((image, idx) => (
                     <SwiperSlide key={idx}>
-                        <figure className="thumb-wrap">
+                        <figure className={styles['thumb-wrap']}>
                             <img src={image} alt="Game Image" />
                         </figure>
                     </SwiperSlide>
                 ))}
             </Swiper>
 
-            {badge && <div className="badge">{badge}</div>}
+            {badge && <div className={styles.badge}>{badge}</div>}
 
-            <div className="name">{name}</div>
+            <div className={styles.name}>{name}</div>
 
             {excerpt ? (
-                <div className="excerpt">{excerpt}</div>
+                <div className={styles.excerpt}>{excerpt}</div>
             ) : (
-                <div className="list-options">
+                <div className={styles['list-options']}>
                     {finalOptions.map((option, index) => (
-                        <div className="item-option" key={index}>
-                            <div className="label-option">
-                                <div className="name-option">{option.label}</div>
+                        <div className={styles['item-option']} key={index}>
+                            <div className={styles['label-option']}>
+                                <div className={styles['name-option']}>{option.label}</div>
                             </div>
-                            <div className="label-value">
+                            <div className={styles['label-value']}>
                                 {isImage(option.value) ? (
                                     <img src={option.value} alt="" />
                                 ) : (
@@ -75,7 +77,7 @@ export default function CardSlot({
                 </div>
             )}
 
-            <section className="list-actions">
+            <section className={styles['list-actions']}>
                 <a href="components/section" className="btn primary">Play with Real Money</a>
                 {!excerpt && (
                     <div>
@@ -85,7 +87,7 @@ export default function CardSlot({
             </section>
 
             {faq && faq.length > 0 && (
-                <FaqGroup items={faq} />
+                <FaqGroup items={faq} variant="faq-group" />
             )}
         </article>
     );

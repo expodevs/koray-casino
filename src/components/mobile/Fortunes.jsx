@@ -11,7 +11,7 @@ import 'swiper/css/navigation';
 import CardSlot from "@/src/components/mobile/section/cards/CardSlot";
 import NavTabs from "@/src/components/mobile/section/NavTabs";
 
-import '@/styles/main.scss';
+import styles from './Fortunes.module.scss';
 
 const cardsCasino = [
     {
@@ -123,20 +123,24 @@ export default function FortunesPage() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                 </p>
 
-                <CardsList cards={cardsWithOptions} />
+                <section className="card-games">
+                    <CardsList cards={cardsWithOptions} />
+                </section>
 
                 <h2 className="title-section">Where Are the Best Casinos to Play 88 Fortunes for Real Money?</h2>
                 <section className="text-sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                 </section>
 
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What are the Downloable Content of 88 Fortunes Slot Games?</h2>
                     <section className="text-sm">Downloadable content (DLC) refers to digital files or software provided by our casino, including games, apps, or bonus tools, that can be downloaded to your device for a more personalized and seamless gaming experience.</section>
                     <FaqGroup items={faq} />
-                    <section className="text-content">
+                    <section className={styles['text-content']}>
                         <h3>How to Use the Downloadable File on Different OS or Phone Versions</h3>
                         <ul>
                             <li><strong>Windows/macOS:</strong> Follow the installation wizard for your operating system. Ensure your OS version meets the minimum requirements listed on the download page.</li>
@@ -147,16 +151,16 @@ export default function FortunesPage() {
                     </section>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What are the Unlockables for the 88 Fortunes Slot Games?</h2>
                     <section className="text-sm">Unlockables in 88 Fortunes refer to features, bonuses, or game elements that players can activate or earn during gameplay to enhance their experience and increase winning opportunities. These are typically triggered by specific actions, symbols, or combinations.</section>
                     <FaqGroup items={faq} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
-                    <section className="list-actions">
+                    <section className={styles['list-actions']}>
                         <a href="" className="btn primary-sm">Playing Strategy</a>
                         <a href="" className="btn light-sm">Game Features</a>
                         <a href="" className="btn light-sm">Winning Odds</a>
@@ -164,7 +168,7 @@ export default function FortunesPage() {
                         <a href="" className="btn light-sm">Luck & Behavior</a>
                     </section>
 
-                    <section className="text-content">
+                    <section className={styles['text-content']}>
                         <h3>Playing Strategy</h3>
                         <ul>
                             <li><strong>Bankroll Management</strong>: Set a budget and stick to it.</li>
@@ -176,7 +180,7 @@ export default function FortunesPage() {
                     <FaqGroup items={faq} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Play and Win in 88 Fortunes Slot Games?</h2>
                     <section className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...</section>
                     <div className="slider-wrapper">

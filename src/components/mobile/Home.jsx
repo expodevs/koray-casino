@@ -4,10 +4,10 @@ import React from 'react';
 import NavTabs from '@/src/components/mobile/section/NavTabs';
 import CategoryList from '@/src/components/mobile/section/CategoryList';
 import FilterGame from '@/src/components/mobile/section/FilterGame';
-import TabGroup from '@/src/components/mobile/section/TabGroup';
+import FaqGroup from '@/src/components/mobile/section/FaqGroup';
 import CardsList from '@/src/components/mobile/section/CardsList';
 
-import '@/styles/main.scss';
+import styles from './Home.module.scss';
 
 const cardsCasino = [
     {
@@ -109,11 +109,13 @@ export default function HomePage() {
                 <section className="text">
                     Explore a variety of slot games with exciting themes and features:
                 </section>
-                <section className="date-update">
+                <section className={styles['date-update']}>
                     Last update <time dateTime="2025-02-07">07.02.2025</time>
                 </section>
 
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
                 <h2 className="title-section">Slot Games with Advanced Filters</h2>
                 <section className="text-sm">
@@ -121,7 +123,9 @@ export default function HomePage() {
                 </section>
 
                 <FilterGame />
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
                 <h2 className="title-section">Free Online Slot Games</h2>
                 <section className="text-sm">
@@ -129,7 +133,9 @@ export default function HomePage() {
                 </section>
 
                 <FilterGame />
-                <CardsList cards={cardsWithOptions} />
+                <section className="card-games">
+                    <CardsList cards={cardsWithOptions} />
+                </section>
 
                 <h2 className="title-section">Online Card Games</h2>
                 <section className="text-sm">
@@ -137,26 +143,32 @@ export default function HomePage() {
                 </section>
 
                 <FilterGame />
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
                 <h2 className="title-section">Best Card Games with Real Money</h2>
                 <section className="text-sm">
                     Discover the best selection of online casino games, from thrilling slots to timeless board and card games.
                 </section>
-                <section className="list-actions">
+                <section className={styles['list-actions']}>
                     <a href="" className="btn primary-sm">Free Best Card Games</a>
                     <a href="" className="btn light-sm">Free Best Card Game that Pay Money</a>
                     <a href="" className="btn light-sm">Online Card Games with Best Odds</a>
                 </section>
 
-                <CardsList cards={cardsWithOptions} />
+                <section className="card-games">
+                    <CardsList cards={cardsWithOptions} />
+                </section>
 
                 <h2 className="title-section">Free Online Card Games</h2>
                 <section className="text-sm">
                     Discover the best selection of online casino games, from thrilling slots to timeless board and card games.
                 </section>
 
-                <CardsList cards={cardsWithOptions} />
+                <section className="card-games">
+                    <CardsList cards={cardsWithOptions} />
+                </section>
 
                 <h2 className="title-section">Online Roulette Games</h2>
                 <section className="text-sm">
@@ -164,19 +176,21 @@ export default function HomePage() {
                 </section>
 
                 <FilterGame />
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section">Best Online Casino Game Providers</h2>
                     <section className="text-sm">
                         Discover the best selection of online casino games, from thrilling slots
                         to timeless board and card games.
                     </section>
-                    <section className="search-row">
-                        <input type="text" className="input-style" placeholder="Search" />
+                    <section className={styles['search-row']}>
+                        <input type="text" className={styles['input-style']} placeholder="Search" />
                     </section>
 
-                    <section className="table-style">
+                    <section className={styles['table-style']}>
                         <table>
                             <thead>
                             <tr>
@@ -203,7 +217,7 @@ export default function HomePage() {
                                 <td>PayPal, Credit Card, Crypto</td>
                                 <td>Cleopatra, Mega Moolah</td>
                                 <td>Yes</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             <tr>
                                 <td>№1</td>
@@ -215,7 +229,7 @@ export default function HomePage() {
                                 <td>PayPal, Credit Card, Crypto</td>
                                 <td>Cleopatra, Mega Moolah</td>
                                 <td>Yes</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             <tr>
                                 <td>№2</td>
@@ -227,17 +241,17 @@ export default function HomePage() {
                                 <td>Visa, Mastercard</td>
                                 <td>Cleopatra, Mega Moolah</td>
                                 <td>Yes</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             </tbody>
                         </table>
                     </section>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">Features of Best Online Casinos</h2>
 
-                    <section className="table-style">
+                    <section className={styles['table-style']}>
                         <table>
                             <thead>
                             <tr>
@@ -266,7 +280,7 @@ export default function HomePage() {
                                 <td>96.5%</td>
                                 <td>100% up to $1,000 + $25 Casino Bonus</td>
                                 <td>New Jersey Division of Gaming Enforcement</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             <tr>
                                 <td>
@@ -284,7 +298,7 @@ export default function HomePage() {
                                 <td>96.5%</td>
                                 <td>100% up to $1,000 + $25 Casino Bonus</td>
                                 <td>New Jersey Division of Gaming Enforcement</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             <tr>
                                 <td>
@@ -302,7 +316,7 @@ export default function HomePage() {
                                 <td>96.5%</td>
                                 <td>100% up to $1,000 + $25 Casino Bonus</td>
                                 <td>New Jersey Division of Gaming Enforcement</td>
-                                <td><button className="play">Play</button></td>
+                                <td><button className={styles.play}>Play</button></td>
                             </tr>
                             </tbody>
                         </table>
@@ -314,31 +328,31 @@ export default function HomePage() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                 </div>
 
-                <select name="" id="" className="input-style sort-select">
+                <select name="" id="" className={`${styles['input-style']} ${styles['sort-select']}`}>
                     <option value="">Default</option>
                     <option value="">Sort By: Most played</option>
                 </select>
 
-                <CardsList cards={cardsCasino} />
+                <section className="card-games">
+                    <CardsList cards={cardsCasino} />
+                </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">How to Learn Online Casino Games</h2>
                     <div className="text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                     </div>
 
-                    <section className="faq-default">
-                        <TabGroup items={cardsWithOptions[0].faq} />
-                    </section>
+                    <FaqGroup items={cardsWithOptions[0].faq} />
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">Which Online Casino Games are best for Beginners?</h2>
                     <div className="text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                     </div>
 
-                    <section className="table-style">
+                    <section className={styles['table-style']}>
                         <table>
                             <thead>
                             <tr>
@@ -357,7 +371,7 @@ export default function HomePage() {
                                 <td>Low</td>
                                 <td>95%-96%</td>
                                 <td>Simple gameplay, no complex rules</td>
-                                <td><button className="play">Play Now</button></td>
+                                <td><button className={styles.play}>Play Now</button></td>
                             </tr>
                             <tr>
                                 <td>Classic Slots</td>
@@ -365,7 +379,7 @@ export default function HomePage() {
                                 <td>Low</td>
                                 <td>95%-96%</td>
                                 <td>Simple gameplay, no complex rules</td>
-                                <td><button className="play">Play Now</button></td>
+                                <td><button className={styles.play}>Play Now</button></td>
                             </tr>
                             <tr>
                                 <td>Classic Slots</td>
@@ -373,7 +387,7 @@ export default function HomePage() {
                                 <td>Low</td>
                                 <td>95%-96%</td>
                                 <td>Simple gameplay, no complex rules</td>
-                                <td><button className="play">Play Now</button></td>
+                                <td><button className={styles.play}>Play Now</button></td>
                             </tr>
                             <tr>
                                 <td>Classic Slots</td>
@@ -381,7 +395,7 @@ export default function HomePage() {
                                 <td>Low</td>
                                 <td>95%-96%</td>
                                 <td>Simple gameplay, no complex rules</td>
-                                <td><button className="play">Play Now</button></td>
+                                <td><button className={styles.play}>Play Now</button></td>
                             </tr>
                             <tr>
                                 <td>Classic Slots</td>
@@ -389,22 +403,20 @@ export default function HomePage() {
                                 <td>Low</td>
                                 <td>95%-96%</td>
                                 <td>Simple gameplay, no complex rules</td>
-                                <td><button className="play">Play Now</button></td>
+                                <td><button className={styles.play}>Play Now</button></td>
                             </tr>
                             </tbody>
                         </table>
                     </section>
                 </section>
 
-                <section className="tile-section">
+                <section className={styles['tile-section']}>
                     <h2 className="title-section-sm">What are the Best Sweeptakes Casino Games?</h2>
                     <div className="text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore mollit anim id est laborum...
                     </div>
 
-                    <section className="faq-default">
-                        <TabGroup items={cardsWithOptions[0].faq} />
-                    </section>
+                    <FaqGroup items={cardsWithOptions[0].faq} />
                 </section>
             </main>
         </div>

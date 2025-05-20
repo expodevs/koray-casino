@@ -1,7 +1,7 @@
 import React from 'react';
 import { headers } from 'next/headers';
-import DesktopFortunes from '@/components/desktop/Fortunes';
-import MobileFortunes  from '@/components/mobile/Fortunes';
+import DesktopFortunes from '@/src/components/desktop/Fortunes';
+import MobileFortunes  from '@/src/components/mobile/Fortunes';
 
 export default async function FortunesPage() {
     const ua       = (await headers()).get('user-agent') || '';

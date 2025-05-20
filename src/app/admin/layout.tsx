@@ -16,6 +16,8 @@ import {
     FaFileImage
 } from "react-icons/fa";
 
+import "./tailwindcss.css";
+
 const queryClient = new QueryClient();
 
 export default function AdminLayout({children}: { children: ReactNode }) {

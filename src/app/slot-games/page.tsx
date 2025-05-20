@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { headers } from 'next/headers';
-import DesktopSlotGames from '@/components/desktop/SlotGames';
-import MobileSlotGames  from '@/components/mobile/SlotGames';
+import DesktopSlotGames from '@/src/components/desktop/SlotGames';
+import MobileSlotGames  from '@/src/components/mobile/SlotGames';
 
 export default async function SlotGamesPage() {
     const ua       = (await headers()).get('user-agent') || '';
