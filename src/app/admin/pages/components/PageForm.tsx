@@ -16,6 +16,8 @@ import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
 import BuilderCasinoTop, { CasinoTopData } from "@components/BuilderCasinoTop";
+import CategoryCardBuilder from './categoryCard/CategoryCardBuilder';
+import { CategoryCardValue } from './categoryCard/types';
 
 
 
@@ -221,6 +223,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         label: '',
                         description: '',
                         category_id: '',
+                        type: 'base'
                     };
                 }
 
@@ -232,46 +235,20 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         label: '',
                         description: '',
                         category_id: '',
+                        type: 'base'
                     };
                 }
             })();
 
-
-            const mergeFieldValues = (value: string, field: string): string => {
-                const newValue = { ...buildValue, [field]: value };
-                return JSON.stringify(newValue);
-            }
-
-            return (<>
-                <div className="mb-4" key={`builder-header-${buildPage.build_id}-${idx}`}>
-                    <label className="block mb-1">Label</label>
-                    <input
-                        className="w-full p-2 border rounded"
-                        value={buildValue.label}
-                        onChange={(e) => handleFieldValueChange(idx, mergeFieldValues(e.target.value, 'label'))}
-                    />
-                </div>
-                <div className="mb-4" key={`builder-desc-${buildPage.build_id}-${idx}`}>
-                    <label className="block mb-1">Description</label>
-                    <textarea
-                        className="w-full p-2 border rounded"
-                        value={buildValue.description}
-                        onChange={(e) => handleFieldValueChange(idx, mergeFieldValues(e.target.value, 'description'))}
-                        rows={4}
-                    />
-                </div>
+            return (
                 <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
-                    <label className="block mb-1">Category Card</label>
-                    <select
-                        className="w-full p-2 border rounded"
-                        value={buildValue.category_id}
-                        onChange={(e) => handleFieldValueChange(idx, mergeFieldValues(e.target.value, 'category_id'))}
-                    >
-                        <option >Select Category</option>
-                        {(categoryCards||[]).map(categoryCard=><option key={categoryCard.id} value={categoryCard.id}>{categoryCard.label}</option>)}
-                    </select>
+                    <CategoryCardBuilder
+                        value={buildValue}
+                        categoryCards={categoryCards || []}
+                        onChange={(value) => handleFieldValueChange(idx, JSON.stringify(value))}
+                    />
                 </div>
-            </>)
+            );
         }
 
         if (builder.build_type === BuildType.textarea) {
