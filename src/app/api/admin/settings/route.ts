@@ -6,6 +6,7 @@ import {attachedBase64File, removeAttachedFile} from "@lib/Attachment/Attachment
 import {optionPath, settingParams, settingPath} from "@lib/uploadPaths";
 import {InputType} from "@prismaClient";
 import {saveBase64File} from "@lib/file";
+import {strToSlug} from "@lib/str";
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -57,6 +58,17 @@ export async function POST(req: NextRequest) {
             }
 
             const data = validationResult.data;
+
+            data.code = strToSlug(data.code);
+
+            if (await prisma.setting.findUnique({
+                where: {
+                    code: data.code,
+                }
+            })) {
+                return NextResponse.json({error: 'Code must be unique'}, {status: 400});
+            }
+
             const newImage = data.newImage;
             delete data.newImage;
 

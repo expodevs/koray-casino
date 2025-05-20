@@ -57,7 +57,7 @@ function LogoutButton() {
 function Aside() {
     const {data: session} = useSession()
 
-    if (!session) return null
+    if (!session || !session.user.id) return null
 
     return (
         <aside className="w-64 bg-white shadow-lg border-r">

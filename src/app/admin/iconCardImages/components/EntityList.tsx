@@ -23,7 +23,7 @@ export default function EntityList() {
         refetch
     } = useRequestData<ApiResponse<IconCardImage>>({
         url: `${routeAdminApiIconCardImages.all}?page=${page}&limit=${limit}`,
-        queryKey: ['settings', page, limit]
+        queryKey: ['iconCardImages', page, limit]
     });
 
     const handleDelete = async (id: number) => {
@@ -71,7 +71,7 @@ export default function EntityList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {data.data.map((iconCardImage) => (
+                        {(data?.data||[]).map((iconCardImage) => (
                             <tr key={iconCardImage.id} className="border-b hover:bg-gray-50">
                                 <td className="p-3">{iconCardImage.id}</td>
                                 <td className="p-3">{iconCardImage.icon_card.label}</td>

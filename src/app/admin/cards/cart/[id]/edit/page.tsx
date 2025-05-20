@@ -36,7 +36,7 @@ export default function EditCartPage() {
     };
 
     fetchCard();
-  }, [params.id]);
+  }, [id]);
 
   const handleSubmit = async (data: unknown) => {
     try {

@@ -4,6 +4,7 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {settingUpdateSchema} from "@app/admin/settings/validation";
 import {settingPath} from "@lib/uploadPaths";
 import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
+import {strToSlug} from "@lib/str";
 
 type requestParams = { params: { id: string } };
 
@@ -58,6 +59,8 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             }
 
             const data = validationResult.data;
+
+            data.code = strToSlug(data.code);
 
             if (!data.value || !data.value.length || data.newImage && data.newImage.length) {
                 await removeOldImage(id);
