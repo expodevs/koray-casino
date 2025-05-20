@@ -268,8 +268,7 @@ exports.Prisma.BuildPageScalarFieldEnum = {
   build_id: 'build_id',
   page_id: 'page_id',
   position: 'position',
-  field_values: 'field_values',
-  card_type: 'card_type'
+  field_values: 'field_values'
 };
 
 exports.Prisma.CasinoScalarFieldEnum = {
@@ -388,8 +387,7 @@ exports.Prisma.BuilderOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.BuildPageOrderByRelevanceFieldEnum = {
-  field_values: 'field_values',
-  card_type: 'card_type'
+  field_values: 'field_values'
 };
 
 exports.Prisma.CasinoOrderByRelevanceFieldEnum = {

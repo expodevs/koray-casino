@@ -251,7 +251,7 @@ export default function CardOptions({
                       onClick={() => handleRemoveOption(index)}
                       className="text-red-500 hover:text-red-700 ml-4"
                     >
-                      Remove
+                      X
                     </button>
                   </div>
                 );
@@ -356,7 +356,7 @@ export default function CardOptions({
                     onClick={() => handleRemoveIconCardImage(index)}
                     className="text-red-500 hover:text-red-700"
                   >
-                    Remove
+                    X
                   </button>
                 </div>
               ))}

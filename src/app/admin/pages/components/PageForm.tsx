@@ -66,7 +66,6 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
               build_id: builder.build_id,
               position: builder?.position || 1,
               field_values: builder?.field_values || '',
-              card_type: builder.card_type,
           };
           return buildPage;
       }));
@@ -97,7 +96,6 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
             build_id: builder.id,
             position: buildsPage.length + 1,
             field_values: '',
-            card_type: null,
         }
         setBuildsPage(prev => [...prev, build]);
         setSelectedBuilderId(0);

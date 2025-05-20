@@ -76,7 +76,6 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                     build_id: buildPage.build_id,
                     position: buildPage.position,
                     field_values: buildPage.field_values,
-                    card_type: buildPage.card_type,
                 }))
             });
 

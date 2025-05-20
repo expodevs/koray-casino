@@ -19647,7 +19647,6 @@ export namespace Prisma {
     page_id: number | null
     position: number | null
     field_values: string | null
-    card_type: string | null
   }
 
   export type BuildPageMaxAggregateOutputType = {
@@ -19656,7 +19655,6 @@ export namespace Prisma {
     page_id: number | null
     position: number | null
     field_values: string | null
-    card_type: string | null
   }
 
   export type BuildPageCountAggregateOutputType = {
@@ -19665,7 +19663,6 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: number
-    card_type: number
     _all: number
   }
 
@@ -19690,7 +19687,6 @@ export namespace Prisma {
     page_id?: true
     position?: true
     field_values?: true
-    card_type?: true
   }
 
   export type BuildPageMaxAggregateInputType = {
@@ -19699,7 +19695,6 @@ export namespace Prisma {
     page_id?: true
     position?: true
     field_values?: true
-    card_type?: true
   }
 
   export type BuildPageCountAggregateInputType = {
@@ -19708,7 +19703,6 @@ export namespace Prisma {
     page_id?: true
     position?: true
     field_values?: true
-    card_type?: true
     _all?: true
   }
 
@@ -19804,7 +19798,6 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: string
-    card_type: string | null
     _count: BuildPageCountAggregateOutputType | null
     _avg: BuildPageAvgAggregateOutputType | null
     _sum: BuildPageSumAggregateOutputType | null
@@ -19832,7 +19825,6 @@ export namespace Prisma {
     page_id?: boolean
     position?: boolean
     field_values?: boolean
-    card_type?: boolean
     build?: boolean | BuilderDefaultArgs<ExtArgs>
     page?: boolean | PageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["buildPage"]>
@@ -19845,10 +19837,9 @@ export namespace Prisma {
     page_id?: boolean
     position?: boolean
     field_values?: boolean
-    card_type?: boolean
   }
 
-  export type BuildPageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "build_id" | "page_id" | "position" | "field_values" | "card_type", ExtArgs["result"]["buildPage"]>
+  export type BuildPageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "build_id" | "page_id" | "position" | "field_values", ExtArgs["result"]["buildPage"]>
   export type BuildPageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     build?: boolean | BuilderDefaultArgs<ExtArgs>
     page?: boolean | PageDefaultArgs<ExtArgs>
@@ -19866,7 +19857,6 @@ export namespace Prisma {
       page_id: number
       position: number
       field_values: string
-      card_type: string | null
     }, ExtArgs["result"]["buildPage"]>
     composites: {}
   }
@@ -20243,7 +20233,6 @@ export namespace Prisma {
     readonly page_id: FieldRef<"BuildPage", 'Int'>
     readonly position: FieldRef<"BuildPage", 'Int'>
     readonly field_values: FieldRef<"BuildPage", 'String'>
-    readonly card_type: FieldRef<"BuildPage", 'String'>
   }
     
 
@@ -22818,8 +22807,7 @@ export namespace Prisma {
     build_id: 'build_id',
     page_id: 'page_id',
     position: 'position',
-    field_values: 'field_values',
-    card_type: 'card_type'
+    field_values: 'field_values'
   };
 
   export type BuildPageScalarFieldEnum = (typeof BuildPageScalarFieldEnum)[keyof typeof BuildPageScalarFieldEnum]
@@ -22998,8 +22986,7 @@ export namespace Prisma {
 
 
   export const BuildPageOrderByRelevanceFieldEnum: {
-    field_values: 'field_values',
-    card_type: 'card_type'
+    field_values: 'field_values'
   };
 
   export type BuildPageOrderByRelevanceFieldEnum = (typeof BuildPageOrderByRelevanceFieldEnum)[keyof typeof BuildPageOrderByRelevanceFieldEnum]
@@ -24169,7 +24156,6 @@ export namespace Prisma {
     page_id?: IntFilter<"BuildPage"> | number
     position?: IntFilter<"BuildPage"> | number
     field_values?: StringFilter<"BuildPage"> | string
-    card_type?: StringNullableFilter<"BuildPage"> | string | null
     build?: XOR<BuilderScalarRelationFilter, BuilderWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }
@@ -24180,7 +24166,6 @@ export namespace Prisma {
     page_id?: SortOrder
     position?: SortOrder
     field_values?: SortOrder
-    card_type?: SortOrderInput | SortOrder
     build?: BuilderOrderByWithRelationInput
     page?: PageOrderByWithRelationInput
     _relevance?: BuildPageOrderByRelevanceInput
@@ -24195,7 +24180,6 @@ export namespace Prisma {
     page_id?: IntFilter<"BuildPage"> | number
     position?: IntFilter<"BuildPage"> | number
     field_values?: StringFilter<"BuildPage"> | string
-    card_type?: StringNullableFilter<"BuildPage"> | string | null
     build?: XOR<BuilderScalarRelationFilter, BuilderWhereInput>
     page?: XOR<PageScalarRelationFilter, PageWhereInput>
   }, "id">
@@ -24206,7 +24190,6 @@ export namespace Prisma {
     page_id?: SortOrder
     position?: SortOrder
     field_values?: SortOrder
-    card_type?: SortOrderInput | SortOrder
     _count?: BuildPageCountOrderByAggregateInput
     _avg?: BuildPageAvgOrderByAggregateInput
     _max?: BuildPageMaxOrderByAggregateInput
@@ -24223,7 +24206,6 @@ export namespace Prisma {
     page_id?: IntWithAggregatesFilter<"BuildPage"> | number
     position?: IntWithAggregatesFilter<"BuildPage"> | number
     field_values?: StringWithAggregatesFilter<"BuildPage"> | string
-    card_type?: StringNullableWithAggregatesFilter<"BuildPage"> | string | null
   }
 
   export type CasinoWhereInput = {
@@ -25380,7 +25362,6 @@ export namespace Prisma {
   export type BuildPageCreateInput = {
     position: number
     field_values: string
-    card_type?: string | null
     build: BuilderCreateNestedOneWithoutPagesInput
     page: PageCreateNestedOneWithoutBuildsInput
   }
@@ -25391,13 +25372,11 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageUpdateInput = {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
     build?: BuilderUpdateOneRequiredWithoutPagesNestedInput
     page?: PageUpdateOneRequiredWithoutBuildsNestedInput
   }
@@ -25408,7 +25387,6 @@ export namespace Prisma {
     page_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BuildPageCreateManyInput = {
@@ -25417,13 +25395,11 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageUpdateManyMutationInput = {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BuildPageUncheckedUpdateManyInput = {
@@ -25432,7 +25408,6 @@ export namespace Prisma {
     page_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CasinoCreateInput = {
@@ -26695,7 +26670,6 @@ export namespace Prisma {
     page_id?: SortOrder
     position?: SortOrder
     field_values?: SortOrder
-    card_type?: SortOrder
   }
 
   export type BuildPageAvgOrderByAggregateInput = {
@@ -26711,7 +26685,6 @@ export namespace Prisma {
     page_id?: SortOrder
     position?: SortOrder
     field_values?: SortOrder
-    card_type?: SortOrder
   }
 
   export type BuildPageMinOrderByAggregateInput = {
@@ -26720,7 +26693,6 @@ export namespace Prisma {
     page_id?: SortOrder
     position?: SortOrder
     field_values?: SortOrder
-    card_type?: SortOrder
   }
 
   export type BuildPageSumOrderByAggregateInput = {
@@ -29132,7 +29104,6 @@ export namespace Prisma {
   export type BuildPageCreateWithoutPageInput = {
     position: number
     field_values: string
-    card_type?: string | null
     build: BuilderCreateNestedOneWithoutPagesInput
   }
 
@@ -29141,7 +29112,6 @@ export namespace Prisma {
     build_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageCreateOrConnectWithoutPageInput = {
@@ -29179,13 +29149,11 @@ export namespace Prisma {
     page_id?: IntFilter<"BuildPage"> | number
     position?: IntFilter<"BuildPage"> | number
     field_values?: StringFilter<"BuildPage"> | string
-    card_type?: StringNullableFilter<"BuildPage"> | string | null
   }
 
   export type BuildPageCreateWithoutBuildInput = {
     position: number
     field_values: string
-    card_type?: string | null
     page: PageCreateNestedOneWithoutBuildsInput
   }
 
@@ -29194,7 +29162,6 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageCreateOrConnectWithoutBuildInput = {
@@ -29798,13 +29765,11 @@ export namespace Prisma {
     build_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageUpdateWithoutPageInput = {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
     build?: BuilderUpdateOneRequiredWithoutPagesNestedInput
   }
 
@@ -29813,7 +29778,6 @@ export namespace Prisma {
     build_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BuildPageUncheckedUpdateManyWithoutPageInput = {
@@ -29821,7 +29785,6 @@ export namespace Prisma {
     build_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BuildPageCreateManyBuildInput = {
@@ -29829,13 +29792,11 @@ export namespace Prisma {
     page_id: number
     position: number
     field_values: string
-    card_type?: string | null
   }
 
   export type BuildPageUpdateWithoutBuildInput = {
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
     page?: PageUpdateOneRequiredWithoutBuildsNestedInput
   }
 
@@ -29844,7 +29805,6 @@ export namespace Prisma {
     page_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BuildPageUncheckedUpdateManyWithoutBuildInput = {
@@ -29852,7 +29812,6 @@ export namespace Prisma {
     page_id?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     field_values?: StringFieldUpdateOperationsInput | string
-    card_type?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CasinoOptionCreateManyCasinoInput = {

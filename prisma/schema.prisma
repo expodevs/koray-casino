@@ -206,7 +206,6 @@ model BuildPage {
   page_id      Int
   position     Int
   field_values String  @db.LongText
-  card_type    String?
   build        Builder @relation(fields: [build_id], references: [id])
   page         Page    @relation(fields: [page_id], references: [id])
 

@@ -52,7 +52,7 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                     show_filter: false,
                     type: CategoryCardType.BASE_OPTION_FAQ
                 };
-                
+
             case CategoryCardType.CASINO:
                 return {
                     label: '',
@@ -157,25 +157,13 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
             <div className="space-y-4">
                 {renderBaseFields()}
                 {renderAdditionalFields()}
-                <div className="mb-4">
-                    <label className="block mb-1">Type</label>
-                    <select
-                        className="w-full p-2 border rounded"
-                        value={value.type}
-                        onChange={(e) => handleChange('type', e.target.value as CategoryCardType)}
-                    >
-                        {Object.values(CategoryCardType).map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                </div>
             </div>
         );
     };
 
     return (
         <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="grid grid-cols-4 gap-4 mb-4">
                 {templates.map((template) => (
                     <div
                         key={template.type}
@@ -184,13 +172,15 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                         onMouseLeave={() => setShowPreview(null)}
                         onClick={() => onChange(getInitialValue(template.type))}
                     >
-                        <Image
-                            src={template.image}
-                            alt={template.type}
-                            width={100}
-                            height={100}
-                            className="border rounded"
-                        />
+                        <div className={`${value.type === template.type ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}>
+                            <Image
+                                src={template.image}
+                                alt={template.type}
+                                width={100}
+                                height={100}
+                                className="border rounded"
+                            />
+                        </div>
                         {showPreview === template.preview && (
                             <div className="absolute z-10 -right-[310px] top-0">
                                 <Image
