@@ -72,6 +72,13 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             if (newImage && newImage.length) {
                 const src = await saveBase64File(newImage, optionPath(entity.id));
                 await prisma.option.update({where: {id: entity.id}, data: {value: src}});
+
+                // Update all CardOption records that reference this option
+                await prisma.cardOption.updateMany({
+                    where: { option_id: entity.id },
+                    data: { value: src }
+                });
+
                 entity.value = src;
             }
 
