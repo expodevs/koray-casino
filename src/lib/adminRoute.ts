@@ -155,6 +155,7 @@ const routeAdminApiIconCardImages = {
     all: apiRoutes.iconCardImages,
     one: (id: string): string => `${apiRoutes.iconCardImages}/${id}`,
     selectBy: (id: string): string => `${apiRoutes.iconCardImages}/${id}/select`,
+    selected: `${apiRoutes.iconCardImages}/selected`,
 };
 
 const routeAdminPageIconCardImages = {

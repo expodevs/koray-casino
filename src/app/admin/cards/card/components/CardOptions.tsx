@@ -5,8 +5,6 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { Option, IconCardSelect, IconCardImage } from "@/@types/response";
 import { routeAdminApiIconCardImages } from "@lib/adminRoute";
-import {$Enums} from "@prismaClient";
-import InputType = $Enums.InputType;
 
 interface CardOptionsProps {
   options: Option[] | undefined;
@@ -33,6 +31,8 @@ export default function CardOptions({
   const [iconCardImages, setIconCardImages] = useState<IconCardImage[]>([]);
   // State for tracking selected icon card images
   const [selectedIconCardImages, setSelectedIconCardImages] = useState<number[]>([]);
+  // State for storing icon card images data
+  const [iconCardImagesData, setIconCardImagesData] = useState<{[key: number]: IconCardImage}>({});
 
   // Fetch icon card images when an icon card is selected
   useEffect(() => {
@@ -56,6 +56,49 @@ export default function CardOptions({
       setIconCardImages([]);
     }
   }, [selectedIconCard]);
+
+
+  // Fetch images for icon card images when they change
+  useEffect(() => {
+    if (cardIconImages.length > 0) {
+      const imageIds = cardIconImages.map(img => img.icon_card_image_id);
+
+      if (imageIds.length > 0) {
+        const fetchIconCardImagesData = async () => {
+          try {
+            const response = await fetch(routeAdminApiIconCardImages.selected, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ ids: imageIds }),
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to fetch icon card images');
+            }
+
+            const images = await response.json();
+
+            // Create a map of id -> image
+            const imagesMap: {[key: number]: IconCardImage} = {};
+            images.forEach((img: IconCardImage) => {
+              imagesMap[img.id] = img;
+            });
+
+            setIconCardImagesData(imagesMap);
+          } catch (error) {
+            console.error('Error fetching icon card images:', error);
+            toast.error('Failed to fetch icon card images');
+          }
+        };
+
+        fetchIconCardImagesData();
+      }
+    } else {
+      setIconCardImagesData({});
+    }
+  }, [cardIconImages]);
 
   // Handle adding a new option to the card
   const handleAddOption = (optionId: string, value: string) => {
@@ -302,10 +345,34 @@ export default function CardOptions({
             <div className="space-y-2">
               {cardIconImages.map((img, index) => (
                 <div key={`icon-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <div>
-                    <span className="font-medium">
-                      Icon Card Image ID: {img.icon_card_image_id}
-                    </span>
+                  <div className="flex items-center">
+                    {iconCardImagesData[img.icon_card_image_id] ? (
+                      <>
+                        <div className="mr-3">
+                          <Image 
+                            src={iconCardImagesData[img.icon_card_image_id].image} 
+                            alt={iconCardImagesData[img.icon_card_image_id].alt || 'Icon card image'} 
+                            width={50}
+                            height={50}
+                            className="object-contain"
+                          />
+                        </div>
+                        <div>
+                          <span className="font-medium">
+                            {iconCardImagesData[img.icon_card_image_id].alt || `Icon Card Image ID: ${img.icon_card_image_id}`}
+                          </span>
+                          {iconCardImagesData[img.icon_card_image_id].icon_card && (
+                            <div className="text-sm text-gray-500">
+                              {iconCardImagesData[img.icon_card_image_id].icon_card.label}
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <span className="font-medium">
+                        Icon Card Image ID: {img.icon_card_image_id}
+                      </span>
+                    )}
                   </div>
                   <button
                     type="button"
