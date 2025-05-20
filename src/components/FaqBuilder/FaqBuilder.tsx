@@ -58,7 +58,7 @@ export default function FaqBuilder({ label, faqItems, faqs, onChange }: FaqBuild
     };
 
     const moveItemDown = (selectIndex: number) => {
-        if (selectIndex === displayItems.length - 1) return; // Already at the bottom
+        if (selectIndex === displayItems.length - 1) return;
 
         const newItems = [...displayItems];
         const temp = newItems[selectIndex].position;

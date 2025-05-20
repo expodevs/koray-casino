@@ -92,7 +92,7 @@ export default function BuilderCasinoTop({
     };
 
     const moveOptionDown = (optionIndex: number) => {
-        if (optionIndex === displayOptions.length - 1) return; // Already at the bottom
+        if (optionIndex === displayOptions.length - 1) return;
 
         const newOptions = [...displayOptions];
         const temp = newOptions[optionIndex].position;
@@ -162,7 +162,7 @@ export default function BuilderCasinoTop({
     };
 
     const moveCasinoDown = (casinoIndex: number) => {
-        if (casinoIndex === displayCasinos.length - 1) return; // Already at the bottom
+        if (casinoIndex === displayCasinos.length - 1) return;
 
         const newCasinos = [...displayCasinos];
         const temp = newCasinos[casinoIndex].position;
@@ -195,8 +195,7 @@ export default function BuilderCasinoTop({
                                             <option value="">Select Option</option>
                                             {(casinoOptions || [])
                                                 .filter(option => 
-                                                    // Show if it's the current option or not selected yet
-                                                    option.id.toString() === item.id || 
+                                                    option.id.toString() === item.id ||
                                                     !displayOptions.some(o => o.id === option.id.toString() && o !== item)
                                                 )
                                                 .map(option => (
@@ -285,8 +284,7 @@ export default function BuilderCasinoTop({
                                     <option value="">Select Casino</option>
                                     {(casinos || [])
                                         .filter(casino => 
-                                            // Show if it's the current casino or not selected yet
-                                            casino.id.toString() === item.id || 
+                                            casino.id.toString() === item.id ||
                                             !displayCasinos.some(c => c.id === casino.id.toString() && c !== item)
                                         )
                                         .map(casino => (

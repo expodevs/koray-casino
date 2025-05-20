@@ -23,18 +23,12 @@ export default function CardOptions({
   cardIconImages,
   setCardIconImages
 }: CardOptionsProps) {
-  // State for tracking the currently selected option
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  // State for tracking the currently selected icon card
   const [selectedIconCard, setSelectedIconCard] = useState<IconCardSelect | null>(null);
-  // State for storing icon card images
   const [iconCardImages, setIconCardImages] = useState<IconCardImage[]>([]);
-  // State for tracking selected icon card images
   const [selectedIconCardImages, setSelectedIconCardImages] = useState<number[]>([]);
-  // State for storing icon card images data
   const [iconCardImagesData, setIconCardImagesData] = useState<{[key: number]: IconCardImage}>({});
 
-  // Fetch icon card images when an icon card is selected
   useEffect(() => {
     if (selectedIconCard) {
       const fetchIconCardImages = async () => {
@@ -58,7 +52,6 @@ export default function CardOptions({
   }, [selectedIconCard]);
 
 
-  // Fetch images for icon card images when they change
   useEffect(() => {
     if (cardIconImages.length > 0) {
       const imageIds = cardIconImages.map(img => img.icon_card_image_id);
@@ -80,7 +73,6 @@ export default function CardOptions({
 
             const images = await response.json();
 
-            // Create a map of id -> image
             const imagesMap: {[key: number]: IconCardImage} = {};
             images.forEach((img: IconCardImage) => {
               imagesMap[img.id] = img;
@@ -100,18 +92,15 @@ export default function CardOptions({
     }
   }, [cardIconImages]);
 
-  // Handle adding a new option to the card
   const handleAddOption = (optionId: string) => {
     if (!optionId) return;
 
-    // Check if option already exists
     const exists = cardOptions.some(opt => opt.option_id === parseInt(optionId));
     if (exists) {
       toast.error('This option is already added');
       return;
     }
 
-    // Find the selected option to get its default value
     const option = options?.find(opt => opt.id === parseInt(optionId));
     const defaultValue = option?.value || '';
 
@@ -121,12 +110,10 @@ export default function CardOptions({
     }]);
   };
 
-  // Handle removing an option from the card
   const handleRemoveOption = (index: number) => {
     setCardOptions(cardOptions.filter((_, idx) => idx !== index));
   };
 
-  // Handle selecting/deselecting an icon card image
   const handleSelectIconCardImage = (id: number) => {
     setSelectedIconCardImages(prev => {
       if (prev.includes(id)) {
@@ -137,14 +124,12 @@ export default function CardOptions({
     });
   };
 
-  // Handle adding selected icon card images to the card
   const handleAddIconCardImages = () => {
     if (selectedIconCardImages.length === 0) {
       toast.error('Please select at least one image');
       return;
     }
 
-    // Filter out already added images
     const newImages = selectedIconCardImages.filter(
       imageId => !cardIconImages.some(img => img.icon_card_image_id === imageId)
     );
@@ -154,19 +139,16 @@ export default function CardOptions({
       return;
     }
 
-    // Add new images
     const imagesToAdd = newImages.map(imageId => ({
       icon_card_image_id: imageId
     }));
 
     setCardIconImages([...cardIconImages, ...imagesToAdd]);
 
-    // Reset selection
     setSelectedIconCardImages([]);
     setSelectedIconCard(null);
   };
 
-  // Handle removing an icon card image from the card
   const handleRemoveIconCardImage = (index: number) => {
     setCardIconImages(cardIconImages.filter((_, idx) => idx !== index));
   };
@@ -319,7 +301,6 @@ export default function CardOptions({
 
                 handleAddOption(optionId);
 
-                // Reset form
                 (document.getElementById('new-option-id') as HTMLSelectElement).value = '';
                 setSelectedOption(null);
               }}

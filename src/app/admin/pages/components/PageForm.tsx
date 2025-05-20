@@ -74,7 +74,6 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
   }, [page, setValue]);
 
 
-    // Tab state is now managed by TabContainer
     const {data:builders, isLoading} = useRequestData<Builder[]>({url: routeAdminApiBuilders.all, queryKey: 'builders'});
     const {data:categoryCards, isLoading:isLoadingCategoryCards} = useRequestData<CategoryCard[]>({url: routeAdminApiCategoryCards.pageBuilder, queryKey: 'categoryCards'});
     const {data:faqs, isLoading:isLoadingFaqs} = useRequestData<Faq[]>({url: routeAdminApiFaqs.pageBuilder, queryKey: 'faqs'});
@@ -282,7 +281,6 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                 try {
                     const parsedData = JSON.parse(buildPage.field_values);
 
-                    // Handle backward compatibility for table_show_options
                     if (Array.isArray(parsedData.table_show_options)) {
                         if (parsedData.table_show_options.length > 0) {
                             // Check if the first item is a string (old format) or an object (new format)
@@ -293,18 +291,15 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                                     position: index + 1
                                 }));
                             } else {
-                                // Already in new format
                                 result.table_show_options = parsedData.table_show_options;
                             }
                         }
                     }
 
-                    // Copy table_show_casinos
                     if (Array.isArray(parsedData.table_show_casinos)) {
                         result.table_show_casinos = parsedData.table_show_casinos;
                     }
                 } catch {
-                    // If parsing fails, return empty arrays
                     return {
                         table_show_options: [],
                         table_show_casinos: []

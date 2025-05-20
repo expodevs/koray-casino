@@ -76,7 +76,6 @@ export async function POST(req: NextRequest) {
 
             const data = validationResult.data;
 
-            // Set the type to CardType.card
             const cardData = {
                 ...data,
                 type: CardType.card,
@@ -84,7 +83,6 @@ export async function POST(req: NextRequest) {
                 category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
             };
 
-            // Check if referral_key is unique
             const existingCard = await prisma.card.findUnique({
                 where: {
                     referral_key: cardData.referral_key
@@ -97,12 +95,10 @@ export async function POST(req: NextRequest) {
                 }, { status: 400 });
             }
 
-            // Create the card
             const entity = await prisma.card.create({
                 data: cardData
             });
 
-            // Process related data if provided
             if (body.options && Array.isArray(body.options)) {
                 await Promise.all(body.options.map(async (option: { option_id: number, value: string }) => {
                     await prisma.cardOption.create({
@@ -142,7 +138,6 @@ export async function POST(req: NextRequest) {
                 await Promise.all(body.images.map(async (image: { src: string, newImage: string, alt: string, position: number }) => {
                     let imageSrc = image.src;
 
-                    // If newImage is provided, save it and use the new path
                     if (image.newImage && typeof image.newImage === 'string' && image.newImage.length > 0) {
                         imageSrc = await saveBase64File(image.newImage, cardImagePath(entity.id));
                     }

@@ -59,7 +59,6 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
 
   const handleFormSubmit = async (data: FormData) => {
     try {
-      // Set the type to CardType.cart before submitting
       const formData = {
         ...data,
         type: CardType.cart

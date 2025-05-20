@@ -46,7 +46,6 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
 
             const data = validationResult.data;
             
-            // Set the type to CardType.cart
             const cardData = {
                 ...data,
                 type: CardType.cart,
@@ -54,7 +53,6 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
             };
 
-            // Check if referral_key is unique
             const existingCard = await prisma.card.findFirst({
                 where: {
                     referral_key: cardData.referral_key,
@@ -91,7 +89,6 @@ export async function DELETE(req: NextRequest, { params }: requestParams) {
                 return NextResponse.json({ error: 'Bad request' }, { status: 400 });
             }
 
-            // Verify the card exists and is of type cart
             const card = await prisma.card.findUnique({
                 where: {
                     id,

@@ -73,7 +73,6 @@ export async function POST(req: NextRequest) {
 
             const data = validationResult.data;
 
-            // Set the type to CardType.cart
             const cardData = {
                 ...data,
                 type: CardType.cart,
@@ -81,7 +80,6 @@ export async function POST(req: NextRequest) {
                 category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
             };
 
-            // Check if referral_key is unique
             const existingCard = await prisma.card.findUnique({
                 where: {
                     referral_key: cardData.referral_key

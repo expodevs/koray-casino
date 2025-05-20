@@ -60,38 +60,30 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     }
   }, [card, setValue]);
 
-  // Fetch data for form fields
   const { data: categoryCards, isLoading: isLoadingCategoryCards } = useRequestData<CategoryCard[]>({
     url: routeAdminApiCategoryCards.pageBuilder,
     queryKey: 'categoryCards'
   });
 
-  // Fetch data for Options tab
   const { data: options, isLoading: isLoadingOptions } = useRequestData<Option[]>({
     url: routeAdminApiOptions.list,
     queryKey: 'options'
   });
 
-  // Fetch data for IconCard tab
   const { data: iconCards, isLoading: isLoadingIconCards } = useRequestData<IconCardSelect[]>({
     url: routeAdminApiIconCards.select,
     queryKey: 'iconCards'
   });
 
-  // Fetch data for FAQ tab
   const { data: faqs, isLoading: isLoadingFaqs } = useRequestData<Faq[]>({
     url: routeAdminApiFaqs.pageBuilder,
     queryKey: 'faqs'
   });
 
-  // State for managing card options
   const [cardOptions, setCardOptions] = useState<{option_id: number, value: string}[]>([]);
-  // State for managing card icon images
   const [cardIconImages, setCardIconImages] = useState<{icon_card_image_id: number}[]>([]);
-  // State for managing card FAQs
   const [cardFaqs, setCardFaqs] = useState<{faq_id: number, position: number}[]>([]);
 
-  // Convert cardFaqs to FaqItem format for FaqBuilder
   const getFaqItems = (): FaqItem[] => {
     return cardFaqs.map(faq => ({
       id: faq.faq_id.toString(),
@@ -99,7 +91,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     }));
   };
 
-  // Handle FaqBuilder onChange event
   const handleFaqBuilderChange = (value: string) => {
     try {
       const faqItems: FaqItem[] = JSON.parse(value);
@@ -112,15 +103,12 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       console.error('Failed to parse FAQ items:', error);
     }
   };
-  // State for managing card images
   const [cardImages, setCardImages] = useState<{src: string, newImage?: string, alt: string, position: number}[]>([]);
 
-  // State for file upload
   const [image, setImage] = useState<File | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
   const [imageAlt, setImageAlt] = useState<string>('');
 
-  // Initialize state from card data if available
   useEffect(() => {
     if (card) {
       if (card.options && Array.isArray(card.options)) {
@@ -139,9 +127,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
   }, [card]);
 
 
-  // FAQ management is now handled by the FaqBuilder component
 
-  // Handle file selection for image upload
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -156,7 +142,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     }
   };
 
-  // Handle adding a new image to the card
   const handleAddImage = (src: string, alt: string) => {
     if (!src) return;
 
@@ -167,16 +152,13 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       position: cardImages.length + 1
     }]);
 
-    // Reset the form fields
     setNewImage(null);
     setImage(null);
     setImageAlt('');
   };
 
-  // Handle removing an image from the card
   const handleRemoveImage = (index: number) => {
     const newImages = cardImages.filter((_, idx) => idx !== index);
-    // Update positions after removal
     const updatedImages = newImages.map((img, idx) => ({
       ...img,
       position: idx + 1
@@ -184,9 +166,8 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     setCardImages(updatedImages);
   };
 
-  // Handle moving an image up in the list
   const moveImageUp = (index: number) => {
-    if (index === 0) return; // Already at the top
+    if (index === 0) return;
 
     const newImages = [...cardImages];
     const temp = newImages[index].position;
@@ -196,9 +177,8 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     setCardImages(newImages.sort((a, b) => a.position - b.position));
   };
 
-  // Handle moving an image down in the list
   const moveImageDown = (index: number) => {
-    if (index === cardImages.length - 1) return; // Already at the bottom
+    if (index === cardImages.length - 1) return;
 
     const newImages = [...cardImages];
     const temp = newImages[index].position;
@@ -208,10 +188,8 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     setCardImages(newImages.sort((a, b) => a.position - b.position));
   };
 
-  // Handle form submission
   const handleFormSubmit = async (data: FormData) => {
     try {
-      // Set the type to CardType.card before submitting
       const formData = {
         ...data,
         type: CardType.card,

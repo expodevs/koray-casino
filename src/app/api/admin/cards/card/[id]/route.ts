@@ -61,7 +61,6 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
 
             const data = validationResult.data;
 
-            // Set the type to CardType.card
             const cardData = {
                 ...data,
                 type: CardType.card,
@@ -69,7 +68,6 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
             };
 
-            // Check if referral_key is unique
             const existingCard = await prisma.card.findFirst({
                 where: {
                     referral_key: cardData.referral_key,
@@ -85,20 +83,16 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 }, { status: 400 });
             }
 
-            // Update the card
             const entity = await prisma.card.update({
                 where: { id },
                 data: cardData
             });
 
-            // Process related data if provided
             if (body.options && Array.isArray(body.options)) {
-                // Delete existing options
                 await prisma.cardOption.deleteMany({
                     where: { card_id: id }
                 });
 
-                // Create new options
                 await Promise.all(body.options.map(async (option: { option_id: number, value: string }) => {
                     await prisma.cardOption.create({
                         data: {
@@ -111,12 +105,10 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
             }
 
             if (body.icon_card_images && Array.isArray(body.icon_card_images)) {
-                // Delete existing icon card images
                 await prisma.cardIconImage.deleteMany({
                     where: { card_id: id }
                 });
 
-                // Create new icon card images
                 await Promise.all(body.icon_card_images.map(async (image: { icon_card_image_id: number }) => {
                     await prisma.cardIconImage.create({
                         data: {
@@ -128,12 +120,10 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
             }
 
             if (body.faqs && Array.isArray(body.faqs)) {
-                // Delete existing faqs
                 await prisma.faqCard.deleteMany({
                     where: { card_id: id }
                 });
 
-                // Create new faqs
                 await Promise.all(body.faqs.map(async (faq: { faq_id: number, position: number }) => {
                     await prisma.faqCard.create({
                         data: {
@@ -146,16 +136,13 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
             }
 
             if (body.images && Array.isArray(body.images)) {
-                // Get existing images to check for deletions
                 const existingImages = await prisma.cardImage.findMany({
                     where: { card_id: id }
                 });
 
-                // Check for images that need to be deleted
                 const newImageSrcs = body.images.map(img => img.src).filter(src => src && !src.includes('data:'));
                 const imagesToDelete = existingImages.filter(img => !newImageSrcs.includes(img.src));
 
-                // Delete files for images that are no longer used
                 for (const img of imagesToDelete) {
                     try {
                         removeFile(fullPublicPath(img.src));
@@ -164,16 +151,13 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                     }
                 }
 
-                // Delete existing images from database
                 await prisma.cardImage.deleteMany({
                     where: { card_id: id }
                 });
 
-                // Create new images
                 await Promise.all(body.images.map(async (image: { src: string, newImage: string, alt: string, position: number }) => {
                     let imageSrc = image.src;
 
-                    // If newImage is provided, save it and use the new path
                     if (image.newImage && typeof image.newImage === 'string' && image.newImage.length > 0) {
                         imageSrc = await saveBase64File(image.newImage, cardImagePath(entity.id));
                     }
@@ -205,7 +189,6 @@ export async function DELETE(req: NextRequest, { params }: requestParams) {
                 return NextResponse.json({ error: 'Bad request' }, { status: 400 });
             }
 
-            // Verify the card exists and is of type card
             const card = await prisma.card.findUnique({
                 where: {
                     id,
@@ -217,7 +200,7 @@ export async function DELETE(req: NextRequest, { params }: requestParams) {
                 return NextResponse.json({ error: 'Card not found' }, { status: 404 });
             }
 
-            // Delete related data
+
             await prisma.cardOption.deleteMany({
                 where: { card_id: id }
             });
@@ -234,7 +217,6 @@ export async function DELETE(req: NextRequest, { params }: requestParams) {
                 where: { card_id: id }
             });
 
-            // Delete the card
             await prisma.card.delete({
                 where: { id }
             });
