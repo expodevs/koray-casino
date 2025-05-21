@@ -10,13 +10,14 @@ import React, {useCallback, useEffect, useState} from "react";
 import {BuildPage as BuildPageResponse, Casino, Faq, Option, Page} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 import {useRequestData} from "@lib/request";
-import {Builder, BuildType, CategoryCard} from "@prismaClient";
-import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions} from "@lib/adminRoute";
+import {Builder, BuildType, CategoryCard, Card} from "@prismaClient";
+import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions, routeAdminApiCards} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
 import BuilderCasinoTop, { CasinoTopData } from "@app/admin/pages/components/BuilderCasinoTop";
 import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/CategoryCardBuilder';
+import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
 
 
 
@@ -78,6 +79,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:faqs, isLoading:isLoadingFaqs} = useRequestData<Faq[]>({url: routeAdminApiFaqs.pageBuilder, queryKey: 'faqs'});
     const {data:casinos, isLoading:isLoadingCasinos} = useRequestData<Casino[]>({url: routeAdminApiCasinos.pageBuilder, queryKey: 'casinos'});
     const {data:casinoOptions, isLoading:isLoadingCasinoOptions} = useRequestData<Option[]>({url: routeAdminApiCasinoOptions.list, queryKey: 'casinoOptions'});
+    const {data:cards, isLoading:isLoadingCards} = useRequestData<Card[]>({url: routeAdminApiCards.pageBuilder, queryKey: 'cards'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
 
@@ -212,6 +214,38 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
             )
         }
 
+        if (builder.build_type === BuildType.cart) {
+            const parseCartItems = (): CartItem[] => {
+                if (!buildPage.field_values) {
+                    return [];
+                }
+
+                let result: CartItem[] = [];
+                try {
+                    result = JSON.parse(buildPage.field_values);
+                } catch {
+                    const oldValues = buildPage.field_values.split(',').filter(Boolean);
+                    result = oldValues.map((id, index) => ({
+                        id,
+                        position: index + 1
+                    }));
+                }
+                return result;
+            };
+
+            const cartItems = parseCartItems();
+
+            return (
+                <CartBuilder
+                    key={`builder-${buildPage.build_id}-${idx}`}
+                    label={builder.label}
+                    cartItems={cartItems}
+                    cards={cards}
+                    onChange={(value) => handleFieldValueChange(idx, value)}
+                />
+            )
+        }
+
 
         if (builder.build_type === BuildType.slotCard) {
             const buildValue = (() => {
@@ -335,9 +369,9 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         return null;
-    }, [builders, categoryCards, faqs, casinos, casinoOptions, handleFieldValueChange]);
+    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, handleFieldValueChange]);
 
-    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions) return <div>Loading...</div>;
+    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards) return <div>Loading...</div>;
 
     return (
       <div className="max-w-6xl mx-auto p-4">
