@@ -59,13 +59,11 @@ export default function CardOptions({
       if (imageIds.length > 0) {
         const fetchIconCardImagesData = async () => {
           try {
-            const response = await fetch(routeAdminApiIconCardImages.selected, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ ids: imageIds }),
-            });
+
+            const queryParams = imageIds.map(id => `id=${id}`).join('&');
+            const url = `${routeAdminApiIconCardImages.selected}?${queryParams}`;
+
+            const response = await fetch(url);
 
             if (!response.ok) {
               throw new Error('Failed to fetch icon card images');

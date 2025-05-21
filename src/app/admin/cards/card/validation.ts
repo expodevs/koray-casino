@@ -2,12 +2,13 @@ import { z } from "zod";
 
 const fieldSchema = {
   published: z.boolean().default(false),
-  category_card_id: z.string().optional(),
+  category_card_id: z.number().optional(),
   label: z.string().min(1, 'Label is required'),
   description: z.string().optional(),
   referral_key: z.string().min(1, 'Referral key is required'),
   referral_btn_1_link: z.string().optional(),
   referral_btn_2_link: z.string().optional(),
+  terms_and_condition: z.string().optional(),
   position: z.string().optional().transform(val => val ? parseInt(val) : undefined),
 };
 

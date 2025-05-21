@@ -168,6 +168,7 @@ const routeAdminApiCards = {
     all: apiRoutes.cards,
     allCard: `${apiRoutes.cards}/card`,
     allCart: `${apiRoutes.cards}/cart`,
+    pageBuilder: `${apiRoutes.cards}/cart/pageBuilder`,
     oneCard: (id: string): string => `${apiRoutes.cards}/card/${id}`,
     oneCart: (id: string): string => `${apiRoutes.cards}/cart/${id}`,
 };

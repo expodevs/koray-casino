@@ -7,12 +7,9 @@ import { toast } from "react-toastify";
 import { FaSave } from "react-icons/fa";
 import { cartCreateSchema, cartUpdateSchema } from "@app/admin/cards/cart/validation";
 import React, { useEffect } from "react";
-import { Card, CategoryCard } from "@/@types/response";
+import { Card } from "@/@types/response";
 import CustomInput from "@components/CustomInput";
-import { useRequestData } from "@lib/request";
 import { CardType } from "@prismaClient";
-import { routeAdminApiCategoryCards } from "@lib/adminRoute";
-import CustomSelect from "@components/CustomSelect";
 
 interface CartFormProps {
   card?: Card;
@@ -32,11 +29,9 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
     defaultValues: {
       label: card?.label || '',
       published: card?.published || false,
-      category_card_id: card?.category_card_id?.toString() || '',
       description: card?.description || '',
       referral_key: card?.referral_key || '',
       referral_btn_1_link: card?.referral_btn_1_link || '',
-      position: card?.position?.toString() || '',
     },
   });
 
@@ -44,18 +39,11 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
     if (card) {
       setValue('label', card.label);
       setValue('published', card.published);
-      setValue('category_card_id', card.category_card_id?.toString() || '');
       setValue('description', card.description || '');
       setValue('referral_key', card.referral_key);
       setValue('referral_btn_1_link', card.referral_btn_1_link || '');
-      setValue('position', card.position?.toString() || '');
     }
   }, [card, setValue]);
-
-  const { data: categoryCards, isLoading: isLoadingCategoryCards } = useRequestData<CategoryCard[]>({
-    url: routeAdminApiCategoryCards.pageBuilder,
-    queryKey: 'categoryCards'
-  });
 
   const handleFormSubmit = async (data: FormData) => {
     try {
@@ -78,7 +66,7 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
     }
   };
 
-  if (isLoadingCategoryCards) return <div>Loading...</div>;
+
 
   return (
     <div className="max-w-6xl mx-auto p-4">
@@ -86,20 +74,11 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
         <div className="space-y-4">
           <CustomInput field={'published'} label={'Published'} register={register} errors={errors} type="checkbox" />
 
-          <CustomSelect
-              label={'Category Card'}
-              field={'category_card_id'}
-              options={(categoryCards || [])}
-              registerAttr={{valueAsNumber: true}}
-              register={register}
-              errors={errors}
-          />
 
           <CustomInput field={'label'} label={'Label'} register={register} errors={errors} />
           <CustomInput field={'description'} label={'Description'} register={register} errors={errors} type="textarea" />
           <CustomInput field={'referral_key'} label={'Referral Key'} register={register} errors={errors} />
-          <CustomInput field={'referral_btn_1_link'} label={'Referral Button 1 Link'} register={register} errors={errors} />
-          <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number" />
+          <CustomInput field={'referral_btn_1_link'} label={'Referral Link'} register={register} errors={errors} />
 
           <button
             type="submit"

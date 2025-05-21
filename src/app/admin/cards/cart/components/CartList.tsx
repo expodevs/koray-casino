@@ -61,9 +61,7 @@ export default function CartList() {
                             <tr className="bg-gray-100">
                                 <th className="p-3">ID</th>
                                 <th className="p-3">Label</th>
-                                <th className="p-3">Category</th>
                                 <th className="p-3">Referral Key</th>
-                                <th className="p-3">Position</th>
                                 <th className="p-3">Published</th>
                                 <th className="p-3">Actions</th>
                             </tr>
@@ -73,9 +71,7 @@ export default function CartList() {
                                 <tr key={card.id} className="border-b hover:bg-gray-50">
                                     <td className="p-3">{card.id}</td>
                                     <td className="p-3">{card.label}</td>
-                                    <td className="p-3">{card.category_card?.label || '-'}</td>
                                     <td className="p-3">{card.referral_key}</td>
-                                    <td className="p-3">{card.position || '-'}</td>
                                     <td className="p-3">{card.published ? '✅' : '❌'}</td>
                                     <td className="p-3 flex gap-2">
                                         <Link

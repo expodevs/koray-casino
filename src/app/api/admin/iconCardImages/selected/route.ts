@@ -3,8 +3,9 @@ import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 
 
-export async function POST(req: Request) {
-    const {ids} = await req.json();
+export async function GET(req: NextRequest) {
+    const {searchParams} = new URL(req.url);
+    const ids = searchParams.getAll('id').map(Number).filter(Boolean);
     return await withAdminAuthorized(async (ids: number[]) => {
 
         try {
@@ -23,6 +24,6 @@ export async function POST(req: Request) {
             console.log(error)
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, ids.map(Number).filter(Boolean))
+    }, ids)
 }
 

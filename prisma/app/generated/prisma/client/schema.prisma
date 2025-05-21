@@ -241,9 +241,10 @@ enum BuildType {
   text
   textarea
   htmlEditor
-  categoryCard
+  slotCard
+  cart
   faq
-  CasinoTop
+  casinoTop
 }
 
 enum OptionType {
