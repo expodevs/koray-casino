@@ -240,7 +240,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
                 <CustomSelect
                   label={'Category Card'}
                   field={'category_card_id'}
-                  options={(categoryCards || [])}
+                  options={(categoryCards?.map(categoryCard => ({value: categoryCard.id, label: categoryCard.label})) || [])}
                   registerAttr={{valueAsNumber: true}}
                   register={register}
                   errors={errors}

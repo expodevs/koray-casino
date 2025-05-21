@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const fieldSchema = {
   published: z.boolean().default(false),
-  category_card_id: z.string().optional(),
+  category_card_id: z.number().optional(),
   label: z.string().min(1, 'Label is required'),
   description: z.string().optional(),
   referral_key: z.string().min(1, 'Referral key is required'),
