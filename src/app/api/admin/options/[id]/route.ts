@@ -5,6 +5,7 @@ import {optionUpdateSchema} from "@app/admin/options/validation";
 import {strToSlug} from "@lib/str";
 import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {optionPath} from "@lib/uploadPaths";
+import {OptionType} from "@prismaClient";
 
 type requestParams = { params: { id: string } };
 
@@ -23,7 +24,7 @@ export async function GET(req: Request, {params}: requestParams) {
         try {
 
             const entity = await prisma.option.findUnique({
-                where: {id},
+                where: {id, type: OptionType.card},
             });
 
             if (!entity) {
@@ -32,6 +33,7 @@ export async function GET(req: Request, {params}: requestParams) {
 
             return NextResponse.json(entity);
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -51,7 +53,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
 
             const data = validationResult.data;
 
-            if (!data.value || !data.value.length || body.newImage && body.newImage.length) {
+            if (!data.value || !data.value?.length || data.newImage && data.newImage?.length) {
                 await removeOldImage(id);
             }
 
@@ -59,21 +61,30 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 data.hash_tag = strToSlug(data.hash_tag);
             }
 
+            const newImage = data.newImage;
+            delete data.newImage;
+
             const entity = await prisma.option.update({
-                where: {id},
+                where: {id, type: OptionType.card},
                 data,
             });
 
-            if (body.newImage && body.newImage.length) {
-                const src = await saveBase64File(body.newImage, optionPath(entity.id));
+            if (newImage && newImage.length) {
+                const src = await saveBase64File(newImage, optionPath(entity.id));
                 await prisma.option.update({where: {id: entity.id}, data: {value: src}});
+
+                await prisma.cardOption.updateMany({
+                    where: { option_id: entity.id },
+                    data: { value: src }
+                });
+
                 entity.value = src;
             }
 
 
             return NextResponse.json(entity);
         } catch (error) {
-            console.log(error)
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -91,15 +102,13 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             await removeOldImage(id)
 
             await prisma.option.delete({
-                where: {id},
+                where: {id, type: OptionType.card},
             });
 
             return new NextResponse(null, {status: 204});
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
-
-
-

@@ -7,7 +7,7 @@ export interface useRequestDataInterface {
 
 export function useRequestData<T>({url, queryKey = 'entity'}: useRequestDataInterface) {
     return useQuery<T>({
-        queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],
+        queryKey: Array.isArray(queryKey) ? queryKey : [queryKey, url],
         queryFn: async () => {
             const res = await fetch(url);
             if (!res.ok) throw new Error('Error loading data');

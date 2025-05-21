@@ -1,14 +1,18 @@
 
 const apiRoutes = {
+    builders: '/api/admin/builders',
     users: '/api/admin/users',
     settings: '/api/admin/settings',
     pages: '/api/admin/pages',
     options: '/api/admin/options',
+    casinos: '/api/admin/casinos',
+    casinoOptions: '/api/admin/casinoOptions',
     menus: '/api/admin/menus',
     faqs: '/api/admin/faqs',
     categoryCards: '/api/admin/categoryCards',
     iconCards: '/api/admin/iconCards',
     iconCardImages: '/api/admin/iconCardImages',
+    cards: '/api/admin/cards',
 };
 
 const pagesRoutes = {
@@ -16,11 +20,18 @@ const pagesRoutes = {
     settings: '/admin/settings',
     pages: '/admin/pages',
     options: '/admin/options',
+    casinos: '/admin/casinos',
+    casinoOptions: '/admin/casinoOptions',
     menus: '/admin/menus',
     faqs: '/admin/faqs',
     categoryCards: '/admin/categoryCards',
     iconCards: '/admin/iconCards',
     iconCardImages: '/admin/iconCardImages',
+    cards: '/admin/cards',
+};
+
+const routeAdminApiBuilders = {
+    all: apiRoutes.builders
 };
 
 const routeAdminApiUsers = {
@@ -58,6 +69,7 @@ const routeAdminPagePages = {
 
 const routeAdminApiOptions = {
     all: apiRoutes.options,
+    list: `${apiRoutes.options}/all`,
     one: (id: string): string => `${apiRoutes.options}/${id}`,
 };
 
@@ -65,6 +77,30 @@ const routeAdminPageOptions = {
     all: pagesRoutes.options,
     create: `${pagesRoutes.options}/create`,
     edit: (id: string): string => `${pagesRoutes.options}/${id}/edit`,
+};
+
+const routeAdminApiCasinos = {
+    all: apiRoutes.casinos,
+    pageBuilder: `${apiRoutes.casinos}/pageBuilder`,
+    one: (id: string): string => `${apiRoutes.casinos}/${id}`,
+};
+
+const routeAdminPageCasinos = {
+    all: pagesRoutes.casinos,
+    create: `${pagesRoutes.casinos}/create`,
+    edit: (id: string): string => `${pagesRoutes.casinos}/${id}/edit`,
+};
+
+const routeAdminApiCasinoOptions = {
+    all: apiRoutes.casinoOptions,
+    list: `${apiRoutes.casinoOptions}/all`,
+    one: (id: string): string => `${apiRoutes.casinoOptions}/${id}`,
+};
+
+const routeAdminPageCasinoOptions = {
+    all: pagesRoutes.casinoOptions,
+    create: `${pagesRoutes.casinoOptions}/create`,
+    edit: (id: string): string => `${pagesRoutes.casinoOptions}/${id}/edit`,
 };
 
 const routeAdminApiMenus = {
@@ -81,6 +117,7 @@ const routeAdminPageMenus = {
 
 const routeAdminApiFaqs = {
     all: apiRoutes.faqs,
+    pageBuilder: `${apiRoutes.faqs}/pageBuilder`,
     one: (id: string): string => `${apiRoutes.faqs}/${id}`,
 };
 
@@ -92,6 +129,7 @@ const routeAdminPageFaqs = {
 
 const routeAdminApiCategoryCards = {
     all: apiRoutes.categoryCards,
+    pageBuilder: `${apiRoutes.categoryCards}/pageBuilder`,
     one: (id: string): string => `${apiRoutes.categoryCards}/${id}`,
 };
 
@@ -116,6 +154,8 @@ const routeAdminPageIconCards = {
 const routeAdminApiIconCardImages = {
     all: apiRoutes.iconCardImages,
     one: (id: string): string => `${apiRoutes.iconCardImages}/${id}`,
+    selectBy: (id: string): string => `${apiRoutes.iconCardImages}/${id}/select`,
+    selected: `${apiRoutes.iconCardImages}/selected`,
 };
 
 const routeAdminPageIconCardImages = {
@@ -124,14 +164,36 @@ const routeAdminPageIconCardImages = {
     edit: (id: string): string => `${pagesRoutes.iconCardImages}/${id}/edit`,
 };
 
+const routeAdminApiCards = {
+    all: apiRoutes.cards,
+    allCard: `${apiRoutes.cards}/card`,
+    allCart: `${apiRoutes.cards}/cart`,
+    oneCard: (id: string): string => `${apiRoutes.cards}/card/${id}`,
+    oneCart: (id: string): string => `${apiRoutes.cards}/cart/${id}`,
+};
+
+const routeAdminPageCards = {
+    all: pagesRoutes.cards,
+    createCard: `${pagesRoutes.cards}/card/create`,
+    createCart: `${pagesRoutes.cards}/cart/create`,
+    editCard: (id: string): string => `${pagesRoutes.cards}/card/${id}/edit`,
+    editCart: (id: string): string => `${pagesRoutes.cards}/cart/${id}/edit`,
+    card: `${pagesRoutes.cards}/card`,
+    cart: `${pagesRoutes.cards}/cart`,
+};
+
 export {
+    routeAdminApiBuilders,
     routeAdminApiIconCardImages, routeAdminPageIconCardImages,
     routeAdminApiIconCards, routeAdminPageIconCards,
     routeAdminApiCategoryCards, routeAdminPageCategoryCards,
     routeAdminApiFaqs, routeAdminPageFaqs,
     routeAdminApiMenus, routeAdminPageMenus,
     routeAdminApiOptions, routeAdminPageOptions,
+    routeAdminApiCasinos, routeAdminPageCasinos,
+    routeAdminApiCasinoOptions, routeAdminPageCasinoOptions,
     routeAdminApiPages, routeAdminPagePages,
     routeAdminApiSettings, routeAdminPageSettings,
     routeAdminPageUsers, routeAdminApiUsers,
+    routeAdminApiCards, routeAdminPageCards,
 };

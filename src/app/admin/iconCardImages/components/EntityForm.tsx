@@ -115,7 +115,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             <CustomSelect
                 label={'Icon Card'}
                 field={'icon_card_id'}
-                options={iconCards.map<CustomSelectOption>(el=>({label:el.label, value: el.id}))}
+                options={(iconCards||[]).map<CustomSelectOption>(el=>({label:el.label, value: el.id}))}
                 registerAttr={{valueAsNumber: true}}
                 register={register}
                 errors={errors}

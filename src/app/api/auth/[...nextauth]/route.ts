@@ -50,13 +50,24 @@ export const authOptions: NextAuthOptions = {
         async jwt({token, user}) {
             if (user) {
                 token.user = {id: user.id, role:user.role}
+            } else if (token.user) {
+                const userExists = await prisma.user.findUnique({
+                    where: { id: token.user.id }
+                });
+
+                if (!userExists) {
+                    return {};
+                }
             }
             return token
         },
         async session({session, token}) {
-            session.user.role = token.user.role
-            session.user.id = token.user.id
-            return session
+            if (token.user) {
+                session.user.role = token.user.role
+                session.user.id = token.user.id
+                return session
+            }
+            return { user: { id: '', role: '', name: '', email: '', image: '' } }
         }
     },
     pages: {
@@ -67,4 +78,3 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions)
 export {handler as GET, handler as POST}
-

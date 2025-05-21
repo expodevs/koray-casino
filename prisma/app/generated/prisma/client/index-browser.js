@@ -175,11 +175,11 @@ exports.Prisma.CardScalarFieldEnum = {
   type: 'type',
   category_card_id: 'category_card_id',
   label: 'label',
-  sub_label: 'sub_label',
-  referal_key: 'referal_key',
-  referal_link: 'referal_link',
-  play_with_real_money: 'play_with_real_money',
-  play_for_free: 'play_for_free',
+  description: 'description',
+  referral_key: 'referral_key',
+  referral_btn_1_link: 'referral_btn_1_link',
+  referral_btn_2_link: 'referral_btn_2_link',
+  position: 'position',
   terms_and_condition: 'terms_and_condition'
 };
 
@@ -203,6 +203,7 @@ exports.Prisma.OptionScalarFieldEnum = {
   published: 'published',
   use_for_filter: 'use_for_filter',
   input_type: 'input_type',
+  type: 'type',
   label: 'label',
   tooltip: 'tooltip',
   hash_tag: 'hash_tag',
@@ -240,7 +241,9 @@ exports.Prisma.CardIconImageScalarFieldEnum = {
 exports.Prisma.CardImageScalarFieldEnum = {
   id: 'id',
   card_id: 'card_id',
-  src: 'src'
+  src: 'src',
+  alt: 'alt',
+  position: 'position'
 };
 
 exports.Prisma.PageScalarFieldEnum = {
@@ -257,8 +260,7 @@ exports.Prisma.PageScalarFieldEnum = {
 exports.Prisma.BuilderScalarFieldEnum = {
   id: 'id',
   build_type: 'build_type',
-  label: 'label',
-  fields: 'fields'
+  label: 'label'
 };
 
 exports.Prisma.BuildPageScalarFieldEnum = {
@@ -266,8 +268,26 @@ exports.Prisma.BuildPageScalarFieldEnum = {
   build_id: 'build_id',
   page_id: 'page_id',
   position: 'position',
-  field_values: 'field_values',
-  card_type: 'card_type'
+  field_values: 'field_values'
+};
+
+exports.Prisma.CasinoScalarFieldEnum = {
+  id: 'id',
+  published: 'published',
+  name: 'name',
+  tooltip: 'tooltip',
+  image: 'image',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
+  full_review_label: 'full_review_label',
+  full_review_link: 'full_review_link'
+};
+
+exports.Prisma.CasinoOptionScalarFieldEnum = {
+  id: 'id',
+  option_id: 'option_id',
+  casino_id: 'casino_id',
+  value: 'value'
 };
 
 exports.Prisma.SortOrder = {
@@ -317,11 +337,10 @@ exports.Prisma.CategoryCardOrderByRelevanceFieldEnum = {
 
 exports.Prisma.CardOrderByRelevanceFieldEnum = {
   label: 'label',
-  sub_label: 'sub_label',
-  referal_key: 'referal_key',
-  referal_link: 'referal_link',
-  play_with_real_money: 'play_with_real_money',
-  play_for_free: 'play_for_free',
+  description: 'description',
+  referral_key: 'referral_key',
+  referral_btn_1_link: 'referral_btn_1_link',
+  referral_btn_2_link: 'referral_btn_2_link',
   terms_and_condition: 'terms_and_condition'
 };
 
@@ -351,7 +370,8 @@ exports.Prisma.IconCardImageOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.CardImageOrderByRelevanceFieldEnum = {
-  src: 'src'
+  src: 'src',
+  alt: 'alt'
 };
 
 exports.Prisma.PageOrderByRelevanceFieldEnum = {
@@ -363,13 +383,25 @@ exports.Prisma.PageOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.BuilderOrderByRelevanceFieldEnum = {
-  label: 'label',
-  fields: 'fields'
+  label: 'label'
 };
 
 exports.Prisma.BuildPageOrderByRelevanceFieldEnum = {
-  field_values: 'field_values',
-  card_type: 'card_type'
+  field_values: 'field_values'
+};
+
+exports.Prisma.CasinoOrderByRelevanceFieldEnum = {
+  name: 'name',
+  tooltip: 'tooltip',
+  image: 'image',
+  referral_key: 'referral_key',
+  referral_link: 'referral_link',
+  full_review_label: 'full_review_label',
+  full_review_link: 'full_review_link'
+};
+
+exports.Prisma.CasinoOptionOrderByRelevanceFieldEnum = {
+  value: 'value'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   admin: 'admin',
@@ -391,16 +423,22 @@ exports.InputType = exports.$Enums.InputType = {
 };
 
 exports.CardType = exports.$Enums.CardType = {
-  slot_game: 'slot_game',
-  card_game: 'card_game',
-  casono_card: 'casono_card',
+  card: 'card',
   cart: 'cart'
+};
+
+exports.OptionType = exports.$Enums.OptionType = {
+  card: 'card',
+  casino: 'casino'
 };
 
 exports.BuildType = exports.$Enums.BuildType = {
   text: 'text',
-  category: 'category',
-  faq: 'faq'
+  textarea: 'textarea',
+  htmlEditor: 'htmlEditor',
+  categoryCard: 'categoryCard',
+  faq: 'faq',
+  CasinoTop: 'CasinoTop'
 };
 
 exports.Prisma.ModelName = {
@@ -421,7 +459,9 @@ exports.Prisma.ModelName = {
   CardImage: 'CardImage',
   Page: 'Page',
   Builder: 'Builder',
-  BuildPage: 'BuildPage'
+  BuildPage: 'BuildPage',
+  Casino: 'Casino',
+  CasinoOption: 'CasinoOption'
 };
 
 /**

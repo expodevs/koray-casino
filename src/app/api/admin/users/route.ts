@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
                 },
             });
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -81,13 +82,22 @@ export async function PUT(req: NextRequest) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
             }
 
+            const data = {...validationResult.data};
+
+            if (data.password) {
+                data.password = await bcrypt.hash(data.password, parseInt(process.env.BCRYPT || '') || 10);
+            } else {
+                delete data.password;
+            }
+
             const user = await prisma.user.update({
-                where: {id: validationResult.data.id},
-                data: validationResult.data,
+                where: {id: data.id},
+                data,
             });
 
             return NextResponse.json(user);
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -112,6 +122,7 @@ export async function DELETE(req: NextRequest) {
 
             return new NextResponse(null, {status: 204});
         } catch (error) {
+            console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

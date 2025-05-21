@@ -1,4 +1,4 @@
-import {InputType, MenuType} from "@prismaClient";
+import {InputType, MenuType, OptionType} from "@prismaClient";
 
 export interface UserRow {
     id: string;
@@ -40,6 +40,14 @@ export interface Page {
     meta_description: string,
     meta_keywords: string,
     meta_noindex_nofollow: boolean,
+    builds: BuildPage[],
+}
+
+export interface BuildPage {
+    build_id: number,
+    position: number,
+    field_values: string,
+    card_type: string|null,
 }
 
 export interface CategoryCard {
@@ -87,11 +95,43 @@ export interface Option {
     published: boolean,
     use_for_filter: boolean,
     label: string,
+    type: OptionType,
     input_type: InputType,
     tooltip: string | null,
     hash_tag: string | null,
     value: string | null,
     position: number | null,
+}
+
+export interface Card {
+    id: number,
+    published: boolean,
+    type: string,
+    category_card_id: number | null,
+    label: string,
+    description: string | null,
+    referral_key: string,
+    referral_btn_1_link: string | null,
+    referral_btn_2_link: string | null,
+    position: number | null,
+    terms_and_condition: string | null,
+    category_card?: CategoryCard,
+    icon_card_images?: Record<string, unknown>[],
+    images?: Record<string, unknown>[],
+    options?: Record<string, unknown>[],
+    faqs?: Record<string, unknown>[],
+}
+
+export interface Casino {
+    id: number,
+    published: boolean,
+    name: string,
+    tooltip: string | null,
+    image: string,
+    referral_key: string,
+    referral_link: string | null,
+    full_review_label: string | null,
+    full_review_link: string | null,
 }
 
 export interface ApiResponse<T> {

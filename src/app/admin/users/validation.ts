@@ -12,6 +12,10 @@ export const userUpdateSchema = z.object({
     id: z.string(),
     name: z.string().optional(),
     email: z.string().email('Invalid email format'),
+    password: z.union([
+        z.string().length(0),
+        z.string().min(6, 'Password must be at least 6 characters')
+    ]).optional(),
     role: z.nativeEnum(UserRole),
 });
 

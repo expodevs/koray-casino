@@ -166,7 +166,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="p-4">
 
-            {!entity && <EnumSelect label={"Input Type"} field={"input_type"} elements={InputType} register={register} errors={errors} />}
+            {!entity && <EnumSelect label={"Input Type"} field={"input_type"} elements={InputType} excludes={[InputType.password]} register={register} errors={errors} />}
 
 
             <div className="mb-4">

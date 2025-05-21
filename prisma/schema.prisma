@@ -69,22 +69,22 @@ model CategoryCard {
 }
 
 model Card {
-  id                   Int             @id @default(autoincrement())
-  published            Boolean
-  type                 CardType
-  category_card_id     Int?
-  label                String
-  sub_label            String?
-  referal_key          String          @unique
-  referal_link         String?
-  play_with_real_money String?
-  play_for_free        String?
-  terms_and_condition  String?         @db.Text
-  category_card        CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
-  icon_card_images     CardIconImage[]
-  images               CardImage[]
-  options              CardOption[]
-  faqs                 FaqCard[]
+  id                  Int             @id @default(autoincrement())
+  published           Boolean
+  type                CardType
+  category_card_id    Int?
+  label               String
+  description         String?
+  referral_key        String          @unique
+  referral_btn_1_link String?
+  referral_btn_2_link String?
+  position            Int?
+  terms_and_condition String?         @db.Text
+  category_card       CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
+  icon_card_images    CardIconImage[]
+  images              CardImage[]
+  options             CardOption[]
+  faqs                FaqCard[]
 
   @@index([category_card_id], map: "Card_category_card_id_fkey")
   @@index([type], map: "Card_type_idx")
@@ -112,16 +112,20 @@ model FaqCard {
 }
 
 model Option {
-  id             Int          @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   published      Boolean
   use_for_filter Boolean
   input_type     InputType
+  type           OptionType     @default(card)
   label          String
   tooltip        String?
   hash_tag       String?
-  value          String       @db.Text
+  value          String         @db.Text
   position       Int?
   card_options   CardOption[]
+  casino_options CasinoOption[]
+
+  @@index([type], map: "Option_type_idx")
 }
 
 model CardOption {
@@ -167,10 +171,12 @@ model CardIconImage {
 }
 
 model CardImage {
-  id      Int    @id @default(autoincrement())
-  card_id Int
-  src     String
-  card    Card   @relation(fields: [card_id], references: [id])
+  id       Int     @id @default(autoincrement())
+  card_id  Int
+  src      String
+  alt      String?
+  position Int
+  card     Card    @relation(fields: [card_id], references: [id])
 
   @@index([card_id], map: "CardImage_card_id_fkey")
 }
@@ -191,7 +197,6 @@ model Builder {
   id         Int         @id @default(autoincrement())
   build_type BuildType   @default(text)
   label      String
-  fields     String      @db.LongText
   pages      BuildPage[]
 }
 
@@ -201,7 +206,6 @@ model BuildPage {
   page_id      Int
   position     Int
   field_values String  @db.LongText
-  card_type    String?
   build        Builder @relation(fields: [build_id], references: [id])
   page         Page    @relation(fields: [page_id], references: [id])
 
@@ -221,9 +225,7 @@ enum MenuType {
 }
 
 enum CardType {
-  slot_game
-  card_game
-  casono_card
+  card
   cart
 }
 
@@ -237,6 +239,39 @@ enum InputType {
 
 enum BuildType {
   text
-  category
+  textarea
+  htmlEditor
+  categoryCard
   faq
+  CasinoTop
+}
+
+enum OptionType {
+  card
+  casino
+}
+
+model Casino {
+  id                Int            @id @default(autoincrement())
+  published         Boolean        @default(false)
+  name              String
+  tooltip           String?
+  image             String
+  referral_key      String         @unique
+  referral_link     String?
+  full_review_label String?
+  full_review_link  String?
+  options           CasinoOption[]
+}
+
+model CasinoOption {
+  id        Int    @id @default(autoincrement())
+  option_id Int
+  casino_id Int
+  value     String
+  casino    Casino @relation(fields: [casino_id], references: [id])
+  entity    Option @relation(fields: [option_id], references: [id])
+
+  @@index([casino_id], map: "CasinoOption_casino_id_fkey")
+  @@index([option_id], map: "CasinoOption_option_id_fkey")
 }

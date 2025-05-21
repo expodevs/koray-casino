@@ -22,7 +22,7 @@ interface UserFormProps {
     }) => void;
 }
 
-type FormData = z.infer<typeof userCreateSchema>;
+type FormData = z.infer<typeof userCreateSchema | typeof userUpdateSchema>;
 
 export default function UserForm({user, onSubmit}: UserFormProps) {
     const {
@@ -30,11 +30,12 @@ export default function UserForm({user, onSubmit}: UserFormProps) {
         handleSubmit,
         formState: {errors},
     } = useForm<FormData>({
-        resolver: zodResolver(user ? userUpdateSchema : userCreateSchema),
+        resolver: zodResolver(user?.id ? userUpdateSchema : userCreateSchema),
         defaultValues: {
             id: user?.id || "",
             name: user?.name || "",
             email: user?.email || "",
+            password: "",
             role: user?.role || UserRole.admin,
         },
     });
@@ -62,7 +63,7 @@ export default function UserForm({user, onSubmit}: UserFormProps) {
             )}
             <CustomInput field={'name'} label={'Name'} register={register} errors={errors} />
             <CustomInput field={'email'} label={'Email'} register={register} errors={errors} type={"email"} />
-            {!user && (<CustomInput field={'password'} label={'Password'} register={register} errors={errors} type={"password"} />)}
+            <CustomInput field={'password'} label={user ? 'Password (optional)' : 'Password'} register={register} errors={errors} type={"password"} />
 
             <div className={"invisible"}>
                 <EnumSelect className={"invisible"} label={"Role"} field={"role"} elements={UserRole} register={register} errors={errors} />

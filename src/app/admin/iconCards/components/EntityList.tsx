@@ -11,7 +11,7 @@ import {useRequestData} from "@lib/request";
 
 export default function EntityList() {
     const [page, setPage] = useState(1);
-    const limit = 1;
+    const limit = 25;
 
     const {
         data,
