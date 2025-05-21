@@ -1,0 +1,9 @@
+@use 'styles/mobile/base/variables' as *;
+
+.cards-list {
+  background: linear-gradient(#fff3 0%, #3e63dd33 30% 60%, #fff3 100%);
+  margin-left: -15px;
+  width: calc(100% + 30px);
+  padding: 15px;
+  border-bottom: 10px solid #ededef;
+}

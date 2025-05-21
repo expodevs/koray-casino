@@ -1,0 +1,44 @@
+@use 'styles/mobile/base/variables' as *;
+
+footer.footer {
+  background: $color-theme;
+  padding: 30px 15px;
+  color: #fff;
+  a {
+    color: #fff;
+  }
+  .menu-footer {
+    ul {
+      list-style: none;
+      margin-bottom: 30px;
+      ul {
+        padding-left: 15px;
+        margin-top: 10px;
+        margin-bottom: 0;
+      }
+    }
+    li {
+      padding: 5px 0;
+    }
+  }
+  .label-menu {
+    font-size: 12px;
+    font-weight: 700;
+    color: #B0BFF1;
+    margin-bottom: 15px;
+  }
+  .footer-text {
+    margin-bottom: 30px;
+  }
+
+  .list-logos {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .copy {
+    font-size: 12px;
+    margin-top: 30px;
+  }
+}

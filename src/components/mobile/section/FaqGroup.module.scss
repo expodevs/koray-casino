@@ -1,0 +1,66 @@
+@use 'styles/mobile/base/variables' as *;
+
+.faq-default {
+  .faq-item {
+    border-radius: 4px;
+    background: #E6EDFE;
+    padding: 15px;
+    margin: 15px 0;
+    &[open] {
+      .icon {
+        transform: rotate(0deg);
+      }
+    }
+  }
+  .faq-summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-right: 30px;
+    .icon {
+      width: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: rotate(-90deg);
+    }
+
+  }
+  .faq-content {
+    padding: 0.5rem 0 1rem;
+  }
+}
+
+.faq-group {
+  border-radius: 4px;
+  background: #E6EDFE;
+  padding: 25px;
+  margin: 15px 0;
+  .faq-item {
+    padding: 8px 0;
+    &[open] {
+      .icon {
+        transform: rotate(0deg);
+      }
+    }
+  }
+  .faq-summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 30px;
+    .icon {
+      width: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+    }
+
+  }
+  .faq-content {
+    padding: 0.5rem 0 1rem;
+  }
+}

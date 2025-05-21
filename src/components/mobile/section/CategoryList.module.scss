@@ -1,0 +1,30 @@
+@use 'styles/mobile/base/variables' as *;
+
+
+.list-cats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 8px;
+  margin: 16px 0;
+  .item-cat {
+    border: 1px solid $color-theme;
+    border-radius: 4px;
+    text-align: center;
+    row-gap: 8px;
+    padding: 8px;
+    font-size: 12px;
+    color: #000;
+    .name {
+      margin-top: 8px;
+    }
+    &:hover {
+      background: $color-theme;
+      .ico {
+        filter: brightness(0) invert(1);
+      }
+      .name {
+        color: #fff;
+      }
+    }
+  }
+}

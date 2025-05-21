@@ -1,0 +1,28 @@
+@use 'styles/desktop/base/variables' as *;
+
+.list-tabs-wrap {
+  background: $color-theme-light;
+  border-bottom: 1px solid #C8C7CB;
+}
+.list-tabs {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  background: $color-theme-light;
+  overflow-x: auto;
+
+  a {
+    color: $color-text-medium;
+    padding: 16px 12px 14px;
+    border-bottom: 2px solid transparent;
+    &.active {
+      border-color: $color-theme;
+      color: #000;
+      font-weight: 700;
+    }
+    &:hover {
+      border-color: $color-theme;
+      color: #000;
+    }
+  }
+}
