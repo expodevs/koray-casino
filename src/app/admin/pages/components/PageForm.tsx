@@ -213,7 +213,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
 
-        if (builder.build_type === BuildType.categoryCard) {
+        if (builder.build_type === BuildType.slotCard) {
             const buildValue = (() => {
                 if (!buildPage.field_values) {
                     return {
@@ -262,7 +262,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
             )
         }
 
-        if (builder.build_type === BuildType.CasinoTop) {
+        if (builder.build_type === BuildType.casinoTop) {
             const parseCasinoTopData = (): CasinoTopData => {
                 if (!buildPage.field_values) {
                     return {
