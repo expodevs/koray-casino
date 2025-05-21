@@ -44,6 +44,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       referral_btn_1_link: card?.referral_btn_1_link || '',
       referral_btn_2_link: card?.referral_btn_2_link || '',
       position: card?.position?.toString() || '',
+        terms_and_condition: card?.terms_and_condition || '',
     },
   });
 
@@ -57,6 +58,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       setValue('referral_btn_1_link', card.referral_btn_1_link || '');
       setValue('referral_btn_2_link', card.referral_btn_2_link || '');
       setValue('position', card.position?.toString() || '');
+      setValue('terms_and_condition', card.terms_and_condition || '');
     }
   }, [card, setValue]);
 
@@ -246,6 +248,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
 
                 <CustomInput field={'label'} label={'Label'} register={register} errors={errors} />
                 <CustomInput field={'description'} label={'Description'} register={register} errors={errors} type="textarea" />
+                <CustomInput field={'terms_and_condition'} label={'Terms and condition'} register={register} errors={errors} type="textarea" />
                 <CustomInput field={'referral_key'} label={'Referral Key'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_1_link'} label={'Referral Button 1 Link'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_2_link'} label={'Referral Button 2 Link'} register={register} errors={errors} />
