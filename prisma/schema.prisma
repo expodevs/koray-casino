@@ -70,22 +70,26 @@ model CategoryCard {
 }
 
 model Card {
-  id                  Int             @id @default(autoincrement())
-  published           Boolean
-  type                CardType
-  category_card_id    Int?
-  label               String
-  description         String?
-  referral_key        String          @unique
-  referral_btn_1_link String?
-  referral_btn_2_link String?
-  position            Int?
-  terms_and_condition String?         @db.Text
-  category_card       CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
-  icon_card_images    CardIconImage[]
-  images              CardImage[]
-  options             CardOption[]
-  faqs                FaqCard[]
+  id                                         Int             @id @default(autoincrement())
+  published                                  Boolean
+  type                                       CardType
+  category_card_id                           Int?
+  label                                      String
+  description                                String?
+  referral_key                               String          @unique
+  referral_btn_1_link                        String?
+  referral_btn_2_link                        String?
+  casini_image                               String?
+  good_selection_of_games                    CardColor?
+  no_game_provider_filter                    CardColor?
+  live_chat_availble_only_after_registration CardColor?
+  position                                   Int?
+  terms_and_condition                        String?         @db.Text
+  category_card                              CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
+  icon_card_images                           CardIconImage[]
+  images                                     CardImage[]
+  options                                    CardOption[]
+  faqs                                       FaqCard[]
 
   @@index([category_card_id], map: "Card_category_card_id_fkey")
   @@index([type], map: "Card_type_idx")
@@ -229,6 +233,13 @@ enum MenuType {
 enum CardType {
   card
   cart
+  casino
+}
+
+enum CardColor {
+  green
+  orange
+  red
 }
 
 enum InputType {
