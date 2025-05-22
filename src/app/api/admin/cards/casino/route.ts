@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@lib/prisma-client";
 import { withAdminAuthorized } from "@lib/authorized";
-import { cardCreateSchema } from "@app/admin/cards/card/validation";
+import { cardCreateSchema } from "@app/admin/cards/casino/validation";
 import { CardType } from "@prismaClient";
 import { strToSlug } from "@lib/str";
 import { saveBase64File } from "@lib/file";
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
                 }),
                 prisma.card.count({
                     where: {
-                        type: CardType.card
+                        type: CardType.casino
                     }
                 }),
             ]);
@@ -79,8 +79,10 @@ export async function POST(req: NextRequest) {
                 ...data,
                 type: CardType.casino,
                 referral_key: strToSlug(data.referral_key),
-                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
             };
+
+            const newCasinoImage = data.newCasinoImage;
+            delete cardData.newCasinoImage;
 
             const existingCard = await prisma.card.findUnique({
                 where: {
@@ -97,6 +99,12 @@ export async function POST(req: NextRequest) {
             const entity = await prisma.card.create({
                 data: cardData
             });
+
+            if (newCasinoImage && newCasinoImage.length > 0) {
+                const src = await saveBase64File(newCasinoImage, cardImagePath(entity.id));
+                await prisma.card.update({where: {id: entity.id}, data: {casino_image: src}});
+                entity.casino_image = src;
+            }
 
             if (body.options && Array.isArray(body.options)) {
                 await Promise.all(body.options.map(async (option: { option_id: number, value: string }) => {

@@ -41,7 +41,7 @@ export default function EditCardPage() {
 
   const handleSubmit = async (data: unknown) => {
     try {
-      const response = await fetch(routeAdminApiCards.oneCard(id), {
+      const response = await fetch(routeAdminApiCards.oneCasino(id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

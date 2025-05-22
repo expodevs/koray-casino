@@ -1,14 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@lib/prisma-client';
 import { withAdminAuthorized } from "@lib/authorized";
-import { cardUpdateSchema } from "@app/admin/cards/card/validation";
+import { cardUpdateSchema } from "@app/admin/cards/casino/validation";
 import { CardType } from "@prismaClient";
 import { strToSlug } from "@lib/str";
 import { saveBase64File } from "@lib/file";
-import { cardImagePath } from "@lib/uploadPaths";
+import {cardImagePath} from "@lib/uploadPaths";
 import { fullPublicPath, removeFile } from "@lib/file";
 
 type requestParams = { params: { id: string } };
+
+
+async function removeOldImage(id: number) {
+    const entity = await prisma.card.findUnique({where:{id}});
+    if (!entity ||!entity?.casino_image || !entity.casino_image.length) {
+        return;
+    }
+
+    removeFile(fullPublicPath(entity.casino_image));
+}
 
 export async function GET(req: Request, { params }: requestParams) {
     const { id } = await params;
@@ -64,7 +74,7 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 ...data,
                 type: CardType.casino,
                 referral_key: strToSlug(data.referral_key),
-                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
+                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null,
             };
 
             const existingCard = await prisma.card.findFirst({
@@ -82,10 +92,24 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 }, { status: 400 });
             }
 
+            const newCasinoImage = cardData.newCasinoImage;
+            delete cardData.newCasinoImage;
+
+            if (!cardData.casino_image.length || newCasinoImage && newCasinoImage.length) {
+                await removeOldImage(id);
+            }
+
             const entity = await prisma.card.update({
                 where: { id },
                 data: cardData
             });
+
+
+            if (newCasinoImage && newCasinoImage.length > 0) {
+                const src = await saveBase64File(newCasinoImage, cardImagePath(entity.id));
+                await prisma.card.update({where: {id: entity.id}, data: {casino_image: src}});
+                entity.casino_image = src;
+            }
 
             if (body.options && Array.isArray(body.options)) {
                 await prisma.cardOption.deleteMany({
@@ -191,7 +215,7 @@ export async function DELETE(req: NextRequest, { params }: requestParams) {
             const card = await prisma.card.findUnique({
                 where: {
                     id,
-                    type: CardType.card
+                    type: CardType.casino
                 }
             });
 

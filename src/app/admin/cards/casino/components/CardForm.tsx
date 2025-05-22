@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-toastify";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaTrash } from "react-icons/fa";
 import { cardCreateSchema, cardUpdateSchema } from "@app/admin/cards/casino/validation";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Card, CategoryCard, Faq, IconCardSelect, Option} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 import { useRequestData } from "@lib/request";
@@ -33,6 +33,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(card ? cardUpdateSchema : cardCreateSchema),
@@ -48,6 +49,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       good_selection_of_games: card?.good_selection_of_games || undefined,
       no_game_provider_filter: card?.no_game_provider_filter || undefined,
       live_chat_available_only_after_registration: card?.live_chat_available_only_after_registration || undefined,
+      casino_image: card?.casino_image || '',
     },
   });
 
@@ -64,6 +66,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       setValue('good_selection_of_games', card.good_selection_of_games || undefined);
       setValue('no_game_provider_filter', card.no_game_provider_filter || undefined);
       setValue('live_chat_available_only_after_registration', card.live_chat_available_only_after_registration || undefined);
+      setValue('casino_image', card.casino_image || '');
     }
   }, [card, setValue]);
 
@@ -116,6 +119,41 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
   const [newImage, setNewImage] = useState<string | null>(null);
   const [imageAlt, setImageAlt] = useState<string>('');
 
+  // Casino image state
+  const [casinoImage, setCasinoImage] = useState<File | null>(null);
+  const [newCasinoImage, setNewCasinoImage] = useState<string | null>(null);
+
+  // Watch the casino_image field
+  const currentCasinoImage = watch('casino_image');
+
+  // Function to render the current casino image with delete button
+  const renderCasinoImage = useMemo(() => {
+    if (!currentCasinoImage || !currentCasinoImage.length) {
+      return null;
+    }
+
+    return (
+      <div>
+        <div className="grid grid-cols-12 gap-2 my-2">
+          <button
+            type="button"
+            onClick={() => {
+              setValue('casino_image', '');
+              setNewCasinoImage(null);
+              setCasinoImage(null);
+            }}
+            className="text-red-500 bg-white p-2"
+          >
+            <FaTrash/>
+          </button>
+          <div className="relative aspect-video col-span-4">
+            <Image className="object-cover" src={currentCasinoImage} alt={'Casino Image'} fill/>
+          </div>
+        </div>
+      </div>
+    );
+  }, [currentCasinoImage, setValue]);
+
   useEffect(() => {
     if (card) {
       if (card.options && Array.isArray(card.options)) {
@@ -146,6 +184,20 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       reader.readAsDataURL(file);
 
       setImage(file);
+    }
+  };
+
+  const handleCasinoImageSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const _files = Array.from(e.target.files);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewCasinoImage(reader.result as string);
+      };
+      reader.readAsDataURL(_files[0]);
+
+      setCasinoImage(_files[0]);
     }
   };
 
@@ -197,6 +249,10 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
 
   const handleFormSubmit = async (data: FormData) => {
     try {
+      if (newCasinoImage && newCasinoImage.length) {
+        data.newCasinoImage = newCasinoImage;
+      }
+
       const formData = {
         ...data,
         type: CardType.card,
@@ -240,6 +296,18 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
           <div className="pt-4">
             <TabContent id="form">
               <div className="space-y-4">
+
+                  <div className="space-y-4">
+                      <label className="block text-sm font-medium text-gray-700">Image</label>
+                      {renderCasinoImage}
+                      <CustomFileSelector
+                          accept="image/*"
+                          onChange={handleCasinoImageSelected}
+                      />
+                      <ImagePreview images={casinoImage ? [casinoImage] : []} />
+                      {errors?.casino_image && <p className="text-red-500">{errors?.casino_image?.message as string}</p>}
+                  </div>
+
                 <CustomInput field={'published'} label={'Published'} register={register} errors={errors} type="checkbox" />
 
                 <CustomSelect
@@ -252,7 +320,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
                 />
 
                 <CustomInput field={'label'} label={'Label'} register={register} errors={errors} />
-                <CustomInput field={'description'} label={'Description'} register={register} errors={errors} type="textarea" />
                 <CustomInput field={'terms_and_condition'} label={'Terms and condition'} register={register} errors={errors} type="textarea" />
                 <EnumSelect field={'good_selection_of_games'} label={'Good selection of games'} register={register} errors={errors} elements={CardColor} />
                 <EnumSelect field={'no_game_provider_filter'} label={'No game provider filter'} register={register} errors={errors} elements={CardColor} />
