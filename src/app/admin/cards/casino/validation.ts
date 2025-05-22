@@ -11,9 +11,9 @@ const fieldSchema = {
   terms_and_condition: z.string().optional(),
   casino_image: z.string(),
   newCasinoImage: z.string().optional(),
-  good_selection_of_games: z.nativeEnum(CardColor).optional(),
-  no_game_provider_filter: z.nativeEnum(CardColor).optional(),
-  live_chat_available_only_after_registration: z.nativeEnum(CardColor).optional(),
+  good_selection_of_games: z.union([z.nativeEnum(CardColor), z.literal('')]).optional(),
+  no_game_provider_filter: z.union([z.nativeEnum(CardColor), z.literal('')]).optional(),
+  live_chat_available_only_after_registration: z.union([z.nativeEnum(CardColor), z.literal('')]).optional(),
   position: z.string().optional().transform(val => val ? parseInt(val) : undefined),
 };
 

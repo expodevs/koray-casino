@@ -79,6 +79,9 @@ export async function POST(req: NextRequest) {
                 ...data,
                 type: CardType.casino,
                 referral_key: strToSlug(data.referral_key),
+                good_selection_of_games: data.good_selection_of_games || null,
+                no_game_provider_filter: data.no_game_provider_filter || null,
+                live_chat_available_only_after_registration: data.live_chat_available_only_after_registration || null,
             };
 
             const newCasinoImage = data.newCasinoImage;

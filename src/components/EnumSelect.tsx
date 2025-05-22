@@ -25,7 +25,7 @@ function EnumSelect<T extends Record<string, string>>({
                 {...register(field)}
                 className="w-full p-2 border rounded"
             >
-                <option >Select element </option>
+                <option value={''}>Select element </option>
                 {Object.values(elements).filter(el=>!excludes.includes(el)).map((type) => (
                     <option key={type} value={type}>
                         {type.replaceAll('_', ' ').toUpperCase()}

@@ -189,7 +189,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
 
       const formData = {
         ...data,
-        type: CardType.card,
+        type: CardType.casino,
         options: cardOptions,
         icon_card_images: cardIconImages,
         faqs: cardFaqs
