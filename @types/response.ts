@@ -81,6 +81,7 @@ export interface IconCardImage {
     id: number;
     icon_card_id: number;
     alt: string;
+    label: string | null;
     image: string;
     position: number | null;
     icon_card: IconCard;
