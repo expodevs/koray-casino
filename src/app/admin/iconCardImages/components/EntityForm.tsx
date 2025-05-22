@@ -34,6 +34,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
         defaultValues: {
             icon_card_id: entity?.icon_card_id || undefined,
             alt: entity?.alt || '',
+            label: entity?.label || '',
             image: entity?.image || '',
             position: entity?.position || null,
         },
@@ -84,6 +85,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
     useEffect(() => {
         if (entity) {
             setValue('alt', entity.alt);
+            setValue('label', entity.label);
             setValue('image', entity.image);
             setValue('position', entity.position);
         }
@@ -123,6 +125,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
 
             <CustomInput field={'alt'} label={'Alt'} register={register} errors={errors} />
 
+            <CustomInput field={'label'} label={'Label'} register={register} errors={errors} />
 
             {renderImageField}
 

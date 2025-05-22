@@ -6,7 +6,7 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {iconCardImagePath} from "@lib/uploadPaths";
 
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: { icon_card_id: string } };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.iconCardImage.findUnique({where:{id}});
@@ -18,7 +18,7 @@ async function removeOldImage(id: number) {
 }
 
 export async function GET(req: Request, {params}: requestParams) {
-    const {id} = await params
+    const {icon_card_id} = await params
     return await withAdminAuthorized(async (id: number) => {
         try {
 
@@ -36,12 +36,12 @@ export async function GET(req: Request, {params}: requestParams) {
             console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, parseInt(id) || 0)
+    }, parseInt(icon_card_id) || 0)
 }
 
 
 export async function PUT(req: NextRequest, {params}: requestParams) {
-    const {id} = await params
+    const {icon_card_id} = await params
     return await withAdminAuthorized(async (req: NextRequest, id: number) => {
         try {
             const body = await req.json();
@@ -77,11 +77,11 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, req, parseInt(id) || 0)
+    }, req, parseInt(icon_card_id) || 0)
 }
 
 export async function DELETE(req: NextRequest, {params}: requestParams) {
-    const {id} = await params
+    const {icon_card_id} = await params
     return await withAdminAuthorized(async (req: NextRequest, id: number) => {
         try {
 
@@ -100,5 +100,5 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             console.error(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, req, parseInt(id) || 0)
+    }, req, parseInt(icon_card_id) || 0)
 }

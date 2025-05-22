@@ -153,6 +153,7 @@ model IconCardImage {
   icon_card_id Int
   alt          String
   image        String
+  label        String?
   position     Int?
   icon_card    IconCard        @relation(fields: [icon_card_id], references: [id])
   cards        CardIconImage[]
