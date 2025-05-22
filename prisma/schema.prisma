@@ -52,6 +52,7 @@ model Setting {
   input_type InputType @default(text)
   value      String    @db.Text
   label      String
+  link       String?
 }
 
 model Robot {

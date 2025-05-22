@@ -25,13 +25,6 @@ export async function GET(req: Request, {params}: requestParams) {
 
             const entity = await prisma.setting.findUnique({
                 where: {id},
-                select: {
-                    id: true,
-                    label: true,
-                    code: true,
-                    input_type: true,
-                    value: true,
-                },
             });
 
             if (!entity) {

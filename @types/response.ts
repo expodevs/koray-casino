@@ -27,8 +27,10 @@ export interface Menu {
 export interface Setting {
     id: number,
     input_type: InputType,
+    code: string,
     label: string,
     value: string,
+    link: string,
 }
 
 export interface Page {

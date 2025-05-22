@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "react-toastify";
-import {FaCopy, FaSave, FaTrash} from "react-icons/fa";
+import {FaSave, FaTrash} from "react-icons/fa";
 import { settingCreateSchema, settingUpdateSchema } from "@app/admin/settings/validation";
 import {InputType} from "@prismaClient";
 import React, {useEffect, useMemo, useState} from "react";
@@ -33,10 +33,11 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
   } = useForm<FormData>({
     resolver: zodResolver(setting ? settingUpdateSchema : settingCreateSchema),
     defaultValues: {
-      input_type: setting?.type || InputType.text,
+      input_type: setting?.input_type || InputType.text,
       label: setting?.label || '',
       code: setting?.code || '',
       value: setting?.value || '',
+      link: setting?.link || '',
     },
   });
 
@@ -66,6 +67,7 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
       setValue('label', setting.label);
       setValue('code', setting.code);
       setValue('value', setting.value);
+      setValue('link', setting.link);
     }
 
   }, [setting, setValue]);
@@ -170,6 +172,9 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
           {renderValueField}
           {errors.value && <p className="text-red-500">{errors.value.message}</p>}
         </div>
+
+
+          <CustomInput field={'link'} label={'Link'} register={register} errors={errors} />
 
 
         <button
