@@ -7,6 +7,7 @@ const fieldSchema = {
     code: z.string().min(1, 'Min length must be at least 1 characters'),
     input_type: z.nativeEnum(InputType),
     value: z.string(),
+    link: z.string().optional(),
     newImage: z.string().optional(),
 }
 

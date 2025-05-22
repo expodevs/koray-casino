@@ -48,6 +48,7 @@ CREATE TABLE `Setting` (
     `input_type` ENUM('text', 'password', 'select', 'textarea', 'image') NOT NULL DEFAULT 'text',
     `value` TEXT NOT NULL,
     `label` VARCHAR(191) NOT NULL,
+    `link` VARCHAR(191) NULL,
 
     UNIQUE INDEX `Setting_code_key`(`code`),
     PRIMARY KEY (`id`)
