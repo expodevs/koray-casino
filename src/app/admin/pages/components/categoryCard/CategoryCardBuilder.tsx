@@ -10,10 +10,20 @@ interface TemplateOption {
 }
 
 const templates: TemplateOption[] = [
-    { type: CategoryCardType.BASE, image: '/assets/images/templates/category-card/base.webp', preview: '/assets/images/templates/category-card/base-preview.webp' },
-    { type: CategoryCardType.BASE_OPTION, image: '/assets/images/templates/category-card/filter.webp', preview: '/assets/images/templates/category-card/filter-preview.webp' },
-    { type: CategoryCardType.BASE_OPTION_FAQ, image: '/assets/images/templates/category-card/extended.webp', preview: '/assets/images/templates/category-card/extended-preview.webp' },
-    { type: CategoryCardType.CASINO, image: '/assets/images/templates/category-card/casino.webp', preview: '/assets/images/templates/category-card/casino-preview.webp' },
+    { type: CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE, image: '/assets/images/templates/casinos/card-slot_simple.webp', preview: '/assets/images/templates/casinos/card-slot_simple.webp' },
+    { type: CategoryCardType.CARD_CASINO_WITH_FAQ, image: '/assets/images/templates/casinos/card-casino_with-faq.webp', preview: '/assets/images/templates/casinos/card-casino_with-faq.webp' },
+    { type: CategoryCardType.CARD_CASINO_WITH_OPTIONS, image: '/assets/images/templates/casinos/card-casino_with-options.webp', preview: '/assets/images/templates/casinos/card-casino_with-options.webp' },
+    { type: CategoryCardType.CARD_GAME_COMPARE, image: '/assets/images/templates/casinos/card-game_compare.webp', preview: '/assets/images/templates/casinos/card-game_compare.webp' },
+    { type: CategoryCardType.CARD_GAME_FULL, image: '/assets/images/templates/casinos/card-game_full.webp', preview: '/assets/images/templates/casinos/card-game_full.webp' },
+    { type: CategoryCardType.CARD_GAME_SHORT_PLAY, image: '/assets/images/templates/casinos/card-game_short-play.webp', preview: '/assets/images/templates/casinos/card-game_short-play.webp' },
+    { type: CategoryCardType.CARD_GAME_SHORT, image: '/assets/images/templates/casinos/card-game_short.webp', preview: '/assets/images/templates/casinos/card-game_short.webp' },
+    { type: CategoryCardType.CARD_SLOT_FULL_WITH_MORE_OPTIONS, image: '/assets/images/templates/casinos/card-slot_full-with-more-options.webp', preview: '/assets/images/templates/casinos/card-slot_full-with-more-options.webp' },
+    { type: CategoryCardType.CARD_SLOT_FULL, image: '/assets/images/templates/casinos/card-slot_full.webp', preview: '/assets/images/templates/casinos/card-slot_full.webp' },
+    { type: CategoryCardType.CARD_SLOT_ONLY_OPTIONS_REVIEW, image: '/assets/images/templates/casinos/card-slot_only-options-review.webp', preview: '/assets/images/templates/casinos/card-slot_only-options-review.webp' },
+    { type: CategoryCardType.CARD_SLOT_ONLY_OPTIONS, image: '/assets/images/templates/casinos/card-slot_only-options.webp', preview: '/assets/images/templates/casinos/card-slot_only-options.webp' },
+    { type: CategoryCardType.CARD_SLOT_OPTIONS_AND_DESCRIPTION, image: '/assets/images/templates/casinos/card-slot_options-and-description.webp', preview: '/assets/images/templates/casinos/card-slot_options-and-description.webp' },
+    { type: CategoryCardType.CARD_SLOT_SIMPLE, image: '/assets/images/templates/casinos/card-slot_simple.webp', preview: '/assets/images/templates/casinos/card-slot_simple.webp' },
+    { type: CategoryCardType.CARD_SLOT_WITHOUT_FAQ, image: '/assets/images/templates/casinos/card-slot_without-faq.webp', preview: '/assets/images/templates/casinos/card-slot_without-faq.webp' },
 ];
 
 interface Props {
@@ -27,38 +37,32 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
 
     const getInitialValue = (type: CategoryCardType): CategoryCardValue => {
         switch (type) {
-            case CategoryCardType.BASE:
+            case CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE:
                 return {
                     label: '',
                     description: '',
                     category_id: '',
                     last_update: '',
                     ad_disclosure: '',
-                    type: CategoryCardType.BASE
+                    type: CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE
                 };
-            case CategoryCardType.BASE_OPTION:
+            case CategoryCardType.CARD_SLOT_SIMPLE:
+            case CategoryCardType.CARD_SLOT_FULL:
+            case CategoryCardType.CARD_SLOT_ONLY_OPTIONS:
+            case CategoryCardType.CARD_GAME_FULL:
                 return {
                     label: '',
                     description: '',
                     category_id: '',
                     show_filter: false,
-                    type: CategoryCardType.BASE_OPTION
+                    type: type,
                 };
-            case CategoryCardType.BASE_OPTION_FAQ:
+            default:
                 return {
                     label: '',
                     description: '',
                     category_id: '',
-                    show_filter: false,
-                    type: CategoryCardType.BASE_OPTION_FAQ
-                };
-
-            case CategoryCardType.CASINO:
-                return {
-                    label: '',
-                    description: '',
-                    category_id: '',
-                    type: CategoryCardType.CASINO
+                    type: CategoryCardType.CARD_SLOT_SIMPLE
                 };
         }
     };
@@ -106,7 +110,7 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
 
         const renderAdditionalFields = () => {
             switch (value.type) {
-                case CategoryCardType.BASE:
+                case CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE:
                     return (
                         <>
                             <div className="mb-4">
@@ -130,8 +134,10 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                         </>
                     );
 
-                case CategoryCardType.BASE_OPTION:
-                case CategoryCardType.BASE_OPTION_FAQ:
+                case CategoryCardType.CARD_SLOT_SIMPLE:
+                case CategoryCardType.CARD_SLOT_FULL:
+                case CategoryCardType.CARD_SLOT_ONLY_OPTIONS:
+                case CategoryCardType.CARD_GAME_FULL:
                     return (
                         <div className="mb-4">
                             <label className="flex items-center gap-2">
@@ -145,8 +151,6 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                         </div>
                     );
 
-                case CategoryCardType.CASINO:
-                    return null;
 
                 default:
                     return null;

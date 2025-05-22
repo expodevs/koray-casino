@@ -254,7 +254,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         label: '',
                         description: '',
                         category_id: '',
-                        type: 'base'
+                        type: ''
                     };
                 }
 
@@ -266,7 +266,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         label: '',
                         description: '',
                         category_id: '',
-                        type: 'base'
+                        type: ''
                     };
                 }
             })();
