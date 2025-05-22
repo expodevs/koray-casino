@@ -141,24 +141,6 @@ export async function POST(req: NextRequest) {
                 }));
             }
 
-            if (body.images && Array.isArray(body.images)) {
-                await Promise.all(body.images.map(async (image: { src: string, newImage: string, alt: string, position: number }) => {
-                    let imageSrc = image.src;
-
-                    if (image.newImage && typeof image.newImage === 'string' && image.newImage.length > 0) {
-                        imageSrc = await saveBase64File(image.newImage, cardImagePath(entity.id));
-                    }
-
-                    await prisma.cardImage.create({
-                        data: {
-                            card_id: entity.id,
-                            src: imageSrc,
-                            alt: image.alt || '',
-                            position: image.position
-                        }
-                    });
-                }));
-            }
 
             return NextResponse.json(entity, { status: 201 });
         } catch (error) {

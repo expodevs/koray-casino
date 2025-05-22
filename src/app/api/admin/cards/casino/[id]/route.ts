@@ -158,43 +158,6 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 }));
             }
 
-            if (body.images && Array.isArray(body.images)) {
-                const existingImages = await prisma.cardImage.findMany({
-                    where: { card_id: id }
-                });
-
-                const newImageSrcs = body.images.map(img => img.src).filter(src => src && !src.includes('data:'));
-                const imagesToDelete = existingImages.filter(img => !newImageSrcs.includes(img.src));
-
-                for (const img of imagesToDelete) {
-                    try {
-                        removeFile(fullPublicPath(img.src));
-                    } catch (error) {
-                        console.error('Failed to delete image file:', error);
-                    }
-                }
-
-                await prisma.cardImage.deleteMany({
-                    where: { card_id: id }
-                });
-
-                await Promise.all(body.images.map(async (image: { src: string, newImage: string, alt: string, position: number }) => {
-                    let imageSrc = image.src;
-
-                    if (image.newImage && typeof image.newImage === 'string' && image.newImage.length > 0) {
-                        imageSrc = await saveBase64File(image.newImage, cardImagePath(entity.id));
-                    }
-
-                    await prisma.cardImage.create({
-                        data: {
-                            card_id: entity.id,
-                            src: imageSrc,
-                            alt: image.alt || '',
-                            position: image.position
-                        }
-                    });
-                }));
-            }
 
             return NextResponse.json(entity);
         } catch (error) {

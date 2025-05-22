@@ -113,11 +113,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       console.error('Failed to parse FAQ items:', error);
     }
   };
-  const [cardImages, setCardImages] = useState<{src: string, newImage?: string, alt: string, position: number}[]>([]);
-
-  const [image, setImage] = useState<File | null>(null);
-  const [newImage, setNewImage] = useState<string | null>(null);
-  const [imageAlt, setImageAlt] = useState<string>('');
 
   // Casino image state
   const [casinoImage, setCasinoImage] = useState<File | null>(null);
@@ -165,27 +160,11 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       if (card.faqs && Array.isArray(card.faqs)) {
         setCardFaqs(card.faqs);
       }
-      if (card.images && Array.isArray(card.images)) {
-        setCardImages(card.images);
-      }
     }
   }, [card]);
 
 
 
-  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      setImage(file);
-    }
-  };
 
   const handleCasinoImageSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -201,51 +180,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     }
   };
 
-  const handleAddImage = (src: string, alt: string) => {
-    if (!src) return;
-
-    setCardImages([...cardImages, {
-      src: '', // Don't store in src, only in newImage
-      newImage: src, // Include the newImage field with the base64 data
-      alt: alt || '',
-      position: cardImages.length + 1
-    }]);
-
-    setNewImage(null);
-    setImage(null);
-    setImageAlt('');
-  };
-
-  const handleRemoveImage = (index: number) => {
-    const newImages = cardImages.filter((_, idx) => idx !== index);
-    const updatedImages = newImages.map((img, idx) => ({
-      ...img,
-      position: idx + 1
-    }));
-    setCardImages(updatedImages);
-  };
-
-  const moveImageUp = (index: number) => {
-    if (index === 0) return;
-
-    const newImages = [...cardImages];
-    const temp = newImages[index].position;
-    newImages[index].position = newImages[index - 1].position;
-    newImages[index - 1].position = temp;
-
-    setCardImages(newImages.sort((a, b) => a.position - b.position));
-  };
-
-  const moveImageDown = (index: number) => {
-    if (index === cardImages.length - 1) return;
-
-    const newImages = [...cardImages];
-    const temp = newImages[index].position;
-    newImages[index].position = newImages[index + 1].position;
-    newImages[index + 1].position = temp;
-
-    setCardImages(newImages.sort((a, b) => a.position - b.position));
-  };
 
   const handleFormSubmit = async (data: FormData) => {
     try {
@@ -258,8 +192,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
         type: CardType.card,
         options: cardOptions,
         icon_card_images: cardIconImages,
-        faqs: cardFaqs,
-        images: cardImages
+        faqs: cardFaqs
       };
 
       await onSubmit(formData);
@@ -288,7 +221,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
           <Tab id="form" label="Form" />
           <Tab id="options" label="Options" />
           <Tab id="faq" label="FAQ" />
-          <Tab id="images" label="Images" />
         </div>
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="p-4">
@@ -357,109 +289,6 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
               </div>
             </TabContent>
 
-            <TabContent id="images">
-              <div className="space-y-6">
-                <div className="border p-4 rounded">
-                  <h3 className="font-semibold mb-4">Card Images</h3>
-
-                  {/* List of added images */}
-                  {cardImages.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-2">Added Images:</h4>
-                      <div className="space-y-2">
-                        {cardImages.map((image, index) => (
-                          <div key={`image-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                            <div>
-                              <span className="font-medium">
-                                <Image 
-                                  src={image.newImage || image.src} 
-                                  alt={image.alt || ''} 
-                                  width={100} 
-                                  height={60} 
-                                  className="object-cover"
-                                />
-                              </span>
-                              {image.alt && (
-                                <span className="ml-2 text-gray-500">Alt: {image.alt}</span>
-                              )}
-                              <span className="ml-2 text-gray-500">Position: {image.position}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="flex flex-col">
-                                <button 
-                                  type="button"
-                                  onClick={() => moveImageUp(index)}
-                                  className="p-1 text-blue-600 rounded hover:bg-blue-100"
-                                  disabled={index === 0}
-                                >
-                                  ↑
-                                </button>
-                                <button 
-                                  type="button"
-                                  onClick={() => moveImageDown(index)}
-                                  className="p-1 text-blue-600 rounded hover:bg-blue-100"
-                                  disabled={index === cardImages.length - 1}
-                                >
-                                  ↓
-                                </button>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveImage(index)}
-                                className="p-2 text-red-600 rounded flex items-center gap-2 hover:bg-red-100"
-                              >
-                                X
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Add new image form */}
-                  <div className="grid grid-cols-1 gap-4">
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">Upload Image</label>
-                      <CustomFileSelector
-                        accept="image/*"
-                        onChange={handleFileSelected}
-                      />
-                      {image && (
-                        <div className="mt-2">
-                          <ImagePreview images={[image]} />
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block mb-1 text-sm font-medium">Alt Text (optional)</label>
-                      <input
-                        type="text"
-                        className="w-full p-2 border rounded"
-                        value={imageAlt}
-                        onChange={(e) => setImageAlt(e.target.value)}
-                        placeholder="Image description"
-                      />
-                    </div>
-
-                    {newImage && (
-                      <div className="flex items-end">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleAddImage(newImage, imageAlt);
-                          }}
-                          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                        >
-                          Add Image Field
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </TabContent>
 
             <hr className="my-6"/>
             <button
