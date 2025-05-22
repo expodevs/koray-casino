@@ -1,4 +1,4 @@
-import {InputType, MenuType, OptionType} from "@prismaClient";
+import {CardColor, InputType, MenuType, OptionType} from "@prismaClient";
 
 export interface UserRow {
     id: string;
@@ -116,6 +116,10 @@ export interface Card {
     referral_key: string,
     referral_btn_1_link: string | null,
     referral_btn_2_link: string | null,
+    casino_image: string | null,
+    good_selection_of_games: CardColor | null,
+    no_game_provider_filter: CardColor | null,
+    live_chat_available_only_after_registration: CardColor | null,
     position: number | null,
     terms_and_condition: string | null,
     category_card?: CategoryCard,
