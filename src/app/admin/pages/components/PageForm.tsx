@@ -276,6 +276,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                     <CategoryCardBuilder
                         value={buildValue}
                         categoryCards={categoryCards || []}
+                        casinoOptions={casinoOptions}
                         onChange={(value) => handleFieldValueChange(idx, JSON.stringify(value))}
                     />
                 </div>

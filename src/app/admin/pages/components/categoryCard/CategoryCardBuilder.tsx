@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { CategoryCardType, CategoryCardValue } from './types';
+import { CategoryCardType, CategoryCardValue, BaseCategoryCard, ExtendedCategoryCard } from './types';
 import { CategoryCard } from '@prismaClient';
+import ShowOptionCard, { OptionItem } from './ShowOptionCard';
+import { Option } from '@/@types/response';
 
 interface TemplateOption {
     type: CategoryCardType;
@@ -29,42 +31,52 @@ const templates: TemplateOption[] = [
 interface Props {
     value: CategoryCardValue;
     categoryCards: CategoryCard[];
+    casinoOptions?: Option[];
     onChange: (value: CategoryCardValue) => void;
 }
 
-export default function CategoryCardBuilder({ value, categoryCards, onChange }: Props) {
+export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, onChange }: Props) {
     const [showPreview, setShowPreview] = useState<string | null>(null);
 
+    const lastUpdateTypes = [
+        CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE
+    ];
+
+    const optionTypes = [
+        CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE,
+        CategoryCardType.CARD_CASINO_WITH_FAQ,
+        CategoryCardType.CARD_CASINO_WITH_OPTIONS,
+        CategoryCardType.CARD_GAME_FULL,
+        CategoryCardType.CARD_GAME_SHORT_PLAY,
+        CategoryCardType.CARD_GAME_SHORT,
+        CategoryCardType.CARD_SLOT_FULL_WITH_MORE_OPTIONS,
+        CategoryCardType.CARD_SLOT_FULL,
+        CategoryCardType.CARD_SLOT_ONLY_OPTIONS_REVIEW,
+        CategoryCardType.CARD_SLOT_ONLY_OPTIONS,
+        CategoryCardType.CARD_SLOT_OPTIONS_AND_DESCRIPTION,
+        CategoryCardType.CARD_SLOT_WITHOUT_FAQ,
+    ];
+
+    const filterTypes = [
+        CategoryCardType.CARD_SLOT_SIMPLE,
+        CategoryCardType.CARD_SLOT_FULL,
+        CategoryCardType.CARD_SLOT_ONLY_OPTIONS,
+        CategoryCardType.CARD_GAME_FULL
+    ];
+
     const getInitialValue = (type: CategoryCardType): CategoryCardValue => {
-        switch (type) {
-            case CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE:
-                return {
-                    label: '',
-                    description: '',
-                    category_id: '',
-                    last_update: '',
-                    ad_disclosure: '',
-                    type: CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE
-                };
-            case CategoryCardType.CARD_SLOT_SIMPLE:
-            case CategoryCardType.CARD_SLOT_FULL:
-            case CategoryCardType.CARD_SLOT_ONLY_OPTIONS:
-            case CategoryCardType.CARD_GAME_FULL:
-                return {
-                    label: '',
-                    description: '',
-                    category_id: '',
-                    show_filter: false,
-                    type: type,
-                };
-            default:
-                return {
-                    label: '',
-                    description: '',
-                    category_id: '',
-                    type: CategoryCardType.CARD_SLOT_SIMPLE
-                };
-        }
+        const result: ExtendedCategoryCard = {
+            label: '',
+            description: '',
+            category_id: '',
+            last_update: '',
+            ad_disclosure: '',
+            options: '',
+            show_filter: false,
+            type: type
+        };
+
+        return result;
     };
 
     const renderFields = () => {
@@ -79,7 +91,7 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                     <input
                         type="text"
                         className="w-full p-2 border rounded"
-                        value={(value as any).label || ''}
+                        value={value.label || ''}
                         onChange={(e) => handleChange('label', e.target.value)}
                     />
                 </div>
@@ -88,7 +100,7 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                     <textarea
                         className="w-full p-2 border rounded"
                         rows={4}
-                        value={(value as any).description || ''}
+                        value={value.description || ''}
                         onChange={(e) => handleChange('description', e.target.value)}
                     />
                 </div>
@@ -96,7 +108,7 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
                     <label className="block mb-1">Category</label>
                     <select
                         className="w-full p-2 border rounded"
-                        value={(value as any).category_id || ''}
+                        value={value.category_id || ''}
                         onChange={(e) => handleChange('category_id', e.target.value)}
                     >
                         <option value="">Select Category</option>
@@ -109,52 +121,76 @@ export default function CategoryCardBuilder({ value, categoryCards, onChange }: 
         );
 
         const renderAdditionalFields = () => {
-            switch (value.type) {
-                case CategoryCardType.CARD_SLOT_SIMPLE_LAST_UPDATE:
-                    return (
-                        <>
-                            <div className="mb-4">
-                                <label className="block mb-1">Last Update</label>
-                                <input
-                                    type="date"
-                                    className="w-full p-2 border rounded"
-                                    value={(value as any).last_update || ''}
-                                    onChange={(e) => handleChange('last_update', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block mb-1">Ad Disclosure</label>
-                                <textarea
-                                    className="w-full p-2 border rounded"
-                                    rows={4}
-                                    value={(value as any).ad_disclosure || ''}
-                                    onChange={(e) => handleChange('ad_disclosure', e.target.value)}
-                                />
-                            </div>
-                        </>
-                    );
 
-                case CategoryCardType.CARD_SLOT_SIMPLE:
-                case CategoryCardType.CARD_SLOT_FULL:
-                case CategoryCardType.CARD_SLOT_ONLY_OPTIONS:
-                case CategoryCardType.CARD_GAME_FULL:
-                    return (
+            const sections = [];
+
+            if (lastUpdateTypes.includes(value.type)) {
+                sections.push(
+                    <React.Fragment key="last-update-section">
                         <div className="mb-4">
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    checked={(value as any).show_filter || false}
-                                    onChange={(e) => handleChange('show_filter', e.target.checked)}
-                                />
-                                <span>Show Filter</span>
-                            </label>
+                            <label className="block mb-1">Last Update</label>
+                            <input
+                                type="date"
+                                className="w-full p-2 border rounded"
+                                value={(value as BaseCategoryCard).last_update || ''}
+                                onChange={(e) => handleChange('last_update', e.target.value)}
+                            />
                         </div>
-                    );
-
-
-                default:
-                    return null;
+                        <div className="mb-4">
+                            <label className="block mb-1">Ad Disclosure</label>
+                            <textarea
+                                className="w-full p-2 border rounded"
+                                rows={4}
+                                value={(value as BaseCategoryCard).ad_disclosure || ''}
+                                onChange={(e) => handleChange('ad_disclosure', e.target.value)}
+                            />
+                        </div>
+                    </React.Fragment>
+                );
             }
+
+            if (optionTypes.includes(value.type)) {
+                const parseOptionItems = (): OptionItem[] => {
+                    if (!((value as BaseCategoryCard).options)) {
+                        return [];
+                    }
+
+                    try {
+                        return JSON.parse((value as BaseCategoryCard).options || '');
+                    } catch {
+                        return [];
+                    }
+                };
+
+                const optionItems = parseOptionItems();
+
+                sections.push(
+                    <ShowOptionCard
+                        key="options-section"
+                        label="Casino Options"
+                        optionItems={optionItems}
+                        casinoOptions={casinoOptions}
+                        onChange={(optionsValue) => handleChange('options', optionsValue)}
+                    />
+                );
+            }
+
+            if (filterTypes.includes(value.type)) {
+                sections.push(
+                    <div className="mb-4" key="filter-section">
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                checked={(value as ExtendedCategoryCard).show_filter || false}
+                                onChange={(e) => handleChange('show_filter', e.target.checked)}
+                            />
+                            <span>Show Filter</span>
+                        </label>
+                    </div>
+                );
+            }
+
+            return sections.length > 0 ? <>{sections}</> : null;
         };
 
         return (

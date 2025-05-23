@@ -13,6 +13,7 @@ export enum CategoryCardType {
     CARD_SLOT_SIMPLE  = 'card-slot_simple',
     CARD_SLOT_SIMPLE_LAST_UPDATE  = 'card-slot_simple_last-update',
     CARD_SLOT_WITHOUT_FAQ  = 'card-slot_without-faq',
+    CARD_SHOW_OPTION  = 'card-show-option',
 }
 
 export interface BaseCategoryCard {
@@ -21,6 +22,7 @@ export interface BaseCategoryCard {
     category_id?: string;
     last_update?: string;
     ad_disclosure?: string;
+    options?: string;
     type: CategoryCardType;
 }
 
