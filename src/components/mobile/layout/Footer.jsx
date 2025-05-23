@@ -1,50 +1,61 @@
 import React from 'react';
 
-import styles from './Footer.module.scss';
+import { getFrontMenus } from "@app/api/front/menus";
+import { getFrontSettings } from "@app/api/front/settings";
 
-export default function Footer() {
+import styles from './Footer.module.scss';
+import Link from "next/link";
+
+export default async function Footer() {
+
+    const menus = await getFrontMenus()
+    const settings = await getFrontSettings()
+
     return (
         <footer className={styles.footer}>
             <section className={styles['footer-text']}>
-                Paragraph base. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                <img src={settings.logo.value} alt={settings.logo.label} /> <br/><br/>
+                {settings.footerText.value}
             </section>
 
             <section className={styles['label-menu']}>Popular categories</section>
             <section className={styles['menu-footer']}>
                 <ul>
-                    <li>
-                        <a href="components/mobile/layout">Best Online Casino Games</a>
-                        <ul>
-                            <li><a href="components/mobile/layout">Slot Games</a></li>
-                            <li><a href="components/mobile/layout">Board Games</a></li>
-                            <li><a href="components/mobile/layout">Card Games</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="components/mobile/layout">Fortunes</a></li>
-                    <li><a href="components/mobile/layout">Online Slot Games</a></li>
-                    <li><a href="components/mobile/layout">Online Card Games</a></li>
+                    {menus.footer_popular_category?.map((item) => (
+                        <li key={item.id}>
+                            <Link href={item.link}>{item.label}</Link>
+                            {item.children.length > 0 && (
+                                <ul>
+                                    {item.children.map(child => (
+                                        <li key={child.id}>
+                                            <Link href={child.link}>{child.label}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             </section>
 
             <section className={styles['label-menu']}>Information</section>
             <section className={styles['menu-footer']}>
                 <ul>
-                    <li><a href="components/mobile/layout">Privacy Policy</a></li>
-                    <li><a href="components/mobile/layout">About US</a></li>
-                    <li><a href="components/mobile/layout">Contact US</a></li>
+                    {menus.footer_information?.map((item) => (
+                        <li key={item.id}>
+                            <Link href={item.link}>{item.label}</Link>
+                        </li>
+                    ))}
                 </ul>
             </section>
 
             <section className={styles['list-logos']}>
-                <img src="/images/logo-footer-1.png" alt="" />
-                <img src="/images/logo-footer-2.png" alt="" />
-                <img src="/images/logo-footer-3.png" alt="" />
-                <img src="/images/logo-footer-4.png" alt="" />
+                {settings.partners.map((item) => (
+                    <img src={item.value} alt={item.label}  key={item.id} />
+                ))}
             </section>
 
-            <section className={styles.copy}>
-                Copyright © 2025 Casino-kit. All Rights Reserved
-            </section>
+            <section className={styles.copy}>{settings.copyright.value}</section>
         </footer>
     );
 }

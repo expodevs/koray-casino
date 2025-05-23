@@ -1,19 +1,17 @@
-import Link from 'next/link';
+import { getFrontMenus } from "@app/api/front/menus";
+import { getFrontSettings } from "@app/api/front/settings";
+import MobileHeaderClient   from './HeaderClient';
+
 import '@/styles/base.scss';
-import styles from './Header.module.scss';
 
-export default function MobileHeaderTemplate() {
+export default async function MobileHeaderTemplate() {
+    const menus    = await getFrontMenus();
+    const settings = await getFrontSettings();
+
     return (
-        <header className={styles.header}>
-            <Link href="/public" className={styles.logo}>
-                <img src="/images/logo.svg" alt="Logo" />
-            </Link>
-
-            <button className={styles['btn-menu']}>
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </header>
+        <MobileHeaderClient
+            menus={menus}
+            settings={settings}
+        />
     );
 }

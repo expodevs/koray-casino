@@ -1,21 +1,29 @@
 import Link from 'next/link';
 
+import { getFrontMenus } from "@app/api/front/menus";
+import { getFrontSettings } from "@app/api/front/settings";
+
 import styles from './Header.module.scss';
 
-export default function DesktopHeaderTemplate() {
+export default async function DesktopHeaderTemplate() {
+
+    const menus = await getFrontMenus()
+    const settings = await getFrontSettings()
+
     return (
         <header className={styles.header}>
             <section className={styles.container}>
-                <Link href="/public" className={styles.logo}>
-                    <img src="/images/logo.svg" alt="Logo" />
+                <Link href="/" className={styles.logo}>
+                    <img src={settings.logo.value} alt={settings.logo.label} />
                 </Link>
 
                 <nav className={styles['main-menu']}>
                     <ul>
-                        <li><a href="">Homepage</a></li>
-                        <li><a href="">Fortunes</a></li>
-                        <li><a href="">Online Slot Games</a></li>
-                        <li><a href="">Online Card Games</a></li>
+                        {menus.top?.map((item) => (
+                            <li key={item.id}>
+                                <Link href={item.link}>{item.label}</Link>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
             </section>
