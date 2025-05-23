@@ -21,16 +21,16 @@ const builders = [
         label: 'FAQ',
     },
     {
+        build_type: BuildType.casinoTop,
+        label: 'Casino Top',
+    },
+    {
         build_type: BuildType.slotCard,
         label: 'Slot Card',
     },
     {
         build_type: BuildType.cart,
         label: 'Cart',
-    },
-    {
-        build_type: BuildType.casinoTop,
-        label: 'Casino Top',
     },
 ]
 

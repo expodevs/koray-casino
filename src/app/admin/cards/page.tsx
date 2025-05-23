@@ -13,7 +13,17 @@ export default async function CardsGrid() {
                       className="block rounded overflow-hidden shadow hover:shadow-lg transition">
                     <Image
                         src="/assets/images/card.webp"
-                        alt="Card Type"
+                        alt="Card"
+                        width={400}
+                        height={600}
+                        className="w-full h-120 object-cover"
+                    />
+                </Link>
+                <Link href={routeAdminPageCards.casino}
+                      className="block rounded overflow-hidden shadow hover:shadow-lg transition">
+                    <Image
+                        src="/assets/images/casino.webp"
+                        alt="Casino"
                         width={400}
                         height={600}
                         className="w-full h-120 object-cover"
@@ -23,7 +33,7 @@ export default async function CardsGrid() {
                       className="block rounded overflow-hidden shadow hover:shadow-lg transition">
                     <Image
                         src="/assets/images/cart.webp"
-                        alt="Cart Type"
+                        alt="Cart"
                         width={400}
                         height={600}
                         className="w-full h-120 object-cover"
