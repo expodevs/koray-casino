@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 import { FaSave } from "react-icons/fa";
 import { pageCreateSchema, pageUpdateSchema } from "@app/admin/pages/validation";
 import React, {useCallback, useEffect, useState} from "react";
-import {BuildPage as BuildPageResponse, Casino, Faq, Option, Page} from "@/@types/response";
+import {BuildPage as BuildPageResponse, Casino, Faq, IconCardSelect, Option, Page} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 import {useRequestData} from "@lib/request";
 import {Builder, BuildType, CategoryCard, Card} from "@prismaClient";
-import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions, routeAdminApiCards} from "@lib/adminRoute";
+import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions, routeAdminApiCards, routeAdminApiIconCards} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
 import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
@@ -80,6 +80,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:casinos, isLoading:isLoadingCasinos} = useRequestData<Casino[]>({url: routeAdminApiCasinos.pageBuilder, queryKey: 'casinos'});
     const {data:casinoOptions, isLoading:isLoadingCasinoOptions} = useRequestData<Option[]>({url: routeAdminApiCasinoOptions.list, queryKey: 'casinoOptions'});
     const {data:cards, isLoading:isLoadingCards} = useRequestData<Card[]>({url: routeAdminApiCards.pageBuilder, queryKey: 'cards'});
+    const {data:iconCards, isLoading:isLoadingIconCards} = useRequestData<IconCardSelect[]>({url: routeAdminApiIconCards.select, queryKey: 'iconCards'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
 
@@ -277,6 +278,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         value={buildValue}
                         categoryCards={categoryCards || []}
                         casinoOptions={casinoOptions}
+                        iconCards={iconCards}
                         onChange={(value) => handleFieldValueChange(idx, JSON.stringify(value))}
                     />
                 </div>
@@ -370,9 +372,9 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         return null;
-    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, handleFieldValueChange]);
+    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, iconCards, handleFieldValueChange]);
 
-    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards) return <div>Loading...</div>;
+    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards||isLoadingIconCards) return <div>Loading...</div>;
 
     return (
       <div className="max-w-6xl mx-auto p-4">

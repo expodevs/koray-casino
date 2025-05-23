@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { CategoryCardType, CategoryCardValue, BaseCategoryCard, ExtendedCategoryCard } from './types';
 import { CategoryCard } from '@prismaClient';
 import ShowOptionCard, { OptionItem } from './ShowOptionCard';
-import { Option } from '@/@types/response';
+import IconCardSelector, { IconCardItem } from './IconCardSelector';
+import { Option, IconCardSelect } from '@/@types/response';
 
 interface TemplateOption {
     type: CategoryCardType;
@@ -32,10 +33,11 @@ interface Props {
     value: CategoryCardValue;
     categoryCards: CategoryCard[];
     casinoOptions?: Option[];
+    iconCards?: IconCardSelect[];
     onChange: (value: CategoryCardValue) => void;
 }
 
-export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, onChange }: Props) {
+export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, iconCards, onChange }: Props) {
     const [showPreview, setShowPreview] = useState<string | null>(null);
 
     const lastUpdateTypes = [
@@ -57,6 +59,12 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
         CategoryCardType.CARD_SLOT_WITHOUT_FAQ,
     ];
 
+    const iconCardImageTypes = [
+        CategoryCardType.CARD_CASINO_WITH_FAQ,
+        CategoryCardType.CARD_CASINO_WITH_OPTIONS,
+        CategoryCardType.CARD_SLOT_FULL_WITH_MORE_OPTIONS,
+    ];
+
     const filterTypes = [
         CategoryCardType.CARD_SLOT_SIMPLE,
         CategoryCardType.CARD_SLOT_FULL,
@@ -73,10 +81,23 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
             ad_disclosure: '',
             options: '',
             show_filter: false,
+            iconCardItems: JSON.stringify([{ id: 0, position: 1 }]),
             type: type
         };
 
         return result;
+    };
+
+    const parseIconCardItems = (): IconCardItem[] => {
+        if (!((value as ExtendedCategoryCard).iconCardItems)) {
+            return [];
+        }
+
+        try {
+            return JSON.parse((value as ExtendedCategoryCard).iconCardItems || '');
+        } catch {
+            return [];
+        }
     };
 
     const renderFields = () => {
@@ -171,6 +192,20 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                         optionItems={optionItems}
                         casinoOptions={casinoOptions}
                         onChange={(optionsValue) => handleChange('options', optionsValue)}
+                    />
+                );
+            }
+
+            if (iconCardImageTypes.includes(value.type) && iconCards && iconCards.length > 0) {
+                const iconCardItems = parseIconCardItems();
+
+                sections.push(
+                    <IconCardSelector
+                        key="icon-card-selector"
+                        label="Icon Cards"
+                        iconCardItems={iconCardItems}
+                        iconCards={iconCards}
+                        onChange={(iconCardItemsValue) => handleChange('iconCardItems', iconCardItemsValue)}
                     />
                 );
             }

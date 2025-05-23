@@ -77,13 +77,17 @@ CREATE TABLE `CategoryCard` (
 CREATE TABLE `Card` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `published` BOOLEAN NOT NULL,
-    `type` ENUM('card', 'cart') NOT NULL,
+    `type` ENUM('card', 'cart', 'casino') NOT NULL,
     `category_card_id` INTEGER NULL,
     `label` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `referral_key` VARCHAR(191) NOT NULL,
     `referral_btn_1_link` VARCHAR(191) NULL,
     `referral_btn_2_link` VARCHAR(191) NULL,
+    `casino_image` VARCHAR(191) NULL,
+    `good_selection_of_games` ENUM('green', 'orange', 'red') NULL,
+    `no_game_provider_filter` ENUM('green', 'orange', 'red') NULL,
+    `live_chat_available_only_after_registration` ENUM('green', 'orange', 'red') NULL,
     `position` INTEGER NULL,
     `terms_and_condition` TEXT NULL,
 
@@ -160,6 +164,7 @@ CREATE TABLE `IconCardImage` (
     `icon_card_id` INTEGER NOT NULL,
     `alt` VARCHAR(191) NOT NULL,
     `image` VARCHAR(191) NOT NULL,
+    `label` VARCHAR(191) NULL,
     `position` INTEGER NULL,
 
     INDEX `IconCardImage_icon_card_id_idx`(`icon_card_id`),
@@ -207,7 +212,7 @@ CREATE TABLE `Page` (
 -- CreateTable
 CREATE TABLE `Builder` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `build_type` ENUM('text', 'textarea', 'htmlEditor', 'slotCard', 'cart', 'faq', 'casinoTop') NOT NULL DEFAULT 'text',
+    `build_type` ENUM('text', 'textarea', 'htmlEditor', 'cart', 'faq', 'casinoCard', 'slotCard', 'casinoTop') NOT NULL DEFAULT 'text',
     `label` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)

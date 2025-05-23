@@ -34,6 +34,8 @@ export interface FilterCategoryCard {
 
 export interface ExtendedCategoryCard extends BaseCategoryCard {
     show_filter: boolean;
+    cardIconImages?: { icon_card_image_id: number }[];
+    iconCardItems?: string; // JSON string of IconCardItem[]
 }
 
 export type CategoryCardValue = BaseCategoryCard | FilterCategoryCard | ExtendedCategoryCard;

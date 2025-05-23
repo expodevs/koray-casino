@@ -29,10 +29,6 @@ const builders = [
         label: 'Slot Card',
     },
     {
-        build_type: BuildType.casinoCard,
-        label: 'Casino Card',
-    },
-    {
         build_type: BuildType.cart,
         label: 'Cart',
     },
