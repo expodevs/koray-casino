@@ -1,56 +1,70 @@
 import React from 'react';
 
+import Link from "next/link";
+
+import { getFrontMenus } from "@app/api/front/menus";
+import { getFrontSettings } from "@app/api/front/settings";
+
 import styles from './Footer.module.scss';
 
-export default function Footer() {
+export default async function Footer() {
+
+    const menus = await getFrontMenus()
+    const settings = await getFrontSettings()
+
     return (
         <footer className={styles.footer}>
-            <div className={styles['container-full']}>
-                <div className={styles['footer-text']}>
-                    <div className={styles.logo}><img src="/images/logo.svg" alt=""/></div>
-                    <p>Paragraph base. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
+            <section className={styles['container-full']}>
+                <section className={styles['footer-text']}>
+                    <div className={styles.logo}><img src={settings.logo.value} alt={settings.logo.label} /></div>
+                    <p>{settings.footerText.value}</p>
+                </section>
 
-                <div className={styles['menu-wrap']}>
+
+                <section className={styles['menu-wrap']}>
                     <div className={styles['label-menu']}>Popular categories</div>
                     <nav className={styles['menu-footer']}>
                         <ul>
-                            <li>
-                                <a href="components/mobile/layout">Best Online Casino Games</a>
-                                <ul>
-                                    <li><a href="components/mobile/layout">Slot Games</a></li>
-                                    <li><a href="components/mobile/layout">Board Games</a></li>
-                                    <li><a href="components/mobile/layout">Card Games</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="components/mobile/layout">Fortunes</a></li>
-                            <li><a href="components/mobile/layout">Online Slot Games</a></li>
-                            <li><a href="components/mobile/layout">Online Card Games</a></li>
+                            {menus.footer_popular_category?.map((item) => (
+                                <li key={item.id}>
+                                    <Link href={item.link}>{item.label}</Link>
+                                    {item.children.length > 0 && (
+                                        <ul>
+                                            {item.children.map(child => (
+                                                <li key={child.id}>
+                                                    <Link href={child.link}>{child.label}</Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
                     </nav>
-                </div>
+                </section>
 
-                <div className={styles['menu-wrap']}>
+                <section className={styles['menu-wrap']}>
                     <div className={styles['label-menu']}>Information</div>
                     <nav className={styles['menu-footer']}>
                         <ul>
-                            <li><a href="components/mobile/layout">Privacy Policy</a></li>
-                            <li><a href="components/mobile/layout">About US</a></li>
-                            <li><a href="components/mobile/layout">Contact US</a></li>
+                            {menus.footer_information?.map((item) => (
+                                <li key={item.id}>
+                                    <Link href={item.link}>{item.label}</Link>
+                                </li>
+                            ))}
                         </ul>
                     </nav>
-                </div>
-            </div>
+                </section>
+            </section>
 
-            <div className={styles.copy}>
-                <div className={styles['copy-text']}>Copyright © 2025 Casino-kit. All Rights Reserved</div>
+            <section className={styles.copy}>
+                <div className={styles['copy-text']}>{settings.copyright.value}</div>
                 <div className={styles['list-logos']}>
-                    <img src="/images/logo-footer-1.png" alt="" />
-                    <img src="/images/logo-footer-2.png" alt="" />
-                    <img src="/images/logo-footer-3.png" alt="" />
-                    <img src="/images/logo-footer-4.png" alt="" />
+                    {settings.partners.map((item) => (
+                        <img src={item.value} alt={item.label}  key={item.id} />
+                    ))}
                 </div>
-            </div>
+            </section>
         </footer>
     );
 }
