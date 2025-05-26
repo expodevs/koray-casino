@@ -9,7 +9,7 @@ export interface FrontSettings {
     [key: string]: any;
 }
 
-// Cache for settings data
+
 const settingsCache: {
     data: FrontSettings | null;
     timestamp: number;
