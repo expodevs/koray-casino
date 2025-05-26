@@ -2,6 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 import {menuCreateSchema} from "@app/admin/menus/validation";
+import { invalidateMenuCache } from "@app/api/front/menus";
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -54,6 +55,9 @@ export async function POST(req: NextRequest) {
             }
 
             const menu = await prisma.menu.create({data: validationResult.data});
+
+            invalidateMenuCache();
+
             return NextResponse.json(menu, {status: 201});
         } catch (error) {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});

@@ -2,6 +2,7 @@ import {NextRequest, NextResponse} from 'next/server';
 import prisma from '@lib/prisma-client';
 import {withAdminAuthorized} from "@lib/authorized";
 import {menuUpdateSchema} from "@app/admin/menus/validation";
+import { invalidateMenuCache } from "@app/api/front/menus";
 
 type requestParams = { params: { id: string } };
 
@@ -51,6 +52,8 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 data: validationResult.data,
             });
 
+            invalidateMenuCache();
+
             return NextResponse.json(user);
         } catch (error) {
             console.log(error)
@@ -72,12 +75,11 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
                 where: {id},
             });
 
+            invalidateMenuCache();
+
             return new NextResponse(null, {status: 204});
         } catch (error) {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
-
-
-

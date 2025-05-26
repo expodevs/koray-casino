@@ -20,6 +20,11 @@ const menuCache: {
 
 const CACHE_EXPIRATION = 5 * 60 * 1000; //5 minutes
 
+export function invalidateMenuCache(): void {
+    menuCache.data = null;
+    menuCache.timestamp = 0;
+}
+
 export async function getFrontMenus(): Promise<FrontMenus> {
     const currentTime = Date.now();
 

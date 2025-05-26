@@ -20,6 +20,11 @@ const settingsCache: {
 
 const CACHE_EXPIRATION = 5 * 60 * 1000; // 5 minutes
 
+export function invalidateSettingsCache(): void {
+    settingsCache.data = null;
+    settingsCache.timestamp = 0;
+}
+
 export async function getFrontSettings(): Promise<FrontSettings> {
     const currentTime = Date.now();
 
