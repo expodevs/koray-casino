@@ -5,6 +5,7 @@ import {settingUpdateSchema} from "@app/admin/settings/validation";
 import {settingPath} from "@lib/uploadPaths";
 import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {strToSlug} from "@lib/str";
+import { invalidateSettingsCache } from "@app/api/front/settings";
 
 type requestParams = { params: { id: string } };
 
@@ -84,6 +85,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 entity.value = src;
             }
 
+            invalidateSettingsCache();
 
             return NextResponse.json(entity);
 
@@ -108,6 +110,8 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             await prisma.setting.delete({
                 where: {id},
             });
+
+            invalidateSettingsCache();
 
             return new NextResponse(null, {status: 204});
         } catch (error) {

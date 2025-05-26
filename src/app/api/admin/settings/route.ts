@@ -7,6 +7,7 @@ import {optionPath, settingParams, settingPath} from "@lib/uploadPaths";
 import {InputType} from "@prismaClient";
 import {saveBase64File} from "@lib/file";
 import {strToSlug} from "@lib/str";
+import { invalidateSettingsCache } from "@app/api/front/settings";
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -80,6 +81,8 @@ export async function POST(req: NextRequest) {
                 await prisma.setting.update({where: {id: entity.id}, data: {value: src}});
                 entity.value = src;
             }
+
+            invalidateSettingsCache();
 
             return NextResponse.json(entity, {status: 201});
 
