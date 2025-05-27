@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { headers } from 'next/headers';
-import DesktopHome from '@/src/components/desktop/Home';
+import DesktopHome from '@components/desktop/BuilderPage';
 import MobileHome  from '@/src/components/mobile/Home';
 
 export default async function HomePage() {

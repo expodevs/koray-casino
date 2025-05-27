@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
 import NavTabs from '@/src/components/desktop/section/NavTabs';
 import CategoryList from '@/src/components/desktop/section/CategoryList';
 import FilterGame from '@/src/components/desktop/section/FilterGame';
 import FaqGroup from '@components/desktop/section/FaqGroup';
 import CardsList from '@/src/components/desktop/section/CardsList';
+
+
+import { getPageWithBlocks } from '@app/api/front/page';
 
 import styles from './Home.module.scss';
 
@@ -90,14 +92,34 @@ const cardsWithOptions = [
     }
 ];
 
-export default function HomePage() {
+export async function generateMetadata() {
+    const page = await getPageWithBlocks('home');
+    if (!page) {
+        return { title: 'Главная' };
+    }
+    return {
+        title:       page.meta.title,
+        description: page.meta.description,
+        keywords:    page.meta.keywords,
+        robots:      page.meta.noIndex
+            ? { index: false, follow: false }
+            : { index: true,  follow: true },
+    };
+}
+
+// Сам Server Component
+export default async function HomePage() {
+    const page = await getPageWithBlocks('home');
+    if (!page) {
+        return <h1>404 — Страница не найдена</h1>;
+    }
     return (
         <div>
             <NavTabs />
 
             <main className="container">
                 <h1 className="title-page text-center">
-                    Best Online <span>Casino Games</span>
+                    {page.label}
                 </h1>
                 <p className="text text-center">
                     Discover the best selection of online casino games, from thrilling slots
