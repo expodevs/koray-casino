@@ -18,6 +18,7 @@ import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
 import BuilderCasinoTop, { CasinoTopData } from "@app/admin/pages/components/BuilderCasinoTop";
 import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/CategoryCardBuilder';
 import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
+import BtnBlock, { BtnBlockData, BtnBlockType } from '@app/admin/pages/components/btnBlock';
 
 
 
@@ -352,6 +353,42 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         data={casinoTopData}
                         casinos={casinos}
                         casinoOptions={casinoOptions}
+                        onChange={(data) => handleFieldValueChange(idx, JSON.stringify(data))}
+                    />
+                </div>
+            );
+        }
+
+        if (builder.build_type === BuildType.btnBlock) {
+            const parseBtnBlockData = (): BtnBlockData => {
+                if (!buildPage.field_values) {
+                    return {
+                        buttons: [],
+                        type: BtnBlockType.button
+                    };
+                }
+
+                try {
+                    const parsedData = JSON.parse(buildPage.field_values);
+                    return {
+                        buttons: Array.isArray(parsedData.buttons) ? parsedData.buttons : [],
+                        type: parsedData.type || BtnBlockType.button
+                    };
+                } catch {
+                    return {
+                        buttons: [],
+                        type: BtnBlockType.button
+                    };
+                }
+            };
+
+            const btnBlockData = parseBtnBlockData();
+
+            return (
+                <div key={`builder-${buildPage.build_id}-${idx}`}>
+                    <BtnBlock
+                        label={builder.label}
+                        data={btnBlockData}
                         onChange={(data) => handleFieldValueChange(idx, JSON.stringify(data))}
                     />
                 </div>
