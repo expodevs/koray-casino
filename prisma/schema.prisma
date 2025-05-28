@@ -259,6 +259,7 @@ enum BuildType {
   casinoCard
   slotCard
   casinoTop
+  btnBlock
 }
 
 enum OptionType {
