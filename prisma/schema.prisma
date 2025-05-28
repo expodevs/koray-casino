@@ -85,6 +85,8 @@ model Card {
   live_chat_available_only_after_registration CardColor?
   position                                    Int?
   terms_and_condition                         String?         @db.Text
+  created_at                                  DateTime        @default(now())
+  updated_at                                  DateTime        @updatedAt
   category_card                               CategoryCard?   @relation("CategoryCardRelation", fields: [category_card_id], references: [id])
   icon_card_images                            CardIconImage[]
   images                                      CardImage[]
@@ -259,6 +261,7 @@ enum BuildType {
   casinoCard
   slotCard
   casinoTop
+  btnBlock
 }
 
 enum OptionType {

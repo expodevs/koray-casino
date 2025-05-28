@@ -32,6 +32,10 @@ const builders = [
         build_type: BuildType.cart,
         label: 'Cart',
     },
+    {
+        build_type: BuildType.btnBlock,
+        label: 'Button Block',
+    },
 ]
 
 async function main() {
