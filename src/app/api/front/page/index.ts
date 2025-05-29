@@ -1,4 +1,5 @@
 import prisma from "@lib/prisma-client";
+import { BuildType } from "@prismaClient";
 
 export interface PageMeta {
     title: string;
@@ -64,27 +65,27 @@ export async function getPageWithBlocks(
 
     const blocks: Block[] = [];
     for (const bp of page.builds) {
-        const type = bp.build.build_type;
+        const type = bp.build.build_type as BuildType;
         let props: any;
 
         switch (type) {
-            case "text":
-            case "textarea":
-            case "htmlEditor":
+            case BuildType.text:
+            case BuildType.textarea:
+            case BuildType.htmlEditor:
                 props = safeParseJSON(bp.field_values);
                 break;
 
-            case "faq":
+            case BuildType.faq:
                 props = await loadFaqBlock(bp.field_values);
                 break;
 
-            case "slotCard":
-            case "casinoCard":
-            case "cart":
+            case BuildType.slotCard:
+            case BuildType.casinoCard:
+            case BuildType.cart:
                 props = await loadCardBlock(bp.field_values);
                 break;
 
-            case "casinoTop":
+            case BuildType.casinoTop:
                 props = await loadCasinoTopBlock(bp.field_values);
                 break;
 
@@ -137,16 +138,54 @@ async function loadFaqBlock(raw: string) {
 
 async function loadCardBlock(raw: string) {
     let data: any = {};
-    try { data = JSON.parse(raw); } catch {}
-    const categoryId = Number(data.category_id ?? data.categoryCardId);
+    try {
+        data = JSON.parse(raw);
+    } catch {
+        data = {};
+    }
 
-    return prisma.card.findMany({
-        where: { category_card_id: categoryId, published: true },
+    const label         = String(data.label ?? "");
+    const description   = String(data.description ?? "");
+    const last_update   = String(data.last_update ?? "");
+    const ad_disclosure = String(data.ad_disclosure ?? "");
+    const show_filter   = Boolean(data.show_filter);
+    const slotType      = String(data.type ?? "");
+
+    let optionsConfig: Array<{ id: number; position: number }> = [];
+    if (typeof data.options === "string") {
+        try {
+            optionsConfig = JSON.parse(data.options);
+        } catch {}
+    } else if (Array.isArray(data.options)) {
+        optionsConfig = data.options;
+    }
+    const parsedOptions = optionsConfig
+        .map((o) => ({ id: Number(o.id), position: o.position }))
+        .sort((a, b) => a.position - b.position);
+
+    let iconItemsConfig: Array<{ id: number; position: number }> = [];
+    if (typeof data.iconCardItems === "string") {
+        try {
+            iconItemsConfig = JSON.parse(data.iconCardItems);
+        } catch {}
+    } else if (Array.isArray(data.iconCardItems)) {
+        iconItemsConfig = data.iconCardItems;
+    }
+    const parsedIconItems = iconItemsConfig
+        .map((i) => ({ id: Number(i.id), position: i.position }))
+        .sort((a, b) => a.position - b.position);
+
+    const categoryId = Number(data.category_id);
+    const cardsRaw = await prisma.card.findMany({
+        where: {
+            category_card_id: categoryId,
+            published: true,
+        },
         orderBy: { position: "asc" },
         select: {
-            id: true,
-            type: true,
-            label: true,
+            id:     true,
+            type:   true,
+            label:  true,
             description: true,
             referral_key: true,
             referral_btn_1_link: true,
@@ -157,25 +196,19 @@ async function loadCardBlock(raw: string) {
             live_chat_available_only_after_registration: true,
             terms_and_condition: true,
             position: true,
-
             images: {
                 orderBy: { position: "asc" },
                 select: { id: true, src: true, alt: true, position: true },
             },
-
             options: {
                 orderBy: { id: "asc" },
                 where: { entity: { published: true } },
                 select: {
-                    id:    true,
                     value: true,
                     entity: {
                         select: {
                             id:             true,
-                            published:      true,
-                            use_for_filter: true,
                             input_type:     true,
-                            type:           true,
                             label:          true,
                             tooltip:        true,
                             hash_tag:       true,
@@ -185,29 +218,144 @@ async function loadCardBlock(raw: string) {
                     },
                 },
             },
+
+            faqs: {
+                orderBy: { position: "asc" },
+                select: {
+                    position: true,
+                    faq: {
+                        select: {
+                            id:       true,
+                            question: true,
+                            answer:   true,
+                        },
+                    }
+                },
+            },
             icon_card_images: {
-                orderBy: { id: "asc" },
-                select: { icon_card_image_id: true },
+                include: {
+                    icon_card_image: {
+                        select: {
+                            id:       true,
+                            image:    true,
+                            alt:      true,
+                            position: true,
+                            icon_card: {
+                                select: {
+                                    label: true,
+                                }
+                            }
+                        }
+                    }
+                },
+                orderBy: {
+                    icon_card_image: {
+                        position: "asc"
+                    }
+                }
             },
         },
     });
+
+    const cards = cardsRaw.map((c) => {
+        // группируем иконки по IconCard.label
+        const iconsByGroup: Record<string, Array<{
+            id: number;
+            src: string;
+            alt?: string;
+            position: number;
+        }>> = {};
+
+        for (const rel of c.icon_card_images) {
+            const ico = rel.icon_card_image;
+            const group = ico.icon_card.label;
+            if (!iconsByGroup[group]) iconsByGroup[group] = [];
+            iconsByGroup[group].push({
+                id: ico.id,
+                src: ico.image,
+                alt: ico.alt || undefined,
+                position: ico.position,
+            });
+        }
+
+        // приводим faqs к плоскому списку
+        const faqs = c.faqs.map((x) => ({
+            id:       x.faq.id,
+            question: x.faq.question,
+            answer:   x.faq.answer,
+            position: x.position,
+        }));
+
+        return {
+            id:          c.id,
+            type:        c.type,
+            label:       c.label,
+            description: c.description,
+            referral_key: c.referral_key,
+            referral_btn_1_link: c.referral_btn_1_link,
+            referral_btn_2_link: c.referral_btn_2_link,
+            casino_image: c.casino_image,
+            good_selection_of_games: c.good_selection_of_games,
+            no_game_provider_filter: c.no_game_provider_filter,
+            live_chat_available_only_after_registration: c.live_chat_available_only_after_registration,
+            terms_and_condition: c.terms_and_condition,
+            position:    c.position,
+            images:      c.images,
+            options:     c.options,
+            faqs,
+            icons:       iconsByGroup,
+        };
+    });
+
+    return {
+        label,
+        description,
+        last_update,
+        ad_disclosure,
+        show_filter,
+        type: slotType,
+        options: parsedOptions,
+        iconCardItems: parsedIconItems,
+        cards,
+    };
 }
 
 async function loadCasinoTopBlock(raw: string) {
     let data: any = {};
-    try { data = JSON.parse(raw); } catch {}
-    const limit = data.limit ?? 10;
-    return prisma.casino.findMany({
-        where: { published: true },
-        orderBy: { name: "asc" },
-        take: limit,
-        select: {
-            id: true,
-            name: true,
-            tooltip: true,
-            image: true,
-            referral_key: true,
-            referral_link: true,
+    try {
+        data = JSON.parse(raw);
+    } catch {
+        data = {};
+    }
+
+    const showOptions: Array<{ id: number; position: number; static_field: string }> =
+        Array.isArray(data.table_show_options)
+            ? data.table_show_options.map((o: any) => ({
+                id: Number(o.id),
+                position: Number(o.position),
+                static_field: String(o.static_field ?? ""),
+            }))
+            : [];
+
+    const showCasinosConfig: Array<{ id: number; position: number }> =
+        Array.isArray(data.table_show_casinos)
+            ? data.table_show_casinos.map((c: any) => ({
+                id: Number(c.id),
+                position: Number(c.position),
+            }))
+            : [];
+
+    const casinos = await prisma.casino.findMany({
+        where: {
+            id: { in: showCasinosConfig.map((c) => c.id) },
+            published: true,
         },
     });
+
+    return {
+        table_show_options: showOptions.sort((a, b) => a.position - b.position),
+        table_show_casinos: showCasinosConfig.sort((a, b) => a.position - b.position),
+        casinos,
+    };
 }
+

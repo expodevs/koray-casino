@@ -1,52 +1,45 @@
 import { Metadata } from "next";
-import { getAllPageSlugs, getPageWithBlocks } from "@app/api/front/page";
+import { PageWithBlocks } from "@app/api/front/page";
 import NavTabs from '@/src/components/mobile/section/NavTabs';
 import FaqGroup from '@components/mobile/section/FaqGroup';
+import CardsListTop from '@components/mobile/section/CardsListTop';
+import CardsListSimple from '@components/mobile/section/CardsListSimple';
+import CardsTable from '@components/mobile/section/CardsTable';
+import TextBlock from '@components/mobile/section/TextBlock';
 
 import styles from './Home.module.scss';
 
-type Props = { params: { slug?: string[] } };
+type PageProps = {
+    slug: string;
+    page: PageWithBlocks;
+};
 
-export async function generateStaticParams(): Promise<Props["params"][]> {
-    const slugs = await getAllPageSlugs();
-    return [
-        { slug: [] },
-        ...slugs.map((s) => ({ slug: [s] })),
-    ];
-}
-
-export default async function BuilderPage({ params }: Props) {
-
-    const realSlug = params.slug && params.slug.length > 0
-        ? params.slug[0]
-        : "home";
-
-    const page = await getPageWithBlocks(realSlug);
-
-    if (!page) {
-        return <h1>404 — Страница "{realSlug}" не найдена</h1>;
-    }
-
+export default function BuilderPage({ slug, page }: PageProps) {
+    console.log(page)
     return (
         <>
             <NavTabs />
 
             <main className="container">
-                <h1 className="title-page text-center" dangerouslySetInnerHTML={{ __html: page.label }} />
-                <p className="text text-center">
-                    Discover the best selection of online casino games, from thrilling slots
-                    to timeless board and card games.
-                </p>
+                <h1
+                    className="title-page text-center"
+                    dangerouslySetInnerHTML={{ __html: page.label }}
+                />
 
                 {page.blocks.map((block) => {
                     switch (block.type) {
-                        case "faq":
-                            return (
-                                <FaqGroup
-                                    key={block.id}
-                                    items={block.props}
-                                />
-                            );
+                        case 'faq':
+                            return <FaqGroup key={block.id} items={block.props} />;
+                        case 'slotCard':
+                            if (block.props.type === 'card-slot_simple_last-update') {
+                                return <CardsListTop key={block.id} items={block} />;
+                            } else {
+                                return <CardsListSimple key={block.id} items={block} />;
+                            }
+                        case 'casinoTop':
+                            return <CardsTable key={block.id} items={block} />;
+                        case 'htmlEditor':
+                            return <TextBlock key={block.id} items={block.props} />;
                         default:
                             return null;
                     }

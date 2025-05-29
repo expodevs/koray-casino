@@ -1,30 +1,40 @@
 import React from 'react';
-import CardSlot from '@/src/components/desktop/section/cards/CardSlot';
 import CardSlotCompare from '@/src/components/desktop/section/cards/CardSlotCompare';
-import CardCasino from "@/src/components/desktop/section/cards/CardCasino";
 import CardGame from "@/src/components/desktop/section/cards/CardGame";
 import CardGameEasiest from "@/src/components/desktop/section/cards/CardGameEasiest";
 
+import CardSlotSimpleLastUpdate from '@/src/components/desktop/section/cards/CardSlotSimpleLastUpdate';
+import CardSlotSimple from '@/src/components/desktop/section/cards/CardSlotSimple';
+import CardSlotFull from '@/src/components/desktop/section/cards/CardSlotFull';
+import CardSlotOnlyOptions from '@/src/components/desktop/section/cards/CardSlotOnlyOptions';
+import CardCasinoWithOption from '@/src/components/desktop/section/cards/CardCasinoWithOption';
+
+
 import styles from './CardsList.module.scss';
 
-export default function CardsList({ cards = [] }) {
+export default function CardsList( { cards, listType } ) {
+    console.log(cards, listType);
     const renderCard = (card, index) => {
-        switch (card.type) {
-            case 'casino':
+        switch (listType) {
+            case 'card-slot_simple_last-update':
                 return (
-                    <CardCasino key={index} />
+                    <CardSlotSimpleLastUpdate key={index} card={card}/>
                 );
-            case 'slot':
+            case 'card-slot_simple':
                 return (
-                    <CardSlot
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        badge={card.badge}
-                        options={card.options}
-                        excerpt={card.excerpt}
-                        faq={card.faq}
-                    />
+                    <CardSlotSimple key={index} card={card}/>
+                );
+            case 'card-slot_full':
+                return (
+                    <CardSlotFull key={index} card={card}/>
+                );
+            case 'card-slot_only-options':
+                return (
+                    <CardSlotOnlyOptions key={index} card={card}/>
+                );
+            case 'card-casino_with-options':
+                return (
+                    <CardCasinoWithOption key={index} card={card}/>
                 );
             case 'slot-compare':
                 return (
@@ -66,7 +76,7 @@ export default function CardsList({ cards = [] }) {
             {cards.map(renderCard)}
 
             <button className="btn light">
-                Show more ({cards.length})
+                Show more
                 <span className="ico">
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
