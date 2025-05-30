@@ -90,6 +90,8 @@ CREATE TABLE `Card` (
     `live_chat_available_only_after_registration` ENUM('green', 'orange', 'red') NULL,
     `position` INTEGER NULL,
     `terms_and_condition` TEXT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Card_referral_key_key`(`referral_key`),
     INDEX `Card_category_card_id_fkey`(`category_card_id`),
@@ -212,7 +214,7 @@ CREATE TABLE `Page` (
 -- CreateTable
 CREATE TABLE `Builder` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `build_type` ENUM('text', 'textarea', 'htmlEditor', 'cart', 'faq', 'casinoCard', 'slotCard', 'casinoTop') NOT NULL DEFAULT 'text',
+    `build_type` ENUM('text', 'textarea', 'htmlEditor', 'cart', 'faq', 'casinoCard', 'slotCard', 'casinoTop', 'btnBlock') NOT NULL DEFAULT 'text',
     `label` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
