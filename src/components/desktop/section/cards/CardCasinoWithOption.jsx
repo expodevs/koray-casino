@@ -18,6 +18,27 @@ export default function CardCasino({ card }) {
             window.open(link, '_blank');
         }
     };
+
+    const ACCESS_FEATURES = [
+        {
+            key: 'good_selection_of_games',
+            label: 'Good selection of games',
+        },
+        {
+            key: 'no_game_provider_filter',
+            label: 'No game provider filter',
+        },
+        {
+            key: 'live_chat_available_only_after_registration',
+            label: 'Live chat available only after registration',
+        },
+    ]
+
+    const ICON_FOR_COLOR = {
+        green:  'success.svg',
+        orange: 'warning.svg',
+        red:    'error.svg',
+    }
     return (
         <article className={`${styles['item-card']} ${styles.casino}`}>
             <figure className={styles['thumb-wrap']}>
@@ -80,17 +101,23 @@ export default function CardCasino({ card }) {
                 )}
 
                 <div className={styles['list-access']}>
-                    <div className={styles['item-access']}>
-                        <img src="/images/icons/success.svg" alt=""/>
-                        Good selection of games
-                    </div>
-                    <div className={styles['item-access']}>
-                        <img src="/images/icons/warning.svg" alt=""/>
-                        No game provider filter
-                    </div>
-                    <div className={styles['item-access']}>
-                        <img src="/images/icons/error.svg" alt=""/>
-                        Live chat available only after registration
+                    <div className={styles['list-access']}>
+                        {ACCESS_FEATURES.map(({ key, label }) => {
+                            const color = card[key];
+                            if (!color) return null;
+                            const iconFile = ICON_FOR_COLOR[color] || 'success.svg';
+                            return (
+                                <div key={key} className={styles['item-access']}>
+                                    <img
+                                        src={`/images/icons/${iconFile}`}
+                                        alt={label}
+                                        width={16}
+                                        height={16}
+                                    />
+                                    {label}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
