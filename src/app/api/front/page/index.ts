@@ -239,6 +239,7 @@ async function loadCardBlock(raw: string) {
                             id:       true,
                             image:    true,
                             alt:      true,
+                            label: true,
                             position: true,
                             icon_card: {
                                 select: {
@@ -260,7 +261,7 @@ async function loadCardBlock(raw: string) {
     const cards = cardsRaw.map((c) => {
         const iconsByGroup: Record<
             string,
-            { label: string; items: Array<{ id: number; src: string; alt?: string; position?: number }> }
+            { label: string; items: Array<{ id: number; src: string; label?: string; alt?: string; position?: number }> }
         > = {};
 
         for (const rel of c.icon_card_images) {
@@ -279,6 +280,7 @@ async function loadCardBlock(raw: string) {
             iconsByGroup[groupKey].items.push({
                 id:       ico.id,
                 src:      ico.image,
+                label:    ico.label || undefined,
                 alt:      ico.alt || undefined,
                 position: ico.position ?? undefined,
             });

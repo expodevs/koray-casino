@@ -121,51 +121,36 @@ export default function CardCasino({ card }) {
                     </div>
                 </div>
 
-                <div className={styles['list-types-wrap']}>
-                    <div className={`${styles['label-style']} text-center`}>Available games</div>
-                    <div className={styles['list-types']}>
-                        <div className={styles['item-type']}>
-                            <img src="/images/icons/slot-machine.svg" alt=""/>
-                            Slots
+                {card.icons.available_games?.items?.length > 0 && (
+                    <div className={styles["list-types-wrap"]}>
+                        <div className={`${styles["label-style"]} text-center`}>
+                            {card.icons.available_games.label}
                         </div>
-                        <div className={styles['item-type']}>
-                            <img src="/images/icons/card-games.svg" alt=""/>
-                            Card games
-                        </div>
-                        <div className={styles['item-type']}>
-                            <img src="/images/icons/blackjack.svg" alt=""/>
-                            Blackjack
-                        </div>
-                        <div className={styles['item-type']}>
-                            <img src="/images/icons/live-shows.svg" alt=""/>
-                            Live shows
+                        <div className={styles["list-types"]}>
+                            {card.icons.available_games.items.map((icon) => (
+                                <div key={icon.id} className={styles["item-type"]}>
+                                    <img src={icon.src} alt={icon.alt || ""} />
+                                    {icon.label}
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
+                )}
 
-                <div className={styles['list-providers-wrap']}>
-                    <div className={styles['label-style']}>Providers</div>
-                    <div className={styles['list-providers']}>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-1.png" alt=""/>
+                {card.icons.providers?.items?.length > 0 && (
+                    <div className={styles["list-providers-wrap"]}>
+                        <div className={`${styles["label-style"]}`}>
+                            {card.icons.providers.label}
                         </div>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-2.png" alt=""/>
-                        </div>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-3.png" alt=""/>
-                        </div>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-1.png" alt=""/>
-                        </div>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-2.png" alt=""/>
-                        </div>
-                        <div className={styles['item-provider']}>
-                            <img src="/images/developer-3.png" alt=""/>
+                        <div className={styles["list-providers"]}>
+                            {card.icons.providers.items.map((icon) => (
+                                <div key={icon.id} className={styles["item-provider"]}>
+                                    <img src={icon.src} alt={icon.alt || ""} />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
+                )}
             </div>
 
 
