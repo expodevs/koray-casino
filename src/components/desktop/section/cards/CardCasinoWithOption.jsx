@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import styles from './Card.module.scss';
 
 export default function CardCasino({ card }) {
+    console.log(card)
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleToggle = () => {
@@ -46,26 +47,21 @@ export default function CardCasino({ card }) {
                 ))}
             </div>
 
-            <div className={styles['list-deposits-wrap']}>
-                <div className={`${styles['label-style']} text-center`}>Deposit options</div>
-                <div className={styles['list-deposits']}>
-                    <div className={styles['item-deposit']}>
-                        <img src="/images/icons/mastercard.svg" alt=""/>
+            {card.icons.deposit_options?.items?.length > 0 && (
+                <div className={styles["list-deposits-wrap"]}>
+                    <div className={`${styles["label-style"]} text-center`}>
+                        {card.icons.deposit_options.label}
                     </div>
-                    <div className={styles['item-deposit']}>
-                        <img src="/images/icons/visa.svg" alt=""/>
-                    </div>
-                    <div className={styles['item-deposit']}>
-                        <img src="/images/icons/moneygram.svg" alt=""/>
-                    </div>
-                    <div className={styles['item-deposit']}>
-                        <img src="/images/icons/neteller.svg" alt=""/>
-                    </div>
-                    <div className={styles['item-deposit']}>
-                        <img src="/images/icons/paypal.svg" alt=""/>
+                    <div className={styles["list-deposits"]}>
+                        {card.icons.deposit_options.items.map((icon) => (
+                            <div key={icon.id} className={styles["item-deposit"]}>
+                                <img src={icon.src} alt={icon.alt || ""} />
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
+            )}
+
 
             <div className={`${styles['invisible-section']} ${isExpanded ? styles['visible'] : ''}`}>
                 <div className={styles['list-partners-wrap']}>

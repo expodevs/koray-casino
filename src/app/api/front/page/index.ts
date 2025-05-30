@@ -258,27 +258,32 @@ async function loadCardBlock(raw: string) {
     });
 
     const cards = cardsRaw.map((c) => {
-        // группируем иконки по IconCard.label
-        const iconsByGroup: Record<string, Array<{
-            id: number;
-            src: string;
-            alt?: string;
-            position: number;
-        }>> = {};
+        const iconsByGroup: Record<
+            string,
+            { label: string; items: Array<{ id: number; src: string; alt?: string; position?: number }> }
+        > = {};
 
         for (const rel of c.icon_card_images) {
             const ico = rel.icon_card_image;
-            const group = ico.icon_card.label;
-            if (!iconsByGroup[group]) iconsByGroup[group] = [];
-            iconsByGroup[group].push({
-                id: ico.id,
-                src: ico.image,
-                alt: ico.alt || undefined,
-                position: ico.position,
+            const groupLabel: string = ico.icon_card.label;
+            const groupKey = groupLabel
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, "_")
+            ;
+
+            if (!iconsByGroup[groupKey]) {
+                iconsByGroup[groupKey] = { label: groupLabel, items: [] };
+            }
+
+            iconsByGroup[groupKey].items.push({
+                id:       ico.id,
+                src:      ico.image,
+                alt:      ico.alt || undefined,
+                position: ico.position ?? undefined,
             });
         }
 
-        // приводим faqs к плоскому списку
         const faqs = c.faqs.map((x) => ({
             id:       x.faq.id,
             question: x.faq.question,
