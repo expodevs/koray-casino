@@ -64,20 +64,20 @@ export default function CardCasino({ card }) {
 
 
             <div className={`${styles['invisible-section']} ${isExpanded ? styles['visible'] : ''}`}>
-                <div className={styles['list-partners-wrap']}>
-                    <div className={`${styles['label-style']} text-center`}>Developer Partners</div>
-                    <div className={styles['list-partners']}>
-                        <div className={styles['item-partner']}>
-                            <img src="/images/developer-1.png" alt=""/>
+                {card.icons.developer_partners?.items?.length > 0 && (
+                    <div className={styles["list-partners-wrap"]}>
+                        <div className={`${styles["label-style"]} text-center`}>
+                            {card.icons.developer_partners.label}
                         </div>
-                        <div className={styles['item-partner']}>
-                            <img src="/images/developer-2.png" alt=""/>
-                        </div>
-                        <div className={styles['item-partner']}>
-                            <img src="/images/developer-3.png" alt=""/>
+                        <div className={styles["list-partners"]}>
+                            {card.icons.developer_partners.items.map((icon) => (
+                                <div key={icon.id} className={styles["item-partner"]}>
+                                    <img src={icon.src} alt={icon.alt || ""} />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
+                )}
 
                 <div className={styles['list-access']}>
                     <div className={styles['item-access']}>
