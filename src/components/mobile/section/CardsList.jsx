@@ -7,9 +7,10 @@ import CardSlotSimpleLastUpdate from '@/src/components/mobile/section/cards/Card
 import CardSlotSimple from '@/src/components/mobile/section/cards/CardSlotSimple';
 import CardSlotFull from '@/src/components/mobile/section/cards/CardSlotFull';
 import CardSlotOnlyOptions from '@/src/components/mobile/section/cards/CardSlotOnlyOptions';
-
+import CardCasinoWithOption from "@components/mobile/section/cards/CardCasinoWithOption";
 
 import styles from './CardsList.module.scss';
+
 
 export default function CardsList( { cards, listType } ) {
     console.log(cards, listType);
@@ -30,6 +31,10 @@ export default function CardsList( { cards, listType } ) {
             case 'card-slot_only-options':
                 return (
                     <CardSlotOnlyOptions key={index} card={card}/>
+                );
+            case 'card-casino_with-options':
+                return (
+                    <CardCasinoWithOption key={index} card={card}/>
                 );
             case 'slot-compare':
                 return (
