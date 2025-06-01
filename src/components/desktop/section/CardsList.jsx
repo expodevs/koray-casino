@@ -1,8 +1,5 @@
 import React from 'react';
 
-import CardGame from "@/src/components/desktop/section/cards/CardGame";
-import CardGameEasiest from "@/src/components/desktop/section/cards/CardGameEasiest";
-
 import CardSlotSimpleLastUpdate from '@/src/components/desktop/section/cards/CardSlotSimpleLastUpdate';
 import CardSlotSimple from '@/src/components/desktop/section/cards/CardSlotSimple';
 import CardSlotFull from '@/src/components/desktop/section/cards/CardSlotFull';
@@ -10,14 +7,15 @@ import CardSlotOnlyOptions from '@/src/components/desktop/section/cards/CardSlot
 import CardCasinoWithOption from '@/src/components/desktop/section/cards/CardCasinoWithOption';
 import CardCasinoWithFaq from '@/src/components/desktop/section/cards/CardCasinoWithFaq';
 import CardGameCompare from '@/src/components/desktop/section/cards/CardGameCompare';
+import CardGameFull from '@/src/components/desktop/section/cards/CardGameFull';
+import CardGameShortPlay from '@/src/components/desktop/section/cards/CardGameShortPlay';
+import CardGameShort from '@/src/components/desktop/section/cards/CardGameShort';
 
 
 import styles from './CardsList.module.scss';
 
 export default function CardsList( { cards, listType } ) {
-    console.log(cards, listType);
     const renderCard = (card, index) => {
-        console.log(card);
         switch (listType) {
             case 'card-slot_simple_last-update':
                 return (
@@ -47,28 +45,21 @@ export default function CardsList( { cards, listType } ) {
                 return (
                     <CardGameCompare key={index} card={card}/>
                 );
-            case 'game-easy':
+            case 'card-game_full':
                 return (
-                    <CardGameEasiest
-                        key={index}
-                        name={card.name}
-                        image={card.image}
-                        options={card.options}
-                        excerpt={card.excerpt}
-                    />
+                    <CardGameFull key={index} card={card}/>
                 );
-            case 'game':
+            case 'card-game_short-play':
+                return (
+                    <CardGameShortPlay key={index} card={card}/>
+                );
+            case 'card-game_short':
+                return (
+                    <CardGameShort key={index} card={card}/>
+                );
             default:
                 return (
-                    <CardGame
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        badge={card.badge}
-                        options={card.options}
-                        excerpt={card.excerpt}
-                        faq={card.faq}
-                    />
+                    <CardSlotSimple key={index} card={card}/>
                 );
         }
     };

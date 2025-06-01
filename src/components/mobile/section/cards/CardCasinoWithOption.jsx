@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './Card.module.scss';
 
-export default function CardCasino({ card }) {
-    console.log(card)
+export default function CardCasinoWithOption({ card }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleToggle = () => {

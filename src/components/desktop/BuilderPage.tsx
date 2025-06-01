@@ -6,8 +6,11 @@ import CardsListTop from '@components/desktop/section/CardsListTop';
 import CardsListSimple from '@components/desktop/section/CardsListSimple';
 import CardsTable from '@components/desktop/section/CardsTable';
 import TextBlock from '@components/desktop/section/TextBlock';
+import BtnsBlock from "@components/desktop/section/BtnsBlock";
+import CartList from "@components/desktop/section/CartList";
 
 import styles from './Home.module.scss';
+
 
 type PageProps = {
     slug: string;
@@ -40,6 +43,10 @@ export default function BuilderPage({ slug, page }: PageProps) {
                             return <CardsTable key={block.id} items={block} />;
                         case 'htmlEditor':
                             return <TextBlock key={block.id} items={block.props} />;
+                        case 'btnBlock':
+                            return <BtnsBlock key={block.id} items={block.props} />;
+                        case 'cart':
+                            return <CartList key={block.id} items={block.props} />;
                         default:
                             return null;
                     }

@@ -1,0 +1,21 @@
+@use 'styles/mobile/base/variables' as *;
+
+.list-online-casino {
+  margin: 15px 0;
+  row-gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  .item-casino {
+    border-radius: 4px;
+    padding: 15px;
+    border: 1px solid $color-theme;
+    .text {
+      color : #707070;
+      font-size: 14px;
+    }
+    .title {
+      color: $color-theme;
+    }
+  }
+}
