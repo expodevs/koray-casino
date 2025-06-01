@@ -1,5 +1,5 @@
 import React from 'react';
-import CardSlotCompare from '@/src/components/desktop/section/cards/CardSlotCompare';
+
 import CardGame from "@/src/components/desktop/section/cards/CardGame";
 import CardGameEasiest from "@/src/components/desktop/section/cards/CardGameEasiest";
 
@@ -8,6 +8,8 @@ import CardSlotSimple from '@/src/components/desktop/section/cards/CardSlotSimpl
 import CardSlotFull from '@/src/components/desktop/section/cards/CardSlotFull';
 import CardSlotOnlyOptions from '@/src/components/desktop/section/cards/CardSlotOnlyOptions';
 import CardCasinoWithOption from '@/src/components/desktop/section/cards/CardCasinoWithOption';
+import CardCasinoWithFaq from '@/src/components/desktop/section/cards/CardCasinoWithFaq';
+import CardGameCompare from '@/src/components/desktop/section/cards/CardGameCompare';
 
 
 import styles from './CardsList.module.scss';
@@ -15,6 +17,7 @@ import styles from './CardsList.module.scss';
 export default function CardsList( { cards, listType } ) {
     console.log(cards, listType);
     const renderCard = (card, index) => {
+        console.log(card);
         switch (listType) {
             case 'card-slot_simple_last-update':
                 return (
@@ -36,14 +39,13 @@ export default function CardsList( { cards, listType } ) {
                 return (
                     <CardCasinoWithOption key={index} card={card}/>
                 );
-            case 'slot-compare':
+            case 'card-casino_with-faq':
                 return (
-                    <CardSlotCompare
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        excerpt={card.excerpt}
-                    />
+                    <CardCasinoWithFaq key={index} card={card}/>
+                );
+            case 'card-game_compare':
+                return (
+                    <CardGameCompare key={index} card={card}/>
                 );
             case 'game-easy':
                 return (

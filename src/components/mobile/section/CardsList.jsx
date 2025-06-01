@@ -1,5 +1,5 @@
 import React from 'react';
-import CardSlotCompare from '@/src/components/mobile/section/cards/CardSlotCompare';
+
 import CardGame from "@/src/components/mobile/section/cards/CardGame";
 import CardGameEasiest from "@/src/components/mobile/section/cards/CardGameEasiest";
 
@@ -8,6 +8,8 @@ import CardSlotSimple from '@/src/components/mobile/section/cards/CardSlotSimple
 import CardSlotFull from '@/src/components/mobile/section/cards/CardSlotFull';
 import CardSlotOnlyOptions from '@/src/components/mobile/section/cards/CardSlotOnlyOptions';
 import CardCasinoWithOption from "@components/mobile/section/cards/CardCasinoWithOption";
+import CardCasinoWithFaq from '@/src/components/mobile/section/cards/CardCasinoWithFaq';
+import CardGameCompare from '@/src/components/mobile/section/cards/CardGameCompare';
 
 import styles from './CardsList.module.scss';
 
@@ -36,14 +38,13 @@ export default function CardsList( { cards, listType } ) {
                 return (
                     <CardCasinoWithOption key={index} card={card}/>
                 );
-            case 'slot-compare':
+            case 'card-casino_with-faq':
                 return (
-                    <CardSlotCompare
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        excerpt={card.excerpt}
-                    />
+                    <CardCasinoWithFaq key={index} card={card}/>
+                );
+            case 'card-game_compare':
+                return (
+                    <CardGameCompare key={index} card={card}/>
                 );
             case 'game-easy':
                 return (
