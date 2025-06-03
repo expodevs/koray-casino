@@ -9,8 +9,6 @@ import TextBlock from '@components/desktop/section/TextBlock';
 import BtnsBlock from "@components/desktop/section/BtnsBlock";
 import CartList from "@components/desktop/section/CartList";
 
-import styles from './Home.module.scss';
-
 
 type PageProps = {
     slug: string;
