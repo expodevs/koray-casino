@@ -385,6 +385,8 @@ async function processBlockByType(
 
         case BuildType.casinoTop:
             return await processCasinoTopBlock(fieldValues);
+        case BuildType.btnBlock:
+            return processBtnBlock(fieldValues);
 
         default:
             return processSimpleBlock(fieldValues);
@@ -471,6 +473,26 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
         options: parsedOptions,
         iconCardItems: parsedIconItems,
         cards,
+    };
+}
+
+/**
+ * Process a buttons block
+ * @param fieldValues The raw field values
+ * @returns The processed block properties
+ */
+function processBtnBlock(fieldValues: string): SimpleBlockProps & { buttons: { position: number; label: string; link: string }[] } {
+    let parsed: { buttons?: Array<{ position: number; label: string; link: string }>; type?: string } = {};
+    try {
+        parsed = JSON.parse(fieldValues);
+    } catch (e) {
+        console.error("Failed to parse btnBlock JSON:", e);
+        parsed = {};
+    }
+
+    return {
+        buttons: Array.isArray(parsed.buttons) ? parsed.buttons : [],
+        type: parsed.type ?? undefined,
     };
 }
 
