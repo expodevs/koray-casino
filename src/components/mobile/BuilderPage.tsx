@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { PageWithBlocks } from "@app/api/front/page";
 import NavTabs from '@/src/components/mobile/section/NavTabs';
 import FaqGroup from '@components/mobile/section/FaqGroup';
