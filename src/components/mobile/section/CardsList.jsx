@@ -1,72 +1,99 @@
 'use client'
 
-import React from 'react';
-import CardSlot from '@/src/components/mobile/section/cards/CardSlot';
-import CardSlotCompare from '@/src/components/mobile/section/cards/CardSlotCompare';
-import CardCasino from "@/src/components/mobile/section/cards/CardCasino";
-import CardGame from "@/src/components/mobile/section/cards/CardGame";
+import React, { useState } from 'react';
+
+import CardSlotSimpleLastUpdate from '@components/mobile/section/cards/CardSlotSimpleLastUpdate';
+import CardSlotSimple from '@components/mobile/section/cards/CardSlotSimple';
+import CardSlotFull from '@components/mobile/section/cards/CardSlotFull';
+import CardSlotOnlyOptions from '@components/mobile/section/cards/CardSlotOnlyOptions';
+import CardCasinoWithOption from "@components/mobile/section/cards/CardCasinoWithOption";
+import CardCasinoWithFaq from '@components/mobile/section/cards/CardCasinoWithFaq';
+import CardGameCompare from '@components/mobile/section/cards/CardGameCompare';
+import CardGameFull from '@components/mobile/section/cards/CardGameFull';
+import CardGameShortPlay from "@components/mobile/section/cards/CardGameShortPlay";
+import CardGameShort from "@components/mobile/section/cards/CardGameShort";
 
 import styles from './CardsList.module.scss';
 
-export default function CardsList({ cards = [] }) {
+
+export default function CardsList( { cards, listType } ) {
+    const [visibleCount, setVisibleCount] = useState(1);
     const renderCard = (card, index) => {
-        switch (card.type) {
-            case 'casino':
+        switch (listType) {
+            case 'card-slot_simple_last-update':
                 return (
-                    <CardCasino key={index} />
+                    <CardSlotSimpleLastUpdate key={index} card={card}/>
                 );
-            case 'slot':
+            case 'card-slot_simple':
                 return (
-                    <CardSlot
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        badge={card.badge}
-                        options={card.options}
-                        excerpt={card.excerpt}
-                        faq={card.faq}
-                    />
+                    <CardSlotSimple key={index} card={card}/>
                 );
-            case 'slot-compare':
+            case 'card-slot_full':
                 return (
-                    <CardSlotCompare
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        excerpt={card.excerpt}
-                    />
+                    <CardSlotFull key={index} card={card}/>
                 );
-            case 'game':
-            default:
+            case 'card-slot_only-options':
                 return (
-                    <CardGame
-                        key={index}
-                        name={card.name}
-                        images={card.images}
-                        badge={card.badge}
-                        options={card.options}
-                        excerpt={card.excerpt}
-                        faq={card.faq}
-                    />
+                    <CardSlotOnlyOptions key={index} card={card}/>
+                );
+            case 'card-casino_with-options':
+                return (
+                    <CardCasinoWithOption key={index} card={card}/>
+                );
+            case 'card-casino_with-faq':
+                return (
+                    <CardCasinoWithFaq key={index} card={card}/>
+                );
+            case 'card-game_compare':
+                return (
+                    <CardGameCompare key={index} card={card}/>
+                );
+            case 'card-game_full':
+                return (
+                    <CardGameFull key={index} card={card}/>
+                );
+            case 'card-game_short-play':
+                return (
+                    <CardGameShortPlay key={index} card={card}/>
+                );
+            case 'card-game_short':
+                return (
+                    <CardGameShort key={index} card={card}/>
                 );
         }
     };
 
+    const visibleCards = cards.slice(0, visibleCount);
+
+    const shouldShowButton = visibleCount < cards.length;
+
+    const handleShowMore = () => {
+        setVisibleCount(cards.length);
+    };
+
     return (
         <section className={styles['cards-list']}>
-            {cards.map(renderCard)}
+            {visibleCards.map(renderCard)}
 
-            <button className="btn light-sm">
-                Show more ({cards.length})
-                <span className="ico">
-                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M6.00011 4.97668L10.1251 0.851685L11.3034 2.03002L6.00011 7.33335L0.696777 2.03002L1.87511 0.851685L6.00011 4.97668Z"
-                        fill="black"
-                    />
-                  </svg>
-                </span>
-            </button>
+            {shouldShowButton && (
+                <button onClick={handleShowMore} className="btn light">
+                    Show more
+                    <span className="ico">
+                        <svg
+                            width="12"
+                            height="8"
+                            viewBox="0 0 12 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                              d="M6.00011 4.97668L10.1251 0.851685L11.3034 2.03002L6.00011 7.33335L0.696777 2.03002L1.87511 0.851685L6.00011 4.97668Z"
+                              fill="black"
+                          />
+                        </svg>
+                    </span>
+                </button>
+            )}
         </section>
     );
 }

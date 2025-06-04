@@ -249,7 +249,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
                 <CustomInput field={'referral_key'} label={'Referral Key'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_1_link'} label={'Referral Button 1 Link'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_2_link'} label={'Referral Button 2 Link'} register={register} errors={errors} />
-                <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number" />
+                <CustomInput field={'position'} label={'Position'} register={register} registerAttr={{valueAsNumber:true}} errors={errors} type="number" />
               </div>
             </TabContent>
 

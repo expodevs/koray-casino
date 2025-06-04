@@ -8,7 +8,7 @@ const fieldSchema = {
   referral_key: z.string().min(1, 'Referral key is required'),
   referral_btn_1_link: z.string().optional(),
   referral_btn_2_link: z.string().optional(),
-  position: z.string().optional().transform(val => val ? parseInt(val) : undefined),
+  position: z.number().optional(),
 };
 
 export const cardCreateSchema = z.object({...fieldSchema});

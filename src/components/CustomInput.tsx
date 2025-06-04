@@ -6,6 +6,7 @@ interface CustomInputProps {
     field: string;
     type?: string;
     register: UseFormRegister<FieldValues>;
+    registerAttr: object | undefined;
     errors: FieldErrors<FieldValues>;
 }
 
@@ -14,6 +15,7 @@ function CustomInput({
                          field,
                          type = 'text',
                          register,
+                         registerAttr = undefined,
                          errors,
                      }: CustomInputProps) {
 
@@ -26,7 +28,7 @@ function CustomInput({
         }
         return <input
             type={type}
-            {...register(field)}
+            {...register(field, registerAttr?{ ...registerAttr }:undefined)}
             className="w-full p-2 border rounded"
         />
     }, [type, register])
