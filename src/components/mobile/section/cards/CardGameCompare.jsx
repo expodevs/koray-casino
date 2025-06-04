@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card.module.scss';
+import Link from "next/link";
 
 export default function CardGameCompare({card}) {
 
@@ -19,7 +20,14 @@ export default function CardGameCompare({card}) {
                 </div>
             </div>
             <section className={styles['list-actions']}>
-                <a href="components/section" className="btn primary">Play for free</a>
+                <Link
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    legacyBehavior
+                >
+                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
+                        Play for free
+                    </a>
+                </Link>
             </section>
 
         </article>

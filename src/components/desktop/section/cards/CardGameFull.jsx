@@ -9,10 +9,11 @@ import 'swiper/css/navigation';
 import FaqGroup from '@/src/components/desktop/section/FaqGroup';
 
 import styles from './Card.module.scss';
+import Link from "next/link";
 
 
 export default function CardGameFull({card}) {
-
+console.log(card);
     return (
         <article className={`${styles['item-card']} ${styles.game}`}>
             <Swiper
@@ -52,8 +53,22 @@ export default function CardGameFull({card}) {
             </div>
 
             <section className={styles['list-actions']}>
-                <a href="components/section" className="btn primary">Play with Real Money</a>
-                <a href="components/section" className="btn light">Play for Free</a>
+                <Link
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    legacyBehavior
+                >
+                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
+                        Play with Real Money
+                    </a>
+                </Link>
+                <Link
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_2_link}`}
+                    legacyBehavior
+                >
+                    <a className="btn light" target="_blank" rel="noopener noreferrer">
+                        Play for free
+                    </a>
+                </Link>
             </section>
 
             <FaqGroup items={card.faqs} variant="faq-group" />

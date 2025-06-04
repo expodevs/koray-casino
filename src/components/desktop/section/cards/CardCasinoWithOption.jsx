@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import styles from './Card.module.scss';
+import Link from "next/link";
 
 export default function CardCasinoWithOptions({ card }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -154,8 +155,16 @@ export default function CardCasinoWithOptions({ card }) {
 
 
             <section className={styles['list-actions']}>
-                <a href="components/section" className="btn primary">Visit site</a>
+                <Link
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    legacyBehavior
+                >
+                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
+                        Visit site
+                    </a>
+                </Link>
             </section>
+
 
             <div className={styles['bottom-actions']}>
                 <a href="" className={styles.link}>Terms & Conditions</a>

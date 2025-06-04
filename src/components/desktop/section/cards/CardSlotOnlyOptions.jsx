@@ -6,14 +6,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import styles from './Card.module.scss';
+import Link from "next/link";
 
 export default function CardSlot({ card }) {
-    const handleClick = (link) => (e) => {
-        e.preventDefault();
-        if (typeof link === 'string' && link.startsWith('http')) {
-            window.open(link, '_blank');
-        }
-    };
 
     return (
         <article className={styles['item-card']}>
@@ -56,7 +51,14 @@ export default function CardSlot({ card }) {
             </div>
 
             <section className={styles['list-actions']}>
-                <button onClick={handleClick(card.referral_btn_1_link)} className="btn primary">Play with Real Money</button>
+                <Link
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    legacyBehavior
+                >
+                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
+                        Play with Real Money
+                    </a>
+                </Link>
             </section>
         </article>
     );
