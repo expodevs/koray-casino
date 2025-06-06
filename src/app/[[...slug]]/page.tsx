@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from "next";
 import { headers } from 'next/headers';
-import { getPageWithBlocks } from "@app/api/front/page";
+import { getPageWithBlocks, PageWithBlocks } from "@app/api/front/page";
 import DesktopBuilderPage from '@components/desktop/BuilderPage';
 import MobileBuilderPage  from '@components/mobile/BuilderPage';
 import { notFound } from "next/navigation";
@@ -10,7 +10,8 @@ type PageProps = {
     params: { slug?: string[] };
 };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { params } = await props;
     const slugArray = params.slug ?? [];
     const slug = slugArray.length > 0 ? slugArray.join("/") : "home";
 
