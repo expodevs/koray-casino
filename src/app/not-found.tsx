@@ -9,8 +9,9 @@ import { headers } from "next/headers";
 
 import styles from './notFound.module.scss';
 
-export default function NotFoundPage() {
-    const ua       = headers().get("user-agent") || "";
+export default async function NotFoundPage() {
+    const h = await headers();
+    const ua = h.get("user-agent") || "";
     const isMobile = /mobile/i.test(ua);
 
     return (

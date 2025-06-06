@@ -18,12 +18,13 @@ export const metadata: Metadata = {
     description: "Admin Panel",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const ua = headers().get("user-agent") || "";
+    const h = await headers();
+    const ua = h.get("user-agent") || "";
     const isMobile = /mobile/i.test(ua);
     const deviceClass = isMobile ? "mobile" : "desktop";
     return (
