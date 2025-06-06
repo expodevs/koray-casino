@@ -1,5 +1,7 @@
+import React from "react";
+import { BuildType } from "@prismaClient";
 import { PageWithBlocks } from "@app/api/front/page";
-import NavTabs from '@/src/components/mobile/section/NavTabs';
+import NavTabs from '@components/mobile/section/NavTabs';
 import FaqGroup from '@components/mobile/section/FaqGroup';
 import CardsListTop from '@components/mobile/section/CardsListTop';
 import CardsListSimple from '@components/mobile/section/CardsListSimple';
@@ -27,23 +29,29 @@ export default function BuilderPage({ slug, page }: PageProps) {
                 />
 
                 {page.blocks.map((block) => {
-                    switch (block.type) {
-                        case 'faq':
+                    switch (block.type as BuildType) {
+                        case BuildType.faq:
                             return <FaqGroup key={block.id} items={block.props} />;
-                        case 'slotCard':
-                            if (block.props.type === 'card-slot_simple_last-update') {
-                                return <CardsListTop key={block.id} items={block} />;
-                            } else {
-                                return <CardsListSimple key={block.id} items={block} />;
-                            }
-                        case 'casinoTop':
+
+                        case BuildType.slotCard:
+                            return block.props.type === "card-slot_simple_last-update" ? (
+                                <CardsListTop key={block.id} items={block} />
+                            ) : (
+                                <CardsListSimple key={block.id} items={block} />
+                            );
+
+                        case BuildType.casinoTop:
                             return <CardsTable key={block.id} items={block} />;
-                        case 'htmlEditor':
+
+                        case BuildType.htmlEditor:
                             return <TextBlock key={block.id} items={block.props} />;
-                        case 'btnBlock':
+
+                        case BuildType.btnBlock:
                             return <BtnsBlock key={block.id} items={block.props} />;
-                        case 'cart':
+
+                        case BuildType.cart:
                             return <CartList key={block.id} items={block.props} />;
+
                         default:
                             return null;
                     }
