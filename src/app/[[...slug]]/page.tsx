@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { getPageWithBlocks } from "@app/api/front/page";
 import DesktopBuilderPage from '@components/desktop/BuilderPage';
 import MobileBuilderPage  from '@components/mobile/BuilderPage';
+import MobileBurPage  from '@components/mobile/section/BtnsBlock';
 import { notFound } from "next/navigation";
 
 type PageProps = {
