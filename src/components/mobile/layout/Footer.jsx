@@ -5,6 +5,7 @@ import { getFrontSettings } from "@app/api/front/settings";
 
 import styles from './Footer.module.scss';
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Footer() {
 
@@ -14,7 +15,13 @@ export default async function Footer() {
     return (
         <footer className={styles.footer}>
             <section className={styles['footer-text']}>
-                <img src={settings.logo.value} alt={settings.logo.label} /> <br/><br/>
+                <div className={styles['logo-footer']}>
+                    <Image
+                        src={settings.logo.value}
+                        alt={settings.logo.label}
+                        fill
+                    />
+                </div>
                 {settings.footerText.value}
             </section>
 
@@ -51,7 +58,12 @@ export default async function Footer() {
 
             <section className={styles['list-logos']}>
                 {settings.partners.map((item) => (
-                    <img src={item.value} alt={item.label}  key={item.id} />
+                    <Image
+                    key={item.id}
+                    src={item.value}
+                    alt={item.label}
+                    fill
+                    />
                 ))}
             </section>
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './Header.module.scss';
+import Image from "next/image";
 
 export default function MobileHeaderClient({ menus, settings }) {
     const [open, setOpen] = useState(false);
@@ -10,7 +11,11 @@ export default function MobileHeaderClient({ menus, settings }) {
     return (
         <header className={styles.header}>
             <Link href="/" className={styles.logo}>
-                <img src={settings.logo.value} alt={settings.logo.label} />
+                <Image
+                    src={settings.logo.value}
+                    alt={settings.logo.label}
+                    fill
+                />
             </Link>
 
             <button

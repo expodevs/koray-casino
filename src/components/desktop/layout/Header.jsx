@@ -4,6 +4,8 @@ import { getFrontMenus } from "@app/api/front/menus";
 import { getFrontSettings } from "@app/api/front/settings";
 
 import styles from './Header.module.scss';
+import Image from "next/image";
+import React from "react";
 
 export default async function DesktopHeaderTemplate() {
 
@@ -14,7 +16,11 @@ export default async function DesktopHeaderTemplate() {
         <header className={styles.header}>
             <section className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <img src={settings.logo.value} alt={settings.logo.label} />
+                    <Image
+                        src={settings.logo.value}
+                        alt={settings.logo.label}
+                        fill
+                    />
                 </Link>
 
                 <nav className={styles['main-menu']}>

@@ -1,13 +1,18 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CardGameCompare({card}) {
 
     return (
         <article className={`${styles['item-card']} ${styles['slot-compare']}`}>
             <figure className={styles['thumb-wrap']}>
-                <img src={card.images[0].src} alt={card.images[0].alt} />
+                <Image
+                    src={card.images[0].src}
+                    alt={card.images[0].alt}
+                    fill
+                />
             </figure>
 
             <div className={styles.name}>{card.label}</div>
@@ -20,13 +25,10 @@ export default function CardGameCompare({card}) {
                 </div>
             </div>
             <section className={styles['list-actions']}>
-                <Link
+                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
                     href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
-                    legacyBehavior
                 >
-                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
-                        Play for free
-                    </a>
+                    Play for free
                 </Link>
             </section>
 

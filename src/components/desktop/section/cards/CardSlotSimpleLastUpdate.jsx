@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import styles from './Card.module.scss';
+import Image from "next/image";
 
 
 export default function CardSlot({ card }) {
@@ -22,7 +23,11 @@ export default function CardSlot({ card }) {
                 {card.images.map((image, idx) => (
                     <SwiperSlide key={idx}>
                         <figure className={styles['thumb-wrap']}>
-                            <img src={image.src} alt={image.alt} />
+                            <Image
+                                src={image.src}
+                                alt={image.alt}
+                                fill
+                            />
                         </figure>
                     </SwiperSlide>
                 ))}
@@ -33,13 +38,10 @@ export default function CardSlot({ card }) {
             <div className={styles.excerpt}>{card.description}</div>
 
             <section className={styles['list-actions']}>
-                <Link
+                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
                     href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
-                    legacyBehavior
                 >
-                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
-                        Play with Real Money
-                    </a>
+                    Play with Real Money
                 </Link>
             </section>
         </article>

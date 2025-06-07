@@ -6,6 +6,7 @@ import { getFrontMenus } from "@app/api/front/menus";
 import { getFrontSettings } from "@app/api/front/settings";
 
 import styles from './Footer.module.scss';
+import Image from "next/image";
 
 export default async function Footer() {
 
@@ -16,7 +17,15 @@ export default async function Footer() {
         <footer className={styles.footer}>
             <section className={styles['container-full']}>
                 <section className={styles['footer-text']}>
-                    <div className={styles.logo}><img src={settings.logo.value} alt={settings.logo.label} /></div>
+                    <div className={styles.logo}>
+                        <div className={styles['logo-footer']}>
+                            <Image
+                                src={settings.logo.value}
+                                alt={settings.logo.label}
+                                fill
+                            />
+                        </div>
+                    </div>
                     <p>{settings.footerText.value}</p>
                 </section>
 
@@ -61,7 +70,12 @@ export default async function Footer() {
                 <div className={styles['copy-text']}>{settings.copyright.value}</div>
                 <div className={styles['list-logos']}>
                     {settings.partners.map((item) => (
-                        <img src={item.value} alt={item.label}  key={item.id} />
+                        <Image
+                            key={item.id}
+                            src={item.value}
+                            alt={item.label}
+                            fill
+                        />
                     ))}
                 </div>
             </section>

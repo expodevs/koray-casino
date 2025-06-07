@@ -30,12 +30,24 @@ footer.footer {
   .footer-text {
     margin-bottom: 30px;
   }
+  .logo-footer {
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
+    }
+  }
 
   .list-logos {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
+    }
   }
   .copy {
     font-size: 12px;

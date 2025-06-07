@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './Card.module.scss';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CardCasinoWithOptions({ card }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -43,7 +44,11 @@ export default function CardCasinoWithOptions({ card }) {
         <article className={`${styles['item-card']} ${styles.casino}`}>
             <figure className={styles['thumb-wrap']}>
                 <div className={styles['bg-thumb']}></div>
-                <img src={card.casino_image} alt={card.images.alt} />
+                <Image
+                    src={card.casino_image}
+                    alt={card.images.alt}
+                    fill
+                />
             </figure>
 
             {/*<div className={styles.badge}>Top 1</div>*/}
@@ -59,7 +64,11 @@ export default function CardCasinoWithOptions({ card }) {
                         </div>
                         <div className={styles['label-value']}>
                             {(option.entity.input_type === 'image') ? (
-                                <img src={option.value} alt="" />
+                                <Image
+                                    src={card.casino_image}
+                                    alt={''}
+                                    fill
+                                />
                             ) : (
                                 <span>{option.value}</span>
                             )}
@@ -76,7 +85,11 @@ export default function CardCasinoWithOptions({ card }) {
                     <div className={styles["list-deposits"]}>
                         {card.icons.deposit_options.items.map((icon) => (
                             <div key={icon.id} className={styles["item-deposit"]}>
-                                <img src={icon.src} alt={icon.alt || ""} />
+                                <Image
+                                    src={icon.src}
+                                    alt={icon.alt || ""}
+                                    fill
+                                />
                             </div>
                         ))}
                     </div>
@@ -93,7 +106,11 @@ export default function CardCasinoWithOptions({ card }) {
                         <div className={styles["list-partners"]}>
                             {card.icons.developer_partners.items.map((icon) => (
                                 <div key={icon.id} className={styles["item-partner"]}>
-                                    <img src={icon.src} alt={icon.alt || ""} />
+                                    <Image
+                                        src={icon.src}
+                                        alt={icon.alt || ""}
+                                        fill
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -129,7 +146,11 @@ export default function CardCasinoWithOptions({ card }) {
                         <div className={styles["list-types"]}>
                             {card.icons.available_games.items.map((icon) => (
                                 <div key={icon.id} className={styles["item-type"]}>
-                                    <img src={icon.src} alt={icon.alt || ""} />
+                                    <Image
+                                        src={icon.src}
+                                        alt={icon.alt || ""}
+                                        fill
+                                    />
                                     {icon.label}
                                 </div>
                             ))}
@@ -145,7 +166,11 @@ export default function CardCasinoWithOptions({ card }) {
                         <div className={styles["list-providers"]}>
                             {card.icons.providers.items.map((icon) => (
                                 <div key={icon.id} className={styles["item-provider"]}>
-                                    <img src={icon.src} alt={icon.alt || ""} />
+                                    <Image
+                                        src={icon.src}
+                                        alt={icon.alt || ""}
+                                        fill
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -155,13 +180,10 @@ export default function CardCasinoWithOptions({ card }) {
 
 
             <section className={styles['list-actions']}>
-                <Link
+                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
                     href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
-                    legacyBehavior
                 >
-                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
-                        Visit site
-                    </a>
+                    Visit site
                 </Link>
             </section>
 
