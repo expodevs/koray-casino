@@ -26,7 +26,7 @@ export default function CardGameCompare({card}) {
             </div>
             <section className={styles['list-actions']}>
                 <Link className="btn primary" target="_blank" rel="noopener noreferrer"
-                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_1_link`}
                 >
                     Play for free
                 </Link>

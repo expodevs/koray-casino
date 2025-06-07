@@ -62,12 +62,12 @@ export default function CardGameFull({card}) {
 
             <section className={styles['list-actions']}>
                 <Link className="btn primary" target="_blank" rel="noopener noreferrer"
-                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_1_link`}
                 >
                     Play with Real Money
                 </Link>
                 <Link className="btn light" target="_blank" rel="noopener noreferrer"
-                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_2_link}`}
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_2_link`}
                 >
                     Play for free
                 </Link>
