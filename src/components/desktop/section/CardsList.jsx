@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-
+import { ListCardType } from '@app/api/front/types/card'
 import CardSlotSimpleLastUpdate from '@components/desktop/section/cards/CardSlotSimpleLastUpdate';
 import CardSlotSimple from '@components/desktop/section/cards/CardSlotSimple';
 import CardSlotFull from '@components/desktop/section/cards/CardSlotFull';
@@ -19,52 +19,30 @@ import styles from './CardsList.module.scss';
 export default function CardsList( { cards, listType } ) {
 
     const [visibleCount, setVisibleCount] = useState(1);
-    const renderCard = (card, index) => {
+    const renderCard = (card, idx) => {
         switch (listType) {
-            case 'card-slot_simple_last-update':
-                return (
-                    <CardSlotSimpleLastUpdate key={index} card={card}/>
-                );
-            case 'card-slot_simple':
-                return (
-                    <CardSlotSimple key={index} card={card}/>
-                );
-            case 'card-slot_full':
-                return (
-                    <CardSlotFull key={index} card={card}/>
-                );
-            case 'card-slot_only-options':
-                return (
-                    <CardSlotOnlyOptions key={index} card={card}/>
-                );
-            case 'card-casino_with-options':
-                return (
-                    <CardCasinoWithOption key={index} card={card}/>
-                );
-            case 'card-casino_with-faq':
-                return (
-                    <CardCasinoWithFaq key={index} card={card}/>
-                );
-            case 'card-game_compare':
-                return (
-                    <CardGameCompare key={index} card={card}/>
-                );
-            case 'card-game_full':
-                return (
-                    <CardGameFull key={index} card={card}/>
-                );
-            case 'card-game_short-play':
-                return (
-                    <CardGameShortPlay key={index} card={card}/>
-                );
-            case 'card-game_short':
-                return (
-                    <CardGameShort key={index} card={card}/>
-                );
+            case ListCardType.SimpleLastUpdate:
+                return <CardSlotSimpleLastUpdate key={idx} card={card} />
+            case ListCardType.SlotSimple:
+                return <CardSlotSimple key={idx} card={card} />
+            case ListCardType.SlotFull:
+                return <CardSlotFull key={idx} card={card} />
+            case ListCardType.SlotOnlyOptions:
+                return <CardSlotOnlyOptions key={idx} card={card} />
+            case ListCardType.CasinoWithOptions:
+                return <CardCasinoWithOption key={idx} card={card} />
+            case ListCardType.CasinoWithFaq:
+                return <CardCasinoWithFaq key={idx} card={card} />
+            case ListCardType.GameCompare:
+                return <CardGameCompare key={idx} card={card} />
+            case ListCardType.GameFull:
+                return <CardGameFull key={idx} card={card} />
+            case ListCardType.GameShortPlay:
+                return <CardGameShortPlay key={idx} card={card} />
+            case ListCardType.GameShort:
+                return <CardGameShort key={idx} card={card} />
             default:
-                return (
-                    <CardSlotSimple key={index} card={card}/>
-                );
+                return <CardSlotSimple key={idx} card={card} />
         }
     };
 

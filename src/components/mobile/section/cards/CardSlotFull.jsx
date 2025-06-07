@@ -67,7 +67,7 @@ export default function CardSlot({ card }) {
                 >
                     Play with Real Money
                 </Link>
-                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
+                <Link className="btn light" target="_blank" rel="noopener noreferrer"
                     href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_2_link`}
                 >
                     Play for Free
