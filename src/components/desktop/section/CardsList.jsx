@@ -18,7 +18,7 @@ import styles from './CardsList.module.scss';
 
 export default function CardsList( { cards, listType } ) {
 
-    const [visibleCount, setVisibleCount] = useState(1);
+    const [visibleCount, setVisibleCount] = useState(3);
     const renderCard = (card, idx) => {
         switch (listType) {
             case ListCardType.SimpleLastUpdate:
