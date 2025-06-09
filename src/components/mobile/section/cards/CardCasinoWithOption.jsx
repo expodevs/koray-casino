@@ -59,7 +59,7 @@ export default function CardCasinoWithOption({ card }) {
                             {(option.entity.input_type === 'image') ? (
                                 <Image
                                     src={card.casino_image}
-                                    alt={''}
+                                    alt={option.entity.label}
                                     fill
                                 />
                             ) : (

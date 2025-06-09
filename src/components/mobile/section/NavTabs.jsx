@@ -1,16 +1,25 @@
 'use client'
+import React from 'react'
+import styles from './NavTabs.module.scss'
 
-import React from 'react';
-
-import styles from './NavTabs.module.scss';
-
-export default function NavTabs() {
+export default function NavTabs({ tabs, active, onChange }) {
     return (
         <nav className={styles['list-tabs']}>
-            <a href="#" className={styles.active}>Intro</a>
-            <a href="#">Best Casinos</a>
-            <a href="#">Slot Games</a>
-            <a href="#">Best Providers</a>
+            <button
+                className={active === null ? styles.active : ''}
+                onClick={() => onChange(null)}
+            >
+                All
+            </button>
+            {tabs.map((tab) => (
+                <button
+                    key={tab.hash}
+                    className={active === tab.hash ? styles.active : ''}
+                    onClick={() => onChange(tab.hash)}
+                >
+                    {tab.label}
+                </button>
+            ))}
         </nav>
-    );
+    )
 }

@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useState, useMemo } from 'react'
 import { BuildType } from "@prismaClient";
 import { PageWithBlocks } from "@app/api/front/page";
 import NavTabs from '@components/mobile/section/NavTabs';
@@ -17,10 +18,27 @@ type PageProps = {
 };
 
 export default function BuilderPage({ slug, page }: PageProps) {
-    console.log(page)
+    const [activeHash, setActiveHash] = useState<string | null>(null)
+
+    const tabs: Tab[] = useMemo(() => {
+        const map = new Map<string, string>()
+        for (const block of page.blocks) {
+            if (block.type === BuildType.slotCard) {
+                for (const card of (block.props as any).cards) {
+                    for (const opt of card.options) {
+                        if (opt.entity.hash_tag) {
+                            map.set(opt.entity.hash_tag, opt.entity.label)
+                        }
+                    }
+                }
+            }
+        }
+        return Array.from(map.entries()).map(([hash, label]) => ({ hash, label }))
+    }, [page.blocks])
+
     return (
         <>
-            <NavTabs />
+            <NavTabs tabs={tabs} active={activeHash} onChange={setActiveHash} />
 
             <main className="container">
                 <h1
