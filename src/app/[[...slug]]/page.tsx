@@ -1,17 +1,36 @@
 import React from 'react';
+import dynamic from "next/dynamic";
 import { Metadata } from "next";
 import { headers } from 'next/headers';
-import { getPageWithBlocks } from "@app/api/front/page";
+import { getPageWithBlocks, PageWithBlocks } from "@app/api/front/page";
 import DesktopBuilderPage from '@components/desktop/BuilderPage';
 import MobileBuilderPage  from '@components/mobile/BuilderPage';
 import { notFound } from "next/navigation";
+
+
+const MobileBuilderPage = dynamic(
+    () =>
+        import("@components/mobile/BuilderPage").then((mod) => {
+            return mod;
+        }),
+    { ssr: true }
+);
+
+const DesktopBuilderPage = dynamic(
+    () =>
+        import("@components/desktop/BuilderPage").then((mod) => {
+            return mod;
+        }),
+    { ssr: true }
+);
 
 type PageProps = {
     params: { slug?: string[] };
 };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const slugArray = params.slug ?? [];
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { params } = props;
+    const slugArray = (await params).slug ?? [];
     const slug = slugArray.length > 0 ? slugArray.join("/") : "home";
 
     const page: PageWithBlocks | null = await getPageWithBlocks(slug);
@@ -33,8 +52,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             : { index: true, follow: true },
     };
 }
-export default async function Page({ params }: { params?: { slug?: string[] } }) {
-    const realSlug = params?.slug?.[0] ?? 'home';
+export default async function Page(props: PageProps) {
+    const { params } = props;
+    const slugArray = (await params).slug ?? [];
+    const realSlug = slugArray.length > 0 ? slugArray[0] : "home";
     const page = await getPageWithBlocks(realSlug);
 
     if (!page) {

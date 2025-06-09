@@ -5,13 +5,18 @@ import 'swiper/css/navigation';
 
 import styles from './Card.module.scss';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CardGameShortPlay({card}) {
 
     return (
         <article className={`${styles['item-card']} ${styles.game}`}>
             <figure className={styles['thumb-wrap']}>
-                <img src={card.images[0].src} alt={card.images[0].alt} />
+                <Image
+                    src={card.images[0].src}
+                    alt={card.images[0].alt}
+                    fill
+                />
             </figure>
 
             <div className={`${styles.name} ${styles.shadow}`}>{card.label}</div>
@@ -31,13 +36,10 @@ export default function CardGameShortPlay({card}) {
             </div>
 
             <section className={styles['list-actions']}>
-                <Link
-                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
-                    legacyBehavior
+                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_1_link`}
                 >
-                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
-                        Play now
-                    </a>
+                    Play now
                 </Link>
             </section>
 

@@ -4,13 +4,18 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import styles from './Card.module.scss';
+import Image from "next/image";
 
 export default function CardGameShort({card}) {
 
     return (
         <article className={`${styles['item-card']} ${styles.game}`}>
             <figure className={styles['thumb-wrap']}>
-                <img src={card.images[0].src} alt={card.images[0].alt} />
+                <Image
+                    src={card.images[0].src}
+                    alt={card.images[0].alt}
+                    fill
+                />
             </figure>
 
             <div className={`${styles.name} ${styles.shadow}`}>{card.label}</div>

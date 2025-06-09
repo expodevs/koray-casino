@@ -1,4 +1,4 @@
-const { PrismaClient, UserRole, BuildType } = require("./app/generated/prisma/client")
+const { PrismaClient, UserRole, BuildType, InputType, MenuType } = require("./app/generated/prisma/client")
 const bcrypt = require("bcryptjs")
 
 const prisma = new PrismaClient()
@@ -156,10 +156,154 @@ async function seedPages()
     }
 }
 
+async function seedSettings() {
+    const settings = [
+        {
+            code: "footer-text",
+            input_type: InputType.textarea,
+            value: "Paragraph base. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            label: "Footer text",
+            link: null,
+        },
+        {
+            code: "copyright",
+            input_type: InputType.text,
+            value: "Copyright © 2025 Casino-kit. All Rights Reserved",
+            label: "Copyright",
+            link: null,
+        },
+        {
+            code: "logo",
+            input_type: InputType.image,
+            value: "/uploads/logo/logo.png",
+            label: "Logo",
+            link: null,
+        },
+    ];
+
+    for (const setting of settings) {
+        await prisma.setting.upsert({
+            where: { code: setting.code },
+            update: {
+                value: setting.value,
+                input_type: setting.input_type,
+                label: setting.label,
+                link: setting.link,
+            },
+            create: {
+                code: setting.code,
+                input_type: setting.input_type,
+                value: setting.value,
+                label: setting.label,
+                link: setting.link,
+            },
+        });
+    }
+
+    console.log("▶️  Seeded Settings:");
+    settings.forEach((s) => console.log(`${s.code}`));
+}
+
+async function seedMenu() {
+    const menuItems = [
+        {
+            id: 2,
+            type: MenuType.top,
+            published: true,
+            label: "Home",
+            link: "/",
+            parent_id: null,
+            position: 1,
+        },
+        {
+            id: 1,
+            type: MenuType.top,
+            published: true,
+            label: "Fortunes",
+            link: "/fortunes",
+            parent_id: null,
+            position: 2,
+        },
+        {
+            id: 3,
+            type: MenuType.top,
+            published: true,
+            label: "Online Slot Games",
+            link: "/slot-games",
+            parent_id: null,
+            position: 3,
+        },
+        {
+            id: 4,
+            type: MenuType.top,
+            published: true,
+            label: "Online Card Games",
+            link: "/card-games",
+            parent_id: null,
+            position: 4,
+        },
+        {
+            id: 5,
+            type: MenuType.footer_popular_category,
+            published: true,
+            label: "Best Online Casino Games",
+            link: "/best-online-casino-games",
+            parent_id: null,
+            position: 1,
+        },
+        {
+            id: 6,
+            type: MenuType.footer_popular_category,
+            published: true,
+            label: "Slot Games",
+            link: "/slot-games",
+            parent_id: 5,
+            position: 1,
+        },
+        {
+            id: 7,
+            type: MenuType.footer_information,
+            published: true,
+            label: "Privacy Policy",
+            link: "/privacy-policy",
+            parent_id: null,
+            position: 1,
+        },
+    ];
+
+    for (const item of menuItems) {
+        await prisma.menu.upsert({
+            where: { id: item.id },
+            update: {
+                type: item.type,
+                published: item.published,
+                label: item.label,
+                link: item.link,
+                parent_id: item.parent_id,
+                position: item.position,
+            },
+            create: {
+                id: item.id,
+                type: item.type,
+                published: item.published,
+                label: item.label,
+                link: item.link,
+                parent_id: item.parent_id,
+                position: item.position,
+            },
+        });
+    }
+
+    console.log("▶️  Seeded Menu Items:");
+    menuItems.forEach((m) => console.log(`   • [${m.type}] ${m.label} (id=${m.id})`));
+}
+
 async function main() {
     await seedUsers();
     await seedBuilders();
     await seedPages();
+    await seedSettings();
+    await seedMenu();
 }
 
 main()

@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 
 import styles from './Card.module.scss';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CardSlot({ card }) {
 
@@ -22,7 +23,11 @@ export default function CardSlot({ card }) {
                 {card.images.map((image, idx) => (
                     <SwiperSlide key={idx}>
                         <figure className={styles['thumb-wrap']}>
-                            <img src={image.src} alt={image.alt} />
+                            <Image
+                                src={image.src}
+                                alt={image.alt}
+                                fill
+                            />
                         </figure>
                     </SwiperSlide>
                 ))}
@@ -41,7 +46,11 @@ export default function CardSlot({ card }) {
                         </div>
                         <div className={styles['label-value']}>
                             {(option.entity.input_type === 'image') ? (
-                                <img src={option.value} alt="" />
+                                <Image
+                                    src={option.value}
+                                    alt={''}
+                                    fill
+                                />
                             ) : (
                                 <span>{option.value}</span>
                             )}
@@ -51,13 +60,10 @@ export default function CardSlot({ card }) {
             </div>
 
             <section className={styles['list-actions']}>
-                <Link
-                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/${card.referral_btn_1_link}`}
-                    legacyBehavior
+                <Link className="btn primary" target="_blank" rel="noopener noreferrer"
+                    href={`/redirect/card/${encodeURIComponent(card.referral_key)}/btn_1_link`}
                 >
-                    <a className="btn primary" target="_blank" rel="noopener noreferrer">
-                        Play with Real Money
-                    </a>
+                    Play with Real Money
                 </Link>
             </section>
         </article>

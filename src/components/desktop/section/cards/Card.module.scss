@@ -145,6 +145,11 @@
       justify-content: center;
 
     }
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
+    }
   }
   .list-deposits {
     display: flex;
@@ -161,6 +166,11 @@
       border-radius: 4px;
       background: #EEEDEF;
     }
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
+    }
   }
   .list-access {
     margin-top: 20px;
@@ -175,6 +185,11 @@
         left: 0;
       }
     }
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
+    }
   }
   .list-types {
     display: grid;
@@ -187,6 +202,11 @@
       align-items: center;
       font-size: 12px;
       color: #2E2E2E;
+    }
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
     }
   }
 
@@ -202,6 +222,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    img {
+      width: auto !important;
+      height: auto !important;
+      position: relative !important;
     }
   }
 
@@ -346,7 +371,9 @@
     font-weight: 700;
 
     img {
-      height: 40px;
+      height: 40px !important;
+      width: auto !important;
+      position: relative !important;
     }
   }
 }

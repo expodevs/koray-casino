@@ -116,6 +116,7 @@ export interface CardOption {
         tooltip: string | null;
         hash_tag: string | null;
         value: string | null;
+        use_for_filter: boolean;
         position: number;
     };
 }
@@ -562,6 +563,7 @@ async function fetchCardsFromDatabase(categoryId: number): Promise<RawCardData[]
                             label: true,
                             tooltip: true,
                             hash_tag: true,
+                            use_for_filter: true,
                             value: true,
                             position: true,
                         },

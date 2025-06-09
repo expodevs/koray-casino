@@ -1,5 +1,8 @@
+'use client'
+import React, { useState, useMemo } from 'react'
+import { BuildType } from "@prismaClient";
 import { PageWithBlocks } from "@app/api/front/page";
-import NavTabs from '@/src/components/mobile/section/NavTabs';
+import NavTabs from '@components/mobile/section/NavTabs';
 import FaqGroup from '@components/mobile/section/FaqGroup';
 import CardsListTop from '@components/mobile/section/CardsListTop';
 import CardsListSimple from '@components/mobile/section/CardsListSimple';
@@ -15,10 +18,27 @@ type PageProps = {
 };
 
 export default function BuilderPage({ slug, page }: PageProps) {
-    console.log(page)
+    const [activeHash, setActiveHash] = useState<string | null>(null)
+
+    const tabs: Tab[] = useMemo(() => {
+        const map = new Map<string, string>()
+        for (const block of page.blocks) {
+            if (block.type === BuildType.slotCard) {
+                for (const card of (block.props as any).cards) {
+                    for (const opt of card.options) {
+                        if (opt.entity.hash_tag) {
+                            map.set(opt.entity.hash_tag, opt.entity.label)
+                        }
+                    }
+                }
+            }
+        }
+        return Array.from(map.entries()).map(([hash, label]) => ({ hash, label }))
+    }, [page.blocks])
+
     return (
         <>
-            <NavTabs />
+            <NavTabs tabs={tabs} active={activeHash} onChange={setActiveHash} />
 
             <main className="container">
                 <h1
@@ -27,23 +47,29 @@ export default function BuilderPage({ slug, page }: PageProps) {
                 />
 
                 {page.blocks.map((block) => {
-                    switch (block.type) {
-                        case 'faq':
+                    switch (block.type as BuildType) {
+                        case BuildType.faq:
                             return <FaqGroup key={block.id} items={block.props} />;
-                        case 'slotCard':
-                            if (block.props.type === 'card-slot_simple_last-update') {
-                                return <CardsListTop key={block.id} items={block} />;
-                            } else {
-                                return <CardsListSimple key={block.id} items={block} />;
-                            }
-                        case 'casinoTop':
+
+                        case BuildType.slotCard:
+                            return block.props.type === "card-slot_simple_last-update" ? (
+                                <CardsListTop key={block.id} items={block} />
+                            ) : (
+                                <CardsListSimple key={block.id} items={block} />
+                            );
+
+                        case BuildType.casinoTop:
                             return <CardsTable key={block.id} items={block} />;
-                        case 'htmlEditor':
+
+                        case BuildType.htmlEditor:
                             return <TextBlock key={block.id} items={block.props} />;
-                        case 'btnBlock':
+
+                        case BuildType.btnBlock:
                             return <BtnsBlock key={block.id} items={block.props} />;
-                        case 'cart':
+
+                        case BuildType.cart:
                             return <CartList key={block.id} items={block.props} />;
+
                         default:
                             return null;
                     }
