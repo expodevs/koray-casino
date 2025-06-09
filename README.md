@@ -2,16 +2,50 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Create `.env` and fill in correctly
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  cp .env.example .env
+```
+
+Generate Prisma Client
+```bash
+  npx prisma generate
+```
+
+Generate migrate
+```bash
+  npx prisma migrate dev --name init
+```
+
+Sync database with Prisma schema
+```bash
+  npx prisma db push
+```
+
+Generate require default data
+```bash
+  npx prisma db seed
+```
+
+---
+### Run the development server:
+
+
+Sync database with Prisma schema
+```bash
+  npx prisma db push
+```
+
+Generate require default data
+```bash
+  npx prisma db seed
+```
+
+
+Run development server, execute command: `npm run dev` or `yarn dev` or `pnpm dev` or `bun dev`
+```bash
+  npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

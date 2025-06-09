@@ -1,0 +1,22 @@
+@use 'styles/mobile/base/variables' as *;
+
+.filter-label {
+  color: $color-text-medium;
+  font-size: 12px;
+  margin: 16px 0 8px;
+}
+.filters-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  .filter-item {
+    border-radius: 4px;
+    background: #EEEDEF;
+    padding: 8px 12px;
+    font-size: 14px;
+    &.active {
+      background: $color-theme-light;
+      color :$color-theme;
+    }
+  }
+}

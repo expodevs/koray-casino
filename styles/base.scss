@@ -1,0 +1,189 @@
+@use 'desktop/base/reset';
+@use 'desktop/base/fonts';
+@use 'desktop/base/ui';
+@use 'desktop/base/variables' as *;
+
+
+body {
+  font: 400 16px 'Montserrat', sans-serif;
+  line-height: 1.4;
+  color: #000;
+
+  &.desktop {
+    background: radial-gradient(106.49% 106.49% at 50% -6.49%, #ECF1FF 19.55%, #FCFDFF 27.72%, #E5EBFF 49.38%, #FCFDFF 62.99%, #EDF1FF 79%, #FCFDFF 90%), #FFFFFF;
+
+    .card-games {
+      .btn.light-sm, .btn.light {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
+button,path,circle,input[submit] {
+  transition: .2s;
+}
+input {
+  font: 500 16px 'Montserrat', sans-serif;
+}
+button {
+  font: 500 14px 'Montserrat', sans-serif;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+button,input[type="submit"],a {
+  transition: .4s;
+}
+path,rect {
+  transition: .4s;
+}
+input[type="submit"] {
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+input,textarea {
+  border-radius: 0;
+}
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+.container {
+  padding: 0 15px;
+  width: 100%;
+  max-width: 975px;
+  margin: 0 auto;
+}
+.title-page {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 24px 0 16px;
+  text-align: center;
+  span {
+    color: $color-theme;
+  }
+}
+.title-section {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.title-section-sm {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.text {
+  margin: 8px 0;
+  &.bolder {
+    font-weight: 600;
+  }
+}
+.text-sm {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+
+.text-center {
+  text-align: center;
+}
+
+.slider-wrapper {
+  .cards-list {
+    border: none;
+    padding: 15px 0;
+    background: transparent;
+    .slide-slot {
+      margin-left: 15px;
+      article {
+        background: #F0F4FF;
+      }
+    }
+  }
+  .swiper-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    width: calc(100% + 80px);
+  }
+
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    opacity: 0.6;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #000;
+    opacity: 1;
+  }
+}
+
+.swiper.image-slider {
+  margin-left: -17px;
+  width: calc(100% + 34px);
+
+  .swiper-button-prev, .swiper-button-next {
+    width: 24px;
+    height: 24px;
+    top: calc(50% - 12px);
+    margin: 0;
+
+    &:after {
+      content: none;
+    }
+  }
+
+  .swiper-button-prev {
+    background: url("/images/icons/arrow-left.svg") center center no-repeat;
+    background-size: contain;
+  }
+
+  .swiper-button-next {
+    background: url("/images/icons/arrow-right.svg") center center no-repeat;
+    background-size: contain;
+  }
+}
+
+.card-games {
+  .btn {
+    &.light-sm,&.light {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.text-content {
+  h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 16px 0;
+  }
+  ul,ol {
+    padding-left: 30px;
+    list-style: initial;
+    li {
+      color: #707070;
+      strong {
+        color: #000;
+        font-weight: 400;
+      }
+    }
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 15px 0;
+  }
+  p {
+    margin: 8px 0;
+  }
+}
