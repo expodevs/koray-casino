@@ -39,7 +39,7 @@ export default function CardCasinoWithOption({ card }) {
                 <div className={styles['bg-thumb']}></div>
                 <Image
                     src={card.casino_image}
-                    alt={card.images.alt}
+                    alt={card.label}
                     fill
                 />
             </figure>
