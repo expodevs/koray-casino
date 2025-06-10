@@ -6,6 +6,8 @@ import React from "react";
 import {IconCardSelect} from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiIconCardImages, routeAdminApiIconCards, routeAdminPageIconCardImages} from "@lib/adminRoute";
+import {z} from "zod";
+import {iconCardImageCreateSchema} from "@app/admin/iconCardImages/validation";
 
 
 
@@ -15,7 +17,7 @@ export default function CreateEntity() {
 
     const { data: iconCards, isLoading } = useRequestData<IconCardSelect[]>({url:routeAdminApiIconCards.select});
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof iconCardImageCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiIconCardImages.all, {
                 method: 'POST',
@@ -29,8 +31,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageIconCardImages.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to create entity');
         }
     };
 

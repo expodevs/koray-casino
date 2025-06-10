@@ -21,7 +21,7 @@ export default function MenuList() {
         refetch
     } = useRequestData<ApiResponse<Menu>>({
         url: `${routeAdminApiMenus.all}?page=${page}&limit=${limit}`,
-        queryKey: ['menus', page, limit]
+        queryKey: ['menus', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

@@ -3,12 +3,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from '@app/admin/categoryCards/components/EntityForm';
 import {routeAdminApiCategoryCards, routeAdminPageCategoryCards} from "@lib/adminRoute";
+import {z} from "zod";
+import {categoryCardCreateSchema} from "@app/admin/categoryCards/validation";
 
 export default function CreateEntity() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof categoryCardCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiCategoryCards.all, {
                 method: 'POST',
@@ -22,8 +24,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageCategoryCards.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to create entity');
         }
     };
 

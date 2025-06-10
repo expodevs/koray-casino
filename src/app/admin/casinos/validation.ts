@@ -1,7 +1,7 @@
 import {z} from "zod";
 
 const commonFields = {
-    published: z.boolean().default(false),
+    published: z.boolean(),
     name: z.string().min(1, 'Min length must be at least 1 characters'),
     tooltip: z.string().nullable().optional(),
     referral_key: z.string().min(1, 'Referral key is required'),

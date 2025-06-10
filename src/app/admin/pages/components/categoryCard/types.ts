@@ -27,6 +27,8 @@ export interface BaseCategoryCard {
 }
 
 export interface FilterCategoryCard {
+    label?: string;
+    description?: string;
     category_id?: string;
     show_filter: boolean;
     type: CategoryCardType;

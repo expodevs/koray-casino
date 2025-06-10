@@ -3,12 +3,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from '@app/admin/options/components/EntityForm';
 import {routeAdminApiOptions, routeAdminPageOptions} from "@lib/adminRoute";
+import {z} from "zod";
+import {optionCreateSchema} from "@app/admin/options/validation";
 
 export default function CreateEntity() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof optionCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiOptions.all, {
                 method: 'POST',
@@ -22,8 +24,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageOptions.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to create entity item');
         }
     };
 

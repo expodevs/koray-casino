@@ -20,8 +20,7 @@ export async function GET(req: NextRequest) {
             });
 
             return NextResponse.json(entities)
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, ids)

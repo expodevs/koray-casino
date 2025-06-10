@@ -67,7 +67,8 @@ export async function POST(req: NextRequest) {
             const options = data.options || [];
             delete data.options;
 
-            const entity = await prisma.casino.create({data});
+
+            const entity = await prisma.casino.create({data: {...data, image: data?.image||'', options: undefined}});
 
             if (options.length > 0) {
                 await Promise.all(options.map(option => {

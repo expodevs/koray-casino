@@ -20,7 +20,7 @@ export default function SettingList() {
         refetch
     } = useRequestData<ApiResponse<Setting>>({
         url: `${routeAdminApiSettings.all}?page=${page}&limit=${limit}`,
-        queryKey: ['settings', page, limit]
+        queryKey: ['settings', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: string) => {

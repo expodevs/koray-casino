@@ -22,8 +22,8 @@ export default function CreateUserPage() {
 
             toast.success("User created successfully");
             router.push(routeAdminPageUsers.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error("Failed to create user");
         }
     };
 

@@ -10,8 +10,7 @@ export async function GET() {
                     type: 'cart'
                 },
             }));
-        } catch (error) {
-            console.log(error.message)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     });

@@ -6,6 +6,8 @@ import EntityForm from "@app/admin/iconCards/components/EntityForm";
 import { IconCard } from "@/@types/response";
 import { useRequestData } from '@lib/request';
 import {routeAdminApiIconCards, routeAdminPageIconCards} from "@lib/adminRoute";
+import {z} from "zod";
+import {iconCardCreateSchema} from "@app/admin/iconCards/validation";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +16,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<IconCard>({url: routeAdminApiIconCards.one(id)});
 
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof iconCardCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiIconCards.one(id), {
                 method: 'PUT',
@@ -28,8 +30,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageIconCards.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch {
+            toast.error('Failed to update entity');
         }
     };
 

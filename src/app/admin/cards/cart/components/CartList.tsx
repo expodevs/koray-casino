@@ -20,7 +20,7 @@ export default function CartList() {
         refetch,
     } = useRequestData<ApiResponse<Card>>({
         url: `${routeAdminApiCards.allCart}?page=${page}&limit=${limit}`,
-        queryKey: ['cards-cart', page, limit]
+        queryKey: ['cards-cart', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

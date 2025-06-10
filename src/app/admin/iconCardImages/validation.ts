@@ -6,14 +6,7 @@ const fieldSchema = {
     label: z.string().optional(),
     image: z.string(),
     newImage: z.string().optional(),
-    position: z
-        .union([z.string(), z.number(), z.null()])
-        .transform((val) => {
-            if (val === '' || val === 'null' || val === null) return null;
-            return Number(val)||null;
-        })
-        .nullable()
-        .optional(),
+    position: z.number().optional(),
 }
 
 export const iconCardImageCreateSchema = z.object({...fieldSchema});

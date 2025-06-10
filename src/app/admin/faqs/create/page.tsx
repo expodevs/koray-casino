@@ -3,12 +3,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from '@app/admin/faqs/components/EntityForm';
 import {routeAdminApiFaqs, routeAdminPageFaqs} from "@lib/adminRoute";
+import {z} from "zod";
+import {faqCreateSchema} from "@app/admin/faqs/validation";
 
 export default function CreateFaqPage() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof faqCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiFaqs.all, {
                 method: 'POST',
@@ -22,8 +24,8 @@ export default function CreateFaqPage() {
             }
 
             router.push(routeAdminPageFaqs.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch {
+            toast.error('Failed to create entity');
         }
     };
 

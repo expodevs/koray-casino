@@ -20,7 +20,7 @@ export default function UserList() {
         isError
     } = useRequestData<ApiResponse<UserRow>>({
         url: `${routeAdminApiUsers.all}?page=${page}&limit=${limit}`,
-        queryKey: ['users', page, limit]
+        queryKey: ['users', `${page}`, `${limit}`]
     });
 
 
@@ -35,8 +35,8 @@ export default function UserList() {
             toast.success("User deleted successfully");
 
             route.refresh()
-        } catch (error: unknown | { message: string }) {
-            toast.error(error?.message || 'Unknown error');
+        } catch {
+            toast.error('Unknown error');
         }
     };
 

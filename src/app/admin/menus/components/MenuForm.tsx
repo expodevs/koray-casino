@@ -18,7 +18,7 @@ import CustomInput from "@components/CustomInput";
 interface MenuFormProps {
   menu?: Menu;
   menuParents: Menu[];
-  onSubmit: (data: unknown) => void;
+  onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof menuCreateSchema>;
@@ -34,11 +34,11 @@ export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps)
     resolver: zodResolver(menu ? menuUpdateSchema : menuCreateSchema),
     defaultValues: {
       type: menu?.type || MenuType.top,
-      published: menu?.published || false,
+      published: Boolean(menu?.published),
       label: menu?.label || '',
       link: menu?.link || '',
-      parent_id: menu?.parent_id || undefined,
-      position: menu?.position || 1,
+      parent_id: menu ? Number(menu?.parent_id) : undefined,
+      position: menu ? Number(menu?.position) : undefined,
     },
   });
 
@@ -47,11 +47,11 @@ export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps)
   useEffect(() => {
     if (menu) {
       setValue('type', menu.type);
-      setValue('published', menu.published);
+      setValue('published', Boolean(menu.published));
       setValue('label', menu.label);
       setValue('link', menu.link);
-      setValue('parent_id', menu.parent_id);
-      setValue('position', menu.position);
+      setValue('parent_id', Number(menu.parent_id));
+      setValue('position', Number(menu.position));
     }
   }, [menu, setValue]);
 
@@ -60,14 +60,8 @@ export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps)
       await onSubmit(data);
       toast.success('Menu item saved successfully');
       router.push('/admin/menus');
-    } catch (error: unknown) {
-      if (error.response?.data) {
-        Object.values(error.response.data).forEach((err: unknown) => {
-          toast.error(err.message);
-        });
-      } else {
+    } catch  {
         toast.error('Failed to save menu item');
-      }
     }
   };
 
@@ -86,8 +80,7 @@ export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps)
       <div className="mb-4">
         <label className="block mb-1">Parent ID</label>
         <select
-            type="number"
-            {...register('parent_id' )}
+            {...register('parent_id', {valueAsNumber: true})}
             className="w-full p-2 border rounded"
         >
           <option >Select Parent Menu</option>

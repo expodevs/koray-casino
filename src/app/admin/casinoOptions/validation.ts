@@ -3,8 +3,8 @@ import {strToSlug} from "@lib/str";
 import {InputType} from "@prismaClient";
 
 const fieldSchema = {
-    published: z.boolean().default(false),
-    use_for_filter: z.boolean().default(false),
+    published: z.boolean(),
+    use_for_filter: z.boolean(),
     input_type: z.nativeEnum(InputType),
     label: z.string().min(1, 'Min length must be at least 1 characters'),
     tooltip: z.string().nullable().optional(),
@@ -14,14 +14,7 @@ const fieldSchema = {
     }).optional(),
     value: z.string().optional(),
     newImage: z.string().optional(),
-    position: z
-        .union([z.string(), z.number(), z.null()])
-        .transform((val) => {
-            if (val === '' || val === 'null' || val === null) return null;
-            return Number(val)||null;
-        })
-        .nullable()
-        .optional(),
+    position: z.number().optional(),
 }
 
 export const optionCreateSchema = z.object({...fieldSchema});

@@ -13,8 +13,7 @@ export async function GET() {
                     referral_key: true
                 }
             }));
-        } catch (error) {
-            console.log(error.message)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     });
