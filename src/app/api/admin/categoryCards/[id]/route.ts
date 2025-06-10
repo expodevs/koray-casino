@@ -20,7 +20,7 @@ export async function GET(req: Request, {params}: requestParams) {
             }
 
             return NextResponse.json(entity);
-        } catch (error) {
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -44,8 +44,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             });
 
             return NextResponse.json(entity);
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -65,7 +64,7 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             });
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)

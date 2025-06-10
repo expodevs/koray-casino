@@ -5,8 +5,7 @@ import {z} from "zod";
 import {toast} from "react-toastify";
 import {FaSave} from "react-icons/fa";
 import {faqCreateSchema, faqUpdateSchema} from "@app/admin/faqs/validation";
-import {InputType} from "@prismaClient";
-import {useEffect, useMemo} from "react";
+import {useEffect} from "react";
 import {Faq} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 
@@ -45,9 +44,9 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
+                Object.values(error.response.data).forEach((err: unknown) => {
                     toast.error(err.message);
                 });
             } else {

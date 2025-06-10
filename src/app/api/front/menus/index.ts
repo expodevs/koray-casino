@@ -1,5 +1,5 @@
 import prisma from "@lib/prisma-client";
-import type { MenuType, Menu } from "@prismaClient";
+import type { MenuType } from "@prismaClient";
 
 export interface MenuNode {
     id:        number;

@@ -31,7 +31,7 @@ function CustomInput({
             {...register(field, registerAttr?{ ...registerAttr }:undefined)}
             className="w-full p-2 border rounded"
         />
-    }, [type, register])
+    }, [type, register, registerAttr, field])
 
 
     return (

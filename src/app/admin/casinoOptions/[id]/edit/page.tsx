@@ -14,7 +14,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<Option>({url: routeAdminApiCasinoOptions.one(id)});
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: Option) => {
         try {
             const response = await fetch(routeAdminApiCasinoOptions.one(id), {
                 method: 'PUT',
@@ -28,7 +28,7 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageCasinoOptions.all);
-        } catch (error: any) {
+        } catch (error: never) {
             toast.error(error.message);
         }
     };

@@ -13,7 +13,7 @@ export default function EditSettingPage() {
     const {data:setting, isLoading} = useRequestData<Setting>({url: routeAdminApiSettings.one(id)});
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
 
             const response = await fetch(routeAdminApiSettings.one(id), {
@@ -28,7 +28,7 @@ export default function EditSettingPage() {
             }
 
             router.push(routeAdminPageSettings.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

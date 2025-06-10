@@ -14,7 +14,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<CategoryCard>({url: routeAdminApiCategoryCards.one(id)});
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiCategoryCards.one(id), {
                 method: 'PUT',
@@ -28,7 +28,7 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageCategoryCards.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

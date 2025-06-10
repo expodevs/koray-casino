@@ -15,7 +15,7 @@ export default function EditMenuPage() {
     const {data:menu, isLoading} = useRequestData<Menu>({url: routeAdminApiMenus.one(id)});
     const {data:menuParents, isLoading:isLoadingParent} = useRequestData<Menu[]>({url: routeAdminApiMenus.parents, queryKey: 'menuParents'});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiMenus.one(id), {
                 method: 'PUT',
@@ -29,7 +29,7 @@ export default function EditMenuPage() {
             }
 
             router.push(routeAdminPageMenus.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

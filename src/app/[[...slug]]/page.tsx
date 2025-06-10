@@ -7,12 +7,12 @@ import { getPageWithBlocks } from "@app/api/front/page";
 import DesktopBuilderPage from "@components/desktop/BuilderPage";
 import MobileBuilderPage from "@components/mobile/BuilderPage";
 
-export async function generateMetadata(props): Promise<Metadata> {
-    const { params } = await props;
-    const slugArray = params?.slug ?? [];
-    const slug = slugArray.length > 0 ? slugArray.join("/") : "home";
+export async function generateMetadata({params}: {  params: Promise<{ slug: string[] }>}): Promise<Metadata> {
+    const { slug } = await params;
+    const slugArray = slug ?? [];
+    const currentSlug = slugArray.length > 0 ? slugArray.join("/") : "home";
 
-    const page = await getPageWithBlocks(slug);
+    const page = await getPageWithBlocks(currentSlug);
     if (!page) {
         return {
             title: "Page not found",
@@ -32,9 +32,9 @@ export async function generateMetadata(props): Promise<Metadata> {
     };
 }
 
-export default async function Page(props) {
-    const { params } = await props;
-    const realSlug = params?.slug?.[0] ?? "home";
+export default async function Page({params}: {  params: Promise<{ slug: string[] }>}) {
+    const {slug} = await params
+    const realSlug = slug?.[0] ?? "home";
     const page = await getPageWithBlocks(realSlug);
     if (!page) notFound();
 

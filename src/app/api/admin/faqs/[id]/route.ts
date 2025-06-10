@@ -6,7 +6,7 @@ import {strToSlug} from "@lib/str";
 
 type requestParams = { params: Promise<{ id: string }> };
 
-export async function GET(req: Request, {params}: requestParams) {
+export async function GET(_, {params}: requestParams) {
     const {id} = await params
     return await withAdminAuthorized(async (id: number) => {
         try {
@@ -20,7 +20,7 @@ export async function GET(req: Request, {params}: requestParams) {
             }
 
             return NextResponse.json(entity);
-        } catch (error) {
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(id) || 0)
@@ -50,16 +50,15 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             });
 
             return NextResponse.json(entity);
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
 }
 
-export async function DELETE(req: NextRequest, {params}: requestParams) {
+export async function DELETE(_, {params}: requestParams) {
     const {id} = await params
-    return await withAdminAuthorized(async (req: NextRequest, id: number) => {
+    return await withAdminAuthorized(async (id: number) => {
         try {
 
             if (!id) {
@@ -71,10 +70,10 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             });
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, req, parseInt(id) || 0)
+    }, parseInt(id) || 0)
 }
 
 

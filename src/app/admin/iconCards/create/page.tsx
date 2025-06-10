@@ -8,7 +8,7 @@ export default function CreateEntity() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiIconCards.all, {
                 method: 'POST',
@@ -22,7 +22,7 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageIconCards.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

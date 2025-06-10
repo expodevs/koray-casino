@@ -37,20 +37,20 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     resolver: zodResolver(card ? cardUpdateSchema : cardCreateSchema),
     defaultValues: {
       label: card?.label || '',
-      published: card?.published || false,
-      category_card_id: card?.category_card_id|| '',
+      published: card?Boolean(card.published) : false,
+      category_card_id: card?.category_card_id|| undefined,
       description: card?.description || '',
       referral_key: card?.referral_key || '',
       referral_btn_1_link: card?.referral_btn_1_link || '',
       referral_btn_2_link: card?.referral_btn_2_link || '',
-      position: card?.position || '',
+      position: card?.position || undefined,
     },
   });
 
   useEffect(() => {
     if (card) {
       setValue('label', card.label);
-      setValue('published', card.published);
+      setValue('published', Boolean(card.published));
       setValue('category_card_id', card.category_card_id || '');
       setValue('description', card.description || '');
       setValue('referral_key', card.referral_key);
