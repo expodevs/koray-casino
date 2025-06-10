@@ -42,7 +42,7 @@ export async function saveFile({folderPath, file}: {folderPath: string, file: Fi
 }
 
 
-export async function saveFiles({folderPath, files}: {folderPath: string, files: File[]}): Promisa<string[]> {
+export async function saveFiles({folderPath, files}: {folderPath: string, files: File[]}): Promise<string[]> {
     const result: string[] = [];
     for (const file of files) {
         const src = await saveFile({folderPath, file});
@@ -86,7 +86,7 @@ export async function saveBase64File(base64Data: string, folderPath: string): Pr
     return path.normalize(`/${path.join(folderPath, fileName)}`);
 }
 
-export async function saveBase64Files({folderPath, files}: {folderPath: string, files: string[]}): Promisa<string[]> {
+export async function saveBase64Files({folderPath, files}: {folderPath: string, files: string[]}): Promise<string[]> {
     const result: string[] = [];
     for (const file of files) {
         const src = await saveBase64File(file, folderPath);
