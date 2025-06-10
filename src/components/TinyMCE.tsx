@@ -18,7 +18,7 @@ export default function TinyMCE({ value, onChange }: TinyMCEProps) {
             value={value}
             onEditorChange={onChange}
             init={{
-                license_key: 'gpl',
+                licenseKey: 'gpl',
                 height: 300,
                 menubar: false,
                 plugins: 'autosave autoresize preview code searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount',

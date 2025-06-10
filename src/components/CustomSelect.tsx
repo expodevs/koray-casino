@@ -1,10 +1,10 @@
-import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
+import {FieldErrors, FieldValues, UseFormRegister, Path} from 'react-hook-form';
 import React from "react";
 import {CustomSelectOption} from "@/@types/response";
 
 interface CustomSelectProps<T extends FieldValues = FieldValues> {
     label: string;
-    field: string;
+    field: Path<T>;
     options: CustomSelectOption[];
     registerAttr?: object;
     register: UseFormRegister<T>;
