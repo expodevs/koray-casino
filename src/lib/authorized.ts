@@ -13,7 +13,7 @@ export const unAuthorizedAdmin = async () => {
         if (session.user.role !== UserRole.admin) {
             return NextResponse.json({error: 'Forbidden'}, {status: 403});
         }
-    } catch (error) {
+    } catch {
         return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
     }
     return null;
@@ -26,7 +26,7 @@ export const unAuthorized = async () => {
         if (!session || !session.user.id) {
             return NextResponse.json({error: 'Unauthorized'}, {status: 401});
         }
-    } catch (error) {
+    } catch {
         return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
     }
     return null;

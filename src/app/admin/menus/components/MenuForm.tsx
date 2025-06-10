@@ -60,9 +60,9 @@ export default function MenuForm({ menu, menuParents, onSubmit }: MenuFormProps)
       await onSubmit(data);
       toast.success('Menu item saved successfully');
       router.push('/admin/menus');
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.response?.data) {
-        Object.values(error.response.data).forEach((err: any) => {
+        Object.values(error.response.data).forEach((err: unknown) => {
           toast.error(err.message);
         });
       } else {

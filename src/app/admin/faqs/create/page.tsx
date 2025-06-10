@@ -8,7 +8,7 @@ export default function CreateFaqPage() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiFaqs.all, {
                 method: 'POST',
@@ -22,7 +22,7 @@ export default function CreateFaqPage() {
             }
 
             router.push(routeAdminPageFaqs.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

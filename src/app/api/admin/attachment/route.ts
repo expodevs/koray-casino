@@ -8,7 +8,7 @@ export async function DELETE(req: NextRequest) {
         try {
             await removeAttachedId(id);
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt((await req.json()).id)||0)

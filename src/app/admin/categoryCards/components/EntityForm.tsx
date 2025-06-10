@@ -43,9 +43,9 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
+                Object.values(error.response.data).forEach((err: unknown) => {
                     toast.error(err.message);
                 });
             } else {

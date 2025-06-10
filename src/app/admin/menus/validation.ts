@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {MenuType, UserRole} from "@prismaClient";
+import {MenuType} from "@prismaClient";
 
 
 export const menuCreateSchema = z.object({

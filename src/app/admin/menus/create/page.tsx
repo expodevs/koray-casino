@@ -11,7 +11,7 @@ export default function CreateEntity() {
     const router = useRouter();
     const {data:menuParents, isLoading} = useRequestData<Menu[]>({url: routeAdminApiMenus.parents});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiMenus.all, {
                 method: 'POST',
@@ -25,7 +25,7 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageMenus.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

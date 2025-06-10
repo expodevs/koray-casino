@@ -44,7 +44,7 @@ export default function UserForm({user, onSubmit}: UserFormProps) {
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error.response?.data?.error) {
                 toast.error(error.response.data.error);
             } else {

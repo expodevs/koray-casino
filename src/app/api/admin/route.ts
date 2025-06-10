@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
         try {
             return NextResponse.json({data: 'OK', req: req.url}, {status: 200});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req);

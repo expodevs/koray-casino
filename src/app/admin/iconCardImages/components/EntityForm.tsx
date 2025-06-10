@@ -63,7 +63,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
                 </div>
             </div>
         )
-    }, [currentImage, entity?.id])
+    }, [currentImage, setValue])
 
     const [image, setImage] = useState<File | null>()
     const [newImage, setNewImage] = useState<string | null>()
@@ -89,7 +89,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             setValue('image', entity.image);
             setValue('position', entity.position);
         }
-    }, [entity?.id, setValue]);
+    }, [entity?.id, setValue, entity]);
 
 
     const handleFormSubmit = async (data: FormData) => {
@@ -98,9 +98,9 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
                 data.newImage = newImage;
             }
             await onSubmit(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
+                Object.values(error.response.data).forEach((err: unknown) => {
                     toast.error(err.message);
                 });
             } else {

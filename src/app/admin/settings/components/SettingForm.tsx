@@ -129,7 +129,7 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
             </>
         );
     }
-  }, [selectedInputType, selectedValue, image, register]);
+  }, [selectedInputType, selectedValue, image, register, setValue]);
 
 
   const handleFormSubmit = async (data: FormData) => {
@@ -140,9 +140,9 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
       }
 
       await onSubmit(data);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.response?.data) {
-        Object.values(error.response.data).forEach((err: any) => {
+        Object.values(error.response.data).forEach((err: unknown) => {
           toast.error(err.message);
         });
       } else {

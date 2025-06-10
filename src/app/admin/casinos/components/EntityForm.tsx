@@ -94,7 +94,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                 setCasinoOptionItems(entity.options);
             }
         }
-    }, [entity?.id]);
+    }, [entity?.id, entity, setValue]);
 
     const handleAddOption = useCallback((e) => {
         e.preventDefault();

@@ -16,7 +16,7 @@ export default function EditEntity() {
 
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiIconCardImages.one(id), {
                 method: 'PUT',
@@ -30,7 +30,7 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageIconCardImages.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

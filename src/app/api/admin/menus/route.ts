@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
                     page, limit, total, totalPages: Math.ceil(total / limit),
                 }
             })
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
             invalidateMenuCache();
 
             return NextResponse.json(menu, {status: 201});
-        } catch (error) {
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

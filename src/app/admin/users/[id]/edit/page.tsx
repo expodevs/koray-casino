@@ -20,7 +20,7 @@ export default function EditUserPage() {
 
     const {data:user, isLoading} = useRequestData<User>({url: routeAdminApiUsers.one(id)});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: FormData) => {
         try {
             const response = await fetch(routeAdminApiUsers.all, {
                 method: "PUT",
@@ -35,7 +35,7 @@ export default function EditUserPage() {
 
             toast.success("User updated successfully");
             router.push(routeAdminPageUsers.all);
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.error(error.message);
         }
     };

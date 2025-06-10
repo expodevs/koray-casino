@@ -17,14 +17,14 @@ type PageProps = {
     page: PageWithBlocks;
 };
 
-export default function BuilderPage({ slug, page }: PageProps) {
+export default function BuilderPage({ page }: PageProps) {
     const [activeHash, setActiveHash] = useState<string | null>(null)
 
     const tabs: Tab[] = useMemo(() => {
         const map = new Map<string, string>()
         for (const block of page.blocks) {
             if (block.type === BuildType.slotCard) {
-                for (const card of (block.props as any).cards) {
+                for (const card of (block.props as never).cards) {
                     for (const opt of card.options) {
                         if (opt.entity.hash_tag) {
                             map.set(opt.entity.hash_tag, opt.entity.label)

@@ -72,7 +72,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             setValue('use_for_filter', entity.use_for_filter);
             setValue('position', entity.position);
         }
-    }, [entity?.id]);
+    }, [entity, entity?.id, setValue]);
 
 
 
@@ -136,7 +136,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                     </>
                 );
         }
-    }, [selectedInputType, selectedValue, image, register]);
+    }, [selectedInputType, selectedValue, image, register, setValue]);
 
     const handleFormSubmit = async (data: FormData) => {
         try {
@@ -145,9 +145,9 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             }
 
             await onSubmit(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
+                Object.values(error.response.data).forEach((err: unknown) => {
                     toast.error(err.message);
                 });
             } else {
