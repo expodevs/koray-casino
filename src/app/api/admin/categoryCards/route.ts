@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 import {categoryCardCreateSchema} from "@app/admin/categoryCards/validation";
-import {strToSlug} from "@lib/str";
+
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -27,8 +27,7 @@ export async function GET(req: NextRequest) {
                     page, limit, total, totalPages: Math.ceil(total / limit),
                 }
             })
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -49,8 +48,7 @@ export async function POST(req: NextRequest) {
 
             const entity = await prisma.categoryCard.create({data: validationResult.data});
             return NextResponse.json(entity, {status: 201});
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

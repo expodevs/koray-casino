@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
             const newImage = data.newImage;
             delete data.newImage;
 
-            const entity = await prisma.option.create({data: {...data, type: OptionType.casino}});
+            const entity = await prisma.option.create({data: {...data, value: data?.value || '', type: OptionType.casino}});
 
             if (newImage && newImage.length) {
                 const src = await saveBase64File(newImage, optionPath(entity.id));

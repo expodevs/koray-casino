@@ -39,12 +39,12 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     resolver: zodResolver(card ? cardUpdateSchema : cardCreateSchema),
     defaultValues: {
       label: card?.label || '',
-      published: card?.published || false,
+      published: card ? Boolean(card.published) : false,
       category_card_id: card?.category_card_id || undefined,
       referral_key: card?.referral_key || '',
       referral_btn_1_link: card?.referral_btn_1_link || '',
       referral_btn_2_link: card?.referral_btn_2_link || '',
-      position: card?.position?.toString() || '',
+      position: card?.position || undefined,
       terms_and_condition: card?.terms_and_condition || '',
       good_selection_of_games: card?.good_selection_of_games || undefined,
       no_game_provider_filter: card?.no_game_provider_filter || undefined,
@@ -57,11 +57,11 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     if (card) {
       setValue('label', card.label);
       setValue('published', card.published);
-      setValue('category_card_id', card.category_card_id?.toString() || '');
+      setValue('category_card_id', Number(card.category_card_id));
       setValue('referral_key', card.referral_key);
       setValue('referral_btn_1_link', card.referral_btn_1_link || '');
       setValue('referral_btn_2_link', card.referral_btn_2_link || '');
-      setValue('position', card.position?.toString() || '');
+      setValue('position', card.position || undefined);
       setValue('terms_and_condition', card.terms_and_condition || '');
       setValue('good_selection_of_games', card.good_selection_of_games || undefined);
       setValue('no_game_provider_filter', card.no_game_provider_filter || undefined);
@@ -152,13 +152,13 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
   useEffect(() => {
     if (card) {
       if (card.options && Array.isArray(card.options)) {
-        setCardOptions(card.options);
+        setCardOptions(card.options as {option_id: number, value: string}[]);
       }
       if (card.icon_card_images && Array.isArray(card.icon_card_images)) {
-        setCardIconImages(card.icon_card_images);
+        setCardIconImages(card.icon_card_images as {icon_card_image_id: number}[]);
       }
       if (card.faqs && Array.isArray(card.faqs)) {
-        setCardFaqs(card.faqs);
+        setCardFaqs(card.faqs as {faq_id: number, position: number}[]);
       }
     }
   }, [card]);
@@ -196,16 +196,8 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       };
 
       await onSubmit(formData);
-    } catch (error: unknown) {
-      if (typeof error === 'object' && error !== null && 'response' in error && 
-          error.response && typeof error.response === 'object' && 'data' in error.response) {
-        const responseData = error.response.data as Record<string, { message: string }>;
-        Object.values(responseData).forEach((err) => {
-          toast.error(err.message);
-        });
-      } else {
+    } catch  {
         toast.error('Failed to save card item');
-      }
     }
   };
 
@@ -259,7 +251,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
                 <CustomInput field={'referral_key'} label={'Referral Key'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_1_link'} label={'Referral Button 1 Link'} register={register} errors={errors} />
                 <CustomInput field={'referral_btn_2_link'} label={'Referral Button 2 Link'} register={register} errors={errors} />
-                <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number" />
+                <CustomInput field={'position'} label={'Position'} register={register} registerAttr={{valueAsNumber:true}} errors={errors} type="number" />
               </div>
             </TabContent>
 

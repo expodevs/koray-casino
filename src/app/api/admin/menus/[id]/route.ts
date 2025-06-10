@@ -4,7 +4,7 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {menuUpdateSchema} from "@app/admin/menus/validation";
 import { invalidateMenuCache } from "@app/api/front/menus";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params
@@ -29,7 +29,7 @@ export async function GET(req: Request, {params}: requestParams) {
             }
 
             return NextResponse.json(menu);
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, id)
@@ -55,8 +55,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             invalidateMenuCache();
 
             return NextResponse.json(user);
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -78,7 +77,7 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             invalidateMenuCache();
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)

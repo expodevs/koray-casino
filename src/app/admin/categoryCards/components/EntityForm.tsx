@@ -11,7 +11,7 @@ import CustomInput from "@components/CustomInput";
 
 interface EntityFormProps {
     entity?: CategoryCard;
-    onSubmit: (data: unknown) => void;
+    onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof categoryCardCreateSchema>;
@@ -26,7 +26,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         resolver: zodResolver(entity ? categoryCardUpdateSchema : categoryCardCreateSchema),
         defaultValues: {
             label: entity?.label || '',
-            published: entity?.published || false,
+            published: entity ? entity.published : false,
         },
     });
 
@@ -43,14 +43,8 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: any) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity item');
-            }
+        } catch {
+            toast.error('Failed to save entity item');
         }
     };
 

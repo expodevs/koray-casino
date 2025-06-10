@@ -38,8 +38,7 @@ export async function GET(req: NextRequest) {
                     page, limit, total, totalPages: Math.ceil(total / limit),
                 }
             })
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -75,7 +74,16 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({error: 'Slug must be unique'}, {status: 400});
             }
 
-            const entity = await prisma.page.create({data});
+            delete data.buildsPage;
+
+            const entity = await prisma.page.create({data: {
+                ...data,
+                    slug: data.slug as string,
+                    meta_title: (data.meta_title|| '') as string,
+                    meta_description: (data.meta_description|| '') as string,
+                    meta_keywords: (data.meta_keywords|| '') as string,
+                }
+            });
 
             await prisma.buildPage.deleteMany({where: {page_id: entity.id}});
             await prisma.buildPage.createMany({
@@ -88,7 +96,7 @@ export async function POST(req: NextRequest) {
             });
 
             return NextResponse.json(entity, {status: 201});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

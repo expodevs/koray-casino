@@ -1,39 +1,18 @@
-import React from 'react';
-import dynamic from "next/dynamic";
-import { Metadata } from "next";
-import { headers } from 'next/headers';
-import { getPageWithBlocks, PageWithBlocks } from "@app/api/front/page";
-import DesktopBuilderPage from '@components/desktop/BuilderPage';
-import MobileBuilderPage  from '@components/mobile/BuilderPage';
+import React from "react";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
+import { getPageWithBlocks } from "@app/api/front/page";
+import DesktopBuilderPage from "@components/desktop/BuilderPage";
+import MobileBuilderPage from "@components/mobile/BuilderPage";
 
-const MobileBuilderPage = dynamic(
-    () =>
-        import("@components/mobile/BuilderPage").then((mod) => {
-            return mod;
-        }),
-    { ssr: true }
-);
+export async function generateMetadata({params}: {  params: Promise<{ slug: string[] }>}): Promise<Metadata> {
+    const { slug } = await params;
+    const slugArray = slug ?? [];
+    const currentSlug = slugArray.length > 0 ? slugArray.join("/") : "home";
 
-const DesktopBuilderPage = dynamic(
-    () =>
-        import("@components/desktop/BuilderPage").then((mod) => {
-            return mod;
-        }),
-    { ssr: true }
-);
-
-type PageProps = {
-    params: { slug?: string[] };
-};
-
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    const { params } = props;
-    const slugArray = (await params).slug ?? [];
-    const slug = slugArray.length > 0 ? slugArray.join("/") : "home";
-
-    const page: PageWithBlocks | null = await getPageWithBlocks(slug);
+    const page = await getPageWithBlocks(currentSlug);
     if (!page) {
         return {
             title: "Page not found",
@@ -52,18 +31,18 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
             : { index: true, follow: true },
     };
 }
-export default async function Page(props: PageProps) {
-    const { params } = props;
-    const slugArray = (await params).slug ?? [];
-    const realSlug = slugArray.length > 0 ? slugArray[0] : "home";
+
+export default async function Page({params}: {  params: Promise<{ slug: string[] }>}) {
+    const {slug} = await params
+    const realSlug = slug?.[0] ?? "home";
     const page = await getPageWithBlocks(realSlug);
+    if (!page) notFound();
 
-    if (!page) {
-        notFound();
-    }
-
-    const ua       = (await headers()).get('user-agent') || '';
+    const h = await headers();
+    const ua = h.get("user-agent") || "";
     const isMobile = /mobile/i.test(ua);
 
-    return isMobile ? <MobileBuilderPage slug={realSlug} page={page}/> : <DesktopBuilderPage slug={realSlug} page={page}/>;
+    return isMobile
+        ? <MobileBuilderPage slug={realSlug} page={page} />
+        : <DesktopBuilderPage slug={realSlug} page={page} />;
 }

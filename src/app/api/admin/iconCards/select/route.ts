@@ -1,4 +1,4 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 
@@ -12,8 +12,7 @@ export async function GET() {
             });
 
             return NextResponse.json(entities)
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     })

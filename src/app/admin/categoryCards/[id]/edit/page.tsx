@@ -6,6 +6,8 @@ import EntityForm from "@app/admin/categoryCards/components/EntityForm";
 import {CategoryCard} from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiCategoryCards, routeAdminPageCategoryCards} from "@lib/adminRoute";
+import {z} from "zod";
+import {categoryCardCreateSchema} from "@app/admin/categoryCards/validation";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +16,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<CategoryCard>({url: routeAdminApiCategoryCards.one(id)});
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof categoryCardCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiCategoryCards.one(id), {
                 method: 'PUT',
@@ -28,8 +30,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageCategoryCards.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Unknown error');
         }
     };
 

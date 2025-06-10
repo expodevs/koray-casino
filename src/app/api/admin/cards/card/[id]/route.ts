@@ -8,7 +8,8 @@ import { saveBase64File } from "@lib/file";
 import { cardImagePath } from "@lib/uploadPaths";
 import { fullPublicPath, removeFile } from "@lib/file";
 
-type requestParams = { params: { id: string } };
+
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, { params }: requestParams) {
     const { id } = await params;
@@ -65,7 +66,7 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 ...data,
                 type: CardType.card,
                 referral_key: strToSlug(data.referral_key),
-                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
+                category_card_id: data.category_card_id ? Number(data.category_card_id) : null
             };
 
             const existingCard = await prisma.card.findFirst({
@@ -140,7 +141,7 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                     where: { card_id: id }
                 });
 
-                const newImageSrcs = body.images.map(img => img.src).filter(src => src && !src.includes('data:'));
+                const newImageSrcs = body.images.map((img: {src: string}) => img.src).filter((src: string) => src && !src.includes('data:'));
                 const imagesToDelete = existingImages.filter(img => !newImageSrcs.includes(img.src));
 
                 for (const img of imagesToDelete) {

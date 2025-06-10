@@ -20,7 +20,7 @@ export default function CardList() {
         refetch,
     } = useRequestData<ApiResponse<Card>>({
         url: `${routeAdminApiCards.allCasino}?page=${page}&limit=${limit}`,
-        queryKey: ['cards-card', page, limit]
+        queryKey: ['cards-card', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

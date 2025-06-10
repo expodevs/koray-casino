@@ -6,7 +6,7 @@ export interface FrontSettings {
     logo?: Setting;
     copyright?: Setting;
     footerText?: Setting;
-    [key: string]: any;
+    [key: string]: Setting | Setting[] | undefined;
 }
 
 

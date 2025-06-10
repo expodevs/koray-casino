@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "eslint \"src/app/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"src/app/**/*.{js,jsx,ts,tsx}\" --fix",
+    "typecheck": "tsc --noEmit"
   },
   "prisma": {
     "seed": "node prisma/seed.tsx"

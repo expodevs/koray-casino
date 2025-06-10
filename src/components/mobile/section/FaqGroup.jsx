@@ -3,7 +3,20 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './FaqGroup.module.scss'
 
-export default function FaqGroup({ items = [], variant = 'default' }) {
+/** @typedef {import('@app/api/front/page').FaqItem} FaqItem */
+
+/**
+ * @typedef {Object} FaqGroupProps
+ * @property {FaqItem[]} items
+ * @property {string} [variant]
+ */
+
+/**
+ * @param {FaqGroupProps} props
+ */
+
+export default function FaqGroup({ items, variant = 'default' }) {
+
     const [openIndex, setOpenIndex] = useState(null)
 
     const handleToggle = (index, e) => {
@@ -49,6 +62,12 @@ export default function FaqGroup({ items = [], variant = 'default' }) {
 }
 
 FaqGroup.propTypes = {
-    items: PropTypes.array.isRequired,
-    className: PropTypes.string,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            question: PropTypes.string.isRequired,
+            answer: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    variant: PropTypes.string,
 }

@@ -1,11 +1,11 @@
-import {NextResponse} from 'next/server';
+import {NextRequest, NextResponse} from 'next/server';
 import prisma from '@lib/prisma-client';
 import {withAdminAuthorized} from "@lib/authorized";
 import {requestIdParams} from "@/@types/request";
 
-export async function GET(req: Request, {params}: requestIdParams) {
+export async function GET(req: NextRequest, {params}: requestIdParams) {
     const {id} = await params
-    return await withAdminAuthorized(async (req: NextRequest, id: string) => {
+    return await withAdminAuthorized(async (_: NextRequest, id: string) => {
         try {
 
             const user = await prisma.user.findUnique({
@@ -24,7 +24,7 @@ export async function GET(req: Request, {params}: requestIdParams) {
             }
 
             return NextResponse.json(user);
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, id)

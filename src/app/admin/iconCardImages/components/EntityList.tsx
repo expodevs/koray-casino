@@ -23,7 +23,7 @@ export default function EntityList() {
         refetch
     } = useRequestData<ApiResponse<IconCardImage>>({
         url: `${routeAdminApiIconCardImages.all}?page=${page}&limit=${limit}`,
-        queryKey: ['iconCardImages', page, limit]
+        queryKey: ['iconCardImages', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

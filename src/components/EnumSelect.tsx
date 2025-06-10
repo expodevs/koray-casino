@@ -1,23 +1,23 @@
-import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
+import {FieldErrors, FieldValues, UseFormRegister, Path} from 'react-hook-form';
 import React from "react";
 
-interface EnumSelectProps<T extends Record<string, string>> {
+interface EnumSelectProps<T extends Record<string, string>, F extends FieldValues = FieldValues> {
     label: string;
-    field: string;
+    field: Path<F>;
     elements: T;
-    excludes: Array<keyof T>;
-    register: UseFormRegister<FieldValues>;
-    errors: FieldErrors<FieldValues>;
+    excludes?: Array<keyof T>;
+    register: UseFormRegister<F>;
+    errors: FieldErrors<F>;
 }
 
-function EnumSelect<T extends Record<string, string>>({
+function EnumSelect<T extends Record<string, string>, F extends FieldValues = FieldValues>({
                                                           label,
                                                           field,
                                                           elements,
                                                           excludes = [],
                                                           register,
                                                           errors,
-                                                      }: EnumSelectProps<T>) {
+                                                      }: EnumSelectProps<T, F>) {
     return (
         <div className="mb-4">
             <label className="block mb-1">{label}</label>

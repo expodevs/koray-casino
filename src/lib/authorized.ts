@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {getServerSession} from "next-auth";
-import {authOptions} from "@app/api/auth/[...nextauth]/route";
+import {authOptions} from "@app/api/auth/options";
 import {UserRole} from "@prismaClient";
 
 
@@ -13,7 +13,7 @@ export const unAuthorizedAdmin = async () => {
         if (session.user.role !== UserRole.admin) {
             return NextResponse.json({error: 'Forbidden'}, {status: 403});
         }
-    } catch (error) {
+    } catch {
         return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
     }
     return null;
@@ -26,7 +26,7 @@ export const unAuthorized = async () => {
         if (!session || !session.user.id) {
             return NextResponse.json({error: 'Unauthorized'}, {status: 401});
         }
-    } catch (error) {
+    } catch {
         return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
     }
     return null;
@@ -53,4 +53,3 @@ export async function withAuthorized<Args extends unknown[], Result>(
 
     return handle(...args);
 }
-

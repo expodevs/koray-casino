@@ -6,7 +6,8 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {casinoPath} from "@lib/uploadPaths";
 import {strToSlug} from "@lib/str";
 
-type requestParams = { params: { id: string } };
+
+type requestParams = { params: Promise<{ id: string }> };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.casino.findUnique({where:{id}});
@@ -57,7 +58,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json(validationResult.error.format(), {status: 400});
             }
 
-            const data = validationResult.data;
+            const data = structuredClone(validationResult.data);
 
             data.referral_key = strToSlug(data.referral_key);
 
@@ -79,12 +80,12 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             const newImage = data.newImage;
             delete data.newImage;
 
-            const options = data.options || [];
+            const options = structuredClone(data.options || []);
             delete data.options;
 
             const entity = await prisma.casino.update({
                 where: {id},
-                data,
+                data: {...data, options: undefined},
             });
 
             if (options.length > 0) {

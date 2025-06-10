@@ -6,13 +6,15 @@ import EntityForm from "@app/admin/faqs/components/EntityForm";
 import {Faq} from "@/@types/response";
 import {routeAdminApiFaqs, routeAdminPageFaqs} from "@lib/adminRoute";
 import {useRequestData} from "@lib/request";
+import {z} from "zod";
+import {faqCreateSchema} from "@app/admin/faqs/validation";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
     const {data:entity, isLoading} = useRequestData<Faq>({url: routeAdminApiFaqs.one(id)});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof faqCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiFaqs.one(id), {
                 method: 'PUT',
@@ -26,8 +28,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageFaqs.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch {
+            toast.error('Failed to update entity');
         }
     };
 

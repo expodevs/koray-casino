@@ -2,15 +2,15 @@ import { redirect, notFound } from 'next/navigation';
 import prisma from '@lib/prisma-client';
 
 interface Props {
-    params: {
+    params: Promise<{
         type: string;
         referralKey: string;
         clickType?: string[];
-    };
+    }>;
 }
 
 export default async function RedirectPage({ params }: Props) {
-    const { type, referralKey, clickType } = params;
+    const { type, referralKey, clickType } = await params;
 
     const clickTypeValue = clickType?.[0] ?? 'link';
 

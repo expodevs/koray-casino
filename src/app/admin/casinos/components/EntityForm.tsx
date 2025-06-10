@@ -47,7 +47,8 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             referral_link: entity?.referral_link || '',
             full_review_label: entity?.full_review_label || '',
             full_review_link: entity?.full_review_link || '',
-            published: entity?.published || false,
+            published: Boolean(entity?.published),
+            options: entity?.options || [],
         },
     });
 
@@ -91,12 +92,18 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             setValue('published', entity.published);
 
             if (entity.options && entity.options.length > 0) {
-                setCasinoOptionItems(entity.options);
+                setCasinoOptionItems(entity.options.map(option => ({
+                    id: option.id as number | undefined,
+                    option_id: option.option_id as number,
+                    casino_id: option.casino_id as number | undefined,
+                    value: option.value as string,
+                    entity: option.entity as Option | undefined
+                })));
             }
         }
-    }, [entity?.id]);
+    }, [entity?.id, entity, setValue]);
 
-    const handleAddOption = useCallback((e) => {
+    const handleAddOption = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!selectedOptionId) return;
 
@@ -134,16 +141,8 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         try {
             data.options = casinoOptionItems;
             await onSubmit(data);
-        } catch (error: unknown) {
-            if (error && typeof error === 'object' && 'response' in error && 
-                error.response && typeof error.response === 'object' && 'data' in error.response) {
-                const responseData = error.response.data as Record<string, { message: string }>;
-                Object.values(responseData).forEach((err) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity item');
-            }
+        } catch {
+            toast.error('Failed to save entity item');
         }
     };
 
@@ -281,7 +280,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                                                             className="w-full p-2 border rounded"
                                                         >
                                                             <option value="">Select Option</option>
-                                                            {option.entity.value.split('|').map((item, optIdx) => (
+                                                            {(option?.entity?.value||'').split('|').map((item, optIdx) => (
                                                                 <option key={`select-option-${optIdx}`} value={item.trim()}>
                                                                     {item.trim()}
                                                                 </option>

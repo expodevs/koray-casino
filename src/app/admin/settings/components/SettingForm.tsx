@@ -18,7 +18,7 @@ import Image from "next/image";
 
 interface SettingFormProps {
   setting?: Setting;
-  onSubmit: (data: unknown) => void;
+  onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof settingCreateSchema>;
@@ -129,7 +129,7 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
             </>
         );
     }
-  }, [selectedInputType, selectedValue, image, register]);
+  }, [selectedInputType, selectedValue, image, register, setValue]);
 
 
   const handleFormSubmit = async (data: FormData) => {
@@ -140,14 +140,8 @@ export default function SettingForm({ setting, onSubmit }: SettingFormProps) {
       }
 
       await onSubmit(data);
-    } catch (error: any) {
-      if (error.response?.data) {
-        Object.values(error.response.data).forEach((err: any) => {
-          toast.error(err.message);
-        });
-      } else {
+    } catch  {
         toast.error('Failed to save setting item');
-      }
     }
   };
 

@@ -6,6 +6,8 @@ import SettingForm from "@app/admin/settings/components/SettingForm";
 import { Setting } from "@/@types/response";
 import {routeAdminApiSettings, routeAdminPageSettings} from "@lib/adminRoute";
 import {useRequestData} from "@lib/request";
+import {z} from "zod";
+import {settingCreateSchema} from "@app/admin/settings/validation";
 
 export default function EditSettingPage() {
     const { id } = useParams<{ id: string }>();
@@ -13,7 +15,7 @@ export default function EditSettingPage() {
     const {data:setting, isLoading} = useRequestData<Setting>({url: routeAdminApiSettings.one(id)});
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof settingCreateSchema>) => {
         try {
 
             const response = await fetch(routeAdminApiSettings.one(id), {
@@ -28,8 +30,8 @@ export default function EditSettingPage() {
             }
 
             router.push(routeAdminPageSettings.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to update setting item');
         }
     };
 

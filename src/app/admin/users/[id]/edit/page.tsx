@@ -5,22 +5,23 @@ import {toast} from "react-toastify";
 import UserForm from "../../components/UserForm";
 import { useRequestData } from "@lib/request";
 import {routeAdminPageUsers, routeAdminApiUsers} from "@lib/adminRoute";
+import {z} from "zod";
+import {userCreateSchema, userUpdateSchema} from "@app/admin/users/validation";
+import {User} from "@/@types/response";
+import {UserRole} from "@prismaClient";
 
-
-interface User {
+interface ExtendedUser extends User {
     id: string;
-    name: string | null;
-    email: string;
-    role: "admin" | "user";
+    role: UserRole;
 }
 
 export default function EditUserPage() {
     const {id} = useParams<{ id: string }>();
     const router = useRouter();
 
-    const {data:user, isLoading} = useRequestData<User>({url: routeAdminApiUsers.one(id)});
+    const {data:user, isLoading} = useRequestData<ExtendedUser|undefined>({url: routeAdminApiUsers.one(id)});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof userCreateSchema> | z.infer<typeof userUpdateSchema>) => {
         try {
             const response = await fetch(routeAdminApiUsers.all, {
                 method: "PUT",
@@ -35,8 +36,8 @@ export default function EditUserPage() {
 
             toast.success("User updated successfully");
             router.push(routeAdminPageUsers.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error("Failed to update user");
         }
     };
 

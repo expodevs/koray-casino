@@ -7,7 +7,7 @@ import {routeAdminApiUsers, routeAdminPageUsers} from "@lib/adminRoute";
 export default function CreateUserPage() {
     const router = useRouter();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: unknown) => {
         try {
             const response = await fetch(routeAdminApiUsers.all, {
                 method: "POST",
@@ -22,8 +22,8 @@ export default function CreateUserPage() {
 
             toast.success("User created successfully");
             router.push(routeAdminPageUsers.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error("Failed to create user");
         }
     };
 

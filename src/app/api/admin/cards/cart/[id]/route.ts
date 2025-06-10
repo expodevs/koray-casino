@@ -5,7 +5,7 @@ import { cartUpdateSchema } from "@app/admin/cards/cart/validation";
 import { CardType } from "@prismaClient";
 import {strToSlug} from "@lib/str";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, { params }: requestParams) {
     const { id } = await params;
@@ -50,7 +50,7 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 ...data,
                 type: CardType.cart,
                 referral_key: strToSlug(data.referral_key),
-                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null
+                category_card_id: data.category_card_id ? Number(data.category_card_id) : null
             };
 
             const existingCard = await prisma.card.findFirst({

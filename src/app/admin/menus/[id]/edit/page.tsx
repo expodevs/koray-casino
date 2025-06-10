@@ -6,6 +6,8 @@ import MenuForm from "@app/admin/menus/components/MenuForm";
 import { Menu } from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiMenus, routeAdminPageMenus} from "@lib/adminRoute";
+import {z} from "zod";
+import {menuCreateSchema} from "@app/admin/menus/validation";
 
 export default function EditMenuPage() {
     const { id } = useParams<{ id: string }>();
@@ -15,7 +17,7 @@ export default function EditMenuPage() {
     const {data:menu, isLoading} = useRequestData<Menu>({url: routeAdminApiMenus.one(id)});
     const {data:menuParents, isLoading:isLoadingParent} = useRequestData<Menu[]>({url: routeAdminApiMenus.parents, queryKey: 'menuParents'});
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof menuCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiMenus.one(id), {
                 method: 'PUT',
@@ -29,8 +31,8 @@ export default function EditMenuPage() {
             }
 
             router.push(routeAdminPageMenus.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to update menu item');
         }
     };
 

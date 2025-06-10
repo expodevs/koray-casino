@@ -2,9 +2,9 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 
-type requestParams = { params: { icon_card_id: string } };
+type requestParams = { params: Promise<{ icon_card_id: string }> };
 
-export async function GET(req: Request, {params}: requestParams) {
+export async function GET(_: NextRequest, {params}: requestParams) {
     const {icon_card_id} = await params
     return await withAdminAuthorized(async (icon_card_id: number) => {
 
@@ -17,8 +17,7 @@ export async function GET(req: Request, {params}: requestParams) {
             });
 
             return NextResponse.json(entities)
-        } catch (error) {
-            console.log(error)
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, parseInt(icon_card_id)||0)

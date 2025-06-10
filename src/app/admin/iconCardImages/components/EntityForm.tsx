@@ -16,7 +16,7 @@ import CustomSelect from "@components/CustomSelect";
 interface EntityFormProps {
     entity?: IconCardImage;
     iconCards: IconCardSelect[];
-    onSubmit: (data: unknown) => void;
+    onSubmit: (data: FormData) => void;
 }
 
 
@@ -36,7 +36,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             alt: entity?.alt || '',
             label: entity?.label || '',
             image: entity?.image || '',
-            position: entity?.position || null,
+            position: Number(entity?.position),
         },
     });
 
@@ -63,7 +63,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
                 </div>
             </div>
         )
-    }, [currentImage, entity?.id])
+    }, [currentImage, setValue])
 
     const [image, setImage] = useState<File | null>()
     const [newImage, setNewImage] = useState<string | null>()
@@ -85,11 +85,11 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
     useEffect(() => {
         if (entity) {
             setValue('alt', entity.alt);
-            setValue('label', entity.label);
+            setValue('label', entity.label || undefined);
             setValue('image', entity.image);
-            setValue('position', entity.position);
+            setValue('position', Number(entity.position));
         }
-    }, [entity?.id, setValue]);
+    }, [entity?.id, setValue, entity]);
 
 
     const handleFormSubmit = async (data: FormData) => {
@@ -98,14 +98,8 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
                 data.newImage = newImage;
             }
             await onSubmit(data);
-        } catch (error: any) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: any) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity');
-            }
+        } catch {
+            toast.error('Failed to save entity');
         }
     };
 
@@ -135,7 +129,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             />
             <ImagePreview images={image ? [image] : []}/>
 
-            <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number"/>
+            <CustomInput field={'position'} label={'Position'} register={register}  registerAttr={{valueAsNumber: true}} errors={errors} type="number"/>
 
 
             <button

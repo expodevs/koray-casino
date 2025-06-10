@@ -22,7 +22,7 @@ export default function EntityList() {
         refetch
     } = useRequestData<ApiResponse<CategoryCard>>({
         url: `${routeAdminApiCategoryCards.all}?page=${page}&limit=${limit}`,
-        queryKey: ['categoryCards', page, limit]
+        queryKey: ['categoryCards', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

@@ -1,10 +1,10 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextResponse} from "next/server";
 import {withAdminAuthorized} from "@lib/authorized";
 import prisma from "@lib/prisma-client";
 
 
-export async function GET(req: NextRequest) {
-    return await withAdminAuthorized(async (req: NextRequest) => {
+export async function GET() {
+    return await withAdminAuthorized(async () => {
         try {
             return NextResponse.json(await prisma.menu.findMany({
                 select: {
@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
                 },
                 where: {parent_id: null}
             }))
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
-    }, req)
+    })
 }
 

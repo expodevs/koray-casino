@@ -5,7 +5,7 @@ import {pageUpdateSchema} from "@app/admin/pages/validation";
 import {strToSlug} from "@lib/str";
 import {BuildPage} from "@/@types/response";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params
@@ -24,7 +24,7 @@ export async function GET(req: Request, {params}: requestParams) {
             }
 
             return NextResponse.json(entity);
-        } catch (error) {
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     },  parseInt(id) || 0)
@@ -52,6 +52,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 data.slug = strToSlug(data.slug);
             }
 
+            delete data.buildsPage;
 
             if (await prisma.page.findUnique({
                 where: {
@@ -81,7 +82,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
 
             return NextResponse.json(entity);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
@@ -101,7 +102,7 @@ export async function DELETE(req: NextRequest, {params}: requestParams) {
             });
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
+        } catch {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)

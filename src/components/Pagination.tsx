@@ -7,7 +7,7 @@ export default function Pagination({page, total, setPageCallback}: {
     return <>
         <div className="mt-4 flex justify-center">
             <button
-                onClick={() => setPageCallback((p) => Math.max(1, p - 1))}
+                onClick={() => setPageCallback(Math.max(1, page - 1))}
                 disabled={page === 1}
                 className="p-2 mx-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
             >
@@ -17,9 +17,7 @@ export default function Pagination({page, total, setPageCallback}: {
                 Page {page} of {total || 1}
             </span>
             <button
-                onClick={() =>
-                    setPageCallback((p) => Math.min(total || 1, p + 1))
-                }
+                onClick={() => setPageCallback(Math.min(total || 1, page + 1))}
                 disabled={page >= (total || 1)}
                 className="p-2 mx-1 bg-blue-500 text-white rounded disabled:bg-gray-300"
             >

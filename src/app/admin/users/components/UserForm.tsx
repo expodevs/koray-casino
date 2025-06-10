@@ -14,60 +14,77 @@ import EnumSelect from "@components/EnumSelect";
 
 interface UserFormProps {
     user?: User;
-    onSubmit: (data: {
-        id: string,
-        name: string | null;
-        email: string,
-        role: string,
-    }) => void;
+    onSubmit: (data: CreateFormData | UpdateFormData) => void;
 }
 
-type FormData = z.infer<typeof userCreateSchema | typeof userUpdateSchema>;
+type CreateFormData = z.infer<typeof userCreateSchema>;
+type UpdateFormData = z.infer<typeof userUpdateSchema>;
 
 export default function UserForm({user, onSubmit}: UserFormProps) {
-    const {
-        register,
-        handleSubmit,
-        formState: {errors},
-    } = useForm<FormData>({
-        resolver: zodResolver(user?.id ? userUpdateSchema : userCreateSchema),
+    const createForm = useForm<CreateFormData>({
+        resolver: zodResolver(userCreateSchema),
+        defaultValues: {
+            name: user?.name || "",
+            email: user?.email || "",
+            password: "",
+            role: UserRole.admin,
+        },
+    });
+
+    const updateForm = useForm<UpdateFormData>({
+        resolver: zodResolver(userUpdateSchema),
         defaultValues: {
             id: user?.id || "",
             name: user?.name || "",
             email: user?.email || "",
             password: "",
-            role: user?.role || UserRole.admin,
+            role: UserRole.admin,
         },
     });
 
+    const isUpdateForm = Boolean(user?.id);
+    const { handleSubmit, formState: { errors } } = isUpdateForm ? updateForm : createForm;
 
-    const handleFormSubmit = async (data: FormData) => {
+
+    const handleFormSubmit = async (data: CreateFormData | UpdateFormData) => {
         try {
             await onSubmit(data);
-        } catch (error: any) {
-            if (error.response?.data?.error) {
-                toast.error(error.response.data.error);
-            } else {
-                toast.error("Failed to save user");
-            }
+        } catch {
+            toast.error("Failed to save user");
         }
     };
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="p-4">
-            {user && (
+            {isUpdateForm && (
+                <>
                 <input
                     type="hidden"
-                    {...register("id")}
+                    {...updateForm.register("id")}
                 />
-            )}
-            <CustomInput field={'name'} label={'Name'} register={register} errors={errors} />
-            <CustomInput field={'email'} label={'Email'} register={register} errors={errors} type={"email"} />
-            <CustomInput field={'password'} label={user ? 'Password (optional)' : 'Password'} register={register} errors={errors} type={"password"} />
 
-            <div className={"invisible"}>
-                <EnumSelect className={"invisible"} label={"Role"} field={"role"} elements={UserRole} register={register} errors={errors} />
-            </div>
+                    <CustomInput field={'name'} label={'Name'} register={updateForm.register} errors={errors} />
+                    <CustomInput field={'email'} label={'Email'} register={updateForm.register} errors={errors} type={"email"} />
+                    <CustomInput field={'password'} label={user ? 'Password (optional)' : 'Password'} register={updateForm.register} errors={errors} type={"password"} />
+
+                    <div className={"invisible"}>
+                        <EnumSelect label={"Role"} field={"role"} elements={UserRole} register={updateForm.register} errors={errors} />
+                    </div>
+
+                </>
+            )}
+            {!isUpdateForm && (
+                <>
+                    <CustomInput field={'name'} label={'Name'} register={createForm.register} errors={errors} />
+                    <CustomInput field={'email'} label={'Email'} register={createForm.register} errors={errors} type={"email"} />
+                    <CustomInput field={'password'} label={user ? 'Password (optional)' : 'Password'} register={createForm.register} errors={errors} type={"password"} />
+
+                    <div className={"invisible"}>
+                        <EnumSelect label={"Role"} field={"role"} elements={UserRole} register={createForm.register} errors={errors} />
+                    </div>
+                </>
+            )}
+
 
             <button
                 type="submit"

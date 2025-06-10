@@ -21,7 +21,7 @@ export default function EntityList() {
         refetch
     } = useRequestData<ApiResponse<Faq>>({
         url: `${routeAdminApiFaqs.all}?page=${page}&limit=${limit}`,
-        queryKey: ['faqs', page, limit]
+        queryKey: ['faqs', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

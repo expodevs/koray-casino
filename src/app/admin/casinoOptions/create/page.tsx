@@ -8,7 +8,7 @@ export default function CreateEntity() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: unknown) => {
         try {
             const response = await fetch(routeAdminApiCasinoOptions.all, {
                 method: 'POST',
@@ -22,8 +22,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageCasinoOptions.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch {
+            toast.error('Unknown error');
         }
     };
 

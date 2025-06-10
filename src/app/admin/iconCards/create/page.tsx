@@ -3,12 +3,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EntityForm from '@app/admin/iconCards/components/EntityForm';
 import {routeAdminApiIconCards, routeAdminPageIconCards} from "@lib/adminRoute";
+import {z} from "zod";
+import {iconCardCreateSchema} from "@app/admin/iconCards/validation";
 
 export default function CreateEntity() {
 
     const router = useRouter();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: z.infer<typeof iconCardCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiIconCards.all, {
                 method: 'POST',
@@ -22,8 +24,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageIconCards.all);
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to create entity');
         }
     };
 
