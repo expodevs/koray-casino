@@ -74,6 +74,8 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({error: 'Slug must be unique'}, {status: 400});
             }
 
+            delete data.buildsPage;
+
             const entity = await prisma.page.create({data: {
                 ...data,
                     slug: data.slug as string,
