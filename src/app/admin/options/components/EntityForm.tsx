@@ -37,7 +37,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             tooltip: entity?.tooltip || '',
             published: Boolean(entity?.published),
             use_for_filter: Boolean(entity?.use_for_filter),
-            position: entity?.position,
+            position: Number(entity?.position) || undefined,
         },
     });
 
@@ -70,7 +70,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             setValue('tooltip', entity.tooltip);
             setValue('published', entity.published);
             setValue('use_for_filter', entity.use_for_filter);
-            setValue('position', entity.position);
+            setValue('position', Number(entity.position));
         }
     }, [entity, entity?.id, setValue]);
 

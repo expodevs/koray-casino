@@ -9,6 +9,7 @@ export interface UserRow {
 }
 
 export interface User {
+    id?: string;
     name: string;
     email: string;
     password: string;
@@ -49,7 +50,6 @@ export interface BuildPage {
     build_id: number,
     position: number,
     field_values: string,
-    card_type: string|null,
 }
 
 export interface CategoryCard {
@@ -139,6 +139,7 @@ export interface Casino {
     referral_link: string | null,
     full_review_label: string | null,
     full_review_link: string | null,
+    options?: Record<string, unknown>[],
 }
 
 export interface ApiResponse<T> {
