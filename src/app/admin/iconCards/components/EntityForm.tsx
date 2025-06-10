@@ -6,12 +6,12 @@ import {toast} from "react-toastify";
 import {FaSave} from "react-icons/fa";
 import {iconCardCreateSchema, iconCardUpdateSchema} from "@app/admin/iconCards/validation";
 import {useEffect} from "react";
-import {iconCard} from "@/@types/response";
+import {IconCard} from "@/@types/response";
 import CustomInput from "@components/CustomInput";
 
 interface EntityFormProps {
-    entity?: iconCard;
-    onSubmit: (data: unknown) => void;
+    entity?: IconCard;
+    onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof iconCardCreateSchema>;
@@ -26,7 +26,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         resolver: zodResolver(entity ? iconCardUpdateSchema : iconCardCreateSchema),
         defaultValues: {
             label: entity?.label || '',
-            published: entity?.published || false,
+            published: Boolean(entity?.published),
         },
     });
 
@@ -35,7 +35,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     useEffect(() => {
         if (entity) {
             setValue('label', entity.label);
-            setValue('published', entity.published);
+            setValue('published', Boolean(entity.published));
         }
     }, [entity, setValue]);
 
@@ -43,14 +43,8 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: unknown) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: unknown) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity item');
-            }
+        } catch  {
+            toast.error('Failed to save entity item');
         }
     };
 

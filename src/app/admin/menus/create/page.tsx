@@ -6,12 +6,14 @@ import MenuForm from '../components/MenuForm';
 import {Menu} from "@/@types/response";
 import {routeAdminApiMenus, routeAdminPageMenus} from "@lib/adminRoute";
 import {useRequestData} from "@lib/request";
+import {z} from "zod";
+import {menuCreateSchema} from "@app/admin/menus/validation";
 
 export default function CreateEntity() {
     const router = useRouter();
     const {data:menuParents, isLoading} = useRequestData<Menu[]>({url: routeAdminApiMenus.parents});
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof menuCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiMenus.all, {
                 method: 'POST',
@@ -25,8 +27,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageMenus.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to create menu item');
         }
     };
 

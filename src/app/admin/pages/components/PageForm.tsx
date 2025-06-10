@@ -28,7 +28,7 @@ import BtnBlock, { BtnBlockData, BtnBlockType } from '@app/admin/pages/component
 
 interface PageFormProps {
   page?: Page;
-  onSubmit: (data: unknown) => void;
+  onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof pageCreateSchema>;
@@ -43,12 +43,12 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     resolver: zodResolver(page ? pageUpdateSchema : pageCreateSchema),
     defaultValues: {
       label: page?.label || '',
-      published: page?.published || false,
+      published: Boolean(page?.published),
       slug: page?.slug || '',
       meta_title: page?.meta_title || '',
       meta_description: page?.meta_description || '',
       meta_keywords: page?.meta_keywords || '',
-      meta_noindex_nofollow: page?.meta_noindex_nofollow || false,
+      meta_noindex_nofollow: Boolean(page?.meta_noindex_nofollow),
     },
   });
 
@@ -85,7 +85,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
 
-    const handleAddBuilderField = async (e) => {
+    const handleAddBuilderField = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedBuilderId) return;
 
@@ -149,16 +149,8 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     try {
         data.buildsPage = (buildsPage||[]);
       await onSubmit(data);
-    } catch (error: unknown) {
-      if (typeof error === 'object' && error !== null && 'response' in error && 
-          error.response && typeof error.response === 'object' && 'data' in error.response) {
-        const responseData = error.response.data as Record<string, { message: string }>;
-        Object.values(responseData).forEach((err) => {
-          toast.error(err.message);
-        });
-      } else {
+    } catch  {
         toast.error('Failed to save page item');
-      }
     }
   };
 
@@ -322,7 +314,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                             // Check if the first item is a string (old format) or an object (new format)
                             if (typeof parsedData.table_show_options[0] === 'string') {
                                 // Convert from old format (string[]) to new format (OptionItem[])
-                                result.table_show_options = parsedData.table_show_options.map((id, index) => ({
+                                result.table_show_options = parsedData.table_show_options.map((id: number, index: number) => ({
                                     id,
                                     position: index + 1
                                 }));

@@ -22,8 +22,8 @@ export default function CreateEntity() {
             }
 
             router.push(routeAdminPageCasinoOptions.all);
-        } catch (error: never) {
-            toast.error(error.message);
+        } catch {
+            toast.error('Unknown error');
         }
     };
 

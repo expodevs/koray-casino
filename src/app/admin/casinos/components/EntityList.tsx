@@ -22,7 +22,7 @@ export default function EntityList() {
         refetch,
     } = useRequestData<ApiResponse<Casino>>({
         url: `${routeAdminApiCasinos.all}?page=${page}&limit=${limit}`,
-        queryKey: ['casinos', page, limit]
+        queryKey: ['casinos', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

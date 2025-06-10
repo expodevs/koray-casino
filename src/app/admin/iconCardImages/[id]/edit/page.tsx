@@ -5,18 +5,20 @@ import EntityForm from "@app/admin/iconCardImages/components/EntityForm";
 import {IconCardImage, IconCardSelect} from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiIconCardImages, routeAdminApiIconCards, routeAdminPageIconCardImages} from "@lib/adminRoute";
+import {z} from "zod";
+import {iconCardImageCreateSchema} from "@app/admin/iconCardImages/validation";
 
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
     const router = useRouter();
 
-    const { data: entity, isLoading: isEntityLoading } = useRequestData<IconCardImage|null>({url: routeAdminApiIconCardImages.one(id)});
+    const { data: entity, isLoading: isEntityLoading } = useRequestData<IconCardImage|undefined>({url: routeAdminApiIconCardImages.one(id)});
     const { data: iconCards, isLoading } = useRequestData<IconCardSelect[]>({url: routeAdminApiIconCards.select, queryKey: 'iconCards'});
 
 
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof iconCardImageCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiIconCardImages.one(id), {
                 method: 'PUT',
@@ -30,8 +32,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageIconCardImages.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to update entity');
         }
     };
 

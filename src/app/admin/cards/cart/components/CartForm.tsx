@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {z} from "zod";
 import { toast } from "react-toastify";
 import { FaSave } from "react-icons/fa";
 import { cartCreateSchema, cartUpdateSchema } from "@app/admin/cards/cart/validation";
@@ -28,7 +28,7 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
     resolver: zodResolver(card ? cartUpdateSchema : cartCreateSchema),
     defaultValues: {
       label: card?.label || '',
-      published: card?.published || false,
+      published: card ? Boolean(card.published) : false,
       description: card?.description || '',
       referral_key: card?.referral_key || '',
       referral_btn_1_link: card?.referral_btn_1_link || '',
@@ -38,7 +38,7 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
   useEffect(() => {
     if (card) {
       setValue('label', card.label);
-      setValue('published', card.published);
+      setValue('published', Boolean(card.published));
       setValue('description', card.description || '');
       setValue('referral_key', card.referral_key);
       setValue('referral_btn_1_link', card.referral_btn_1_link || '');
@@ -53,16 +53,8 @@ export default function CartForm({ card, onSubmit }: CartFormProps) {
       };
 
       await onSubmit(formData);
-    } catch (error: unknown) {
-      if (typeof error === 'object' && error !== null && 'response' in error && 
-          error.response && typeof error.response === 'object' && 'data' in error.response) {
-        const responseData = error.response.data as Record<string, { message: string }>;
-        Object.values(responseData).forEach((err) => {
-          toast.error(err.message);
-        });
-      } else {
+    } catch  {
         toast.error('Failed to save cart item');
-      }
     }
   };
 

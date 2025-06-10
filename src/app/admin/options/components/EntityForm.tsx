@@ -15,7 +15,7 @@ import ImagePreview from "@components/file/ImagePreview";
 
 interface EntityFormProps {
     entity?: Option;
-    onSubmit: (data: unknown) => void;
+    onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof optionCreateSchema>;
@@ -35,9 +35,9 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             value: entity?.value || '',
             hash_tag: entity?.hash_tag || '',
             tooltip: entity?.tooltip || '',
-            published: entity?.published || false,
-            use_for_filter: entity?.use_for_filter || false,
-            position: entity?.position || '',
+            published: Boolean(entity?.published),
+            use_for_filter: Boolean(entity?.use_for_filter),
+            position: entity?.position,
         },
     });
 
@@ -65,7 +65,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         if (entity) {
             setValue('label', entity.label);
             setValue('input_type', entity.input_type);
-            setValue('value', entity.value);
+            setValue('value', entity.value || '');
             setValue('hash_tag', entity.hash_tag);
             setValue('tooltip', entity.tooltip);
             setValue('published', entity.published);
@@ -145,18 +145,12 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             }
 
             await onSubmit(data);
-        } catch (error: unknown) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: unknown) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity item');
-            }
+        } catch  {
+            toast.error('Failed to save entity item');
         }
     };
 
-    const copySplit = async (e: Event) => {
+    const copySplit = async (e: React.MouseEvent) => {
         e.preventDefault();
         await navigator.clipboard.writeText('|');
         toast.info('Copied to clipboard');
@@ -248,6 +242,3 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
     )
         ;
 }
-
-
-

@@ -38,7 +38,7 @@ export default function BuilderCasinoTop({
     const addNewStaticOption = () => {
         const newOptions = [
             ...displayOptions,
-            { position: displayOptions.length + 1, static_field: 'name' }
+            { id: '', position: displayOptions.length + 1, static_field: 'name' }
         ];
         onChange({
             ...data,

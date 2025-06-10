@@ -2,7 +2,6 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 import {withAdminAuthorized} from "@lib/authorized";
 import {faqCreateSchema} from "@app/admin/faqs/validation";
-import {strToSlug} from "@lib/str";
 
 export async function GET(req: NextRequest) {
     return await withAdminAuthorized(async (req: NextRequest) => {
@@ -27,8 +26,7 @@ export async function GET(req: NextRequest) {
                     page, limit, total, totalPages: Math.ceil(total / limit),
                 }
             })
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -48,14 +46,9 @@ export async function POST(req: NextRequest) {
 
             const data = validationResult.data;
 
-            if (data.hash_tag && data.hash_tag.length) {
-                data.hash_tag = strToSlug(data.hash_tag);
-            }
-
             const entity = await prisma.faq.create({data});
             return NextResponse.json(entity, {status: 201});
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

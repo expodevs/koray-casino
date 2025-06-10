@@ -2,29 +2,29 @@ import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 import React from "react";
 import {CustomSelectOption} from "@/@types/response";
 
-interface CustomSelectProps {
+interface CustomSelectProps<T extends FieldValues = FieldValues> {
     label: string;
     field: string;
     options: CustomSelectOption[];
-    registerAttr: object
-    register: UseFormRegister<FieldValues>;
-    errors: FieldErrors<FieldValues>;
+    registerAttr?: object;
+    register: UseFormRegister<T>;
+    errors: FieldErrors<T>;
 }
 
-function CustomSelect({
+function CustomSelect<T extends FieldValues = FieldValues>({
                          label,
                          field,
                           options,
                           registerAttr,
                          register,
                          errors,
-                     }: CustomSelectProps) {
+                     }: CustomSelectProps<T>) {
 
     return (
         <div className="mb-4">
             <label className="block mb-1">{label}</label>
             <select
-                {...register(field, { ...registerAttr })}
+                {...register(field, registerAttr ? { ...registerAttr } : undefined)}
                 className="w-full p-2 border rounded"
             >
                 <option >Select element </option>

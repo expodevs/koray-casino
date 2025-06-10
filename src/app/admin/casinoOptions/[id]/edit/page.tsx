@@ -6,6 +6,8 @@ import EntityForm from "@app/admin/casinoOptions/components/EntityForm";
 import {Option} from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiCasinoOptions, routeAdminPageCasinoOptions} from "@lib/adminRoute";
+import { z } from "zod";
+import { optionUpdateSchema } from "@app/admin/casinoOptions/validation";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +16,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<Option>({url: routeAdminApiCasinoOptions.one(id)});
 
 
-    const handleSubmit = async (data: Option) => {
+    const handleSubmit = async (data: z.infer<typeof optionUpdateSchema>) => {
         try {
             const response = await fetch(routeAdminApiCasinoOptions.one(id), {
                 method: 'PUT',
@@ -28,8 +30,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageCasinoOptions.all);
-        } catch (error: never) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Unknown error');
         }
     };
 

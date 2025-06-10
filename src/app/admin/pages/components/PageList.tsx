@@ -20,7 +20,7 @@ export default function PageList() {
         refetch,
     } = useRequestData<ApiResponse<Page>>({
         url: `${routeAdminApiPages.all}?page=${page}&limit=${limit}`,
-        queryKey: ['pages', page, limit]
+        queryKey: ['pages', `${page}`, `${limit}`]
     });
 
     const handleDelete = async (id: number) => {

@@ -6,6 +6,8 @@ import EntityForm from "@app/admin/options/components/EntityForm";
 import {Option} from "@/@types/response";
 import {useRequestData} from "@lib/request";
 import {routeAdminApiOptions, routeAdminPageOptions} from "@lib/adminRoute";
+import {z} from "zod";
+import {optionCreateSchema} from "@app/admin/options/validation";
 
 export default function EditEntity() {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +16,7 @@ export default function EditEntity() {
     const {data:entity, isLoading} = useRequestData<Option>({url: routeAdminApiOptions.one(id)});
 
 
-    const handleSubmit = async (data: FormData) => {
+    const handleSubmit = async (data: z.infer<typeof optionCreateSchema>) => {
         try {
             const response = await fetch(routeAdminApiOptions.one(id), {
                 method: 'PUT',
@@ -28,8 +30,8 @@ export default function EditEntity() {
             }
 
             router.push(routeAdminPageOptions.all);
-        } catch (error: unknown) {
-            toast.error(error.message);
+        } catch  {
+            toast.error('Failed to update entity item');
         }
     };
 

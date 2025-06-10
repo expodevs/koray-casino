@@ -37,7 +37,7 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     resolver: zodResolver(card ? cardUpdateSchema : cardCreateSchema),
     defaultValues: {
       label: card?.label || '',
-      published: card?Boolean(card.published) : false,
+      published: card ? Boolean(card.published) : false,
       category_card_id: card?.category_card_id|| undefined,
       description: card?.description || '',
       referral_key: card?.referral_key || '',
@@ -51,12 +51,12 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
     if (card) {
       setValue('label', card.label);
       setValue('published', Boolean(card.published));
-      setValue('category_card_id', card.category_card_id || '');
+      setValue('category_card_id', card.category_card_id || undefined);
       setValue('description', card.description || '');
       setValue('referral_key', card.referral_key);
       setValue('referral_btn_1_link', card.referral_btn_1_link || '');
       setValue('referral_btn_2_link', card.referral_btn_2_link || '');
-      setValue('position', card.position || '');
+      setValue('position', card.position || undefined);
     }
   }, [card, setValue]);
 
@@ -112,16 +112,16 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
   useEffect(() => {
     if (card) {
       if (card.options && Array.isArray(card.options)) {
-        setCardOptions(card.options);
+        setCardOptions(card.options as {option_id: number, value: string}[]);
       }
       if (card.icon_card_images && Array.isArray(card.icon_card_images)) {
-        setCardIconImages(card.icon_card_images);
+        setCardIconImages(card.icon_card_images as {icon_card_image_id: number}[]);
       }
       if (card.faqs && Array.isArray(card.faqs)) {
-        setCardFaqs(card.faqs);
+        setCardFaqs(card.faqs as {faq_id: number, position: number}[]);
       }
       if (card.images && Array.isArray(card.images)) {
-        setCardImages(card.images);
+        setCardImages(card.images as {src: string, newImage?: string, alt: string, position: number}[]);
       }
     }
   }, [card]);
@@ -200,16 +200,8 @@ export default function CardForm({ card, onSubmit }: CardFormProps) {
       };
 
       await onSubmit(formData);
-    } catch (error: unknown) {
-      if (typeof error === 'object' && error !== null && 'response' in error && 
-          error.response && typeof error.response === 'object' && 'data' in error.response) {
-        const responseData = error.response.data as Record<string, { message: string }>;
-        Object.values(responseData).forEach((err) => {
-          toast.error(err.message);
-        });
-      } else {
-        toast.error('Failed to save card item');
-      }
+    } catch  {
+        toast.error('Failed to save card item')
     }
   };
 

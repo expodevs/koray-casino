@@ -1,23 +1,23 @@
 import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 import {useMemo} from "react";
 
-interface CustomInputProps {
+interface CustomInputProps<T extends FieldValues = FieldValues> {
     label: string;
     field: string;
     type?: string;
-    register: UseFormRegister<FieldValues>;
-    registerAttr: object | undefined;
-    errors: FieldErrors<FieldValues>;
+    register: UseFormRegister<T>;
+    registerAttr?: object;
+    errors: FieldErrors<T>;
 }
 
-function CustomInput({
+function CustomInput<T extends FieldValues = FieldValues>({
                          label,
                          field,
                          type = 'text',
                          register,
                          registerAttr = undefined,
                          errors,
-                     }: CustomInputProps) {
+                     }: CustomInputProps<T>) {
 
     const renderField = useMemo(() => {
         if (type === 'textarea') {

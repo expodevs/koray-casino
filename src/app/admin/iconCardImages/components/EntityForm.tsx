@@ -16,7 +16,7 @@ import CustomSelect from "@components/CustomSelect";
 interface EntityFormProps {
     entity?: IconCardImage;
     iconCards: IconCardSelect[];
-    onSubmit: (data: unknown) => void;
+    onSubmit: (data: FormData) => void;
 }
 
 
@@ -36,7 +36,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             alt: entity?.alt || '',
             label: entity?.label || '',
             image: entity?.image || '',
-            position: entity?.position || null,
+            position: Number(entity?.position),
         },
     });
 
@@ -85,9 +85,9 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
     useEffect(() => {
         if (entity) {
             setValue('alt', entity.alt);
-            setValue('label', entity.label);
+            setValue('label', entity.label || undefined);
             setValue('image', entity.image);
-            setValue('position', entity.position);
+            setValue('position', Number(entity.position));
         }
     }, [entity?.id, setValue, entity]);
 
@@ -98,14 +98,8 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
                 data.newImage = newImage;
             }
             await onSubmit(data);
-        } catch (error: unknown) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: unknown) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity');
-            }
+        } catch {
+            toast.error('Failed to save entity');
         }
     };
 
@@ -135,7 +129,7 @@ export default function EntityForm({entity, onSubmit, iconCards,}: EntityFormPro
             />
             <ImagePreview images={image ? [image] : []}/>
 
-            <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number"/>
+            <CustomInput field={'position'} label={'Position'} register={register}  registerAttr={{valueAsNumber: true}} errors={errors} type="number"/>
 
 
             <button

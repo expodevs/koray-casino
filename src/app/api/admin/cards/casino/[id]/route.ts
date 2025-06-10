@@ -74,7 +74,7 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 ...data,
                 type: CardType.casino,
                 referral_key: strToSlug(data.referral_key),
-                category_card_id: data.category_card_id ? parseInt(data.category_card_id) : null,
+                category_card_id: data.category_card_id ? Number(data.category_card_id) : null,
                 good_selection_of_games: data.good_selection_of_games || null,
                 no_game_provider_filter: data.no_game_provider_filter || null,
                 live_chat_available_only_after_registration: data.live_chat_available_only_after_registration || null,

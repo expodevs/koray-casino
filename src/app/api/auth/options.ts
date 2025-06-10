@@ -56,8 +56,10 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (!userExists) {
-                    return {};
+                    token.user = { id: '', role: 'user'};
                 }
+            } else {
+                token.user = { id: '', role: 'user'  };
             }
             return token
         },
@@ -67,7 +69,8 @@ export const authOptions: NextAuthOptions = {
                 session.user.id = token.user.id
                 return session
             }
-            return { user: { id: '', role: '', name: '', email: '', image: '' } }
+            session.user = { id: '', role: 'user', name: '', email: '', image: '' };
+            return session
         }
     },
     pages: {

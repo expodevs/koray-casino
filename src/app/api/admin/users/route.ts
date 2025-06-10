@@ -112,17 +112,18 @@ export async function DELETE(req: NextRequest) {
             const {searchParams} = new URL(req.url);
             const id = searchParams.get('id');
 
-            if (session.user.id === id) {
+            if (!id) return NextResponse.json({error: 'Bad request'}, {status: 400});
+
+            if (session && session.user.id === id) {
                 return NextResponse.json({error: 'You can\'t delete yourself'}, {status: 400});
             }
 
             await prisma.user.delete({
-                where: {id},
+                where: {id: id as string},
             });
 
             return new NextResponse(null, {status: 204});
-        } catch (error) {
-            console.error(error);
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)

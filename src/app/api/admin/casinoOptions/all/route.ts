@@ -9,8 +9,7 @@ export async function GET() {
             return NextResponse.json(await prisma.option.findMany({
                 where: {type: OptionType.casino}
             }));
-        } catch (error) {
-            console.log(error.message)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     });

@@ -11,7 +11,7 @@ import CustomInput from "@components/CustomInput";
 
 interface EntityFormProps {
     entity?: Faq;
-    onSubmit: (data: unknown) => void;
+    onSubmit: (data: FormData) => void;
 }
 
 type FormData = z.infer<typeof faqCreateSchema>;
@@ -27,8 +27,8 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
         defaultValues: {
             question: entity?.question || '',
             answer: entity?.answer || '',
-            published: entity?.published || false,
-            position: entity?.position || '',
+            published: entity ? entity.published : false,
+            position: Number(entity?.position),
         },
     });
 
@@ -37,21 +37,15 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
             setValue('question', entity.question);
             setValue('answer', entity.answer);
             setValue('published', entity.published);
-            setValue('position', entity.position);
+            setValue('position', Number(entity.position));
         }
     }, [entity, setValue]);
 
     const handleFormSubmit = async (data: FormData) => {
         try {
             await onSubmit(data);
-        } catch (error: unknown) {
-            if (error.response?.data) {
-                Object.values(error.response.data).forEach((err: unknown) => {
-                    toast.error(err.message);
-                });
-            } else {
-                toast.error('Failed to save entity');
-            }
+        } catch  {
+            toast.error('Failed to save entity');
         }
     };
 
@@ -62,7 +56,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
 
             <CustomInput field={'question'} label={'Question'} register={register} errors={errors} />
             <CustomInput field={'answer'} label={'Answer'} register={register} errors={errors} />
-            <CustomInput field={'position'} label={'Position'} register={register} errors={errors} type="number"/>
+            <CustomInput field={'position'} label={'Position'} register={register} registerAttr={{valueAsNumber: true}} errors={errors} type="number"/>
             <CustomInput field={'published'} label={'Published'} register={register} errors={errors} type="checkbox"/>
 
 

@@ -27,8 +27,7 @@ export async function GET(req: NextRequest) {
                     page, limit, total, totalPages: Math.ceil(total / limit),
                 }
             })
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
@@ -50,8 +49,7 @@ export async function POST(req: NextRequest) {
 
 
             return NextResponse.json(entity, {status: 201});
-        } catch (error) {
-            console.log(error)
+        } catch  {
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req)
