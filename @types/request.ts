@@ -1,2 +1,2 @@
 
-export type requestIdParams = { params: { id: string } };
+export type requestIdParams = { params: Promise<{ id: string }> };

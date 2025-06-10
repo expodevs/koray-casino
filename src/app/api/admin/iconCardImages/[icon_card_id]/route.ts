@@ -6,7 +6,7 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {iconCardImagePath} from "@lib/uploadPaths";
 
 
-type requestParams = { params: { icon_card_id: string } };
+type requestParams = { params: Promise<{ icon_card_id: string }> };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.iconCardImage.findUnique({where:{id}});

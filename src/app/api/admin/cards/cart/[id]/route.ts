@@ -5,7 +5,7 @@ import { cartUpdateSchema } from "@app/admin/cards/cart/validation";
 import { CardType } from "@prismaClient";
 import {strToSlug} from "@lib/str";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, { params }: requestParams) {
     const { id } = await params;

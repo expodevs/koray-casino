@@ -8,7 +8,7 @@ import { saveBase64File } from "@lib/file";
 import { cardImagePath } from "@lib/uploadPaths";
 import { fullPublicPath, removeFile } from "@lib/file";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, { params }: requestParams) {
     const { id } = await params;

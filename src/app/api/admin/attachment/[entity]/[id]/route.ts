@@ -3,7 +3,7 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "@lib/prisma-client";
 
 
-type requestParams = { params: { id: string, entity: string } };
+type requestParams = { params: Promise<{ id: string, entity: string}> };
 
 export async function GET(req: NextRequest, {params}: requestParams) {
     const {id, entity} = await params
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, {params}: requestParams) {
             return NextResponse.json({status: 404, statusText: "Not Found"});
         }
 
-        if (first) {
+        if (isFirst) {
             return NextResponse.json(attachments[0]);
         }
 

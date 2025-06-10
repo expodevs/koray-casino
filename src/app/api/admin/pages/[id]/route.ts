@@ -5,7 +5,7 @@ import {pageUpdateSchema} from "@app/admin/pages/validation";
 import {strToSlug} from "@lib/str";
 import {BuildPage} from "@/@types/response";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params
