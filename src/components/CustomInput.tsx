@@ -1,9 +1,9 @@
-import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
+import {FieldErrors, FieldValues, UseFormRegister, Path} from 'react-hook-form';
 import {useMemo} from "react";
 
 interface CustomInputProps<T extends FieldValues = FieldValues> {
     label: string;
-    field: string;
+    field: Path<T>;
     type?: string;
     register: UseFormRegister<T>;
     registerAttr?: object;
@@ -22,7 +22,7 @@ function CustomInput<T extends FieldValues = FieldValues>({
     const renderField = useMemo(() => {
         if (type === 'textarea') {
             return <textarea
-                {...register(field)}
+                {...register(field, registerAttr?{ ...registerAttr }:undefined)}
                 className="w-full p-2 border rounded"
             />
         }
