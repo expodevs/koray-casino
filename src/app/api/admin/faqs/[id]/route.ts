@@ -4,7 +4,7 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {faqUpdateSchema} from "@app/admin/faqs/validation";
 import {strToSlug} from "@lib/str";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params

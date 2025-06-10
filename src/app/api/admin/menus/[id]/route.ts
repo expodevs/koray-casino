@@ -4,7 +4,7 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {menuUpdateSchema} from "@app/admin/menus/validation";
 import { invalidateMenuCache } from "@app/api/front/menus";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params

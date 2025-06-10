@@ -7,7 +7,7 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {optionPath} from "@lib/uploadPaths";
 import {OptionType} from "@prismaClient";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.option.findUnique({where:{id}});

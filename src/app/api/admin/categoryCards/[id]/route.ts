@@ -4,7 +4,7 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {categoryCardUpdateSchema} from "@app/admin/categoryCards/validation";
 
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 export async function GET(req: Request, {params}: requestParams) {
     const {id} = await params

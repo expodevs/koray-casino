@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {getServerSession} from "next-auth";
-import {authOptions} from "@app/api/auth/[...nextauth]/route";
+import {authOptions} from "@app/api/auth/options";
 import {UserRole} from "@prismaClient";
 
 
@@ -53,4 +53,3 @@ export async function withAuthorized<Args extends unknown[], Result>(
 
     return handle(...args);
 }
-

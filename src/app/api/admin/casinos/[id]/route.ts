@@ -6,7 +6,7 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {casinoPath} from "@lib/uploadPaths";
 import {strToSlug} from "@lib/str";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.casino.findUnique({where:{id}});

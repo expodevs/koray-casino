@@ -7,7 +7,7 @@ import {fullPublicPath, removeFile, saveBase64File} from "@lib/file";
 import {strToSlug} from "@lib/str";
 import { invalidateSettingsCache } from "@app/api/front/settings";
 
-type requestParams = { params: { id: string } };
+type requestParams = { params: Promise<{ id: string }> };
 
 async function removeOldImage(id: number) {
     const entity = await prisma.setting.findUnique({where:{id}});
