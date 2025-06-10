@@ -11,6 +11,12 @@ import TextBlock from '@components/mobile/section/TextBlock';
 import BtnsBlock from "@components/mobile/section/BtnsBlock";
 import CartList from "@components/mobile/section/CartList";
 
+import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
+
+type Tab = {
+    hash: string;
+    label: string;
+};
 
 type PageProps = {
     slug: string;
@@ -24,7 +30,7 @@ export default function BuilderPage({ page }: PageProps) {
         const map = new Map<string, string>()
         for (const block of page.blocks) {
             if (block.type === BuildType.slotCard) {
-                for (const card of (block.props as never).cards) {
+                for (const card of (block.props as CardBlockProps).cards) {
                     for (const opt of card.options) {
                         if (opt.entity.hash_tag) {
                             map.set(opt.entity.hash_tag, opt.entity.label)
@@ -49,14 +55,15 @@ export default function BuilderPage({ page }: PageProps) {
                 {page.blocks.map((block) => {
                     switch (block.type as BuildType) {
                         case BuildType.faq:
-                            return <FaqGroup key={block.id} items={block.props} />;
+                            return <FaqGroup key={block.id} items={block.props as FaqBlockProps} />;
 
                         case BuildType.slotCard:
-                            return block.props.type === "card-slot_simple_last-update" ? (
+                            const props = block.props as CardBlockProps
+                            return props.type === "card-slot_simple_last-update" ? (
                                 <CardsListTop key={block.id} items={block} />
                             ) : (
                                 <CardsListSimple key={block.id} items={block} />
-                            );
+                            )
 
                         case BuildType.casinoTop:
                             return <CardsTable key={block.id} items={block} />;

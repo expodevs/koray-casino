@@ -280,6 +280,11 @@ interface RawIconCardImage {
     };
 }
 
+interface BtnBlockProps extends SimpleBlockProps {
+    buttons: { position: number; label: string; link: string }[];
+    type?: string;
+}
+
 // =============================================================================
 // Public API Functions
 // =============================================================================
@@ -482,7 +487,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
  * @param fieldValues The raw field values
  * @returns The processed block properties
  */
-function processBtnBlock(fieldValues: string): SimpleBlockProps & { buttons: { position: number; label: string; link: string }[] } {
+function processBtnBlock(fieldValues: string): BtnBlockProps {
     let parsed: { buttons?: Array<{ position: number; label: string; link: string }>; type?: string } = {};
     try {
         parsed = JSON.parse(fieldValues);
