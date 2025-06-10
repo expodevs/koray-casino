@@ -52,6 +52,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 data.slug = strToSlug(data.slug);
             }
 
+            delete data.buildsPage;
 
             if (await prisma.page.findUnique({
                 where: {
@@ -80,7 +81,8 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
             });
 
             return NextResponse.json(entity);
-        } catch  {
+        } catch (error) {
+            console.log(error);
             return NextResponse.json({error: 'Internal Server Error'}, {status: 500});
         }
     }, req, parseInt(id) || 0)
