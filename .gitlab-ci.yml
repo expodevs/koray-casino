@@ -1,0 +1,4 @@
+---
+include:
+  - project: 'korayproject/devops/etc'
+    file: 'ci/korayproject/.gitlab-ci.yml'
