@@ -1,5 +1,5 @@
 import prisma from "@lib/prisma-client";
-import { BuildType } from "@prismaClient";
+import { BuildType, CardType } from "@prismaClient";
 
 // =============================================================================
 // Type Definitions
@@ -32,7 +32,7 @@ export type BlockProps =
     | SimpleBlockProps 
     | FaqBlockProps 
     | CardBlockProps 
-    | CasinoTopBlockProps;
+    | CartListBlockProps
 
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
@@ -253,6 +253,23 @@ interface RawCardData {
 }
 
 /**
+ * Cart list item (cart)
+ */
+interface CartListItem {
+    id: number
+    title: string
+    description: string | null
+    link: string | null
+}
+
+/**
+ * Props for CartList
+ */
+interface CartListBlockProps {
+    items: CartListItem[]
+}
+
+/**
  * Raw data for a FAQ in a card
  */
 interface RawCardFaq {
@@ -386,11 +403,14 @@ async function processBlockByType(
 
         case BuildType.slotCard:
         case BuildType.casinoCard:
-        case BuildType.cart:
             return await processCardBlock(fieldValues);
+
+        case BuildType.cart:
+            return await processCartBlock(fieldValues);
 
         case BuildType.casinoTop:
             return await processCasinoTopBlock(fieldValues);
+
         case BuildType.btnBlock:
             return processBtnBlock(fieldValues);
 
@@ -685,44 +705,136 @@ function processCardIcons(iconCardImages: RawIconCardImage[]): Record<string, Ca
     return iconsByGroup;
 }
 
+async function processCartBlock(_: string): Promise<CartListBlockProps> {
+    const cards = await prisma.card.findMany({
+        where: {
+            type: CardType.cart,
+            published: true,
+        },
+        select: {
+            id: true,
+            label: true,
+            description: true,
+            referral_btn_1_link: true,
+        },
+        orderBy: { position: "asc" },
+    })
+
+    return {
+        items: cards.map(c => ({
+            id:          c.id,
+            title:       c.label,
+            description: c.description,
+            link:        c.referral_btn_1_link,
+        }))
+    }
+}
 /**
  * Process a casino top block
  * @param fieldValues The raw field values
  * @returns The processed block properties
  */
-async function processCasinoTopBlock(fieldValues: string): Promise<CasinoTopBlockProps> {
-    const data = safeParseJSON<CasinoTopDataRaw>(fieldValues, {});
 
-    const showOptions: CasinoTopOption[] =
-        Array.isArray(data.table_show_options)
-            ? data.table_show_options.map((o: CasinoTopOptionRaw) => ({
-                id: Number(o.id || 0),
-                position: Number(o.position || 0),
-                static_field: String(o.static_field ?? ""),
-            }))
-            : [];
+function formatStaticLabel(field: string): string {
+    return field
+        .split("_")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+}
 
-    const showCasinosConfig: PositionedItem[] =
-        Array.isArray(data.table_show_casinos)
-            ? data.table_show_casinos.map((c) => ({
-                id: Number(c.id || 0),
-                position: Number(c.position || 0),
-            }))
-            : [];
+export async function processCasinoTopBlock(
+    fieldValues: string
+): Promise<{
+    table_show_options: Array<{
+        id: number
+        position: number
+        static_field: string
+        label: string
+        tooltip: string | null
+    }>
+    table_show_casinos: Array<{ id: number; position: number }>
+    casinos: Array<{ id: number; cells: Array<string|number|null> }>
+}> {
+    const data = safeParseJSON<{
+        table_show_options?: Array<{ id: number; position: number; static_field?: string }>
+        table_show_casinos?:  Array<{ id: number; position: number }>
+    }>(fieldValues, {})
 
-    const casinos = await prisma.casino.findMany({
+    const showOptions = (data.table_show_options || []).map(o => ({
+        id:           Number(o.id),
+        position:     Number(o.position),
+        static_field: o.static_field || "",
+    }))
+
+    const table_show_casinos = (data.table_show_casinos || [])
+        .map(c => ({ id: Number(c.id), position: Number(c.position) }))
+        .sort((a, b) => a.position - b.position)
+
+    const rawCasinos = await prisma.casino.findMany({
         where: {
-            id: { in: showCasinosConfig.map((c) => c.id) },
+            id: { in: table_show_casinos.map(x => x.id) },
             published: true,
         },
-    });
+        include: {
+            options: { include: { entity: true } }
+        }
+    })
+
+    const dynamicIds = showOptions.filter(o => !o.static_field).map(o => o.id)
+    const dynamicMeta = dynamicIds.length
+        ? await prisma.option.findMany({
+            where:   { id: { in: dynamicIds } },
+            select:  { id: true, label: true, tooltip: true }
+        })
+        : []
+
+    const table_show_options = showOptions
+        .map(o => {
+            if (o.static_field) {
+                return {
+                    ...o,
+                    label: formatStaticLabel(o.static_field),
+                    tooltip: null
+                }
+            } else {
+                const meta = dynamicMeta.find(m => m.id === o.id)
+                return {
+                    ...o,
+                    label:   meta?.label   ?? `Option ${o.id}`,
+                    tooltip: meta?.tooltip ?? null
+                }
+            }
+        })
+        .sort((a,b) => a.position - b.position)
+
+    const sortedCasinos = table_show_casinos
+        .map(cfg => rawCasinos.find(c => c.id === cfg.id))
+        .filter((c): c is typeof rawCasinos[0] => Boolean(c))
+
+    const casinos = sortedCasinos.map((casino, idx) => ({
+        id: casino.id,
+        cells: table_show_options.map(col => {
+            if (col.static_field) {
+                switch (col.static_field) {
+                    case "rank":     return idx + 1
+                    case "name":     return casino.name
+                    case "btn_play": return casino.referral_link ?? null
+                }
+            }
+            const rel = casino.options.find(o => o.entity.id === col.id)
+            if (!rel) return null
+            const v = rel.value?.trim()
+            return v ? v : rel.entity.value
+        })
+    }))
 
     return {
-        table_show_options: showOptions.sort((a, b) => a.position - b.position),
-        table_show_casinos: showCasinosConfig.sort((a, b) => a.position - b.position),
+        table_show_options,
+        table_show_casinos,
         casinos,
-    };
+    }
 }
+
 
 // =============================================================================
 // Utility Functions

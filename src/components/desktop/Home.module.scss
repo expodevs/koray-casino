@@ -60,12 +60,12 @@
     td {
       border-radius: 4px;
       padding: 8px 15px;
-      white-space: nowrap;
+      white-space: pre-wrap;
       ul {
         padding-left: 15px;
       }
     }
-    button {
+    button, a.play {
       background: $color-theme;
       color: #fff;
       border-radius: 4px;

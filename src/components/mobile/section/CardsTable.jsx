@@ -2,9 +2,15 @@
 
 import React from 'react';
 import styles from "../Home.module.scss";
+import Link from "next/link";
 
 export default function CardsTable({ items }) {
-    const { casinos, table_show_options: columns } = items.props;
+    const columns = items.props.table_show_options || []
+    const casinos = items.props.casinos || []
+
+    const sortedCols = [...columns].sort((a, b) => a.position - b.position)
+
+    const imgRE = /\.(png|jpe?g|gif|svg)$/i
 
     return (
         <section className={styles['tile-section']}>
@@ -12,76 +18,59 @@ export default function CardsTable({ items }) {
                 <table>
                     <thead>
                     <tr>
-                        {columns.map((col, i) => (
-                            <th key={i}>{col.static_field}</th>
+                        {sortedCols.map((col, idx) => (
+                            <th key={idx}>{col.label ?? col.static_field}</th>
                         ))}
                     </tr>
                     </thead>
                     <tbody>
-                    {casinos.map((rowConfig, rowIndex) => {
-                        const casino = casinos.find((c) => c.id === rowConfig.id);
-                        if (!casino) return null;
+                    {casinos.map((row) => (
+                        <tr key={row.id}>
+                            {sortedCols.map((col, ci) => {
+                                const cell = row.cells[ci]
 
-                        return (
-                            <tr key={casino.id}>
-                                {columns.map((col, colIndex) => {
-                                    switch (col.static_field) {
-                                        case 'rank':
-                                            return <td key={colIndex}>{rowIndex + 1}</td>;
+                                if (col.static_field === 'btn_play') {
+                                    return (
+                                        <td key={ci}>
+                                            <Link
+                                                className={styles.play}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                href={`/redirect/casino/${encodeURIComponent(cell)}/btn_1_link`}
+                                            >
+                                                Play
+                                            </Link>
+                                        </td>
+                                    )
+                                }
 
-                                        case 'image':
-                                            return (
-                                                <td key={colIndex}>
-                                                    <img
-                                                        src={casino.image}
-                                                        alt={casino.name}
-                                                        style={{ width: 40, height: 'auto' }}
-                                                    />
-                                                </td>
-                                            );
+                                if (typeof cell === 'string' && imgRE.test(cell)) {
+                                    return (
+                                        <td key={ci}>
+                                            <img
+                                                src={cell}
+                                                alt=""
+                                                style={{ width: 40, height: 'auto' }}
+                                            />
+                                        </td>
+                                    )
+                                }
 
-                                        case 'name':
-                                            return <td key={colIndex}>{casino.name}</td>;
+                                if (typeof cell === 'string' && cell.includes('\n')) {
+                                    return (
+                                        <td key={ci}>
+                                            {cell}
+                                        </td>
+                                    )
+                                }
 
-                                        case 'btn_play':
-                                            return (
-                                                <td key={colIndex}>
-                                                    <button
-                                                        className={styles.play}
-                                                        onClick={() =>
-                                                            window.open(casino.referral_link, '_blank')
-                                                        }
-                                                    >
-                                                        Play
-                                                    </button>
-                                                </td>
-                                            );
-
-                                        case 'full_review_label':
-                                            return (
-                                                <td key={colIndex}>
-                                                    <button
-                                                        className={styles.play}
-                                                        onClick={() =>
-                                                            window.open(casino.full_review_link, '_blank')
-                                                        }
-                                                    >
-                                                        {casino.full_review_label}
-                                                    </button>
-                                                </td>
-                                            );
-
-                                        default:
-                                            const val = casino[col.static_field];
-                                            return <td key={colIndex}>{val ?? ''}</td>;
-                                    }
-                                })}
-                            </tr>
-                        );
-                    })}
+                                return <td key={ci}>{cell}</td>
+                            })}
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </section>
         </section>
-    );
+    )
 }

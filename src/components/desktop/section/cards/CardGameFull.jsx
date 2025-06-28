@@ -14,7 +14,6 @@ import Image from "next/image";
 
 
 export default function CardGameFull({card}) {
-console.log(card);
     return (
         <article className={`${styles['item-card']} ${styles.game}`}>
             <Swiper
