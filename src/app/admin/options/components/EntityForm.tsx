@@ -194,7 +194,7 @@ export default function EntityForm({entity, onSubmit}: EntityFormProps) {
                 <label className="block mb-1">Position</label>
                 <input
                     type="number"
-                    {...register('position')}
+                    {...register('position', {valueAsNumber: true})}
                     className="w-full p-2 border rounded"
                 />
                 {errors.position && <p className="text-red-500">{errors.position.message}</p>}

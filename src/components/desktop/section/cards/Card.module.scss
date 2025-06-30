@@ -5,7 +5,7 @@
   padding: 0 15px 15px;
   border: 2px solid transparent;
   border-radius: 4px;
-  background: #fff;
+  background: #F0F4FF;
   overflow: hidden;
   margin-bottom: 16px;
   position: relative;
@@ -54,13 +54,17 @@
       margin-left: -15px;
       margin-bottom: -30px;
       width: calc(100% + 30px);
+      img {
+        position: static !important;
+        height: auto !important;
+      }
     }
     .name {
       margin-left: -15px;
       width: calc(100% + 30px);
       box-shadow: 0 -15px 11px #fff;
       position: relative;
-      background: #fff;
+      background: #F0F4FF;
     }
   }
 
@@ -69,6 +73,10 @@
       margin-left: -15px;
       margin-bottom: -30px;
       width: calc(100% + 30px);
+      img {
+        position: static !important;
+        height: auto !important;
+      }
     }
 
     .name {

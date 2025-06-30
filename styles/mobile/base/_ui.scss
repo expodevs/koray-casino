@@ -20,6 +20,10 @@
     font-weight: 700;
     text-align: center;
     font-size: 16px;
+    &:hover {
+      background: $color-theme;
+      color: #fff
+    }
   }
   &.light-sm,&.primary-sm {
     padding: 8px;

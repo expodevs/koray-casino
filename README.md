@@ -48,6 +48,39 @@ Run development server, execute command: `npm run dev` or `yarn dev` or `pnpm de
   npm run dev
 ```
 
+### Build production:
+
+Create `.env` and fill in correctly
+
+```bash
+  cp .env.example .env
+```
+
+Generate Prisma Client
+```bash
+  npx prisma generate
+```
+
+Apply pending migrations to the database in production/staging
+```bash
+   npx prisma migrate deploy
+```
+
+Generate require default data
+```bash
+  npx prisma db seed
+```
+
+Build files
+```bash
+  npm run build
+```
+
+Start production
+```bash
+  npm run start
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

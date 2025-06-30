@@ -1,5 +1,7 @@
 import {NextResponse} from "next/server";
 import {withAdminAuthorized} from "@lib/authorized";
+import prisma from "@lib/prisma-client";
+
 
 
 export async function GET() {
