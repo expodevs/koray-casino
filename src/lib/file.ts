@@ -2,7 +2,13 @@ import fs from "fs";
 import path from 'node:path';
 import {nanoid} from "nanoid";
 
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+
 export function fullPublicPath(...paths: string[]) {
+    if (useS3) {
+        const key = paths.map(p => encodeURIComponent(p)).join('/');
+        return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+    }
     return path.join(process.cwd(), 'public', ...paths);
 }
 
@@ -12,9 +18,23 @@ export function createFolder(path: string): void {
     }
 }
 
-export function removeFile(path: string): void {
-    if (fs.existsSync(path)) {
-        fs.unlinkSync(path);
+export async function removeFile(src: string): Promise<void> {
+    if (useS3) {
+        const url = new URL(src);
+        const key = url.pathname.slice(1);
+        try {
+            await s3Client!.send(new DeleteObjectCommand({ Bucket: bucket!, Key: key }));
+        } catch (err: any) {
+            if (err.name === 'AccessDenied' || err.Code === 'AccessDenied' || err.$metadata?.httpStatusCode === 403) {
+                console.warn(`Skipping S3 delete (access denied) for key: ${key}`);
+                return;
+            }
+            console.error('Error deleting from S3:', err);
+        }
+    } else {
+        if (fs.existsSync(src)) {
+            fs.unlinkSync(src);
+        }
     }
 }
 
@@ -26,19 +46,29 @@ export async function saveFile({folderPath, file}: {folderPath: string, file: Fi
     ) {
         return null;
     }
+    const f = file as File;
+    const buffer = Buffer.from(await f.arrayBuffer());
+    const ext = path.extname(f.name) || `.${mimeExtensions[f.type] || 'bin'}`;
+    const fileName = `${nanoid().toLowerCase()}${ext}`;
+    const key = `${folderPath}/${fileName}`;
 
-    const publicPath = fullPublicPath(folderPath);
-    createFolder(publicPath);
+    if (useS3) {
+        await s3Client!.send(
+            new PutObjectCommand({
+                Bucket: bucket!,
+                Key: key,
+                Body: buffer,
+                ContentType: f.type,
+            })
+        );
+        return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+    }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const fileExtension = path.extname(file.name);
-    const fileName = `${nanoid().toLowerCase()}${fileExtension}`;
-    const filePath = path.join(publicPath, fileName);
-
+    const publicDir = fullPublicPath(folderPath);
+    createFolder(publicDir);
+    const filePath = path.join(publicDir, fileName);
     fs.writeFileSync(filePath, buffer);
-
-    return path.normalize(`/${path.join(folderPath, fileName)}`);
-
+    return `/${folderPath}/${fileName}`;
 }
 
 
@@ -64,26 +94,54 @@ const mimeExtensions: Record<string, string> = {
     'image/svg+xml': 'svg',
 };
 
-export async function saveBase64File(base64Data: string, folderPath: string): Promise<string> {
-    const [mimePart, dataPart] = base64Data.split(';base64,');
-    if (!mimePart || !dataPart) throw new Error('Invalid base64 format');
+const region = process.env.AWS_REGION;
+const bucket = process.env.AWS_S3_BUCKET;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
+const useS3 = Boolean(region && bucket && accessKeyId && secretAccessKey);
 
-    const mimeType = mimePart.split(':')[1];
-    const extension = mimeExtensions[mimeType] || 'bin';
+const s3Client = useS3
+    ? new S3Client({
+        region: region!,
+        credentials: {
+            accessKeyId: accessKeyId!,
+            secretAccessKey: secretAccessKey!,
+        },
+    })
+    : null;
 
-    const buffer = Buffer.from(dataPart, 'base64');
-
-
+export async function saveBase64File(
+    base64Data: string,
+    folderPath: string
+): Promise<string> {
+    const [mimePart, dataPart] = base64Data.split(";base64,");
+    if (!mimePart || !dataPart) {
+        throw new Error("Invalid base64 format");
+    }
+    const mimeType = mimePart.split(":")[1];
+    const extension = mimeExtensions[mimeType] || "bin";
+    const buffer = Buffer.from(dataPart, "base64");
     const fileName = `${nanoid().toLowerCase()}.${extension}`;
+    const key = `${folderPath}/${fileName}`;
 
-    const publicPath = fullPublicPath(folderPath);
-    createFolder(publicPath);
-    const filePath = path.join(publicPath, fileName);
-
-    fs.writeFileSync(filePath, buffer);
-
-    return path.normalize(`/${path.join(folderPath, fileName)}`);
+    if (useS3) {
+        await s3Client!.send(
+            new PutObjectCommand({
+                Bucket: bucket!,
+                Key: key,
+                Body: buffer,
+                ContentType: mimeType,
+            })
+        );
+        return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+    } else {
+        const publicDir = fullPublicPath(folderPath);
+        createFolder(publicDir);
+        const filePath = path.join(publicDir, fileName);
+        fs.writeFileSync(filePath, buffer);
+        return path.normalize(`/${folderPath}/${fileName}`);
+    }
 }
 
 export async function saveBase64Files({folderPath, files}: {folderPath: string, files: string[]}): Promise<string[]> {
@@ -93,7 +151,7 @@ export async function saveBase64Files({folderPath, files}: {folderPath: string, 
         if (!src) {
             continue;
         }
-        result.push();
+        result.push(src);
     }
 
     return result;
