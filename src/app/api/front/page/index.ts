@@ -33,6 +33,7 @@ export type BlockProps =
     | FaqBlockProps 
     | CardBlockProps 
     | CartListBlockProps
+    | CasinoTopBlockProps
 
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
@@ -206,27 +207,10 @@ interface CardBlockDataRaw {
 }
 
 /**
- * Raw data for a casino top option
- */
-interface CasinoTopOptionRaw {
-    id: number | string;
-    position: number | string;
-    static_field?: string;
-}
-
-/**
  * A casino top option
  */
 interface CasinoTopOption extends PositionedItem {
     static_field: string;
-}
-
-/**
- * Raw data for a casino top block
- */
-interface CasinoTopDataRaw {
-    table_show_options?: CasinoTopOptionRaw[];
-    table_show_casinos?: (PositionedItem | Record<string, unknown>)[];
 }
 
 /**
@@ -406,7 +390,7 @@ async function processBlockByType(
             return await processCardBlock(fieldValues);
 
         case BuildType.cart:
-            return await processCartBlock(fieldValues);
+            return await processCartBlock();
 
         case BuildType.casinoTop:
             return await processCasinoTopBlock(fieldValues);
@@ -705,7 +689,7 @@ function processCardIcons(iconCardImages: RawIconCardImage[]): Record<string, Ca
     return iconsByGroup;
 }
 
-async function processCartBlock(_: string): Promise<CartListBlockProps> {
+async function processCartBlock(): Promise<CartListBlockProps> {
     const cards = await prisma.card.findMany({
         where: {
             type: CardType.cart,

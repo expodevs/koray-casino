@@ -24,12 +24,26 @@ export async function removeFile(src: string): Promise<void> {
         const key = url.pathname.slice(1);
         try {
             await s3Client!.send(new DeleteObjectCommand({ Bucket: bucket!, Key: key }));
-        } catch (err: any) {
-            if (err.name === 'AccessDenied' || err.Code === 'AccessDenied' || err.$metadata?.httpStatusCode === 403) {
-                console.warn(`Skipping S3 delete (access denied) for key: ${key}`);
-                return;
+        } catch (err: unknown) {
+            if (
+                typeof err === 'object' &&
+                err !== null &&
+                'name' in err
+            ) {
+                const s3err = err as {
+                    name: string;
+                    Code?: string;
+                    $metadata?: { httpStatusCode?: number };
+                };
+                if (
+                    s3err.name === 'AccessDenied' ||
+                    s3err.Code === 'AccessDenied' ||
+                    s3err.$metadata?.httpStatusCode === 403
+                ) {
+                    console.warn(`Skipping S3 delete (access denied) for key: ${key}`);
+                    return;
+                }
             }
-            console.error('Error deleting from S3:', err);
         }
     } else {
         if (fs.existsSync(src)) {
