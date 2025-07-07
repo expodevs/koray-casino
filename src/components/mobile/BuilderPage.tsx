@@ -42,6 +42,24 @@ export default function BuilderPage({ page }: PageProps) {
         return Array.from(map.entries()).map(([hash, label]) => ({ hash, label }))
     }, [page.blocks])
 
+    const filteredBlocks = useMemo(() => {
+        if (!activeHash) {
+            return page.blocks;
+        }
+        return page.blocks.map(block => {
+            if (block.type !== BuildType.slotCard) return block;
+
+            const props = block.props as CardBlockProps;
+            const cards = props.cards.filter(card =>
+                card.options.some(opt => opt.entity.hash_tag === activeHash)
+            );
+            return {
+                ...block,
+                props: { ...props, cards }
+            };
+        });
+    }, [page.blocks, activeHash]);
+
     return (
         <>
             <NavTabs tabs={tabs} active={activeHash} onChange={setActiveHash} />
@@ -52,7 +70,7 @@ export default function BuilderPage({ page }: PageProps) {
                     dangerouslySetInnerHTML={{ __html: page.label }}
                 />
 
-                {page.blocks.map((block) => {
+                {filteredBlocks.map((block) => {
                     switch (block.type as BuildType) {
                         case BuildType.faq:
                             return <FaqGroup key={block.id} items={block.props as FaqBlockProps} />;
