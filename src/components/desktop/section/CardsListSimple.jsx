@@ -19,7 +19,7 @@ export default function CardsListSimple( { items } ) {
         for (const card of cards) {
             if (Array.isArray(card.options)) {
                 card.options.forEach(opt => {
-                    if (opt.entity && typeof opt.entity.label === 'string') {
+                    if (opt.entity && typeof opt.entity.label === 'string' && opt.entity.use_for_filter) {
                         setOfLabels.add(opt.entity.label);
                     }
                 });

@@ -27,7 +27,9 @@ export default function CardCasinoWithFaq({ card }) {
             <div className={styles.name}><span>{card.label}</span></div>
 
             <div className={styles['list-options']}>
-                {card.options.map((option, index) => (
+                {card.options
+                    .filter(option => !option.entity.use_for_filter && !option.entity.hash_tag)
+                    .map((option, index) => (
                     <div className={styles['item-option']} key={index}>
                         <div className={styles['label-option']}>
                             <div className={styles['name-option']}>{option.entity.label}</div>
