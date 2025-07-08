@@ -175,7 +175,7 @@ async function seedSettings() {
         {
             code: "logo",
             input_type: InputType.image,
-            value: "/uploads/logo/logo.png",
+            value: "/assets/images/logo.svg",
             label: "Logo",
             link: null,
         },
@@ -184,12 +184,7 @@ async function seedSettings() {
     for (const setting of settings) {
         await prisma.setting.upsert({
             where: { code: setting.code },
-            update: {
-                value: setting.value,
-                input_type: setting.input_type,
-                label: setting.label,
-                link: setting.link,
-            },
+            update: {},
             create: {
                 code: setting.code,
                 input_type: setting.input_type,
@@ -274,14 +269,7 @@ async function seedMenu() {
     for (const item of menuItems) {
         await prisma.menu.upsert({
             where: { id: item.id },
-            update: {
-                type: item.type,
-                published: item.published,
-                label: item.label,
-                link: item.link,
-                parent_id: item.parent_id,
-                position: item.position,
-            },
+            update: {},
             create: {
                 id: item.id,
                 type: item.type,
