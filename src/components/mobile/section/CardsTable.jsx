@@ -36,7 +36,7 @@ export default function CardsTable({ items }) {
                                                 className={styles.play}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                href={`/redirect/casino/${encodeURIComponent(cell)}/btn_1_link`}
+                                                href={`/redirect/casino-top/${encodeURIComponent(cell)}/link`}
                                             >
                                                 Play
                                             </Link>

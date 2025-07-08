@@ -802,7 +802,7 @@ export async function processCasinoTopBlock(
                 switch (col.static_field) {
                     case "rank":     return idx + 1
                     case "name":     return casino.name
-                    case "btn_play": return casino.referral_link ?? null
+                    case "btn_play": return casino.referral_key ?? null
                 }
             }
             const rel = casino.options.find(o => o.entity.id === col.id)
