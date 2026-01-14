@@ -102,7 +102,7 @@ model Faq {
   id        Int       @id @default(autoincrement())
   published Boolean   @default(false)
   question  String
-  answer    String
+  answer    String    @db.Text
   position  Int?
   cards     FaqCard[]
 }
