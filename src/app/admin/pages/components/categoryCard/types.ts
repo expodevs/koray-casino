@@ -16,10 +16,15 @@ export enum CategoryCardType {
     CARD_SHOW_OPTION  = 'card-show-option',
 }
 
+export type SlotCardSource = 'category' | 'manual';
+
 export interface BaseCategoryCard {
     label?: string;
     description?: string;
+    // Slot cards can be built from a category or a manual list
+    source?: SlotCardSource;
     category_id?: string;
+    card_ids?: number[];
     last_update?: string;
     ad_disclosure?: string;
     options?: string;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { CategoryCardType, CategoryCardValue, BaseCategoryCard, ExtendedCategoryCard } from './types';
-import { CategoryCard } from '@prismaClient';
+import { CategoryCardType, CategoryCardValue, BaseCategoryCard, ExtendedCategoryCard, SlotCardSource } from './types';
+import { CategoryCard, Card } from '@prismaClient';
 import ShowOptionCard, { OptionItem } from './ShowOptionCard';
 import IconCardSelector, { IconCardItem } from './IconCardSelector';
 import { Option, IconCardSelect } from '@/@types/response';
@@ -34,10 +34,22 @@ interface Props {
     categoryCards: CategoryCard[];
     casinoOptions?: Option[];
     iconCards?: IconCardSelect[];
+    cards?: Card[];
     onChange: (value: CategoryCardValue) => void;
 }
 
-export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, iconCards, onChange }: Props) {
+type BuilderValue = CategoryCardValue & Partial<Pick<ExtendedCategoryCard, 'source' | 'card_ids' | 'iconCardItems' | 'show_filter'>>;
+
+const getSource = (v: BuilderValue): SlotCardSource => v.source ?? 'category';
+const getCardIds = (v: BuilderValue): Array<number | string> => (Array.isArray(v.card_ids) ? v.card_ids : []);
+
+
+export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, iconCards, cards = [], onChange }: Props) {
+    const v = value as BuilderValue;
+    const source = getSource(v);
+    const cardIds = getCardIds(v);
+    const isManual = source === 'manual';
+
     const [showPreview, setShowPreview] = useState<string | null>(null);
 
     const lastUpdateTypes = [
@@ -82,6 +94,8 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
             options: '',
             show_filter: false,
             iconCardItems: JSON.stringify([{ id: 0, position: 1 }]),
+            source: 'category' as SlotCardSource,
+            card_ids: [],
             type: type
         };
 
@@ -126,18 +140,125 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block mb-1">Category</label>
+                    <label className="block mb-1">Source</label>
                     <select
                         className="w-full p-2 border rounded"
-                        value={value.category_id || ''}
-                        onChange={(e) => handleChange('category_id', e.target.value)}
+                        value={source}
+                        onChange={(e) => {
+                            const nextSource = (e.target.value as SlotCardSource) || 'category';
+
+                            const next: BuilderValue = { ...value, source: nextSource };
+
+                            if (nextSource === 'manual' && !Array.isArray(next.card_ids)) {
+                                next.card_ids = [];
+                            }
+
+                            onChange(next as CategoryCardValue);
+                        }}
                     >
-                        <option value="">Select Category</option>
-                        {categoryCards.map(card => (
-                            <option key={card.id} value={card.id}>{card.label}</option>
-                        ))}
+                        <option value="category">By category</option>
+                        <option value="manual">Manual</option>
                     </select>
+                    <p className="text-xs opacity-70 mt-1">Choose where this block should take cards from.</p>
                 </div>
+
+                {source === 'category' && (
+                    <div className="mb-4">
+                        <label className="block mb-1">Category</label>
+                        <select
+                            className="w-full p-2 border rounded"
+                            value={value.category_id || ''}
+                            onChange={(e) => handleChange('category_id', e.target.value)}
+                        >
+                            <option value="">Select Category</option>
+                            {categoryCards.map(card => (
+                                <option key={card.id} value={card.id}>{card.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {source === 'manual' && (
+                    <div className="mb-4">
+                        <label className="block mb-1">Manual cards</label>
+                        <div className="space-y-2">
+                            {cardIds.map((id, idx) => {
+                                const current = Number(id) || 0;
+                                const list = (cards || []).filter((c) => String(c.type) === 'card');
+
+                                return (
+                                    <div key={idx} className="flex gap-2 items-center">
+                                        <select
+                                            className="flex-1 p-2 border rounded"
+                                            value={current}
+                                            onChange={(e) => {
+                                                const nextIds = [...cardIds];
+                                                nextIds[idx] = Number(e.target.value);
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
+                                            }}
+                                        >
+                                            <option value={0}>Select card…</option>
+                                            {list.map((c) => (
+                                                <option key={c.id} value={c.id}>#{c.id} {c.label}</option>
+                                            ))}
+                                        </select>
+
+                                        <button
+                                            type="button"
+                                            className="px-2 py-1 border rounded disabled:opacity-40"
+                                            disabled={idx === 0}
+                                            onClick={() => {
+                                                const nextIds = [...cardIds];
+                                                [nextIds[idx - 1], nextIds[idx]] = [nextIds[idx], nextIds[idx - 1]];
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
+                                            }}
+                                        >
+                                            ↑
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="px-2 py-1 border rounded disabled:opacity-40"
+                                            disabled={idx === cardIds.length - 1}
+                                            onClick={() => {
+                                                const nextIds = [...cardIds];
+                                                [nextIds[idx + 1], nextIds[idx]] = [nextIds[idx], nextIds[idx + 1]];
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
+                                            }}
+                                        >
+                                            ↓
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="px-2 py-1 border rounded"
+                                            onClick={() => {
+                                                onChange({ ...value, card_ids: cardIds.filter((_, i) => i !== idx) } as CategoryCardValue);
+                                            }}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                );
+                            })}
+
+                            <button
+                                type="button"
+                                className="px-3 py-2 border rounded"
+                                onClick={() => {
+                                    const nextIds = [...cardIds, 0];
+                                    onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
+                                }}
+                            >
+                                + Add card
+                            </button>
+
+                            {(cards || []).filter((c) => String(c.type) === 'card').length === 0 && (
+                                <p className="text-xs opacity-70">No cards found for selection.</p>
+                            )}
+                        </div>
+                    </div>
+                )}
             </>
         );
 
@@ -170,7 +291,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                 );
             }
 
-            if (optionTypes.includes(value.type)) {
+            if (optionTypes.includes(value.type) && !isManual) {
                 const parseOptionItems = (): OptionItem[] => {
                     if (!((value as BaseCategoryCard).options)) {
                         return [];

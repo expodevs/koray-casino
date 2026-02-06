@@ -81,6 +81,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:casinos, isLoading:isLoadingCasinos} = useRequestData<Casino[]>({url: routeAdminApiCasinos.pageBuilder, queryKey: 'casinos'});
     const {data:casinoOptions, isLoading:isLoadingCasinoOptions} = useRequestData<Option[]>({url: routeAdminApiCasinoOptions.list, queryKey: 'casinoOptions'});
     const {data:cards, isLoading:isLoadingCards} = useRequestData<Card[]>({url: routeAdminApiCards.pageBuilder, queryKey: 'cards'});
+    const {data:slotCards, isLoading:isLoadingSlotCards} = useRequestData<Card[]>({url: routeAdminApiCards.pageBuilderCard, queryKey: 'slotCards'});
     const {data:iconCards, isLoading:isLoadingIconCards} = useRequestData<IconCardSelect[]>({url: routeAdminApiIconCards.select, queryKey: 'iconCards'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
@@ -272,6 +273,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                         categoryCards={categoryCards || []}
                         casinoOptions={casinoOptions}
                         iconCards={iconCards}
+                        cards={slotCards || []}
                         onChange={(value) => handleFieldValueChange(idx, JSON.stringify(value))}
                     />
                 </div>
@@ -401,9 +403,9 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         return null;
-    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, iconCards, handleFieldValueChange]);
+    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, slotCards, iconCards, handleFieldValueChange]);
 
-    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards||isLoadingIconCards) return <div>Loading...</div>;
+    if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards||isLoadingSlotCards||isLoadingIconCards) return <div>Loading...</div>;
 
     return (
       <div className="max-w-6xl mx-auto p-4">

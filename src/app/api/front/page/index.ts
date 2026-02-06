@@ -204,6 +204,8 @@ interface CardBlockDataRaw {
     options?: string | PositionedItem[];
     iconCardItems?: string | PositionedItem[];
     category_id?: number;
+    source?: 'category' | 'manual';
+    card_ids?: Array<number | string>;
 }
 
 /**
@@ -467,9 +469,20 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
 
     const parsedIconItems = parsePositionedItems(data.iconCardItems);
 
-    const categoryId = Number(data.category_id ?? 0);
+    const source = (data.source === 'manual' || data.source === 'category') ? data.source : 'category';
 
-    const cardsRaw = await fetchCardsFromDatabase(categoryId);
+    let cardsRaw: RawCardData[] = [];
+
+    if (source === 'manual') {
+        const ids = (Array.isArray(data.card_ids) ? data.card_ids : [])
+            .map((x) => Number(x))
+            .filter((x) => Number.isFinite(x) && x > 0);
+
+        cardsRaw = await fetchCardsByIds(ids);
+    } else {
+        const categoryId = Number(data.category_id ?? 0);
+        cardsRaw = await fetchCardsFromDatabase(categoryId);
+    }
 
     const cards = processCards(cardsRaw);
 
@@ -617,6 +630,99 @@ async function fetchCardsFromDatabase(categoryId: number): Promise<RawCardData[]
             },
         },
     })) as RawCardData[];
+}
+
+/**
+ * Fetch cards by explicit IDs (manual selection)
+ * Preserves the order of the ids array
+ */
+async function fetchCardsByIds(ids: number[]): Promise<RawCardData[]> {
+    if (!ids.length) return [];
+
+    const rows = (await prisma.card.findMany({
+        where: {
+            id: { in: ids },
+            published: true,
+        },
+        select: {
+            id: true,
+            type: true,
+            label: true,
+            description: true,
+            referral_key: true,
+            referral_btn_1_link: true,
+            referral_btn_2_link: true,
+            casino_image: true,
+            good_selection_of_games: true,
+            no_game_provider_filter: true,
+            live_chat_available_only_after_registration: true,
+            terms_and_condition: true,
+            position: true,
+            images: {
+                orderBy: { position: 'asc' },
+                select: { id: true, src: true, alt: true, position: true },
+            },
+            options: {
+                orderBy: { id: 'asc' },
+                where: { entity: { published: true } },
+                select: {
+                    value: true,
+                    entity: {
+                        select: {
+                            id: true,
+                            input_type: true,
+                            label: true,
+                            tooltip: true,
+                            hash_tag: true,
+                            use_for_filter: true,
+                            value: true,
+                            position: true,
+                        },
+                    },
+                },
+            },
+            faqs: {
+                orderBy: { position: 'asc' },
+                select: {
+                    position: true,
+                    faq: {
+                        select: {
+                            id: true,
+                            question: true,
+                            answer: true,
+                        },
+                    }
+                },
+            },
+            icon_card_images: {
+                include: {
+                    icon_card_image: {
+                        select: {
+                            id: true,
+                            image: true,
+                            alt: true,
+                            label: true,
+                            position: true,
+                            icon_card: {
+                                select: {
+                                    label: true,
+                                }
+                            }
+                        }
+                    }
+                },
+                orderBy: {
+                    icon_card_image: {
+                        position: 'asc'
+                    }
+                }
+            },
+        },
+    })) as RawCardData[];
+
+    const pos = new Map(ids.map((id, i) => [id, i]));
+    rows.sort((a, b) => (pos.get(a.id) ?? 1e9) - (pos.get(b.id) ?? 1e9));
+    return rows;
 }
 
 /**
