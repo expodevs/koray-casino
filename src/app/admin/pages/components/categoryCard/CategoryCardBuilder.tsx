@@ -38,7 +38,18 @@ interface Props {
     onChange: (value: CategoryCardValue) => void;
 }
 
+type BuilderValue = CategoryCardValue & Partial<Pick<ExtendedCategoryCard, 'source' | 'card_ids' | 'iconCardItems' | 'show_filter'>>;
+
+const getSource = (v: BuilderValue): SlotCardSource => v.source ?? 'category';
+const getCardIds = (v: BuilderValue): Array<number | string> => (Array.isArray(v.card_ids) ? v.card_ids : []);
+
+
 export default function CategoryCardBuilder({ value, categoryCards, casinoOptions, iconCards, cards = [], onChange }: Props) {
+    const v = value as BuilderValue;
+    const source = getSource(v);
+    const cardIds = getCardIds(v);
+    const isManual = source === 'manual';
+
     const [showPreview, setShowPreview] = useState<string | null>(null);
 
     const lastUpdateTypes = [
@@ -132,14 +143,17 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                     <label className="block mb-1">Source</label>
                     <select
                         className="w-full p-2 border rounded"
-                        value={((value as any).source || 'category') as SlotCardSource}
+                        value={source}
                         onChange={(e) => {
                             const nextSource = (e.target.value as SlotCardSource) || 'category';
-                            const next: any = { ...value, source: nextSource };
+
+                            const next: BuilderValue = { ...value, source: nextSource };
+
                             if (nextSource === 'manual' && !Array.isArray(next.card_ids)) {
                                 next.card_ids = [];
                             }
-                            onChange(next);
+
+                            onChange(next as CategoryCardValue);
                         }}
                     >
                         <option value="category">By category</option>
@@ -148,7 +162,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                     <p className="text-xs opacity-70 mt-1">Choose where this block should take cards from.</p>
                 </div>
 
-                {(((value as any).source || 'category') as SlotCardSource) === 'category' && (
+                {source === 'category' && (
                     <div className="mb-4">
                         <label className="block mb-1">Category</label>
                         <select
@@ -164,11 +178,11 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                     </div>
                 )}
 
-                {(((value as any).source || 'category') as SlotCardSource) === 'manual' && (
+                {source === 'manual' && (
                     <div className="mb-4">
                         <label className="block mb-1">Manual cards</label>
                         <div className="space-y-2">
-                            {((((value as any).card_ids) as Array<number | string> | undefined) || []).map((id, idx) => {
+                            {cardIds.map((id, idx) => {
                                 const current = Number(id) || 0;
                                 const list = (cards || []).filter((c) => String(c.type) === 'card');
 
@@ -178,9 +192,9 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                                             className="flex-1 p-2 border rounded"
                                             value={current}
                                             onChange={(e) => {
-                                                const nextIds = [...((((value as any).card_ids) as Array<number | string> | undefined) || [])];
+                                                const nextIds = [...cardIds];
                                                 nextIds[idx] = Number(e.target.value);
-                                                onChange({ ...value, card_ids: nextIds } as any);
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
                                             }}
                                         >
                                             <option value={0}>Select card…</option>
@@ -194,9 +208,9 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                                             className="px-2 py-1 border rounded disabled:opacity-40"
                                             disabled={idx === 0}
                                             onClick={() => {
-                                                const nextIds = [...((((value as any).card_ids) as Array<number | string> | undefined) || [])];
+                                                const nextIds = [...cardIds];
                                                 [nextIds[idx - 1], nextIds[idx]] = [nextIds[idx], nextIds[idx - 1]];
-                                                onChange({ ...value, card_ids: nextIds } as any);
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
                                             }}
                                         >
                                             ↑
@@ -205,11 +219,11 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                                         <button
                                             type="button"
                                             className="px-2 py-1 border rounded disabled:opacity-40"
-                                            disabled={idx === ((((value as any).card_ids) as any[]) || []).length - 1}
+                                            disabled={idx === cardIds.length - 1}
                                             onClick={() => {
-                                                const nextIds = [...((((value as any).card_ids) as Array<number | string> | undefined) || [])];
+                                                const nextIds = [...cardIds];
                                                 [nextIds[idx + 1], nextIds[idx]] = [nextIds[idx], nextIds[idx + 1]];
-                                                onChange({ ...value, card_ids: nextIds } as any);
+                                                onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
                                             }}
                                         >
                                             ↓
@@ -219,8 +233,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                                             type="button"
                                             className="px-2 py-1 border rounded"
                                             onClick={() => {
-                                                const nextIds = (((value as any).card_ids) as Array<number | string> | undefined) || [];
-                                                onChange({ ...value, card_ids: nextIds.filter((_, i) => i !== idx) } as any);
+                                                onChange({ ...value, card_ids: cardIds.filter((_, i) => i !== idx) } as CategoryCardValue);
                                             }}
                                         >
                                             ✕
@@ -233,9 +246,8 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                                 type="button"
                                 className="px-3 py-2 border rounded"
                                 onClick={() => {
-                                    const nextIds = [...((((value as any).card_ids) as Array<number | string> | undefined) || [])];
-                                    nextIds.push(0);
-                                    onChange({ ...value, card_ids: nextIds } as any);
+                                    const nextIds = [...cardIds, 0];
+                                    onChange({ ...value, card_ids: nextIds } as CategoryCardValue);
                                 }}
                             >
                                 + Add card
@@ -253,9 +265,6 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
         const renderAdditionalFields = () => {
 
             const sections = [];
-
-            const source = (((value as any).source || 'category') as SlotCardSource);
-            const isManual = source === 'manual';
 
             if (lastUpdateTypes.includes(value.type)) {
                 sections.push(

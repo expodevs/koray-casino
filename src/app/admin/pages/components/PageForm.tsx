@@ -403,7 +403,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         return null;
-    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, iconCards, handleFieldValueChange]);
+    }, [builders, categoryCards, faqs, casinos, casinoOptions, cards, slotCards, iconCards, handleFieldValueChange]);
 
     if (isLoading||isLoadingCategoryCards||isLoadingFaqs||isLoadingCasinos||isLoadingCasinoOptions||isLoadingCards||isLoadingSlotCards||isLoadingIconCards) return <div>Loading...</div>;
 
