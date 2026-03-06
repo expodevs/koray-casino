@@ -263,6 +263,7 @@ enum BuildType {
   slotCard
   casinoTop
   btnBlock
+  textTabs
 }
 
 enum OptionType {

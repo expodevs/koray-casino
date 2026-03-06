@@ -10,6 +10,7 @@ import CardsTable from '@components/mobile/section/CardsTable';
 import TextBlock from '@components/mobile/section/TextBlock';
 import BtnsBlock from "@components/mobile/section/BtnsBlock";
 import CartList from "@components/mobile/section/CartList";
+import TextTabs from '@components/mobile/section/TextTabs';
 
 import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
 
@@ -94,6 +95,9 @@ export default function BuilderPage({ page }: PageProps) {
 
                         case BuildType.cart:
                             return <CartList key={block.id} items={block.props} />;
+
+                        case BuildType.textTabs:
+                            return <TextTabs key={block.id} items={block.props} />;
 
                         default:
                             return null;

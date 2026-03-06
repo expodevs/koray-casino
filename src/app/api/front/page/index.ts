@@ -38,6 +38,17 @@ export type BlockProps =
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
  */
+
+export interface TextTabsItem {
+    position: number;
+    label: string;
+    html: string;
+}
+
+export interface TextTabsBlockProps {
+    title?: string;
+    items: TextTabsItem[];
+}
 export interface SimpleBlockProps {
     html?: string;
 }
@@ -399,6 +410,8 @@ async function processBlockByType(
 
         case BuildType.btnBlock:
             return processBtnBlock(fieldValues);
+        case BuildType.textTabs:
+            return processTextTabsBlock(fieldValues);
 
         default:
             return processSimpleBlock(fieldValues);
@@ -824,6 +837,26 @@ async function processCartBlock(): Promise<CartListBlockProps> {
  * @param fieldValues The raw field values
  * @returns The processed block properties
  */
+
+function processTextTabsBlock(fieldValues: string): TextTabsBlockProps {
+    const parsed = safeParseJSON<any>(fieldValues, null);
+
+    if (!parsed) {
+        return { title: "", variant: "pills", items: [] };
+    }
+
+    const items = Array.isArray(parsed.items) ? parsed.items : [];
+    return {
+        title: parsed.title || "",
+        items: items
+            .map((it: any, idx: number) => ({
+                position: Number(it.position ?? idx + 1),
+                label: String(it.label ?? `Tab ${idx + 1}`),
+                html: String(it.html ?? ""),
+            }))
+            .sort((a, b) => a.position - b.position),
+    };
+}
 
 function formatStaticLabel(field: string): string {
     return field
