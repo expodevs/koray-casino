@@ -19,6 +19,7 @@ import BuilderCasinoTop, { CasinoTopData } from "@app/admin/pages/components/Bui
 import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/CategoryCardBuilder';
 import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
 import BtnBlock, { BtnBlockData, BtnBlockType } from '@app/admin/pages/components/btnBlock';
+import TextTabsBuilder, { TextTabsData } from "@app/admin/pages/components/TextTabsBuilder";
 
 
 
@@ -400,6 +401,34 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                     />
                 </div>
             )
+        }
+
+        if (builder.build_type === BuildType.textTabs) {
+            const parse = (): TextTabsData => {
+                if (!buildPage.field_values) {
+                    return {title: "", variant: "pills", items: [{position: 1, label: "Tab 1", html: ""}]};
+                }
+                try {
+                    const d = JSON.parse(buildPage.field_values);
+                    return {
+                        title: d.title || "",
+                        variant: d.variant || "pills",
+                        items: Array.isArray(d.items) ? d.items : [{position: 1, label: "Tab 1", html: ""}],
+                    };
+                } catch {
+                    return {title: "", variant: "pills", items: [{position: 1, label: "Tab 1", html: ""}]};
+                }
+            };
+            const data = parse();
+            return (
+                <div key={`builder-${buildPage.build_id}-${idx}`}>
+                    <TextTabsBuilder
+                        label={builder.label}
+                        data={data}
+                        onChange={(next) => handleFieldValueChange(idx, JSON.stringify(next))}
+                    />
+                </div>
+            );
         }
 
         return null;

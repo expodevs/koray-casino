@@ -25,6 +25,7 @@ export interface BaseCategoryCard {
     source?: SlotCardSource;
     category_id?: string;
     card_ids?: number[];
+    is_slider?: boolean;
     last_update?: string;
     ad_disclosure?: string;
     options?: string;

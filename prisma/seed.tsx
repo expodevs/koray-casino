@@ -54,6 +54,10 @@ async function seedBuilders()
             build_type: BuildType.btnBlock,
             label: 'Button Block',
         },
+        {
+            build_type: BuildType.textTabs,
+            label: "Text Tabs",
+        }
     ]
 
     for (const [idx, builder] of builders.entries()) {

@@ -12,6 +12,7 @@ export default function CardsListSimple( { items } ) {
         label,
         description,
         show_filter,
+        is_slider,
     } = items.props;
 
     const filters = useMemo(() => {
@@ -63,7 +64,7 @@ export default function CardsListSimple( { items } ) {
 
 
             <section className="card-games">
-                <CardsList cards={filteredCards} listType={listType}/>
+                <CardsList cards={filteredCards} listType={listType} isSlider={Boolean(is_slider)}/>
             </section>
         </>
     )

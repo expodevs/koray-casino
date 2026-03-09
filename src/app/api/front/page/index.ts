@@ -34,10 +34,22 @@ export type BlockProps =
     | CardBlockProps 
     | CartListBlockProps
     | CasinoTopBlockProps
+    | TextTabsBlockProps
 
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
  */
+
+export interface TextTabsItem {
+    position: number;
+    label: string;
+    html: string;
+}
+
+export interface TextTabsBlockProps {
+    title?: string;
+    items: TextTabsItem[];
+}
 export interface SimpleBlockProps {
     html?: string;
 }
@@ -70,6 +82,7 @@ export interface CardBlockProps {
     options: PositionedItem[];
     iconCardItems: PositionedItem[];
     cards: CardItem[];
+    is_slider: boolean;
 }
 
 /**
@@ -206,6 +219,7 @@ interface CardBlockDataRaw {
     category_id?: number;
     source?: 'category' | 'manual';
     card_ids?: Array<number | string>;
+    is_slider?: boolean;
 }
 
 /**
@@ -399,6 +413,8 @@ async function processBlockByType(
 
         case BuildType.btnBlock:
             return processBtnBlock(fieldValues);
+        case BuildType.textTabs:
+            return processTextTabsBlock(fieldValues);
 
         default:
             return processSimpleBlock(fieldValues);
@@ -464,6 +480,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
     const ad_disclosure = String(data.ad_disclosure ?? "");
     const show_filter = Boolean(data.show_filter);
     const slotType = String(data.type ?? "");
+    const is_slider = Boolean(data.is_slider);
 
     const parsedOptions = parsePositionedItems(data.options);
 
@@ -496,6 +513,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
         options: parsedOptions,
         iconCardItems: parsedIconItems,
         cards,
+        is_slider,
     };
 }
 
@@ -824,6 +842,26 @@ async function processCartBlock(): Promise<CartListBlockProps> {
  * @param fieldValues The raw field values
  * @returns The processed block properties
  */
+
+function processTextTabsBlock(fieldValues: string): TextTabsBlockProps {
+    const parsed = safeParseJSON<any>(fieldValues, null);
+
+    if (!parsed) {
+        return { title: "", items: [] };
+    }
+
+    const items = Array.isArray(parsed.items) ? parsed.items : [];
+    return {
+        title: parsed.title || "",
+        items: items
+            .map((it: any, idx: number) => ({
+                position: Number(it.position ?? idx + 1),
+                label: String(it.label ?? `Tab ${idx + 1}`),
+                html: String(it.html ?? ""),
+            }))
+            .sort((a, b) => a.position - b.position),
+    };
+}
 
 function formatStaticLabel(field: string): string {
     return field
