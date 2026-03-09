@@ -96,6 +96,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
             iconCardItems: JSON.stringify([{ id: 0, position: 1 }]),
             source: 'category' as SlotCardSource,
             card_ids: [],
+            is_slider: false,
             type: type
         };
 
@@ -161,6 +162,20 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                     </select>
                     <p className="text-xs opacity-70 mt-1">Choose where this block should take cards from.</p>
                 </div>
+
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={Boolean((value as BuilderValue).is_slider)}
+                        onChange={(e) =>
+                            onChange({
+                                ...value,
+                                is_slider: e.target.checked
+                            } as CategoryCardValue)
+                        }
+                    />
+                    Show as slider
+                </label>
 
                 {source === 'category' && (
                     <div className="mb-4">

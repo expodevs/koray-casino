@@ -34,6 +34,7 @@ export type BlockProps =
     | CardBlockProps 
     | CartListBlockProps
     | CasinoTopBlockProps
+    | TextTabsBlockProps
 
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
@@ -81,6 +82,7 @@ export interface CardBlockProps {
     options: PositionedItem[];
     iconCardItems: PositionedItem[];
     cards: CardItem[];
+    is_slider: boolean;
 }
 
 /**
@@ -217,6 +219,7 @@ interface CardBlockDataRaw {
     category_id?: number;
     source?: 'category' | 'manual';
     card_ids?: Array<number | string>;
+    is_slider?: boolean;
 }
 
 /**
@@ -477,6 +480,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
     const ad_disclosure = String(data.ad_disclosure ?? "");
     const show_filter = Boolean(data.show_filter);
     const slotType = String(data.type ?? "");
+    const is_slider = Boolean(data.is_slider);
 
     const parsedOptions = parsePositionedItems(data.options);
 
@@ -509,6 +513,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
         options: parsedOptions,
         iconCardItems: parsedIconItems,
         cards,
+        is_slider,
     };
 }
 
@@ -842,7 +847,7 @@ function processTextTabsBlock(fieldValues: string): TextTabsBlockProps {
     const parsed = safeParseJSON<any>(fieldValues, null);
 
     if (!parsed) {
-        return { title: "", variant: "pills", items: [] };
+        return { title: "", items: [] };
     }
 
     const items = Array.isArray(parsed.items) ? parsed.items : [];

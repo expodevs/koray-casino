@@ -15,9 +15,11 @@ import CardGameShort from "@components/mobile/section/cards/CardGameShort";
 
 import styles from './CardsList.module.scss';
 import { ListCardType } from '@app/api/front/types/card';
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation} from "swiper/modules";
 
 
-export default function CardsList( { cards, listType } ) {
+export default function CardsList( { cards, listType, isSlider = false  } ) {
     const [visibleCount, setVisibleCount] = useState(3);
     const renderCard = (card, idx) => {
         switch (listType) {
@@ -45,6 +47,26 @@ export default function CardsList( { cards, listType } ) {
                 return <CardSlotSimple key={idx} card={card} />
         }
     };
+
+    if (isSlider) {
+        return (
+            <section className={styles['cards-list-slider']}>
+                <Swiper
+                    modules={[Navigation]}
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    navigation
+                    className={styles['cards-list-slider-wrap']}
+                >
+                    {cards.map((card, idx) => (
+                        <SwiperSlide key={card.id || idx}>
+                            {renderCard(card, idx)}
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </section>
+        );
+    }
 
     const visibleCards = cards.slice(0, visibleCount);
 
