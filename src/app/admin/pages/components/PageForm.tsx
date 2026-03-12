@@ -406,20 +406,30 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         if (builder.build_type === BuildType.textTabs) {
             const parse = (): TextTabsData => {
                 if (!buildPage.field_values) {
-                    return {title: "", variant: "pills", items: [{position: 1, label: "Tab 1", html: ""}]};
+                    return {
+                        title: "",
+                        items: [{ position: 1, label: "Tab 1", html: "" }],
+                    };
                 }
+
                 try {
-                    const d = JSON.parse(buildPage.field_values);
+                    const d = JSON.parse(buildPage.field_values) as Partial<TextTabsData>;
                     return {
                         title: d.title || "",
-                        variant: d.variant || "pills",
-                        items: Array.isArray(d.items) ? d.items : [{position: 1, label: "Tab 1", html: ""}],
+                        items: Array.isArray(d.items)
+                            ? d.items
+                            : [{ position: 1, label: "Tab 1", html: "" }],
                     };
                 } catch {
-                    return {title: "", variant: "pills", items: [{position: 1, label: "Tab 1", html: ""}]};
+                    return {
+                        title: "",
+                        items: [{ position: 1, label: "Tab 1", html: "" }],
+                    };
                 }
             };
+
             const data = parse();
+
             return (
                 <div key={`builder-${buildPage.build_id}-${idx}`}>
                     <TextTabsBuilder

@@ -1,0 +1,73 @@
+.filter-group-wrap {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  .btn-open {
+    background: #fff;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    gap: 12px;
+    font-weight: 600;
+    padding: 0 16px;
+  }
+}
+.filter {
+  border-radius: 4px;
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 210px;
+  padding: 16px;
+  z-index: 9;
+  box-shadow: 0 0 3px rgba(0,0,0,.1);
+  max-height: 400px;
+  overflow: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: all .25s ease;
+}
+.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.group + .group {
+  margin-top: 20px;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  input {
+    width: 16px;
+    height: 16px;
+  }
+
+  span {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+}

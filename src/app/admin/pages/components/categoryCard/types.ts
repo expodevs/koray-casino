@@ -18,6 +18,7 @@ export enum CategoryCardType {
 
 export type SlotCardSource = 'category' | 'manual';
 
+export type FilterMode = 'flat' | 'grouped';
 export interface BaseCategoryCard {
     label?: string;
     description?: string;
@@ -29,6 +30,7 @@ export interface BaseCategoryCard {
     last_update?: string;
     ad_disclosure?: string;
     options?: string;
+    filter_mode?: FilterMode;
     type: CategoryCardType;
 }
 
@@ -37,6 +39,7 @@ export interface FilterCategoryCard {
     description?: string;
     category_id?: string;
     show_filter: boolean;
+    filter_mode?: FilterMode;
     type: CategoryCardType;
 }
 

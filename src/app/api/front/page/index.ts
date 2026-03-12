@@ -50,6 +50,15 @@ export interface TextTabsBlockProps {
     title?: string;
     items: TextTabsItem[];
 }
+
+interface TextTabsBlockRaw {
+    title?: string;
+    items?: Array<{
+        position?: number;
+        label?: string;
+        html?: string;
+    }>;
+}
 export interface SimpleBlockProps {
     html?: string;
 }
@@ -78,6 +87,7 @@ export interface CardBlockProps {
     last_update: string;
     ad_disclosure: string;
     show_filter: boolean;
+    filter_mode: 'flat' | 'grouped';
     type: string;
     options: PositionedItem[];
     iconCardItems: PositionedItem[];
@@ -213,6 +223,7 @@ interface CardBlockDataRaw {
     last_update?: string;
     ad_disclosure?: string;
     show_filter?: boolean;
+    filter_mode?: 'flat' | 'grouped';
     type?: string;
     options?: string | PositionedItem[];
     iconCardItems?: string | PositionedItem[];
@@ -479,6 +490,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
     const last_update = String(data.last_update ?? "");
     const ad_disclosure = String(data.ad_disclosure ?? "");
     const show_filter = Boolean(data.show_filter);
+    const filter_mode = data.filter_mode === 'grouped' ? 'grouped' : 'flat';
     const slotType = String(data.type ?? "");
     const is_slider = Boolean(data.is_slider);
 
@@ -509,6 +521,7 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
         last_update,
         ad_disclosure,
         show_filter,
+        filter_mode,
         type: slotType,
         options: parsedOptions,
         iconCardItems: parsedIconItems,
@@ -844,7 +857,7 @@ async function processCartBlock(): Promise<CartListBlockProps> {
  */
 
 function processTextTabsBlock(fieldValues: string): TextTabsBlockProps {
-    const parsed = safeParseJSON<any>(fieldValues, null);
+    const parsed = safeParseJSON<TextTabsBlockRaw | null>(fieldValues, null);
 
     if (!parsed) {
         return { title: "", items: [] };
@@ -854,7 +867,7 @@ function processTextTabsBlock(fieldValues: string): TextTabsBlockProps {
     return {
         title: parsed.title || "",
         items: items
-            .map((it: any, idx: number) => ({
+            .map((it, idx) => ({
                 position: Number(it.position ?? idx + 1),
                 label: String(it.label ?? `Tab ${idx + 1}`),
                 html: String(it.html ?? ""),

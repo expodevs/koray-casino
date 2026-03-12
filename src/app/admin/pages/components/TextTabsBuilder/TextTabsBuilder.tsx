@@ -30,8 +30,6 @@ export default function TextTabsBuilder({
             : [{ position: 1, label: "Tab 1", html: "" }];
 
     const setTitle = (v: string) => onChange({ ...data, title: v });
-    const setVariant = (v: TextTabsData["variant"]) => onChange({ ...data, variant: v });
-
     const addItem = () => {
         onChange({
             ...data,
