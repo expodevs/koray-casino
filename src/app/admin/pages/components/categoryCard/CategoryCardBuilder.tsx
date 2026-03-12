@@ -97,6 +97,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
             source: 'category' as SlotCardSource,
             card_ids: [],
             is_slider: false,
+            filter_mode: 'flat',
             type: type
         };
 
@@ -166,7 +167,7 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                         type="checkbox"
-                        checked={Boolean((value as BuilderValue).is_slider)}
+                        checked={'is_slider' in value ? Boolean(value.is_slider) : false}
                         onChange={(e) =>
                             onChange({
                                 ...value,
@@ -348,15 +349,36 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
 
             if (filterTypes.includes(value.type)) {
                 sections.push(
-                    <div className="mb-4" key="filter-section">
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                checked={(value as ExtendedCategoryCard).show_filter || false}
-                                onChange={(e) => handleChange('show_filter', e.target.checked)}
-                            />
-                            <span>Show Filter</span>
-                        </label>
+                    <div key="filter-section">
+                        <div className="mb-4">
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={(value as ExtendedCategoryCard).show_filter || false}
+                                    onChange={(e) => handleChange('show_filter', e.target.checked)}
+                                />
+                                <span>Show Filter</span>
+                            </label>
+                        </div>
+                        {('show_filter' in value) && value.show_filter && (
+                            <div className="mb-4">
+                                <label className="block mb-1">Filter mode</label>
+                                <select
+                                    className="w-full p-2 border rounded"
+                                    value={'filter_mode' in value ? (value.filter_mode || 'flat') : 'flat'}
+                                    onChange={(e) =>
+                                        onChange({
+                                            ...value,
+                                            filter_mode: e.target.value as 'flat' | 'grouped',
+                                        } as CategoryCardValue)
+                                    }
+                                >
+                                    <option value="flat">Flat</option>
+                                    <option value="grouped">Grouped checkbox</option>
+                                </select>
+                            </div>
+
+                        )}
                     </div>
                 );
             }
