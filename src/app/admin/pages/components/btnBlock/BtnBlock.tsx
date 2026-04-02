@@ -1,5 +1,6 @@
 import React from "react";
 import { BtnBlockData, BtnBlockItem, BtnBlockType } from "./types";
+import TinyMCE from "@components/TinyMCE";
 
 interface BtnBlockProps {
     label: string;
@@ -118,13 +119,16 @@ export default function BtnBlock({
                         >
                             <option value={BtnBlockType.inline}>Inline</option>
                             <option value={BtnBlockType.button}>Button</option>
+                            <option value={BtnBlockType.modal}>Modal</option>
                         </select>
                     </div>
                     <h3 className="font-semibold mb-2">Buttons</h3>
                     <div className="space-y-2">
                         {displayButtons.map((button, buttonIdx) => (
                             <div key={`button-${buttonIdx}`} className="flex items-center gap-2">
+                                {data.type !== BtnBlockType.modal && (
                                 <div className="flex-grow grid grid-cols-2 gap-2">
+
                                     <input
                                         type="text"
                                         className="p-2 border rounded"
@@ -133,15 +137,34 @@ export default function BtnBlock({
                                         placeholder="Button Label"
                                         required
                                     />
-                                    <input
-                                        type="text"
-                                        className="p-2 border rounded"
-                                        value={button.link}
-                                        onChange={(e) => updateButtonValue(buttonIdx, 'link', e.target.value)}
-                                        placeholder="Button Link"
-                                        required
-                                    />
+
+
+                                        <input
+                                            className="w-full p-2 border rounded"
+                                            placeholder="Button Link"
+                                            value={button.link || ''}
+                                            onChange={(e) => updateButtonValue(buttonIdx, 'link', e.target.value )}
+                                        />
+
                                 </div>
+                                )}
+                                {data.type === BtnBlockType.modal && (
+                                    <div className="mt-3">
+                                        <input
+                                            type="text"
+                                            className="p-2 border rounded"
+                                            value={button.label}
+                                            onChange={(e) => updateButtonValue(buttonIdx, 'label', e.target.value)}
+                                            placeholder="Button Label"
+                                            required
+                                        />
+                                        <label className="block mt-3">Modal content</label>
+                                        <TinyMCE
+                                            value={button.content || ''}
+                                            onChange={(html) => updateButtonValue(buttonIdx, 'content', html )}
+                                        />
+                                    </div>
+                                )}
                                 <div className="flex flex-col">
                                     <button 
                                         type="button"

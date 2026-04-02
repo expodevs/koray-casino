@@ -308,8 +308,25 @@ interface RawIconCardImage {
     };
 }
 
+interface BtnBlockRaw {
+    buttons?: Array<{
+        position?: number;
+        label?: string;
+        link?: string;
+        content?: string;
+    }>;
+    type?: string;
+}
+
+interface BtnBlockItem {
+    position: number;
+    label: string;
+    link?: string;
+    content?: string;
+}
+
 interface BtnBlockProps extends SimpleBlockProps {
-    buttons: { position: number; label: string; link: string }[];
+    buttons: BtnBlockItem[];
     type?: string;
 }
 
@@ -536,16 +553,24 @@ async function processCardBlock(fieldValues: string): Promise<CardBlockProps> {
  * @returns The processed block properties
  */
 function processBtnBlock(fieldValues: string): BtnBlockProps {
-    let parsed: { buttons?: Array<{ position: number; label: string; link: string }>; type?: string } = {};
+    let parsed: BtnBlockRaw = {};
+
     try {
-        parsed = JSON.parse(fieldValues);
+        parsed = JSON.parse(fieldValues) as BtnBlockRaw;
     } catch (e) {
         console.error("Failed to parse btnBlock JSON:", e);
         parsed = {};
     }
 
     return {
-        buttons: Array.isArray(parsed.buttons) ? parsed.buttons : [],
+        buttons: Array.isArray(parsed.buttons)
+            ? parsed.buttons.map((button, idx) => ({
+                position: Number(button.position ?? idx + 1),
+                label: String(button.label ?? ''),
+                link: button.link ? String(button.link) : '',
+                content: button.content ? String(button.content) : '',
+            }))
+            : [],
         type: parsed.type ?? undefined,
     };
 }
