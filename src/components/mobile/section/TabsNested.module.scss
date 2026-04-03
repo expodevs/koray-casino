@@ -1,0 +1,110 @@
+.tabsBlock {
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  margin: 32px 0;
+}
+
+.title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #2e2143;
+}
+
+.mainTabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.innerTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.innerTabBtn {
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.mainTabBtn {
+  padding: 0 16px 12px;
+  border: 0;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  font-size: 14px;
+  color: #7f7a89;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.activeInnerTab {
+  background: #3E63DD;
+  color: #fff;
+}
+
+.activeMainTab {
+  color: #000;
+  border-bottom-color: #4762ff;
+  font-weight: 700;
+}
+
+.simpleContent,
+.nestedContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.cardMedia {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #2e2143;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6f6a78;
+
+  p {
+    margin: 0 0 12px;
+  }
+}
+
+.note {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid #3E63DD;
+  border-radius: 12px;
+  background: #E6EDFE;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #3E63DD;
+  font-weight: 600;
+}
+
+.nestedWrap {
+  margin-top: 8px;
+}

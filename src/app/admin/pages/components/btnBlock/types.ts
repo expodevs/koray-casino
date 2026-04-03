@@ -1,12 +1,14 @@
 export enum BtnBlockType {
     inline = 'inline',
-    button = 'button'
+    button = 'button',
+    modal = 'modal'
 }
 
 export interface BtnBlockItem {
     position: number;
     label: string;
-    link: string;
+    link?: string;
+    content?: string;
 }
 
 export interface BtnBlockData {

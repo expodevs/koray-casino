@@ -11,8 +11,10 @@ import TextBlock from '@components/mobile/section/TextBlock';
 import BtnsBlock from "@components/mobile/section/BtnsBlock";
 import CartList from "@components/mobile/section/CartList";
 import TextTabs from '@components/mobile/section/TextTabs';
+import TabsNested from "@components/mobile/section/TabsNested";
 
 import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
+import {TabsNestedData} from "@app/admin/pages/components/TabsNestedBuilder";
 
 type Tab = {
     hash: string;
@@ -98,6 +100,9 @@ export default function BuilderPage({ page }: PageProps) {
 
                         case BuildType.textTabs:
                             return <TextTabs key={block.id} items={block.props} />;
+
+                        case BuildType.tabsNested:
+                            return <TabsNested key={block.id} items={block.props as TabsNestedData} />;
 
                         default:
                             return null;

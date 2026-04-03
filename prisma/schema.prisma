@@ -264,6 +264,7 @@ enum BuildType {
   casinoTop
   btnBlock
   textTabs
+  tabsNested
 }
 
 enum OptionType {
