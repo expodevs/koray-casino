@@ -232,64 +232,6 @@ export default function TabsNestedBuilder({
         updateItems(next);
     };
 
-    const uploadFile = async (file: File): Promise<string> => {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const response = await fetch('/api/admin/tabs-nested/upload', {
-            method: 'POST',
-            body: formData,
-        });
-
-        const result = await response.json();
-
-        if (!response.ok || !result?.success || !result?.src) {
-            throw new Error(result?.message || 'Upload failed');
-        }
-
-        return result.src;
-    };
-
-    const handleItemFileSelected = async (
-        index: number,
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        if (!e.target.files?.length) return;
-
-        const file = e.target.files[0];
-
-        try {
-            const src = await uploadFile(file);
-            updateItem(index, { image: src });
-            toast.success('Image uploaded');
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to upload image');
-        } finally {
-            e.target.value = '';
-        }
-    };
-
-    const handleChildFileSelected = async (
-        itemIndex: number,
-        childIndex: number,
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        if (!e.target.files?.length) return;
-
-        const file = e.target.files[0];
-
-        try {
-            const src = await uploadFile(file);
-            updateChild(itemIndex, childIndex, { image: src });
-            toast.success('Image uploaded');
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to upload image');
-        } finally {
-            e.target.value = '';
-        }
-    };
 
     return (
         <div className="mb-6">

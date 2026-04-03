@@ -3,9 +3,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './TabsNested.module.scss';
 
-export default function TabsNested({ title, items = [] }) {
+export default function TabsNested({ items }) {
+    const title = items?.title || '';
+    const tabs = Array.isArray(items?.items) ? items.items : [];
+
     const [activeMain, setActiveMain] = useState(0);
-    const currentMain = items[activeMain] || null;
+    const currentMain = tabs[activeMain] || null;
 
     const childTabs = useMemo(() => {
         if (!currentMain?.hasChildren || !Array.isArray(currentMain?.children)) {
@@ -25,14 +28,14 @@ export default function TabsNested({ title, items = [] }) {
 
     const currentChild = childTabs[activeChild] || null;
 
-    if (!items.length) return null;
+    if (!tabs.length) return null;
 
     return (
         <section className={styles.tabsBlock}>
             {title ? <h2 className={styles.title}>{title}</h2> : null}
 
             <div className={styles.mainTabs}>
-                {items.map((tab, index) => (
+                {tabs.map((tab, index) => (
                     <button
                         key={`${tab.label}-${index}`}
                         type="button"
@@ -69,7 +72,6 @@ export default function TabsNested({ title, items = [] }) {
                         {currentMain?.note ? (
                             <div className={styles.note}>{currentMain.note}</div>
                         ) : null}
-
                     </div>
                 </div>
             )}
@@ -113,15 +115,6 @@ export default function TabsNested({ title, items = [] }) {
 
                                 {currentChild.note ? (
                                     <div className={styles.note}>{currentChild.note}</div>
-                                ) : null}
-
-                                {currentChild.buttonLabel ? (
-                                    <a
-                                        href={currentChild.buttonLink || '#'}
-                                        className={styles.ctaBtn}
-                                    >
-                                        {currentChild.buttonLabel}
-                                    </a>
                                 ) : null}
                             </div>
                         </div>
