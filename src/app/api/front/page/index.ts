@@ -35,6 +35,7 @@ export type BlockProps =
     | CartListBlockProps
     | CasinoTopBlockProps
     | TextTabsBlockProps
+    | TabsNestedBlockProps
 
 /**
  * Properties for simple blocks (text, textarea, htmlEditor)
@@ -330,6 +331,60 @@ interface BtnBlockProps extends SimpleBlockProps {
     type?: string;
 }
 
+export interface TabsNestedChildItem {
+    position: number;
+    label: string;
+    image?: string;
+    content?: string;
+    contentTitle?: string;
+    note?: string;
+    buttonLabel?: string;
+    buttonLink?: string;
+}
+
+export interface TabsNestedItem {
+    position: number;
+    label: string;
+    hasChildren?: boolean;
+    image?: string;
+    content?: string;
+    contentTitle?: string;
+    note?: string;
+    buttonLabel?: string;
+    buttonLink?: string;
+    children?: TabsNestedChildItem[];
+}
+
+export interface TabsNestedBlockProps {
+    title?: string;
+    items: TabsNestedItem[];
+}
+
+interface TabsNestedBlockRaw {
+    title?: string;
+    items?: Array<{
+        position?: number;
+        label?: string;
+        hasChildren?: boolean;
+        image?: string;
+        content?: string;
+        contentTitle?: string;
+        note?: string;
+        buttonLabel?: string;
+        buttonLink?: string;
+        children?: Array<{
+            position?: number;
+            label?: string;
+            image?: string;
+            content?: string;
+            contentTitle?: string;
+            note?: string;
+            buttonLabel?: string;
+            buttonLink?: string;
+        }>;
+    }>;
+}
+
 // =============================================================================
 // Public API Functions
 // =============================================================================
@@ -443,6 +498,8 @@ async function processBlockByType(
             return processBtnBlock(fieldValues);
         case BuildType.textTabs:
             return processTextTabsBlock(fieldValues);
+        case BuildType.tabsNested:
+            return processTabsNestedBlock(fieldValues);
 
         default:
             return processSimpleBlock(fieldValues);
@@ -999,6 +1056,50 @@ export async function processCasinoTopBlock(
         table_show_casinos,
         casinos,
     }
+}
+
+function processTabsNestedBlock(fieldValues: string): TabsNestedBlockProps {
+    const parsed = safeParseJSON<TabsNestedBlockRaw | null>(fieldValues, null);
+
+    if (!parsed) {
+        return {
+            title: '',
+            items: [],
+        };
+    }
+
+    const items = Array.isArray(parsed.items) ? parsed.items : [];
+
+    return {
+        title: parsed.title || '',
+        items: items
+            .map((item, idx) => ({
+                position: Number(item.position ?? idx + 1),
+                label: String(item.label ?? `Tab ${idx + 1}`),
+                hasChildren: Boolean(item.hasChildren),
+                image: String(item.image ?? ''),
+                content: String(item.content ?? ''),
+                contentTitle: String(item.contentTitle ?? ''),
+                note: String(item.note ?? ''),
+                buttonLabel: String(item.buttonLabel ?? ''),
+                buttonLink: String(item.buttonLink ?? ''),
+                children: Array.isArray(item.children)
+                    ? item.children
+                        .map((child, childIdx) => ({
+                            position: Number(child.position ?? childIdx + 1),
+                            label: String(child.label ?? `Inner Tab ${childIdx + 1}`),
+                            image: String(child.image ?? ''),
+                            content: String(child.content ?? ''),
+                            contentTitle: String(child.contentTitle ?? ''),
+                            note: String(child.note ?? ''),
+                            buttonLabel: String(child.buttonLabel ?? ''),
+                            buttonLink: String(child.buttonLink ?? ''),
+                        }))
+                        .sort((a, b) => a.position - b.position)
+                    : [],
+            }))
+            .sort((a, b) => a.position - b.position),
+    };
 }
 
 

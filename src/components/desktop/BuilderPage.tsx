@@ -11,6 +11,7 @@ import TextBlock from '@components/desktop/section/TextBlock';
 import BtnsBlock from "@components/desktop/section/BtnsBlock";
 import CartList from "@components/desktop/section/CartList";
 import TextTabs from "@components/desktop/section/TextTabs";
+import TabsNested from "@components/desktop/section/TabsNested";
 
 import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
 
@@ -98,6 +99,9 @@ export default function BuilderPage({ page }: PageProps) {
 
                         case BuildType.textTabs:
                             return <TextTabs key={block.id} items={block.props} />;
+
+                        case BuildType.tabsNested:
+                            return <TabsNested key={block.id} {...block.props} />;
 
                         default:
                             return null;

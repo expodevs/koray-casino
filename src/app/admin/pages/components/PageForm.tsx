@@ -20,6 +20,7 @@ import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/Catego
 import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
 import BtnBlock, { BtnBlockData, BtnBlockType } from '@app/admin/pages/components/btnBlock';
 import TextTabsBuilder, { TextTabsData } from "@app/admin/pages/components/TextTabsBuilder";
+import TabsNestedBuilder, { TabsNestedData, } from '@app/admin/pages/components/TabsNestedBuilder';
 
 
 
@@ -433,6 +434,84 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
             return (
                 <div key={`builder-${buildPage.build_id}-${idx}`}>
                     <TextTabsBuilder
+                        label={builder.label}
+                        data={data}
+                        onChange={(next) => handleFieldValueChange(idx, JSON.stringify(next))}
+                    />
+                </div>
+            );
+        }
+
+        if (builder.build_type === BuildType.tabsNested) {
+            const parse = (): TabsNestedData => {
+                if (!buildPage.field_values) {
+                    return {
+                        title: '',
+                        items: [
+                            {
+                                position: 1,
+                                label: 'Tab 1',
+                                hasChildren: false,
+                                image: '',
+                                contentTitle: '',
+                                content: '',
+                                note: '',
+                                buttonLabel: '',
+                                buttonLink: '',
+                                children: [],
+                            },
+                        ],
+                    };
+                }
+
+                try {
+                    const d = JSON.parse(buildPage.field_values) as Partial<TabsNestedData>;
+
+                    return {
+                        title: d.title || '',
+                        items: Array.isArray(d.items)
+                            ? d.items
+                            : [
+                                {
+                                    position: 1,
+                                    label: 'Tab 1',
+                                    hasChildren: false,
+                                    image: '',
+                                    contentTitle: '',
+                                    content: '',
+                                    note: '',
+                                    buttonLabel: '',
+                                    buttonLink: '',
+                                    children: [],
+                                },
+                            ],
+                    };
+                } catch {
+                    return {
+                        title: '',
+                        items: [
+                            {
+                                position: 1,
+                                label: 'Tab 1',
+                                hasChildren: false,
+                                image: '',
+                                contentTitle: '',
+                                content: '',
+                                note: '',
+                                buttonLabel: '',
+                                buttonLink: '',
+                                children: [],
+                            },
+                        ],
+                    };
+                }
+            };
+
+            const data = parse();
+
+            return (
+                <div key={`builder-${buildPage.build_id}-${idx}`}>
+                    <TabsNestedBuilder
                         label={builder.label}
                         data={data}
                         onChange={(next) => handleFieldValueChange(idx, JSON.stringify(next))}
