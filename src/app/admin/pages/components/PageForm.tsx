@@ -21,6 +21,7 @@ import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
 import BtnBlock, { BtnBlockData, BtnBlockType } from '@app/admin/pages/components/btnBlock';
 import TextTabsBuilder, { TextTabsData } from "@app/admin/pages/components/TextTabsBuilder";
 import TabsNestedBuilder, { TabsNestedData, } from '@app/admin/pages/components/TabsNestedBuilder';
+import SlotOverviewBuilder, { SlotOverviewData } from '@app/admin/pages/components/SlotOverviewBuilder';
 
 
 
@@ -508,6 +509,76 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
                     <TabsNestedBuilder
                         label={builder.label}
                         data={data}
+                        onChange={(next) => handleFieldValueChange(idx, JSON.stringify(next))}
+                    />
+                </div>
+            );
+        }
+
+        if (builder.build_type === BuildType.slotOverview) {
+            const parse = (): SlotOverviewData => {
+                if (!buildPage.field_values) {
+                    return {
+                        title: '',
+                        description: '',
+                        rating: '',
+                        thumbnail: '',
+                        featuredImage: '',
+                        gameplayImage: '',
+                        primaryButtonLabel: '',
+                        primaryButtonLink: '',
+                        secondaryButtonLabel: '',
+                        secondaryButtonLink: '',
+                        stats: [],
+                        certificates: [],
+                        faqs: [],
+                    };
+                }
+
+                try {
+                    const d = JSON.parse(buildPage.field_values) as Partial<SlotOverviewData>;
+
+                    return {
+                        title: d.title || '',
+                        description: d.description || '',
+                        rating: d.rating || '',
+                        thumbnail: d.thumbnail || '',
+                        featuredImage: d.featuredImage || '',
+                        gameplayImage: d.gameplayImage || '',
+                        primaryButtonLabel: d.primaryButtonLabel || '',
+                        primaryButtonLink: d.primaryButtonLink || '',
+                        secondaryButtonLabel: d.secondaryButtonLabel || '',
+                        secondaryButtonLink: d.secondaryButtonLink || '',
+                        stats: Array.isArray(d.stats) ? d.stats : [],
+                        certificates: Array.isArray(d.certificates) ? d.certificates : [],
+                        faqs: Array.isArray(d.faqs) ? d.faqs : [],
+                    };
+                } catch (e) {
+                    console.error('Failed to parse slotOverview field_values:', e);
+
+                    return {
+                        title: '',
+                        description: '',
+                        rating: '',
+                        thumbnail: '',
+                        featuredImage: '',
+                        gameplayImage: '',
+                        primaryButtonLabel: '',
+                        primaryButtonLink: '',
+                        secondaryButtonLabel: '',
+                        secondaryButtonLink: '',
+                        stats: [],
+                        certificates: [],
+                        faqs: [],
+                    };
+                }
+            };
+
+            return (
+                <div className="mb-4" key={`builder-${buildPage.build_id}-${idx}`}>
+                    <SlotOverviewBuilder
+                        label={builder.label}
+                        data={parse()}
                         onChange={(next) => handleFieldValueChange(idx, JSON.stringify(next))}
                     />
                 </div>

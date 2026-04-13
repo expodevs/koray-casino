@@ -1,0 +1,207 @@
+.slotOverview {
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 16px;
+  background: #F0F4FF;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 200px auto 200px;
+  gap: 24px;
+  align-items: start;
+}
+.topWrap {
+  position: relative;
+}
+.thumbnail,
+.mediaImage,
+.certificateImage {
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+.mediaImage {
+  height: 50px;
+  text-align: center;
+  img {
+    width: auto;
+  }
+}
+
+.mediaRow {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.mediaItem {
+  min-width: 120px;
+}
+
+.mediaLabel,
+.statLabel {
+  font-size: 14px;
+  color: #4b4f63;
+  margin-bottom: 8px;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  line-height: 1.15;
+  color: #3E63DD;
+  font-weight: 700;
+}
+
+.description {
+  margin-bottom: 12px;
+  color: #4b4f63;
+  font-size: 14px;
+  font-weight: 600;
+  p {
+    margin: 0 0 10px;
+  }
+}
+.showMore {
+  position: absolute;
+  bottom: -10px;
+  left: calc(50% - 18px);
+  width: 36px;
+  height: 20px;
+  background: #D9E2FC;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  &.active {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+.bodySlot {
+
+}
+.rating {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 18px;
+  span {
+    color: #4b4f63;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  strong {
+    color: #3E63DD;
+  }
+}
+.star {
+  display: inline-flex;
+  width: 17px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 170px;
+  gap: 24px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #d9dfef;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 24px;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.certificates {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.certificateItem {
+  text-align: center;
+}
+
+.faq {
+  margin-top: 28px;
+}
+
+.faqItem {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #E6EDFE;
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 18px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  &.active {
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.faqAnswer {
+  padding: 0 20px 20px;
+  color: #4b4f63;
+
+  p {
+    margin: 0 0 10px;
+  }
+}
+
+@media (max-width: 991px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+
+  .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .certificates {
+    justify-content: flex-start;
+  }
+
+  .mediaRow {
+    flex-direction: column;
+  }
+}

@@ -265,6 +265,7 @@ enum BuildType {
   btnBlock
   textTabs
   tabsNested
+  slotOverview
 }
 
 enum OptionType {
