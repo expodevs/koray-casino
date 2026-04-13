@@ -15,6 +15,7 @@ import TabsNested from "@components/mobile/section/TabsNested";
 
 import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
 import {TabsNestedData} from "@app/admin/pages/components/TabsNestedBuilder";
+import SlotOverview from "@components/mobile/section/SlotOverview";
 
 type Tab = {
     hash: string;
@@ -103,6 +104,9 @@ export default function BuilderPage({ page }: PageProps) {
 
                         case BuildType.tabsNested:
                             return <TabsNested key={block.id} items={block.props as TabsNestedData} />;
+
+                        case BuildType.slotOverview:
+                            return <SlotOverview key={block.id} items={block.props} />;
 
                         default:
                             return null;

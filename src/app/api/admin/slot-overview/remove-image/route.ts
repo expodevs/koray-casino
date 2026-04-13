@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('tabs-nested remove image error:', error);
+        console.error('slot-overview remove image error:', error);
 
         return NextResponse.json(
             { success: false, message: 'Remove failed' },
