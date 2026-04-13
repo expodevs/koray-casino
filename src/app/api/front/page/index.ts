@@ -423,6 +423,40 @@ export interface SlotOverviewBlockProps {
     faqs: SlotOverviewFaq[];
 }
 
+interface SlotOverviewStatRaw {
+    position?: number;
+    label?: string;
+    value?: string;
+}
+
+interface SlotOverviewCertificateRaw {
+    position?: number;
+    label?: string;
+    image?: string;
+}
+
+interface SlotOverviewFaqRaw {
+    position?: number;
+    question?: string;
+    answer?: string;
+}
+
+interface SlotOverviewBlockRaw {
+    title?: string;
+    description?: string;
+    rating?: number | string;
+    thumbnail?: string;
+    featuredImage?: string;
+    gameplayImage?: string;
+    primaryButtonLabel?: string;
+    primaryButtonLink?: string;
+    secondaryButtonLabel?: string;
+    secondaryButtonLink?: string;
+    stats?: SlotOverviewStatRaw[];
+    certificates?: SlotOverviewCertificateRaw[];
+    faqs?: SlotOverviewFaqRaw[];
+}
+
 // =============================================================================
 // Public API Functions
 // =============================================================================
@@ -1143,39 +1177,45 @@ function processTabsNestedBlock(fieldValues: string): TabsNestedBlockProps {
 }
 
 function processSlotOverviewBlock(fieldValues: string): SlotOverviewBlockProps {
-    const parsed = safeParseJSON<any>(fieldValues, {});
+    const parsed = safeParseJSON<SlotOverviewBlockRaw>(fieldValues, {});
 
     return {
-        title: String(parsed?.title ?? ''),
-        description: String(parsed?.description ?? ''),
-        rating: parsed?.rating ?? '',
-        thumbnail: String(parsed?.thumbnail ?? ''),
-        featuredImage: String(parsed?.featuredImage ?? ''),
-        gameplayImage: String(parsed?.gameplayImage ?? ''),
-        primaryButtonLabel: String(parsed?.primaryButtonLabel ?? ''),
-        primaryButtonLink: String(parsed?.primaryButtonLink ?? ''),
-        secondaryButtonLabel: String(parsed?.secondaryButtonLabel ?? ''),
-        secondaryButtonLink: String(parsed?.secondaryButtonLink ?? ''),
-        stats: Array.isArray(parsed?.stats)
-            ? parsed.stats.map((item: any, idx: number) => ({
-                position: Number(item?.position ?? idx + 1),
-                label: String(item?.label ?? ''),
-                value: String(item?.value ?? ''),
-            })).sort((a, b) => a.position - b.position)
+        title: String(parsed.title ?? ''),
+        description: String(parsed.description ?? ''),
+        rating: parsed.rating ?? '',
+        thumbnail: String(parsed.thumbnail ?? ''),
+        featuredImage: String(parsed.featuredImage ?? ''),
+        gameplayImage: String(parsed.gameplayImage ?? ''),
+        primaryButtonLabel: String(parsed.primaryButtonLabel ?? ''),
+        primaryButtonLink: String(parsed.primaryButtonLink ?? ''),
+        secondaryButtonLabel: String(parsed.secondaryButtonLabel ?? ''),
+        secondaryButtonLink: String(parsed.secondaryButtonLink ?? ''),
+        stats: Array.isArray(parsed.stats)
+            ? parsed.stats
+                .map((item, idx) => ({
+                    position: Number(item.position ?? idx + 1),
+                    label: String(item.label ?? ''),
+                    value: String(item.value ?? ''),
+                }))
+                .sort((a, b) => a.position - b.position)
             : [],
-        certificates: Array.isArray(parsed?.certificates)
-            ? parsed.certificates.map((item: any, idx: number) => ({
-                position: Number(item?.position ?? idx + 1),
-                label: String(item?.label ?? ''),
-                image: String(item?.image ?? ''),
-            })).sort((a, b) => a.position - b.position)
+        certificates: Array.isArray(parsed.certificates)
+            ? parsed.certificates
+                .map((item, idx) => ({
+                    position: Number(item.position ?? idx + 1),
+                    label: String(item.label ?? ''),
+                    image: String(item.image ?? ''),
+                }))
+                .sort((a, b) => a.position - b.position)
             : [],
-        faqs: Array.isArray(parsed?.faqs)
-            ? parsed.faqs.map((item: any, idx: number) => ({
-                position: Number(item?.position ?? idx + 1),
-                question: String(item?.question ?? ''),
-                answer: String(item?.answer ?? ''),
-            })).sort((a, b) => a.position - b.position)
+        faqs: Array.isArray(parsed.faqs)
+            ? parsed.faqs
+                .map((item, idx) => ({
+                    position: Number(item.position ?? idx + 1),
+                    question: String(item.question ?? ''),
+                    answer: String(item.answer ?? ''),
+                }))
+                .sort((a, b) => a.position - b.position)
             : [],
     };
 }
