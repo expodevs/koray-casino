@@ -1,5 +1,6 @@
 import prisma from "@lib/prisma-client";
 import { BuildType, CardType } from "@prismaClient";
+import { mapExternalJsonToCardBlockProps } from "@lib/mappers/JSONCardBlock";
 
 // =============================================================================
 // Type Definitions
@@ -557,8 +558,19 @@ async function processBlockByType(
             return await processFaqBlock(fieldValues);
 
         case BuildType.slotCard:
-        case BuildType.casinoCard:
+        case BuildType.casinoCard: {
+            const parsed = safeParseJSON<unknown>(fieldValues, null);
+
+            if (isExternalJson(parsed)) {
+                const externalProps = mapExternalJsonToCardBlockProps(parsed);
+
+                if (externalProps) {
+                    return externalProps;
+                }
+            }
+
             return await processCardBlock(fieldValues);
+        }
 
         case BuildType.cart:
             return await processCartBlock();
@@ -1242,4 +1254,17 @@ function safeParseJSON<T>(raw: string, defaultValue: T): T {
         console.error("JSON parsing error:", error);
         return defaultValue;
     }
+}
+
+/**
+ * Checks whether parsed data contains external JSON payload
+ * @param value Parsed value to check
+ * @returns True if value contains external_json field
+ */
+function isExternalJson(value: unknown): value is { external_json: unknown } {
+    return (
+        typeof value === "object" &&
+        value !== null &&
+        "external_json" in value
+    );
 }
