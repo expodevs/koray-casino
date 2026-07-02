@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
         domains: [
             'korayproject.s3.us-east-1.amazonaws.com'
         ],
-    }
+    },
+    htmlLimitedBots: /.*/,
 };
 
 export default nextConfig;
