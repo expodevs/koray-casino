@@ -14,7 +14,7 @@ import Image from "next/image";
 export default function CardSlot({ card }) {
 
     return (
-        <article className={styles['item-card']}>
+        <li className={styles['item-card']}>
             <Swiper
                 modules={[Navigation]}
                 slidesPerView={1}
@@ -77,6 +77,6 @@ export default function CardSlot({ card }) {
             </section>
 
             <FaqGroup items={card.faqs} variant="faq-group" />
-        </article>
+        </li>
     );
 }

@@ -154,8 +154,10 @@ export default function CardsListSimple( { items } ) {
 
     return (
         <>
-            <h2 className="title-section">{label}</h2>
-            <section className="text">{description}</section>
+            <section className="text">
+                <h2 className="title-section">{label}</h2>
+                {description}
+            </section>
 
             {show_filter && filter_mode !== 'grouped' && (
                 <FilterGame

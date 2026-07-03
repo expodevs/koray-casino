@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function CardCasinoWithFaq({ card }) {
 
     return (
-        <article className={`${styles['item-card']} ${styles.casino}`}>
+        <li className={`${styles['item-card']} ${styles.casino}`}>
             <figure className={styles['thumb-wrap']}>
                 <div className={styles['bg-thumb']}></div>
                 <Image
@@ -84,6 +84,6 @@ export default function CardCasinoWithFaq({ card }) {
             </section>
 
             <FaqGroup items={card.faqs} variant="faq-group" />
-        </article>
+        </li>
     )
 }

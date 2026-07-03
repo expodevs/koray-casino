@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function CardSlot({card}) {
 
     return (
-        <article className={`${styles['item-card']} ${styles['slot-compare']}`}>
+        <li className={`${styles['item-card']} ${styles['slot-compare']}`}>
             <figure className={styles['thumb-wrap']}>
                 <Image
                     src={card.images[0].src}
@@ -33,6 +33,6 @@ export default function CardSlot({card}) {
                 </Link>
             </section>
 
-        </article>
+        </li>
     );
 }

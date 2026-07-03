@@ -15,7 +15,7 @@ import Image from "next/image";
 export default function CardGameFull({card}) {
 
     return (
-        <article className={`${styles['item-card']} ${styles.game}`}>
+        <li className={`${styles['item-card']} ${styles.game}`}>
             <Swiper
                 modules={[Navigation]}
                 slidesPerView={1}
@@ -76,6 +76,6 @@ export default function CardGameFull({card}) {
             </section>
 
             <FaqGroup items={card.faqs} variant="faq-group" />
-        </article>
+        </li>
     );
 }

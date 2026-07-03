@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function CardGameShort({card}) {
 
     return (
-        <article className={`${styles['item-card']} ${styles.game}`}>
+        <li className={`${styles['item-card']} ${styles.game}`}>
             <figure className={styles['thumb-wrap']}>
                 <Image
                     src={card.images[0].src}
@@ -35,6 +35,6 @@ export default function CardGameShort({card}) {
                     </div>
                 ))}
             </div>
-        </article>
+        </li>
     );
 }

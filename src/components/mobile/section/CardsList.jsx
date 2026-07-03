@@ -77,9 +77,10 @@ export default function CardsList( { cards, listType, isSlider = false  } ) {
     };
 
     return (
-        <section className={styles['cards-list']}>
-            {visibleCards.map(renderCard)}
-
+        <>
+            <ul className={styles['cards-list']}>
+                {visibleCards.map(renderCard)}
+            </ul>
             {shouldShowButton && (
                 <button onClick={handleShowMore} className="btn light">
                     Show more
@@ -99,6 +100,6 @@ export default function CardsList( { cards, listType, isSlider = false  } ) {
                     </span>
                 </button>
             )}
-        </section>
+        </>
     );
 }

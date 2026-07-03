@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function CardGameShortPlay({card}) {
 
     return (
-        <article className={`${styles['item-card']} ${styles.game}`}>
+        <li className={`${styles['item-card']} ${styles.game}`}>
             <figure className={styles['thumb-wrap']}>
                 <Image
                     src={card.images[0].src}
@@ -45,6 +45,6 @@ export default function CardGameShortPlay({card}) {
                 </Link>
             </section>
 
-        </article>
+        </li>
     );
 }

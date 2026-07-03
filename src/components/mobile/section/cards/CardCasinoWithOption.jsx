@@ -34,7 +34,7 @@ export default function CardCasinoWithOption({ card }) {
         red:    'error.svg',
     }
     return (
-        <article className={`${styles['item-card']} ${styles.casino}`}>
+        <li className={`${styles['item-card']} ${styles.casino}`}>
             <figure className={styles['thumb-wrap']}>
                 <div className={styles['bg-thumb']}></div>
                 <Image
@@ -200,6 +200,6 @@ export default function CardCasinoWithOption({ card }) {
                     </span>
                 </button>
             </div>
-        </article>
+        </li>
     )
 }
