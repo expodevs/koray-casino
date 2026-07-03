@@ -56,3 +56,27 @@
     }
   }
 }
+
+
+.content {
+  position: relative;
+  overflow: hidden;
+}
+
+.collapsed {
+  max-height: 320px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 0px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  color: $color-theme;
+}
