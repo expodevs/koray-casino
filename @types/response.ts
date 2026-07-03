@@ -43,6 +43,8 @@ export interface Page {
     meta_description: string,
     meta_keywords: string,
     meta_noindex_nofollow: boolean,
+    published_at?: string | Date | null;
+    updated_at?: string | Date | null;
     builds: BuildPage[],
 }
 

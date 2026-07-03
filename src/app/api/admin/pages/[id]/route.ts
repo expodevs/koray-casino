@@ -65,9 +65,22 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json({error: 'Slug must be unique'}, {status: 400});
             }
 
+            const now = new Date();
+
+            const existingPage = await prisma.page.findUnique({
+                where: { id },
+                select: {
+                    published_at: true,
+                },
+            });
+
             const entity = await prisma.page.update({
                 where: {id},
-                data,
+                data: {
+                    ...data,
+                    published_at: existingPage?.published_at ?? now,
+                    updated_at: now,
+                },
             });
 
             await prisma.buildPage.deleteMany({where: {page_id: entity.id}});

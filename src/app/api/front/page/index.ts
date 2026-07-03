@@ -193,6 +193,8 @@ export interface PageWithBlocks {
     id: number;
     slug: string;
     label: string;
+    published_at: Date | null;
+    updated_at: Date | null;
     meta: PageMeta;
     blocks: Block[];
 }
@@ -489,6 +491,8 @@ export async function getPageWithBlocks(
             meta_description: true,
             meta_keywords: true,
             meta_noindex_nofollow: true,
+            published_at: true,
+            updated_at: true,
             builds: {
                 orderBy: { position: "asc" },
                 select: {
@@ -529,6 +533,8 @@ export async function getPageWithBlocks(
         id: page.id,
         slug: page.slug,
         label: page.label,
+        published_at: page.published_at,
+        updated_at: page.updated_at,
         meta,
         blocks,
     };

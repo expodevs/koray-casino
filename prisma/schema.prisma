@@ -200,6 +200,8 @@ model Page {
   meta_keywords         String
   meta_noindex_nofollow Boolean     @default(false)
   builds                BuildPage[]
+  published_at          DateTime?
+  updated_at            DateTime?
 }
 
 model Builder {

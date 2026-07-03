@@ -9,6 +9,23 @@ type Params = {
     siteName?: string | null;
 };
 
+type FaqStructuredDataItem = {
+    question?: string | null;
+    title?: string | null;
+    label?: string | null;
+    answer?: string | null;
+    description?: string | null;
+    content?: string | null;
+};
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === "object" && value !== null;
+}
+
+function isFaqStructuredDataItem(value: unknown): value is FaqStructuredDataItem {
+    return isRecord(value);
+}
+
 function stripHtml(value?: string | null): string {
     return String(value || "")
         .replace(/<[^>]*>/g, "")
@@ -34,22 +51,40 @@ function getPageUrl(origin: string, slug: string): string {
     return `${origin}/${slug.replace(/^\/+|\/+$/g, "")}`;
 }
 
-function getFaqItems(page: PageWithBlocks) {
+function getFaqItems(page: PageWithBlocks): FaqStructuredDataItem[] {
     const faqBlocks = page.blocks.filter((block) => block.type === BuildType.faq);
 
     return faqBlocks.flatMap((block) => {
-        const props = block.props as any;
+        const props = block.props as unknown;
 
         if (Array.isArray(props)) {
-            return props;
+            return props.filter(isFaqStructuredDataItem);
         }
 
-        if (Array.isArray(props.items)) {
-            return props.items;
+        if (!isRecord(props)) {
+            return [];
+        }
+
+        const items = props.items;
+
+        if (Array.isArray(items)) {
+            return items.filter(isFaqStructuredDataItem);
         }
 
         return [];
     });
+}
+
+function toIsoDate(value?: string | Date | null): string | undefined {
+    if (!value) return undefined;
+
+    const date = value instanceof Date ? value : new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return undefined;
+    }
+
+    return date.toISOString();
 }
 
 export function buildStructuredData({
@@ -70,6 +105,8 @@ export function buildStructuredData({
     const title = stripHtml(page.meta?.title || page.label || cleanSiteName);
     const description = stripHtml(page.meta?.description || "");
     const logoUrl = logo || `${origin}/logo.svg`;
+    const datePublished = toIsoDate(page.published_at);
+    const dateModified = toIsoDate(page.updated_at || page.published_at);
 
     const schemas: Record<string, unknown>[] = [
         {
@@ -97,6 +134,8 @@ export function buildStructuredData({
             url: pageUrl,
             name: title,
             description,
+            datePublished,
+            dateModified,
             isPartOf: {
                 "@id": `${origin}/#website`,
             },
