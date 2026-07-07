@@ -248,3 +248,26 @@
   }
 
 }
+
+.description {
+  overflow: hidden;
+}
+
+.descriptionCollapsed {
+  max-height: 75px;
+}
+
+.descriptionReadMoreWrapper {
+  text-align: center;
+}
+.descriptionReadMore {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: #3E63DD;
+  text-decoration: underline;
+}

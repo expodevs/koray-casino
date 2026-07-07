@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect, useRef } from 'react';
 import styles from './SlotOverview.module.scss';
 
 export default function SlotOverview({ items }) {
@@ -22,6 +22,19 @@ export default function SlotOverview({ items }) {
 
     const [activeFaq, setActiveFaq] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+
+    const descriptionRef = useRef(null);
+    const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+    const [canToggleDescription, setCanToggleDescription] = useState(false);
+
+    useEffect(() => {
+        const element = descriptionRef.current;
+
+        if (!element) return;
+
+        setCanToggleDescription(element.scrollHeight > 75);
+        setIsDescriptionOpen(false);
+    }, [description]);
 
     const toggleFaq = (index) => {
         setActiveFaq((prev) => (prev === index ? -1 : index));
@@ -108,10 +121,25 @@ export default function SlotOverview({ items }) {
                         <h2 className={styles.title}>{title}</h2>
 
                         {description ? (
-                            <div
-                                className={styles.description}
-                                dangerouslySetInnerHTML={{ __html: description }}
-                            />
+                            <>
+                                <div
+                                    ref={descriptionRef}
+                                    className={`${styles.description} ${
+                                        canToggleDescription && !isDescriptionOpen ? styles.descriptionCollapsed : ''
+                                    }`}
+                                    dangerouslySetInnerHTML={{ __html: description }}
+                                />
+
+                                {canToggleDescription && (
+                                    <button
+                                        type="button"
+                                        className={styles.descriptionReadMore}
+                                        onClick={() => setIsDescriptionOpen(prev => !prev)}
+                                    >
+                                        {isDescriptionOpen ? 'Read less' : 'Read more'}
+                                    </button>
+                                )}
+                            </>
                         ) : null}
 
                         {rating ? (
