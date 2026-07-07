@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './SlotOverview.module.scss';
 
 export default function SlotOverview({ items }) {
@@ -23,6 +23,8 @@ export default function SlotOverview({ items }) {
     const [activeFaq, setActiveFaq] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
 
+    const ratingImage = getRatingImage(rating);
+
     const descriptionRef = useRef(null);
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
     const [canToggleDescription, setCanToggleDescription] = useState(false);
@@ -39,51 +41,19 @@ export default function SlotOverview({ items }) {
     const toggleFaq = (index) => {
         setActiveFaq((prev) => (prev === index ? -1 : index));
     };
-    const renderStars = (rating) => {
-        const stars = [];
-        const full = Math.floor(rating);
-        const decimal = rating - full;
 
-        for (let i = 0; i < 5; i++) {
-            if (i < full) {
-                stars.push(<Star key={i} fill={1} />);
-            } else if (i === full && decimal > 0) {
-                stars.push(<Star key={i} fill={decimal} />);
-            } else {
-                stars.push(<Star key={i} fill={0} />);
-            }
+    function getRatingImage(rating) {
+        const value = Number(rating);
+
+        if (!Number.isFinite(value)) {
+            return null;
         }
 
-        return stars;
-    };
+        const normalized = Math.min(5, Math.max(1, Math.round(value * 2) / 2));
+        const fileName = String(normalized).replace('.', '-');
 
-    const Star = ({ fill }) => {
-        const maskId = useId();
-
-        return (
-            <span className={styles.star}>
-            <svg width="16" height="16" viewBox="0 0 16 16">
-                <defs>
-                    <mask id={maskId}>
-                        <path
-                            d="M8.00027 12.1726L3.29827 14.8044L4.34827 9.5194L0.391602 5.86097L5.74294 5.22634L8.00027 0.333313L10.2576 5.22634L15.6089 5.86097L11.6523 9.5194L12.7023 14.8044L8.00027 12.1726Z"
-                            fill="white"
-                        />
-                    </mask>
-                </defs>
-
-                <path
-                    d="M8.00027 12.1726L3.29827 14.8044L4.34827 9.5194L0.391602 5.86097L5.74294 5.22634L8.00027 0.333313L10.2576 5.22634L15.6089 5.86097L11.6523 9.5194L12.7023 14.8044L8.00027 12.1726Z"
-                    fill="#AEC0F5"
-                />
-
-                <g mask={`url(#${maskId})`}>
-                    <rect width={16 * fill} height="16" fill="#3E63DD" />
-                </g>
-            </svg>
-        </span>
-        );
-    };
+        return `/images/stars/rating-${fileName}.svg`;
+    }
 
     return (
         <section className={styles.slotOverview}>
@@ -142,10 +112,15 @@ export default function SlotOverview({ items }) {
                             </>
                         ) : null}
 
-                        {rating ? (
+                        {ratingImage ? (
                             <div className={styles.rating}>
                                 <span>Expert Rating:</span>
-                                {renderStars(Number(rating))}
+                                <img
+                                    src={ratingImage}
+                                    alt={`${rating} out of 5 stars`}
+                                    width="96"
+                                    height="16"
+                                />
                                 <strong>{rating}</strong>
                             </div>
                         ) : null}
