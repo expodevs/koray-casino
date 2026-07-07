@@ -20,7 +20,6 @@ export default function SlotOverview({ items }) {
         faqs = [],
     } = items || {};
 
-    const [activeFaq, setActiveFaq] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
 
     const ratingImage = getRatingImage(rating);
@@ -38,9 +37,6 @@ export default function SlotOverview({ items }) {
         setIsDescriptionOpen(false);
     }, [description]);
 
-    const toggleFaq = (index) => {
-        setActiveFaq((prev) => (prev === index ? -1 : index));
-    };
 
     function getRatingImage(rating) {
         const value = Number(rating);
@@ -185,33 +181,23 @@ export default function SlotOverview({ items }) {
 
                 {faqs.length > 0 && (
                     <div className={styles.faq}>
-                        {faqs.map((faq, index) => {
-                            const isOpen = activeFaq === index;
-
-                            return (
-                                <div key={index} className={styles.faqItem}>
-                                    <button
-                                        type="button"
-                                        className={`${styles.faqQuestion} ${activeFaq === index ? styles.active : ''}`}
-                                        onClick={() => toggleFaq(index)}
-                                    >
-                                        <span>
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {faqs.map((faq, index) => (
+                            <details key={index} className={styles.faqItem}>
+                                <summary className={styles.faqQuestion}>
+                                    <span className={styles.faqIcon}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12.1718 12L9.34277 9.17202L10.7568 7.75702L14.9998 12L10.7568 16.243L9.34277 14.828L12.1718 12Z" fill="black"/>
-                                            </svg>
-                                        </span>
-                                        <span>{faq.question}</span>
-                                    </button>
+                                        </svg>
+                                    </span>
+                                    <span>{faq.question}</span>
+                                </summary>
 
-                                    {isOpen && (
-                                        <div
-                                            className={styles.faqAnswer}
-                                            dangerouslySetInnerHTML={{ __html: faq.answer }}
-                                        />
-                                    )}
-                                </div>
-                            );
-                        })}
+                                <div
+                                    className={styles.faqAnswer}
+                                    dangerouslySetInnerHTML={{ __html: faq.answer }}
+                                />
+                            </details>
+                        ))}
                     </div>
                 )}
             </div>

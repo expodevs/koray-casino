@@ -194,12 +194,19 @@
 .faq {
   margin-top: 28px;
 }
-
+.faqIcon {
+  line-height: 1;
+}
 .faqItem {
   margin-bottom: 12px;
   border-radius: 12px;
   overflow: hidden;
   background: #E6EDFE;
+  &[open] {
+    .faqIcon {
+      transform: rotate(90deg);
+    }
+  }
 }
 
 .faqQuestion {
