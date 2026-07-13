@@ -81,7 +81,8 @@ export default function CategoryCardBuilder({ value, categoryCards, casinoOption
         CategoryCardType.CARD_SLOT_SIMPLE,
         CategoryCardType.CARD_SLOT_FULL,
         CategoryCardType.CARD_SLOT_ONLY_OPTIONS,
-        CategoryCardType.CARD_GAME_FULL
+        CategoryCardType.CARD_GAME_FULL,
+        CategoryCardType.CARD_GAME_COMPARE,
     ];
 
     const getInitialValue = (type: CategoryCardType): CategoryCardValue => {
