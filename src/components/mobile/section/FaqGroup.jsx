@@ -65,9 +65,12 @@ export default function FaqGroup({ items, variant = 'default' }) {
                             </svg>
                         </summary>
 
-                        <article className={styles['faq-content']}>
-                            <p>{item.answer}</p>
-                        </article>
+                        <article
+                            className={styles['faq-content']}
+                            dangerouslySetInnerHTML={{
+                                __html: item.answer || '',
+                            }}
+                        />
                     </details>
                 )
             })}

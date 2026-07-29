@@ -14,7 +14,7 @@ import {Builder, BuildType, CategoryCard, Card} from "@prismaClient";
 import {routeAdminApiBuilders, routeAdminApiCategoryCards, routeAdminApiFaqs, routeAdminApiCasinos, routeAdminApiCasinoOptions, routeAdminApiCards, routeAdminApiIconCards} from "@lib/adminRoute";
 import TinyMCE from "@components/TinyMCE";
 import { TabContainer, Tab, TabContent } from "@components/Tabs";
-import FaqBuilder, {FaqItem} from "@components/FaqBuilder";
+import FaqPageBuilder, { type FaqPageData, normalizeFaqPageData } from "@app/admin/pages/components/FaqPageBuilder";
 import BuilderCasinoTop, { CasinoTopData } from "@app/admin/pages/components/BuilderCasinoTop";
 import CategoryCardBuilder from '@app/admin/pages/components/categoryCard/CategoryCardBuilder';
 import CartBuilder, {CartItem} from '@app/admin/pages/components/CartBuilder';
@@ -181,35 +181,105 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
         }
 
         if (builder.build_type === BuildType.faq) {
-            const parseFaqItems = (): FaqItem[] => {
-                if (!buildPage.field_values) {
-                    return [];
-                }
+            const parseLegacyFaqItems = (
+                rawItems: unknown[],
+            ): FaqPageData => {
+                const items = rawItems.flatMap((rawItem, index) => {
+                    let faqId: string | number | null = null;
+                    let position = index + 1;
 
-                let result: FaqItem[] = [];
-                try {
-                    result = JSON.parse(buildPage.field_values);
-                } catch {
-                    const oldValues = buildPage.field_values.split(',').filter(Boolean);
-                    result = oldValues.map((id, index) => ({
-                        id,
-                        position: index + 1
-                    }));
-                }
-                return result;
+                    if (
+                        rawItem &&
+                        typeof rawItem === "object" &&
+                        !Array.isArray(rawItem)
+                    ) {
+                        const item = rawItem as {
+                            id?: string | number;
+                            position?: number;
+                        };
+
+                        faqId = item.id ?? null;
+                        position = item.position ?? index + 1;
+                    } else if (
+                        typeof rawItem === "string" ||
+                        typeof rawItem === "number"
+                    ) {
+                        faqId = rawItem;
+                    }
+
+                    if (faqId === null) {
+                        return [];
+                    }
+
+                    const faq = (faqs || []).find(
+                        (item) => String(item.id) === String(faqId),
+                    );
+
+                    if (!faq) {
+                        return [];
+                    }
+
+                    return [
+                        {
+                            id: `legacy-faq-${faq.id}-${index}`,
+                            question: faq.question || "",
+                            answer: faq.answer || "",
+                            position,
+                        },
+                    ];
+                });
+
+                return {
+                    items: items
+                        .sort((a, b) => a.position - b.position)
+                        .map((item, index) => ({
+                            ...item,
+                            position: index + 1,
+                        })),
+                    tabs: [],
+                };
             };
 
-            const faqItems = parseFaqItems();
+            const parseFaqData = (): FaqPageData => {
+                if (!buildPage.field_values) {
+                    return {
+                        items: [],
+                        tabs: [],
+                    };
+                }
+
+                try {
+                    const parsed = JSON.parse(buildPage.field_values);
+
+                    if (Array.isArray(parsed)) {
+                        return parseLegacyFaqItems(parsed);
+                    }
+
+                    return normalizeFaqPageData(parsed);
+                } catch {
+                    const oldIds = buildPage.field_values
+                        .split(",")
+                        .map((id) => id.trim())
+                        .filter(Boolean);
+
+                    return parseLegacyFaqItems(oldIds);
+                }
+            };
 
             return (
-                <FaqBuilder
-                    key={`builder-${buildPage.build_id}-${idx}`}
-                    label={builder.label}
-                    faqItems={faqItems}
-                    faqs={faqs}
-                    onChange={(value) => handleFieldValueChange(idx, value)}
-                />
-            )
+                <div key={`builder-${buildPage.build_id}-${idx}`}>
+                    <FaqPageBuilder
+                        label={builder.label}
+                        data={parseFaqData()}
+                        onChange={(next) =>
+                            handleFieldValueChange(
+                                idx,
+                                JSON.stringify(next),
+                            )
+                        }
+                    />
+                </div>
+            );
         }
 
         if (builder.build_type === BuildType.cart) {

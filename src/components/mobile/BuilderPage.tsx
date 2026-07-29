@@ -3,7 +3,6 @@ import React, { useState, useMemo } from 'react'
 import { BuildType } from "@prismaClient";
 import { PageWithBlocks } from "@app/api/front/page";
 import NavTabs from '@components/mobile/section/NavTabs';
-import FaqGroup from '@components/mobile/section/FaqGroup';
 import CardsListTop from '@components/mobile/section/CardsListTop';
 import CardsListSimple from '@components/mobile/section/CardsListSimple';
 import CardsTable from '@components/mobile/section/CardsTable';
@@ -13,9 +12,10 @@ import CartList from "@components/mobile/section/CartList";
 import TextTabs from '@components/mobile/section/TextTabs';
 import TabsNested from "@components/mobile/section/TabsNested";
 
-import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
+import type { CardBlockProps } from "@app/api/front/page";
 import {TabsNestedData} from "@app/admin/pages/components/TabsNestedBuilder";
 import SlotOverview from "@components/mobile/section/SlotOverview";
+import PageFaqGroup from "@components/desktop/section/PageFaqGroup";
 
 type Tab = {
     hash: string;
@@ -77,7 +77,9 @@ export default function BuilderPage({ page }: PageProps) {
                 {filteredBlocks.map((block) => {
                     switch (block.type as BuildType) {
                         case BuildType.faq:
-                            return <FaqGroup key={block.id} items={block.props as FaqBlockProps} />;
+                            return (
+                                <PageFaqGroup key={block.id} data={block.props} variant="faq-default"/>
+                            )
 
                         case BuildType.slotCard:
                             const props = block.props as CardBlockProps

@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react'
 import { BuildType } from "@prismaClient";
 import { PageWithBlocks } from "@app/api/front/page";
 import NavTabs from '@components/desktop/section/NavTabs';
-import FaqGroup from '@components/desktop/section/FaqGroup';
+import PageFaqGroup from '@components/desktop/section/PageFaqGroup';
 import CardsListTop from '@components/desktop/section/CardsListTop';
 import CardsListSimple from '@components/desktop/section/CardsListSimple';
 import CardsTable from '@components/desktop/section/CardsTable';
@@ -15,7 +15,7 @@ import TabsNested from "@components/desktop/section/TabsNested";
 import type { TabsNestedData } from '@app/admin/pages/components/TabsNestedBuilder/types';
 import SlotOverview from '@components/desktop/section/SlotOverview';
 
-import type { CardBlockProps, FaqBlockProps } from "@app/api/front/page";
+import type { CardBlockProps } from "@app/api/front/page";
 
 type Tab = {
     hash: string;
@@ -77,7 +77,9 @@ export default function BuilderPage({ page }: PageProps) {
                 {filteredBlocks.map((block) => {
                     switch (block.type as BuildType) {
                         case BuildType.faq:
-                            return <FaqGroup key={block.id} items={block.props as FaqBlockProps} />;
+                            return (
+                                <PageFaqGroup key={block.id} data={block.props} variant="faq-default"/>
+                            )
 
                         case BuildType.slotCard:
                             const props = block.props as CardBlockProps

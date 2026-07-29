@@ -69,16 +69,23 @@ export interface SimpleBlockProps {
 /**
  * Properties for FAQ blocks
  */
-export type FaqBlockProps = FaqItem[];
-
-/**
- * A single FAQ item
- */
 export interface FaqItem {
-    id: number;
+    id: string | number;
     position: number;
     question: string;
     answer: string;
+}
+
+export interface FaqTab {
+    id: string | number;
+    label: string;
+    position: number;
+    items: FaqItem[];
+}
+
+export interface FaqBlockProps {
+    items: FaqItem[];
+    tabs: FaqTab[];
 }
 
 /**
@@ -217,6 +224,26 @@ interface PositionedItem {
 interface FaqItemRaw {
     id: string;
     position: number;
+}
+
+interface CustomFaqItemRaw {
+    id?: string | number;
+    position?: number;
+    question?: string;
+    answer?: string;
+}
+
+interface CustomFaqTabRaw {
+    id?: string | number;
+    label?: string;
+    position?: number;
+    items?: CustomFaqItemRaw[];
+}
+
+interface CustomFaqBlockRaw {
+    title?: string;
+    items?: CustomFaqItemRaw[];
+    tabs?: CustomFaqTabRaw[];
 }
 
 /**
@@ -612,35 +639,207 @@ function processSimpleBlock(fieldValues: string): SimpleBlockProps {
  * @param fieldValues The raw field values
  * @returns The processed block properties
  */
-async function processFaqBlock(fieldValues: string): Promise<FaqBlockProps> {
-    const items = safeParseJSON<FaqItemRaw[]>(fieldValues, []);
+async function processFaqBlock(
+    fieldValues: string,
+): Promise<FaqBlockProps> {
+    const parsed = safeParseJSON<unknown>(
+        fieldValues,
+        [],
+    );
 
-    const parsed = items
-        .map((i) => ({ id: +i.id, position: i.position }))
-        .sort((a, b) => a.position - b.position);
+    /*
+     * Старый формат:
+     *
+     * [
+     *   { id: "1", position: 1 },
+     *   { id: "5", position: 2 }
+     * ]
+     */
+    if (Array.isArray(parsed)) {
+        return processLegacyFaqBlock(
+            parsed as FaqItemRaw[],
+        );
+    }
+
+    /*
+     * Новый формат:
+     *
+     * {
+     *   title: "",
+     *   items: [],
+     *   tabs: []
+     * }
+     */
+    if (
+        parsed &&
+        typeof parsed === "object"
+    ) {
+        return processCustomFaqBlock(
+            parsed as CustomFaqBlockRaw,
+        );
+    }
+
+    return {
+        items: [],
+        tabs: [],
+    };
+}
+
+async function processLegacyFaqBlock(
+    rawItems: FaqItemRaw[],
+): Promise<FaqBlockProps> {
+    const positionedItems = rawItems
+        .map((item, index) => ({
+            id: Number(item.id),
+            position: Number(
+                item.position ?? index + 1,
+            ),
+        }))
+        .filter(
+            (item) =>
+                Number.isFinite(item.id) &&
+                item.id > 0,
+        )
+        .sort(
+            (a, b) =>
+                a.position - b.position,
+        );
+
+    if (!positionedItems.length) {
+        return {
+            items: [],
+            tabs: [],
+        };
+    }
 
     const faqs = await prisma.faq.findMany({
-        where: { 
-            id: { in: parsed.map((i) => i.id) }, 
-            published: true 
+        where: {
+            id: {
+                in: positionedItems.map(
+                    (item) => item.id,
+                ),
+            },
+            published: true,
         },
-        orderBy: { position: "asc" },
-        select: { 
-            id: true, 
-            position: true, 
-            question: true, 
-            answer: true 
+        select: {
+            id: true,
+            question: true,
+            answer: true,
         },
     });
 
-    const map = new Map(faqs.map((f) => [f.id, f]));
+    const faqMap = new Map(
+        faqs.map((faq) => [
+            faq.id,
+            faq,
+        ]),
+    );
 
-    return parsed
-        .filter((i) => map.has(i.id))
-        .map((i) => ({ 
-            ...map.get(i.id)!, 
-            position: i.position 
-        }));
+    const items: FaqItem[] =
+        positionedItems
+            .filter((item) =>
+                faqMap.has(item.id),
+            )
+            .map((item) => {
+                const faq = faqMap.get(
+                    item.id,
+                )!;
+
+                return {
+                    id: faq.id,
+                    position:
+                    item.position,
+                    question:
+                    faq.question,
+                    answer: faq.answer,
+                };
+            });
+
+    return {
+        items,
+        tabs: [],
+    };
+}
+
+function processCustomFaqBlock(
+    raw: CustomFaqBlockRaw,
+): FaqBlockProps {
+    const items = normalizeCustomFaqItems(
+        raw.items,
+    );
+
+    const tabs: FaqTab[] = Array.isArray(
+        raw.tabs,
+    )
+        ? raw.tabs
+            .map((tab, tabIndex) => ({
+                id:
+                    tab.id ??
+                    `faq-tab-${tabIndex + 1}`,
+
+                label: String(
+                    tab.label ??
+                    `Tab ${tabIndex + 1}`,
+                ),
+
+                position: Number(
+                    tab.position ??
+                    tabIndex + 1,
+                ),
+
+                items:
+                    normalizeCustomFaqItems(
+                        tab.items,
+                    ),
+            }))
+            .sort(
+                (a, b) =>
+                    a.position -
+                    b.position,
+            )
+        : [];
+
+    return {
+        items,
+        tabs,
+    };
+}
+
+function normalizeCustomFaqItems(
+    rawItems?: CustomFaqItemRaw[],
+): FaqItem[] {
+    if (!Array.isArray(rawItems)) {
+        return [];
+    }
+
+    return rawItems
+        .map((item, index) => ({
+            id:
+                item.id ??
+                `faq-item-${index + 1}`,
+
+            position: Number(
+                item.position ??
+                index + 1,
+            ),
+
+            question: String(
+                item.question ?? "",
+            ),
+
+            answer: String(
+                item.answer ?? "",
+            ),
+        }))
+        .filter(
+            (item) =>
+                item.question.trim() !== "" ||
+                item.answer.trim() !== "",
+        )
+        .sort(
+            (a, b) =>
+                a.position - b.position,
+        );
 }
 
 /**
