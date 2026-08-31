@@ -509,7 +509,7 @@ export async function getAllPageSlugs(): Promise<string[]> {
     return pages.map((p) => p.slug);
 }
 
-function isPlainObject(value: unknown): value is Record<string, any> {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
     return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 

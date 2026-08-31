@@ -1,4 +1,3 @@
-
 const apiRoutes = {
     builders: '/api/admin/builders',
     users: '/api/admin/users',
@@ -15,6 +14,7 @@ const apiRoutes = {
     cards: '/api/admin/cards',
     subscriptions: '/api/admin/subscriptions',
     requests: '/api/admin/requests',
+    auditLogs: '/api/admin/audit-logs',
 };
 
 const pagesRoutes = {
@@ -32,6 +32,7 @@ const pagesRoutes = {
     cards: '/admin/cards',
     subscriptions: '/admin/subscriptions',
     requests: '/admin/requests',
+    auditLogs: '/admin/audit-logs',
 };
 
 const routeAdminApiBuilders = {
@@ -212,6 +213,14 @@ const routeAdminPageRequests = {
     edit: (id: string): string => `${pagesRoutes.requests}/${id}/edit`,
 };
 
+const routeAdminApiAuditLogs = {
+    all: apiRoutes.auditLogs,
+};
+
+const routeAdminPageAuditLogs = {
+    all: pagesRoutes.auditLogs,
+};
+
 export {
     routeAdminApiBuilders,
     routeAdminApiIconCardImages, routeAdminPageIconCardImages,
@@ -228,4 +237,5 @@ export {
     routeAdminApiCards, routeAdminPageCards,
     routeAdminApiSubscriptions, routeAdminPageSubscriptions,
     routeAdminApiRequests, routeAdminPageRequests,
+    routeAdminApiAuditLogs, routeAdminPageAuditLogs,
 };

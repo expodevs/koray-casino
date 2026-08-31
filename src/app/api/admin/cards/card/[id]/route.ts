@@ -7,6 +7,7 @@ import { strToSlug } from "@lib/str";
 import { saveBase64File } from "@lib/file";
 import { cardImagePath } from "@lib/uploadPaths";
 import { fullPublicPath, removeFile } from "@lib/file";
+import { getCardAuditSnapshot, writeAdminAuditLog} from "@lib/adminAudit";
 
 
 type requestParams = { params: Promise<{ id: string }> };
@@ -60,6 +61,12 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                 return NextResponse.json(validationResult.error.format(), { status: 400 });
             }
 
+            const auditBefore = await getCardAuditSnapshot(id);
+
+            if (!auditBefore) {
+                return NextResponse.json({ error: 'Card not found' }, { status: 404 });
+            }
+
             const data = validationResult.data;
 
             const cardData = {
@@ -79,8 +86,8 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
             });
 
             if (existingCard) {
-                return NextResponse.json({ 
-                    referral_key: { message: 'Referral key must be unique' } 
+                return NextResponse.json({
+                    referral_key: { message: 'Referral key must be unique' }
                 }, { status: 400 });
             }
 
@@ -173,6 +180,17 @@ export async function PUT(req: NextRequest, { params }: requestParams) {
                     });
                 }));
             }
+
+            const auditAfter = await getCardAuditSnapshot(id);
+
+            await writeAdminAuditLog(req, {
+                entityType: "slot",
+                entityId: id,
+                entityLabel: entity.label,
+                action: "update",
+                before: auditBefore,
+                after: auditAfter,
+            });
 
             return NextResponse.json(entity);
         } catch (error) {

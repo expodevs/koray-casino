@@ -37,14 +37,14 @@ interface PageFormProps {
 
 type FormData = z.infer<typeof pageCreateSchema>;
 
-function readAboutData(value: unknown): Record<string, any> {
+function readAboutData(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     return {};
   }
 
-  const source = value as Record<string, any>;
+  const source = value as Record<string, unknown>;
   const experts = source.experts && typeof source.experts === 'object' && !Array.isArray(source.experts)
-    ? source.experts as Record<string, any>
+    ? source.experts as Record<string, unknown>
     : null;
 
   if (!experts || !Object.prototype.hasOwnProperty.call(experts, 'answers')) {
@@ -116,7 +116,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:iconCards, isLoading:isLoadingIconCards} = useRequestData<IconCardSelect[]>({url: routeAdminApiIconCards.select, queryKey: 'iconCards'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
-    const [aboutData, setAboutData] = useState<Record<string, any>>(() =>
+    const [aboutData, setAboutData] = useState<Record<string, unknown>>(() =>
         readAboutData((page as (Page & { custom_data?: unknown }) | undefined)?.custom_data)
     );
 

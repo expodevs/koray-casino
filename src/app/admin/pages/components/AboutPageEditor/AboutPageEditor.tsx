@@ -1,5 +1,7 @@
 'use client';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 import {
     FaArrowDown,
@@ -476,6 +478,8 @@ function ManualCardSelector({
         </div>
     );
 }
+
+void StringListEditor;
 
 export default function AboutPageEditor({
     data,

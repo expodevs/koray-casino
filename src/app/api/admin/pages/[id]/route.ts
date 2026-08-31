@@ -4,6 +4,10 @@ import {withAdminAuthorized} from "@lib/authorized";
 import {pageUpdateSchema} from "@app/admin/pages/validation";
 import {strToSlug} from "@lib/str";
 import {BuildPage} from "@/@types/response";
+import {
+    getPageAuditSnapshot,
+    writeAdminAuditLog
+} from "@lib/adminAudit";
 
 type requestParams = { params: Promise<{ id: string }> };
 
@@ -66,6 +70,12 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                 return NextResponse.json({error: 'Slug must be unique'}, {status: 400});
             }
 
+            const auditBefore = await getPageAuditSnapshot(id);
+
+            if (!auditBefore) {
+                return NextResponse.json({error: 'Page not found'}, {status: 404});
+            }
+
             const now = new Date();
 
             const existingPage = await prisma.page.findUnique({
@@ -92,6 +102,17 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
                     position: buildPage.position,
                     field_values: buildPage.field_values,
                 }))
+            });
+
+            const auditAfter = await getPageAuditSnapshot(id);
+
+            await writeAdminAuditLog(req, {
+                entityType: "page",
+                entityId: id,
+                entityLabel: entity.label,
+                action: "update",
+                before: auditBefore,
+                after: auditAfter,
             });
 
             return NextResponse.json(entity);

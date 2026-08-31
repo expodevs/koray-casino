@@ -329,3 +329,26 @@ model ContactRequest {
   @@index([is_published])
   @@index([created_at])
 }
+
+model AdminAuditLog {
+  id           Int      @id @default(autoincrement())
+  user_id      Int?
+  user_name    String?  @db.VarChar(255)
+  user_email   String?  @db.VarChar(255)
+
+  entity_type  String   @db.VarChar(32)
+  entity_id    Int
+  entity_label String?  @db.VarChar(255)
+  action       String   @db.VarChar(32)
+
+  changes      Json
+
+  ip_address   String?  @db.VarChar(64)
+  user_agent   String?  @db.VarChar(500)
+
+  created_at   DateTime @default(now()) @db.DateTime(3)
+
+  @@index([user_id])
+  @@index([entity_type, entity_id])
+  @@index([created_at])
+}

@@ -37,12 +37,12 @@ interface PageFormProps {
 
 type FormData = z.infer<typeof pageCreateSchema>;
 
-const normalizeAboutData = (value: unknown): Record<string, any> => {
+const normalizeAboutData = (value: unknown): Record<string, unknown> => {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
         return {};
     }
 
-    const result = { ...(value as Record<string, any>) };
+    const result = { ...(value as Record<string, unknown>) };
 
     // Expert answers now come from ContactRequest, so don't keep the old manual list.
     if (
@@ -50,7 +50,8 @@ const normalizeAboutData = (value: unknown): Record<string, any> => {
         typeof result.experts === 'object' &&
         !Array.isArray(result.experts)
     ) {
-        const { answers: _answers, ...experts } = result.experts as Record<string, any>;
+        const experts = { ...(result.experts as Record<string, unknown>) };
+        delete experts.answers;
         result.experts = experts;
     }
 
@@ -112,7 +113,7 @@ export default function PageForm({ page, onSubmit }: PageFormProps) {
     const {data:iconCards, isLoading:isLoadingIconCards} = useRequestData<IconCardSelect[]>({url: routeAdminApiIconCards.select, queryKey: 'iconCards'});
     const [selectedBuilderId, setSelectedBuilderId] = useState<number>(0);
     const [buildsPage, setBuildsPage] = useState<BuildPageResponse[]>([]);
-    const [aboutData, setAboutData] = useState<Record<string, any>>(() =>
+    const [aboutData, setAboutData] = useState<Record<string, unknown>>(() =>
         normalizeAboutData((page as (Page & { custom_data?: unknown }) | undefined)?.custom_data)
     );
 
