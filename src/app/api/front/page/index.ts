@@ -196,12 +196,21 @@ export interface CasinoTopBlockProps {
 /**
  * A page with its blocks
  */
+export interface PublishedExpertQuestion {
+    id: number;
+    name: string;
+    message: string;
+    answer: string;
+}
+
 export interface PageWithBlocks {
     id: number;
     slug: string;
     label: string;
     published_at: Date | null;
     updated_at: Date | null;
+    custom_data: unknown;
+    published_questions: PublishedExpertQuestion[];
     meta: PageMeta;
     blocks: Block[];
 }
@@ -500,6 +509,52 @@ export async function getAllPageSlugs(): Promise<string[]> {
     return pages.map((p) => p.slug);
 }
 
+function isPlainObject(value: unknown): value is Record<string, any> {
+    return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+/**
+ * About Us stores selected slot IDs in custom_data.
+ * Hydrate those IDs with the same CardItem shape used by the regular card blocks.
+ */
+async function hydrateAboutCustomData(customData: unknown): Promise<unknown> {
+    if (!isPlainObject(customData)) return customData;
+
+    const games = isPlainObject(customData.games) ? customData.games : null;
+    if (!games || !Array.isArray(games.tabs)) return customData;
+
+    const tabs = await Promise.all(
+        games.tabs.map(async (rawTab: unknown, index: number) => {
+            const tab = isPlainObject(rawTab)
+                ? rawTab
+                : { label: String(rawTab ?? `Tab ${index + 1}`) };
+
+            const ids = (Array.isArray(tab.card_ids) ? tab.card_ids : [])
+                .map((value: unknown) => Number(value))
+                .filter((id: number) => Number.isFinite(id) && id > 0);
+
+            const cards = ids.length
+                ? processCards(await fetchCardsByIds(ids))
+                : [];
+
+            return {
+                ...tab,
+                label: String(tab.label ?? `Tab ${index + 1}`),
+                card_ids: ids,
+                cards,
+            };
+        }),
+    );
+
+    return {
+        ...customData,
+        games: {
+            ...games,
+            tabs,
+        },
+    };
+}
+
 /**
  * Get a page with its blocks by slug
  * @param slug The page slug
@@ -520,6 +575,7 @@ export async function getPageWithBlocks(
             meta_noindex_nofollow: true,
             published_at: true,
             updated_at: true,
+            custom_data: true,
             builds: {
                 orderBy: { position: "asc" },
                 select: {
@@ -556,12 +612,50 @@ export async function getPageWithBlocks(
         });
     }
 
+    const customData = page.slug === "about-us"
+        ? await hydrateAboutCustomData(page.custom_data)
+        : page.custom_data;
+
+    let publishedQuestions: PublishedExpertQuestion[] = [];
+
+    if (page.slug === "about-us") {
+        const requests = await prisma.contactRequest.findMany({
+            where: {
+                is_published: true,
+                answer: { not: null },
+            },
+            orderBy: { created_at: "desc" },
+            take: 20,
+            select: {
+                id: true,
+                name: true,
+                message: true,
+                answer: true,
+            },
+        });
+
+        publishedQuestions = requests
+            .filter(
+                (request): request is typeof request & { answer: string } =>
+                    typeof request.answer === "string" &&
+                    request.answer.trim().length > 0,
+            )
+            .map((request) => ({
+                id: request.id,
+                name: request.name,
+                message: request.message,
+                answer: request.answer,
+            }));
+    }
+
     return {
         id: page.id,
         slug: page.slug,
         label: page.label,
         published_at: page.published_at,
         updated_at: page.updated_at,
+        custom_data: customData,
+        published_questions: publishedQuestions,
         meta,
         blocks,
     };

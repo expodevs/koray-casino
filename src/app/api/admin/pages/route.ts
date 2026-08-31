@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
         try {
 
             const body = await req.json();
+            const buildsPage = Array.isArray(body?.buildsPage) ? body.buildsPage : [];
             const validationResult = pageCreateSchema.safeParse(body);
 
             if (!validationResult.success) {
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
 
             await prisma.buildPage.deleteMany({where: {page_id: entity.id}});
             await prisma.buildPage.createMany({
-                data: body.buildsPage.map((buildPage: BuildPage) => ({
+                data: buildsPage.map((buildPage: BuildPage) => ({
                     page_id: entity.id,
                     build_id: buildPage.build_id,
                     position: buildPage.position,

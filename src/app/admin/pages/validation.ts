@@ -15,6 +15,7 @@ const fieldSchema = {
     meta_description: z.string().optional(),
     meta_keywords: z.string().optional(),
     meta_noindex_nofollow: z.boolean(),
+    custom_data: z.any().optional(),
     buildsPage: z.array(buildPageSchema).optional(),
 }
 

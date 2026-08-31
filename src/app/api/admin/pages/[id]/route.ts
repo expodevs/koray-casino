@@ -36,6 +36,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
     return await withAdminAuthorized(async (req: NextRequest, id: number) => {
         try {
             const body = await req.json();
+            const buildsPage = Array.isArray(body?.buildsPage) ? body.buildsPage : [];
             const validationResult = pageUpdateSchema.safeParse(body);
 
             if (!validationResult.success) {
@@ -85,7 +86,7 @@ export async function PUT(req: NextRequest, {params}: requestParams) {
 
             await prisma.buildPage.deleteMany({where: {page_id: entity.id}});
             await prisma.buildPage.createMany({
-                data: body.buildsPage.map((buildPage: BuildPage) => ({
+                data: buildsPage.map((buildPage: BuildPage) => ({
                     page_id: entity.id,
                     build_id: buildPage.build_id,
                     position: buildPage.position,

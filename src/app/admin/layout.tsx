@@ -13,7 +13,9 @@ import {
     FaTags,
     FaThLarge,
     FaQuestion,
-    FaFileImage
+    FaFileImage,
+    FaEnvelope,
+    FaInbox
 } from "react-icons/fa";
 
 import "./tailwindcss.css";
@@ -147,6 +149,22 @@ function Aside() {
                             className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                         >
                             <FaQuestion className="mr-2" /> FAQ
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/admin/requests"
+                            className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <FaInbox className="mr-2" /> Requests
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/admin/subscriptions"
+                            className="flex items-center p-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                            <FaEnvelope className="mr-2" /> Subscriptions
                         </Link>
                     </li>
                     <li>

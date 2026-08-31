@@ -10,6 +10,7 @@ import DesktopBuilderPage from "@components/desktop/BuilderPage";
 import MobileBuilderPage from "@components/mobile/BuilderPage";
 import JsonLd from "@lib/seo/JsonLd";
 import { buildStructuredData } from "@lib/seo/buildStructuredData";
+import AboutPage from "@components/desktop/templates/AboutPage/AboutPage";
 
 type PageParams = {
     params: Promise<{ slug?: string[] }>;
@@ -165,7 +166,9 @@ export default async function Page({ params }: PageParams) {
         <>
             <JsonLd data={structuredData} />
 
-            {isMobile ? (
+            {realSlug === "about-us" ? (
+                <AboutPage page={page} />
+            ) : isMobile ? (
                 <MobileBuilderPage slug={realSlug} page={page} />
             ) : (
                 <DesktopBuilderPage slug={realSlug} page={page} />

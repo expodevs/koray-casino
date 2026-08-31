@@ -202,6 +202,7 @@ model Page {
   builds                BuildPage[]
   published_at          DateTime?
   updated_at            DateTime?
+  custom_data Json?
 }
 
 model Builder {
@@ -298,4 +299,33 @@ model CasinoOption {
 
   @@index([casino_id], map: "CasinoOption_casino_id_fkey")
   @@index([option_id], map: "CasinoOption_option_id_fkey")
+}
+
+model Subscription {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  source     String?  @default("about-us")
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([is_active])
+  @@index([created_at])
+}
+
+model ContactRequest {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String
+  message      String   @db.Text
+  status       String   @default("new")
+  source       String?  @default("about-us")
+  answer       String?  @db.Text
+  is_published Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([status])
+  @@index([is_published])
+  @@index([created_at])
 }
